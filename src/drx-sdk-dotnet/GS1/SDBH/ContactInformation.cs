@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace Net.Dreceiptx.GS1.SDBH
 {
@@ -6,9 +7,9 @@ namespace Net.Dreceiptx.GS1.SDBH
     /// Name of the contact person or department for the sending Party.
     /// The element ontactInformation, although optional, SHOULD be used, if possible.
     /// </summary>
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [XmlType(AnonymousType = true)]
     [DataContract]
-    public partial class ContactInformation
+    public class ContactInformation
     {
         
         [DataMember]

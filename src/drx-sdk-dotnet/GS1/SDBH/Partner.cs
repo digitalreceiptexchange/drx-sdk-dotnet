@@ -1,10 +1,11 @@
 ﻿using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace Net.Dreceiptx.GS1.SDBH
 {
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [XmlType(AnonymousType = true)]
     [DataContract]
-    public partial class Partner
+    public class Partner
     {
         public Partner()
         {

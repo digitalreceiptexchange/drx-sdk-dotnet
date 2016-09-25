@@ -1,10 +1,11 @@
 ﻿using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace Net.Dreceiptx.GS1.SDBH
 {
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [XmlType(AnonymousType = true)]
     [DataContract]
-    public partial class PartnerIdentification
+    public class PartnerIdentification
     {
         /// <summary>
         /// Gets and sets the Authority agency of the identification key.
@@ -12,11 +13,11 @@ namespace Net.Dreceiptx.GS1.SDBH
         /// its value MUST be set to GS1.
         /// </summary>
         [DataMember]
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttribute]
         public string Authority { get; set; }
 
         [DataMember]
-        [System.Xml.Serialization.XmlTextAttribute()]
+        [XmlText]
         public string Value { get; set; }
     }
 }

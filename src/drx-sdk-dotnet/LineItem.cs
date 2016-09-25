@@ -13,8 +13,8 @@ namespace Net.Dreceiptx
         private static int _lineItemId;
         private string _gtin;
         private string _isbn;
-        private bool _transactionalTradeItemSet = false;
-        private bool _transactionalTradeDescriptionSet = false;
+        private bool _transactionalTradeItemSet;
+        private bool _transactionalTradeDescriptionSet;
         private LineItemTradeInformation _transactionalTradeItem;
         private readonly List<TaxFee>  _taxes = new List<TaxFee>();
         private readonly List<ReceiptAllowanceCharge> _receiptAllowanceCharges = new List<ReceiptAllowanceCharge>();

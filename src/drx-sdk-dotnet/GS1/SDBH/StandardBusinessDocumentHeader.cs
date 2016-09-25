@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace Net.Dreceiptx.GS1.SDBH
 {
@@ -8,9 +9,9 @@ namespace Net.Dreceiptx.GS1.SDBH
     /// document. It also identifies the message set that is sent together with on SBDH and the 
     /// version number of the document(s) contained.
     /// </summary>
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [XmlType(AnonymousType = true)]
     [DataContract]
-    public partial class StandardBusinessDocumentHeader
+    public class StandardBusinessDocumentHeader
     {
         public StandardBusinessDocumentHeader()
         {
@@ -29,7 +30,7 @@ namespace Net.Dreceiptx.GS1.SDBH
         
         //TODO: Why is this a collection?
         [DataMember]
-        [System.Xml.Serialization.XmlElementAttribute("Receiver")]
+        [XmlElement("Receiver")]
         public List<Partner> Receiver { get; set; }
         
         [DataMember]

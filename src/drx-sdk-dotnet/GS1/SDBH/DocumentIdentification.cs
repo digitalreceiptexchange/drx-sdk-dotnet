@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace Net.Dreceiptx.GS1.SDBH
 {
     /// <summary>
     /// Identification information for the document
     /// </summary>
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [XmlType(AnonymousType = true)]
     [DataContract]
-    public partial class DocumentIdentification
+    public class DocumentIdentification
     {
         /// <summary>
         /// Creates instance of DocumentIdentification with default values set.

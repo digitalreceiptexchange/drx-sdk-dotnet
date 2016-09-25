@@ -1,4 +1,6 @@
-﻿namespace Net.Dreceiptx.GS1.SDBH
+﻿using System.Runtime.CompilerServices;
+
+namespace Net.Dreceiptx.GS1.SDBH
 {
     /// <summary>
     /// This Standard Business Document Header (SBDH) Technical Implementation Guide clarifies the function, 
@@ -10,7 +12,7 @@
     /// [SBDH] so that the implementer understands not only the technical details but also practical 
     /// ways to use the SBDH and guidelines on its appropriate use.
     /// </summary>
-    [System.Runtime.CompilerServices.CompilerGenerated]
+    [CompilerGenerated]
     class NamespaceDoc
     {
         // This classs is for documenting the namespace only. It should contain no code.

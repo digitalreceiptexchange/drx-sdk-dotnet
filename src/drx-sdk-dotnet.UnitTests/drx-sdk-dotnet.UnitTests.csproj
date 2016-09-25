@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="TaxFeeTest.cs" />
     <Compile Include="TaxInfoTest.cs" />
+    <Compile Include="Users\EnumExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -58,6 +58,11 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="AllowanceOrCharge.cs" />
+    <Compile Include="Client\DRXClient.cs" />
+    <Compile Include="Client\Exceptions\ExchangeClientException.cs" />
+    <Compile Include="Client\IExchangeClient.cs" />
+    <Compile Include="Client\ExchangeResponse.cs" />
+    <Compile Include="Client\UriParameters.cs" />
     <Compile Include="DrxService.cs" />
     <Compile Include="GS1\SDBH\DocumentIdentification.cs" />
     <Compile Include="GS1\SDBH\NameSpaceDoc.cs" />
@@ -82,9 +87,23 @@
     <Compile Include="ReceiptAllowanceCharge.cs" />
     <Compile Include="ReceiptType.cs" />
     <Compile Include="ReceiptValidation.cs" />
+    <Compile Include="Receipt\Config\IConfigManager.cs" />
+    <Compile Include="Receipt\Config\DatabaseConfigManager.cs" />
+    <Compile Include="Receipt\Config\DictionaryConfigManager.cs" />
+    <Compile Include="Receipt\Config\PropertiesConfigManager.cs" />
     <Compile Include="RequestBase.cs" />
+    <Compile Include="SDK.cs" />
     <Compile Include="TaxFee.cs" />
     <Compile Include="TaxInfo.cs" />
+    <Compile Include="Users\DrxEnumExtendedInformationAttribute.cs" />
+    <Compile Include="Users\EnumExtensions.cs" />
+    <Compile Include="Users\NewUser.cs" />
+    <Compile Include="Users\NewUserBuilder.cs" />
+    <Compile Include="Users\NewUserRegistrationResult.cs" />
+    <Compile Include="Users\User.cs" />
+    <Compile Include="Users\UserConfigOptionType.cs" />
+    <Compile Include="Users\UserIdentifierType.cs" />
+    <Compile Include="Users\Users.cs" />
     <Compile Include="XmlSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +112,20 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Receipt\AllowanceCharge\" />
+    <Folder Include="Receipt\Common\" />
+    <Folder Include="Receipt\Document\" />
+    <Folder Include="Receipt\Ecom\" />
+    <Folder Include="Receipt\Invoice\" />
+    <Folder Include="Receipt\LineItem\General\" />
+    <Folder Include="Receipt\LineItem\Travel\" />
+    <Folder Include="Receipt\Merchant\" />
+    <Folder Include="Receipt\Serialization\Json\" />
+    <Folder Include="Receipt\Settlement\" />
+    <Folder Include="Receipt\Tax\" />
+    <Folder Include="Receipt\Validation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
