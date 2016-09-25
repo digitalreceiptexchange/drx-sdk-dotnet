@@ -14,6 +14,9 @@
 // limitations under the License.
 // 
 #endregion
+using System.Collections.Generic;
+using Net.Dreceiptx.Receipt;
+using Net.Dreceiptx.Receipt.Merchant;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Client
@@ -26,7 +29,7 @@ namespace Net.Dreceiptx.Client
          * @return The matching users will be returned if it is found otherwise null
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        User SearchUser(UserIdentifierType identifierType, string identifier) throws ExchangeClientException, UnsupportedEncodingException;
+        User SearchUser(UserIdentifierType identifierType, string identifier); 
 
         /**
          * @param identifierType
@@ -34,14 +37,14 @@ namespace Net.Dreceiptx.Client
          * @return The matching users will be returned if it is found otherwise null
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        Users SearchUsers(UserIdentifierType identifierType, ArrayList<string> userIdentifiers) throws ExchangeClientException;
+        Users.Users SearchUsers(UserIdentifierType identifierType, List<string> userIdentifiers);
     
         /**
          * @param receipt
          * @return newReceiptGUID
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        string SendReceipt(DigitalReceiptGenerator receipt) throws ExchangeClientException;
+        string SendReceipt(DigitalReceiptGenerator receipt);
 
     
         /**
@@ -49,28 +52,28 @@ namespace Net.Dreceiptx.Client
          * @return newUserGUID
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        NewUserRegistrationResult RegisterNewUser(NewUser newUser) throws ExchangeClientException;
+        NewUserRegistrationResult RegisterNewUser(NewUser newUser);
     
         /**
          * @param List<NewUser>
          * @return Map<string, NewUserRegistrationResult>
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        Map<string, NewUserRegistrationResult> RegisterNewUser(List<NewUser> newUsers) throws ExchangeClientException;
+        Dictionary<string, NewUserRegistrationResult> RegisterNewUser(List<NewUser> newUsers);
     
         /**
          * @param receiptId
          * @return
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        DigitalReceipt LookupReceipt(string receiptId) throws ExchangeClientException;
+        DigitalReceipt LookupReceipt(string receiptId);
 
         /**
          * @param receiptId
          * @return
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        boolean DownloadReceiptPDF(string receiptId) throws ExchangeClientException;
+        bool DownloadReceiptPDF(string receiptId);
 
 
         /**
@@ -78,7 +81,7 @@ namespace Net.Dreceiptx.Client
          * @return
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        Merchant LookupMerchant(string Id) throws ExchangeClientException;
+        Merchant LookupMerchant(string Id);
 
     }
 }

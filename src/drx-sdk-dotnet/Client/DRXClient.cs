@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using Net.Dreceiptx.Client.Exceptions;
+using Net.Dreceiptx.Receipt;
 using Net.Dreceiptx.Receipt.Config;
 using Net.Dreceiptx.Users;
 

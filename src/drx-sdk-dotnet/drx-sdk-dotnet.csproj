@@ -92,6 +92,10 @@
     <Compile Include="Receipt\Config\DatabaseConfigManager.cs" />
     <Compile Include="Receipt\Config\DictionaryConfigManager.cs" />
     <Compile Include="Receipt\Config\PropertiesConfigManager.cs" />
+    <Compile Include="Receipt\DigitalReceiptGenerator.cs" />
+    <Compile Include="Receipt\Merchant\Merchant.cs" />
+    <Compile Include="Receipt\Merchant\MerchantAddress.cs" />
+    <Compile Include="Receipt\Merchant\MerchantContact.cs" />
     <Compile Include="RequestBase.cs" />
     <Compile Include="SDK.cs" />
     <Compile Include="TaxFee.cs" />
@@ -122,7 +126,6 @@
     <Folder Include="Receipt\Invoice\" />
     <Folder Include="Receipt\LineItem\General\" />
     <Folder Include="Receipt\LineItem\Travel\" />
-    <Folder Include="Receipt\Merchant\" />
     <Folder Include="Receipt\Serialization\Json\" />
     <Folder Include="Receipt\Settlement\" />
     <Folder Include="Receipt\Tax\" />
