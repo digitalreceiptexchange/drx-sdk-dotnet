@@ -1,20 +1,26 @@
-/*
- * Copyright 2016 Digital Receipt Exchange Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+#region copyright
+// Copyright 2016 Digital Receipt Exchange Limited
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+#endregion
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+using Net.Dreceiptx.Client.Exceptions;
 using Net.Dreceiptx.Receipt.Config;
+using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Client
 {
@@ -77,23 +83,23 @@ namespace Net.Dreceiptx.Client
             }
         }
 
-        Override
-        public User SearchUser(UserIdentifierType identifierType, string identifier) throws ExchangeClientException, UnsupportedEncodingException {
-            string encodedIdentifier = URLEncoder.encode(identifier, "UTF-8");
-            UriParameters params = new UriParameters();
-            params.add("type", identifierType.getValue());
-            return this.searchUser(encodedIdentifier, params);
+        public User SearchUser(UserIdentifierType identifierType, string identifier)
+        {
+            string encodedIdentifier = HttpUtility.UrlEncode(identifier);
+            UriParameters uriParameters = new UriParameters();
+            uriParameters.Add("type", identifierType.Value());
+            return SearchUser(encodedIdentifier, uriParameters);
         }
 
-        private User SearchUser(string encodedIdentifier, UriParameters params) throws ExchangeClientException {
+        private User SearchUser(string encodedIdentifier, UriParameters uriParameters) {
             try {
                 HttpURLConnection connection = createConnection(_directoryProtocol, _directoryHostname,
-                        "/user/"+encodedIdentifier, CONTENT_TYPE_JSON, "GET", _userVersion, params);
+                        "/user/"+encodedIdentifier, CONTENT_TYPE_JSON, "GET", _userVersion, uriParameters);
                 connection.connect();
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpCodes.HTTP_200_OK || responseCode == HttpCodes.HTTP_400_BAD_REQUEST) {
                     JsonObject exchangeResponse = getResponseJsonObject(connection);
-                    if (exchangeResponse.get("success").getAsBoolean()) {
+                    if (exchangeResponse.get("success").getAsbool()) {
                         User user = new User();
                         JsonObject responseData = exchangeResponse.get("responseData").getAsJsonObject();
                         user.setGUID(responseData.get("guid").getAsstring());
@@ -125,30 +131,29 @@ namespace Net.Dreceiptx.Client
             }
         }
 
-        Override
-        public Users SearchUsers(UserIdentifierType identifierType, ArrayList<string> userIdentifiers) throws ExchangeClientException {
-            UriParameters params = new UriParameters();
-            params.add("type", identifierType.getValue().toLowerCase());
-            stringBuilder userIdentifiersParam = new stringBuilder();
-            boolean firstIteration = true;
-            for (string userIdentifier : userIdentifiers) {
+        public Users.Users SearchUsers(UserIdentifierType identifierType, List<string> userIdentifiers)  {
+            UriParameters uriParameters = new UriParameters();
+            uriParameters.Add("type", identifierType.Value().ToLower());
+            StringBuilder userIdentifiersParam = new StringBuilder();
+            bool firstIteration = true;
+            foreach (string userIdentifier in userIdentifiers) {
                 if(!firstIteration){
-                    userIdentifiersParam.append(";");
+                    userIdentifiersParam.Append(";");
                 }
-                userIdentifiersParam.append(userIdentifier);
+                userIdentifiersParam.Append(userIdentifier);
                 firstIteration = false;
             }
-            params.add("identifiers", userIdentifiersParam.tostring());
-            Users users = new Users();
+            uriParameters.Add("identifiers", userIdentifiersParam.ToString());
+            Users.Users users = new Users();
             try {
                 HttpURLConnection connection = createConnection(_directoryProtocol, _directoryHostname,
-                        "/user", CONTENT_TYPE_JSON, "GET", _userVersion, params);
+                        "/user", CONTENT_TYPE_JSON, "GET", _userVersion, uriParameters);
                 connection.connect();
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpCodes.HTTP_200_OK) {
                     JsonObject exchangeResponse = getResponseJsonObject(connection);
 
-                    if (exchangeResponse.get("success").getAsBoolean()) {
+                    if (exchangeResponse.get("success").getAsbool()) {
                         JsonObject responseData = exchangeResponse.get("responseData").getAsJsonObject();
                         JsonObject userIdentifiersObject = responseData.get("userIdentifiers").getAsJsonObject();
                         for (Map.Entry<string, JsonElement> entry : userIdentifiersObject.entrySet()) {
@@ -204,7 +209,7 @@ namespace Net.Dreceiptx.Client
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpCodes.HTTP_201_CREATED) {
                     JsonObject exchangeResponse = getResponseJsonObject(connection);
-                    if (exchangeResponse.get("success").getAsBoolean()) {
+                    if (exchangeResponse.get("success").getAsbool()) {
                         JsonObject responseData = exchangeResponse.get("responseData").getAsJsonObject();
                         return responseData.get("receiptId").getAsstring();
                     } else {
@@ -265,7 +270,7 @@ namespace Net.Dreceiptx.Client
             }
         }
 
-        public boolean DownloadReceiptPDF(string receiptId) throws ExchangeClientException {
+        public bool DownloadReceiptPDF(string receiptId) throws ExchangeClientException {
             try {
                 HttpURLConnection connection = createConnection(_exchangeProtocol, _exchangeHostname, "/receipt/" + receiptId, CONTENT_TYPE_PDF, "GET", _receiptVersion);
                 connection.connect();
@@ -334,14 +339,14 @@ namespace Net.Dreceiptx.Client
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpCodes.HTTP_201_CREATED || responseCode == HttpCodes.HTTP_400_BAD_REQUEST) {
                     JsonObject exchangeResponse = getResponseJsonObject(connection);
-                    if (exchangeResponse.get("success").getAsBoolean()) {
+                    if (exchangeResponse.get("success").getAsbool()) {
                         JsonObject responseData = exchangeResponse.get("responseData").getAsJsonObject();
                         JsonObject usersObject = responseData.get("users").getAsJsonObject();
                         for (Map.Entry<string, JsonElement> entry : usersObject.entrySet()) {
                             NewUserRegistrationResult newUserRegistrationResult = new NewUserRegistrationResult();
                             if(!entry.getValue().isJsonNull()){
                                 JsonObject userRegistrationObject = usersObject.getAsJsonObject(entry.getKey());
-                                if(userRegistrationObject.get("success").getAsBoolean()){
+                                if(userRegistrationObject.get("success").getAsbool()){
                                     newUserRegistrationResult.setUserGUID(userRegistrationObject.get("guid").getAsstring());
                                 }else{
                                     newUserRegistrationResult.setException(userRegistrationObject.get("code").getAsInt(),userRegistrationObject.get("exception").getAsstring());
@@ -391,7 +396,7 @@ namespace Net.Dreceiptx.Client
                 if (responseCode == HttpCodes.HTTP_200_OK) {
                     BufferedReader merchantRequestConnectionReader = new BufferedReader(new InputStreamReader(
                         connection.getInputStream()));
-                    stringBuilder response = new stringBuilder();
+                    StringBuilder response = new StringBuilder();
                     string line;
                     while ((line = merchantRequestConnectionReader.readLine()) != null) {
                         response.append(line);
@@ -429,8 +434,8 @@ namespace Net.Dreceiptx.Client
         private HttpURLConnection CreateConnection(string protocol, string hostname, string uri, string contentType, string requestMethod,
                                                    string requestVersion, UriParameters parameters) throws IOException, InvalidKeyException, NoSuchAlgorithmException {
             if(parameters != null) {
-                stringBuilder parameterstring = new stringBuilder();
-                boolean firstIteration = true;
+                StringBuilder parameterstring = new StringBuilder();
+                bool firstIteration = true;
                 for (Map.Entry<string, string> param : parameters.getEntrySet()) {
                     if(firstIteration){
                         parameterstring.append("?");
@@ -469,7 +474,7 @@ namespace Net.Dreceiptx.Client
 
         private string getResponsestring(HttpURLConnection connection) throws IOException, ExchangeClientException {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                stringBuilder sb = new stringBuilder();
+                StringBuilder sb = new StringBuilder();
                 string line;
                 while ((line = br.readLine()) != null) {
                     sb.append(line).append("\n");
@@ -488,7 +493,7 @@ namespace Net.Dreceiptx.Client
 
         private void loadErrorResponseJsonObject(HttpURLConnection connection) throws ExchangeClientException {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream()))) {
-                stringBuilder sb = new stringBuilder();
+                StringBuilder sb = new StringBuilder();
                 string line;
                 while ((line = br.readLine()) != null) {
                     sb.append(line).append("\n");
