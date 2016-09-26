@@ -14,66 +14,45 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.tax;
 
-import com.google.gson.annotations.SerializedName;
-
-public class Tax {
-    @SerializedName("dutyFeeTaxCategoryCode") private TaxCategory _category  = null;
-    @SerializedName("dutyFeeTaxTypeCode") private TaxCode _code = null;
-    @SerializedName("dutyFeeTaxBasisAmount") private double _taxableAmount;
-    @SerializedName("dutyFeeTaxPercentage") private double _rate;
-    @SerializedName("dutyFeeTaxAmount") private double _totalTax;
-
-    public Tax(double taxableAmount, double totalTax)
+namespace Net.Dreceiptx.Receipt.Tax
+{
+    public class Tax
     {
-        _taxableAmount = taxableAmount;
-        _totalTax = totalTax;
-        _rate = (_totalTax/_taxableAmount)*100;
-    }
+        public Tax(double taxableAmount, double totalTax)
+        {
+            TaxableAmount = taxableAmount;
+            TaxTotal = totalTax;
+            TaxRate = (TaxTotal/TaxableAmount)*100;
+        }
 
-    public Tax(TaxCategory category, TaxCode code, double taxableAmount, double totalTax)
-    {
-        _category = category;
-        _code = code;
-        _taxableAmount = taxableAmount;
-        _totalTax = totalTax;
-        _rate = (_totalTax/_taxableAmount)*100;
-    }
-    
-    public void setTaxCategory(TaxCategory taxCategory){
-        _category = taxCategory;
-    }
-    
-    public void setTaxCode(TaxCode taxCode){
-        _code = taxCode;
-    }
-    
-    public double getTaxRate() {
-        return _rate;
-    }
-    
-    public double getTaxableAmount() {
-        return _taxableAmount;
-    }
+        public Tax(TaxCategory category, TaxCode code, double taxableAmount, double totalTax)
+        {
+            TaxCategory = category;
+            TaxCode = code;
+            TaxableAmount = taxableAmount;
+            TaxTotal = totalTax;
+            TaxRate = (TaxTotal/TaxableAmount)*100;
+        }
 
-    public double getTaxTotal() {
-        return _totalTax;
-    }
+        //@SerializedName("dutyFeeTaxCategoryCode")
+        public TaxCategory? TaxCategory { get; set; } = null;
 
-    public void setTaxTotal(double taxTotal) {
-        _totalTax = taxTotal;
-    }
-    
-    public TaxCategory getTaxCategory() {
-        return _category;
-    }
-    
-    public TaxCode getTaxCode() {
-        return _code;
-    }
-    
-    public bool is(TaxCode taxCode){
-        return (taxCode == _code);
+        //@SerializedName("dutyFeeTaxTypeCode")
+        public TaxCode? TaxCode { get; set; } = null;
+
+        //@SerializedName("dutyFeeTaxPercentage")
+        public double TaxRate { get; set; }
+
+        //@SerializedName("dutyFeeTaxBasisAmount")
+        public double TaxableAmount { get; }
+
+        //@SerializedName("dutyFeeTaxAmount")
+        public double TaxTotal { get; set; }
+
+        public bool IsTaxCode(TaxCode taxCode)
+        {
+            return taxCode == TaxCode;
+        }
     }
 }

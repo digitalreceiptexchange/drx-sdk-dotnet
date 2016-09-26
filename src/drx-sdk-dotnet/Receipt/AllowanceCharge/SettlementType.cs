@@ -14,46 +14,36 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.allowanceCharge;
 
-import com.google.gson.annotations.SerializedName;
+using Net.Dreceiptx.Users;
 
-public enum SettlementType {
-    @SerializedName("ADZ")
-    DeliveryFee("ADZ", "Delivery fee"),
-    @SerializedName("FC")
-    FreightFee("FC", "Freight fee"),
-    @SerializedName("TIP")
-    TIP("TIP", "Tip or Gratuity fee"),
-    @SerializedName("PC")
-    PackagingFee("PC", "Packaging fee"),
-    @SerializedName("DI")
-    GeneralDiscount("DI", "General discount"),
-    @SerializedName("MB")
-    MultiBuyDiscount("MB", "Multi-buy discount"),
-    @SerializedName("FI")
-    ProcessingFee("FI", "Admin or processing fee"),
-    @SerializedName("BOK")
-    BookingFee("BOK", "Booking fee");
-
-    private string _value;
-    private string _displayName;
-
-    SettlementType(string value, string name) {
-        _value = value;
-        _displayName = name;
+namespace Net.Dreceiptx.Receipt.AllowanceCharge
+{
+    public enum SettlementType {
+        //@SerializedName("ADZ")
+        [DrxEnumExtendedInformation("ADZ", "Delivery fee")]
+        DeliveryFee,
+        //@SerializedName("FC")
+        [DrxEnumExtendedInformation("FC", "Freight fee")]
+        FreightFee,
+        //@SerializedName("TIP")
+        [DrxEnumExtendedInformation("TIP", "Tip or Gratuity fee")]
+        TIP,
+        //@SerializedName("PC")
+        [DrxEnumExtendedInformation("PC", "Packaging fee")]
+        PackagingFee,
+        //@SerializedName("DI")
+        [DrxEnumExtendedInformation("DI", "General discount")]
+        GeneralDiscount,
+        //@SerializedName("MB")
+        [DrxEnumExtendedInformation("MB", "Multi-buy discount")]
+        MultiBuyDiscount,
+        //@SerializedName("FI")
+        [DrxEnumExtendedInformation("FI", "Admin or processing fee")]
+        ProcessingFee,
+        //@SerializedName("BOK")
+        [DrxEnumExtendedInformation("BOK", "Booking fee")]
+        BookingFee
     }
 
-    public string getValue() {
-        return _value;
-    }
-
-    public string getDisplayName() {
-        return _displayName;
-    }
-
-    @Override
-    public string toString() {
-        return _displayName;
-    }
 }

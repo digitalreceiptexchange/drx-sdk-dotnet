@@ -14,209 +14,222 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.allowanceCharge;
 
-import net.dreceiptx.receipt.tax.Tax;
-import net.dreceiptx.receipt.tax.TaxCode;
-import com.google.gson.annotations.SerializedName;
+using System;
+using System.Collections.Generic;
 
-import java.util.ArrayList;
-import java.util.List;
+namespace Net.Dreceiptx.Receipt.AllowanceCharge
+{
+    public class ReceiptAllowanceCharge
+    {
+        //TODO: ID should not be serialized
+        private int _id;
+        //@SerializedName("allowanceOrChargeType")
+        public AllowanceOrChargeType AllowanceOrChargeType { get; set; }
+        //@SerializedName("allowanceChargeType")
+        public AllowanceChargeType AllowanceChargeType { get; set; }
+        //@SerializedName("settlementType")
+        private SettlementType _settlementType;
+        //@SerializedName("baseAmount")
+        public double BaseAmount { get; set; }
+        //@SerializedName("allowanceChargeDescription")
+        private string _description;
+        //@SerializedName("leviedDutyFeeTax")
+        private List<Tax.Tax> _taxes = new List<Tax.Tax>();
 
-public class ReceiptAllowanceCharge {
-    private transient int Id;
-    @SerializedName("allowanceOrChargeType") private AllowanceOrChargeType _allowanceOrChargeType;
-    @SerializedName("allowanceChargeType") private AllowanceChargeType _allowanceChargeType;
-    @SerializedName("settlementType") private SettlementType _settlementType;
-    @SerializedName("baseAmount") private double _amount;
-    @SerializedName("allowanceChargeDescription") private string _description;
-    @SerializedName("leviedDutyFeeTax") private List<Tax> _taxes  = new ArrayList<Tax>();;
-    
-    public double getId() {
-        return Id;
-    }
-    
-    public SettlementType getType() {
-        return _settlementType;
-    }
-    
-    public double getSubTotal() {
-        return _amount;
-    }
+        public double Id => _id;
 
-    public string getDescription() {
-        return _description;
-    }
-    
-    public double getNetTotal() {
-        return _amount;
-    }
-    
-    public double getTotal() {
-        double total = _amount;
-        total = total + this.getTaxesTotal();
-        return total;
-    }
-    
-    public bool hasTaxes() {
-        return !_taxes.isEmpty();
-    }
+        public SettlementType SettlementType => _settlementType;
 
-    public double getTaxesTotal() {
-        Double totalTaxes = 0.0;
-        for (Tax tax : _taxes) {
-            totalTaxes =+ tax.getTaxTotal();
-        }
-        return totalTaxes;
-    }
-    
-    public double getTaxesTotal(TaxCode taxCode) {
-        Double totalTaxes = 0.0;
-        for (Tax tax : _taxes) {
-            if(tax.getTaxCode().equals(taxCode)){
-                totalTaxes =+ tax.getTaxTotal();
+        public double SubTotal => BaseAmount;
+
+        public string Description => _description;
+
+        public double Total => BaseAmount + TaxesTotal;
+
+        public double NetTotal => BaseAmount;
+
+        public bool HasTaxes => _taxes.Count != 0;
+
+        public double TaxesTotal
+        {
+            get
+            {
+                double totalTaxes = 0.0;
+                foreach (Tax.Tax tax in _taxes)
+                {
+                    totalTaxes = +tax.TaxTotal;
+                }
+                return totalTaxes;
             }
         }
-        return totalTaxes;
-    }
-    
-    public List<Tax> getTaxes() {
-        return _taxes;
-    }
-    
-    public bool isCharge(){
-        return (_allowanceOrChargeType == AllowanceOrChargeType.CHARGE);
-    }
-    
-    public bool isAllowance(){
-        return (_allowanceOrChargeType == AllowanceOrChargeType.ALLOWANCE);
-    }
-    
-    public static ReceiptAllowanceCharge Tip(double amount, string description){
-        ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
-        receiptAllowanceCharge._amount = amount;
-        receiptAllowanceCharge._description = description;
-        receiptAllowanceCharge._allowanceOrChargeType = AllowanceOrChargeType.CHARGE;
-        receiptAllowanceCharge._allowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-        receiptAllowanceCharge._settlementType = SettlementType.TIP;
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge Tip(double amount, string description, Tax tax){
-        ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.Tip(amount, description);
-        receiptAllowanceCharge._taxes.add(tax);
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge DeliveryFee(double amount, string description){
-        ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
-        receiptAllowanceCharge._amount = amount;
-        receiptAllowanceCharge._description = description;
-        receiptAllowanceCharge._allowanceOrChargeType = AllowanceOrChargeType.CHARGE;
-        receiptAllowanceCharge._allowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-        receiptAllowanceCharge._settlementType = SettlementType.DeliveryFee;
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge DeliveryFee(double amount, string description, Tax tax){
-        ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.DeliveryFee(amount, description);
-        receiptAllowanceCharge._taxes.add(tax);
-        return receiptAllowanceCharge;
-    }
 
-    public static ReceiptAllowanceCharge FreightFee(double amount, string description){
-        ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
-        receiptAllowanceCharge._amount = amount;
-        receiptAllowanceCharge._description = description;
-        receiptAllowanceCharge._allowanceOrChargeType = AllowanceOrChargeType.CHARGE;
-        receiptAllowanceCharge._allowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-        receiptAllowanceCharge._settlementType = SettlementType.FreightFee;
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge FreightFee(double amount, string description, Tax tax){
-        ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.FreightFee(amount, description);
-        receiptAllowanceCharge._taxes.add(tax);
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge PackagingFee(double amount, string description){
-        ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
-        receiptAllowanceCharge._amount = amount;
-        receiptAllowanceCharge._description = description;
-        receiptAllowanceCharge._allowanceOrChargeType = AllowanceOrChargeType.CHARGE;
-        receiptAllowanceCharge._allowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-        receiptAllowanceCharge._settlementType = SettlementType.PackagingFee;
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge PackagingFee(double amount, string description, Tax tax){
-        ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.PackagingFee(amount, description);
-        receiptAllowanceCharge._taxes.add(tax);
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge ProcessingFee(double amount, string description){
-        ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
-        receiptAllowanceCharge._amount = amount;
-        receiptAllowanceCharge._description = description;
-        receiptAllowanceCharge._allowanceOrChargeType = AllowanceOrChargeType.CHARGE;
-        receiptAllowanceCharge._allowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-        receiptAllowanceCharge._settlementType = SettlementType.PackagingFee;
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge ProcessingFee(double amount, string description, Tax tax){
-        ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.ProcessingFee(amount, description);
-        receiptAllowanceCharge._taxes.add(tax);
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge BookingFee(double amount, string description){
-        ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
-        receiptAllowanceCharge._amount = amount;
-        receiptAllowanceCharge._description = description;
-        receiptAllowanceCharge._allowanceOrChargeType = AllowanceOrChargeType.CHARGE;
-        receiptAllowanceCharge._allowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-        receiptAllowanceCharge._settlementType = SettlementType.BookingFee;
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge BookingFee(double amount, string description, Tax tax){
-        ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.BookingFee(amount, description);
-        receiptAllowanceCharge._taxes.add(tax);
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge GeneralDiscount(double amount, string description){
-        ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
-        receiptAllowanceCharge._amount = amount;
-        receiptAllowanceCharge._description = description;
-        receiptAllowanceCharge._allowanceOrChargeType = AllowanceOrChargeType.ALLOWANCE;
-        receiptAllowanceCharge._allowanceChargeType = AllowanceChargeType.CREDIT_CUSTOMER_ACCOUNT;
-        receiptAllowanceCharge._settlementType = SettlementType.GeneralDiscount;
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge GeneralDiscount(double amount, string description, Tax tax){
-        ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.GeneralDiscount(amount, description);
-        receiptAllowanceCharge._taxes.add(tax);
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge MultiBuyDiscount(double amount, string description){
-        ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
-        receiptAllowanceCharge._amount = amount;
-        receiptAllowanceCharge._description = description;
-        receiptAllowanceCharge._allowanceOrChargeType = AllowanceOrChargeType.ALLOWANCE;
-        receiptAllowanceCharge._allowanceChargeType = AllowanceChargeType.CREDIT_CUSTOMER_ACCOUNT;
-        receiptAllowanceCharge._settlementType = SettlementType.MultiBuyDiscount;
-        return receiptAllowanceCharge;
-    }
-    
-    public static ReceiptAllowanceCharge MultiBuyDiscount(double amount, string description, Tax tax){
-        ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.MultiBuyDiscount(amount, description);
-        receiptAllowanceCharge._taxes.add(tax);
-        return receiptAllowanceCharge;
+        /// <summary>
+        /// Calculates the TaxesTotal for the given TaxCode
+        /// </summary>
+        /// <param name="taxCode">to filter the taxes</param>
+        /// <returns>TotalTaxes for the given TaxCode if they exist otherwise 0</returns>
+        public double CalculateTaxesTotal(TaxCode taxCode)
+        {
+            double totalTaxes = 0.0;
+            foreach (Tax.Tax tax in _taxes)
+            {
+                if (tax.TaxCode == taxCode)
+                {
+                    totalTaxes =+ tax.TaxTotal;
+                }
+            }
+            return totalTaxes;
+        }
+
+        public List<Tax.Tax> Taxes => _taxes;
+
+        public bool IsCharge => AllowanceOrChargeType == AllowanceOrChargeType.CHARGE;
+
+        public bool IsAllowance => AllowanceOrChargeType == AllowanceOrChargeType.ALLOWANCE;
+
+        public static ReceiptAllowanceCharge Tip(double amount, string description)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
+            receiptAllowanceCharge.BaseAmount = amount;
+            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
+            receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
+            receiptAllowanceCharge._settlementType = SettlementType.TIP;
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge Tip(double amount, string description, Tax.Tax tax)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.Tip(amount, description);
+            receiptAllowanceCharge._taxes.Add(tax);
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge DeliveryFee(double amount, string description)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
+            receiptAllowanceCharge.BaseAmount = amount;
+            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
+            receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
+            receiptAllowanceCharge._settlementType = SettlementType.DeliveryFee;
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge DeliveryFee(double amount, string description, Tax.Tax tax)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.DeliveryFee(amount, description);
+            receiptAllowanceCharge._taxes.Add(tax);
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge FreightFee(double amount, string description)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
+            receiptAllowanceCharge.BaseAmount = amount;
+            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
+            receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
+            receiptAllowanceCharge._settlementType = SettlementType.FreightFee;
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge FreightFee(double amount, string description, Tax.Tax tax)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.FreightFee(amount, description);
+            receiptAllowanceCharge._taxes.Add(tax);
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge PackagingFee(double amount, string description)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
+            receiptAllowanceCharge.BaseAmount = amount;
+            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
+            receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
+            receiptAllowanceCharge._settlementType = SettlementType.PackagingFee;
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge PackagingFee(double amount, string description, Tax.Tax tax)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.PackagingFee(amount, description);
+            receiptAllowanceCharge._taxes.Add(tax);
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge ProcessingFee(double amount, string description)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
+            receiptAllowanceCharge.BaseAmount = amount;
+            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
+            receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
+            receiptAllowanceCharge._settlementType = SettlementType.PackagingFee;
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge ProcessingFee(double amount, string description, Tax.Tax tax)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.ProcessingFee(amount, description);
+            receiptAllowanceCharge._taxes.Add(tax);
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge BookingFee(double amount, string description)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
+            receiptAllowanceCharge.BaseAmount = amount;
+            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
+            receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
+            receiptAllowanceCharge._settlementType = SettlementType.BookingFee;
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge BookingFee(double amount, string description, Tax.Tax tax)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.BookingFee(amount, description);
+            receiptAllowanceCharge._taxes.Add(tax);
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge GeneralDiscount(double amount, string description)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
+            receiptAllowanceCharge.BaseAmount = amount;
+            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.ALLOWANCE;
+            receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CREDIT_CUSTOMER_ACCOUNT;
+            receiptAllowanceCharge._settlementType = SettlementType.GeneralDiscount;
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge GeneralDiscount(double amount, string description, Tax.Tax tax)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.GeneralDiscount(amount, description);
+            receiptAllowanceCharge._taxes.Add(tax);
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge MultiBuyDiscount(double amount, string description)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
+            receiptAllowanceCharge.BaseAmount = amount;
+            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.ALLOWANCE;
+            receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CREDIT_CUSTOMER_ACCOUNT;
+            receiptAllowanceCharge._settlementType = SettlementType.MultiBuyDiscount;
+            return receiptAllowanceCharge;
+        }
+
+        public static ReceiptAllowanceCharge MultiBuyDiscount(double amount, string description, Tax.Tax tax)
+        {
+            ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.MultiBuyDiscount(amount, description);
+            receiptAllowanceCharge._taxes.Add(tax);
+            return receiptAllowanceCharge;
+        }
     }
 }

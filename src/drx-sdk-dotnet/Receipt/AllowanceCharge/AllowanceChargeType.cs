@@ -14,35 +14,18 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.allowanceCharge;
 
-import com.google.gson.annotations.SerializedName;
+using Net.Dreceiptx.Users;
 
-public enum AllowanceChargeType {
-    @SerializedName("CREDIT_CUSTOMER_ACCOUNT")
-    CREDIT_CUSTOMER_ACCOUNT("CREDIT_CUSTOMER_ACCOUNT", "CREDIT CUSTOMERACCOUNT"),
-    @SerializedName("CHARGE_TO_BE_PAID_BY_CUSTOMER")
-    CHARGE_TO_BE_PAID_BY_CUSTOMER("CHARGE_TO_BE_PAID_BY_CUSTOMER", "CHARGE TO BE PAID BY CUSTOMER");
-
-    private string value;
-
-    private string displayName;
-
-    AllowanceChargeType(string value, string name) {
-        this.value = value;
-        this.displayName = name;
-    }
-
-    public string getValue() {
-        return this.value;
-    }
-
-    public string getDisplayName() {
-        return this.displayName;
-    }
-
-    @Override
-    public string toString() {
-        return this.displayName;
+namespace Net.Dreceiptx.Receipt.AllowanceCharge
+{ 
+    public enum AllowanceChargeType
+    {
+        //@SerializedName("CREDIT_CUSTOMER_ACCOUNT")
+        [DrxEnumExtendedInformation("CREDIT_CUSTOMER_ACCOUNT", "CREDIT CUSTOMERACCOUNT")]
+        CREDIT_CUSTOMER_ACCOUNT,
+        //@SerializedName("CHARGE_TO_BE_PAID_BY_CUSTOMER")
+        [DrxEnumExtendedInformation("CHARGE_TO_BE_PAID_BY_CUSTOMER", "CHARGE TO BE PAID BY CUSTOMER")]
+        CHARGE_TO_BE_PAID_BY_CUSTOMER
     }
 }

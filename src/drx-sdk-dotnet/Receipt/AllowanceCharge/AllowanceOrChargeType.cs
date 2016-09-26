@@ -14,35 +14,18 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.allowanceCharge;
 
-import com.google.gson.annotations.SerializedName;
+using Net.Dreceiptx.Users;
 
-public enum AllowanceOrChargeType {
-    @SerializedName("ALLOWANCE")
-    ALLOWANCE("ALLOWANCE", "Allowance"),
-    @SerializedName("CHARGE")
-    CHARGE("CHARGE", "Charge");
-
-    private string _value;
-
-    private string _displayName;
-
-    AllowanceOrChargeType(string value, string name) {
-        _value = value;
-        _displayName = name;
-    }
-
-    public string getValue() {
-        return _value;
-    }
-
-    public string getDisplayName() {
-        return _displayName;
-    }
-
-    @Override
-    public string toString() {
-        return _displayName;
+namespace Net.Dreceiptx.Receipt.AllowanceCharge
+{
+    public enum AllowanceOrChargeType
+    {
+        //@SerializedName("ALLOWANCE")
+        [DrxEnumExtendedInformation("ALLOWANCE", "Allowance")]
+        ALLOWANCE,
+        //@SerializedName("CHARGE")
+        [DrxEnumExtendedInformation("CHARGE", "Charge")]
+        CHARGE
     }
 }
