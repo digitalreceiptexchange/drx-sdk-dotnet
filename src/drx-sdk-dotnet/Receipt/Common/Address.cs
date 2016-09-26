@@ -1,39 +1,39 @@
-/*
- * Copyright 2016 Digital Receipt Exchange Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+#region copyright
+// Copyright 2016 Digital Receipt Exchange Limited
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+#endregion
 package net.dreceiptx.receipt.common;
 
 import com.google.gson.annotations.SerializedName;
 
 public class Address {
-    @SerializedName("name") private String _name;
-    @SerializedName("streetAddressOne") private String _streetAddress1;
-    @SerializedName("streetAddressTwo") private String _streetAddress2;
-    @SerializedName("streetAddressThree") private String _streetAddress3;
-    @SerializedName("city") private String _city;
-    @SerializedName("postalCode") private String _postalCode;
-    @SerializedName("state") private String _state;
-    @SerializedName("countryCode") private String _countryCode;
+    @SerializedName("name") private string _name;
+    @SerializedName("streetAddressOne") private string _streetAddress1;
+    @SerializedName("streetAddressTwo") private string _streetAddress2;
+    @SerializedName("streetAddressThree") private string _streetAddress3;
+    @SerializedName("city") private string _city;
+    @SerializedName("postalCode") private string _postalCode;
+    @SerializedName("state") private string _state;
+    @SerializedName("countryCode") private string _countryCode;
     @SerializedName("geographicalCoordinates") private GeographicalCoordinates _geographicalCoordinates;
     
     public Address(){
         
     }
     
-    public Address(String streetAddress1,String city, String postalCode,String state, String countryCode){
+    public Address(string streetAddress1,string city, string postalCode,string state, string countryCode){
         _streetAddress1 = streetAddress1;
         _city = city;
         _postalCode = postalCode;
@@ -45,10 +45,10 @@ public class Address {
         _geographicalCoordinates = geographicalCoordinates;
     }
 
-    public Address(String name, String streetAddress1,
-                   String streetAddress2, String streetAddress3,
-                   String city, String postalCode,
-                   String state, String countryCode)
+    public Address(string name, string streetAddress1,
+                   string streetAddress2, string streetAddress3,
+                   string city, string postalCode,
+                   string state, string countryCode)
     {
         _name = name;
         _streetAddress1 = streetAddress1;
@@ -68,67 +68,67 @@ public class Address {
         return _geographicalCoordinates;
     }
 
-    public String getName() {
+    public string getName() {
         return _name;
     }
 
-    public void setName(String name) {
+    public void setName(string name) {
         _name = name;
     }
 
-    public String getStreetAddress1() {
+    public string getStreetAddress1() {
         return _streetAddress1;
     }
 
-    public void setStreetAddress1(String streetAddress1) {
+    public void setStreetAddress1(string streetAddress1) {
         _streetAddress1 = streetAddress1;
     }
 
-    public String getStreetAddress2() {
+    public string getStreetAddress2() {
         return _streetAddress2;
     }
 
-    public void setStreetAddress2(String streetAddress2) {
+    public void setStreetAddress2(string streetAddress2) {
         _streetAddress2 = streetAddress2;
     }
 
-    public String getStreetAddress3() {
+    public string getStreetAddress3() {
         return _streetAddress3;
     }
 
-    public void setStreetAddress3(String streetAddress3) {
+    public void setStreetAddress3(string streetAddress3) {
         _streetAddress3 = streetAddress3;
     }
 
-    public String getCity() {
+    public string getCity() {
         return _city;
     }
 
-    public void setCity(String city) {
+    public void setCity(string city) {
         _city = city;
     }
 
-    public String getPostalCode() {
+    public string getPostalCode() {
         return _postalCode;
     }
 
-    public void setPostalCode(String postalCode) {
+    public void setPostalCode(string postalCode) {
         _postalCode = postalCode;
     }
 
-    public String getState() {
+    public string getState() {
         return _state;
     }
 
-    public void setState(String state) {
+    public void setState(string state) {
         _state = state;
     }
 
-    public String getCountryCode() {
+    public string getCountryCode() {
         return _countryCode;
     }
 
-    public void setCountryCode(String countryCode) {
+    public void setCountryCode(string countryCode) {
         _countryCode = countryCode;
     }
 }

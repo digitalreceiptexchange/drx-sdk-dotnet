@@ -18,24 +18,24 @@ package net.dreceiptx.receipt.config;
 
 public class DatabaseConfigManager implements ConfigManager{
     Override
-    public String getConfigValue(String key) {
+    public string getConfigValue(string key) {
         // Connect to DB and get the value and potentially cache it or whatever
         return null;
     }
 
     Override
-    public void setConfigValue(String key, String value) {
+    public void setConfigValue(string key, string value) {
         // Only update the currenct object value and don't commit
     }
 
     Override
-    public boolean exists(String key) {
+    public bool exists(string key) {
         // look up the value in the DB.
         return false;
     }
 
     Override
-    public void setConfigValue(String key, String value, boolean commit) {
+    public void setConfigValue(string key, string value, bool commit) {
         // Connect to DB and set the value
     }
 }

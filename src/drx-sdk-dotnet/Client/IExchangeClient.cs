@@ -56,7 +56,7 @@ namespace Net.Dreceiptx.Client
     
         /**
          * @param List<NewUser>
-         * @return Map<string, NewUserRegistrationResult>
+         * @return Dictionary<string, NewUserRegistrationResult>
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
         Dictionary<string, NewUserRegistrationResult> RegisterNewUser(List<NewUser> newUsers);

@@ -89,7 +89,7 @@ namespace Net.Dreceiptx.GS1.SDBH
         /// The value of the MultiType element of DocumentIdentification element MUST be set 
         /// false as the GS1 XML design allows only one type of business documents to be sent 
         /// within one message.
-        /// TODO: Raised #6 on this as i think it should be a boolean
+        /// TODO: Raised #6 on this as i think it should be a bool
         /// </summary>
         [DataMember]
         public string MultipleType { get; set; }

@@ -1,30 +1,30 @@
-/*
- * Copyright 2016 Digital Receipt Exchange Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+﻿#region copyright
+// Copyright 2016 Digital Receipt Exchange Limited
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+#endregion
 package net.dreceiptx.receipt.document;
 
 import java.util.Date;
 import com.google.gson.annotations.SerializedName;
 
 public class DocumentIdentification {
-    @SerializedName("standard") private String _standard;
-    @SerializedName("typeVersion") private String _typeVersion;
-    @SerializedName("type") private String _type;
-    @SerializedName("instanceIdentifier") private String _instanceIdentifier;
-    @SerializedName("multipleType") private String _multipleType;
+    @SerializedName("standard") private string _standard;
+    @SerializedName("typeVersion") private string _typeVersion;
+    @SerializedName("type") private string _type;
+    @SerializedName("instanceIdentifier") private string _instanceIdentifier;
+    @SerializedName("multipleType") private string _multipleType;
     @SerializedName("creationDateAndTime") private Date _creationDateAndTime;
 
     /**
@@ -42,7 +42,7 @@ public class DocumentIdentification {
      * The value of the element Standard MUST be set to the value 'GS1'
      * @return
      */
-    public String getStandard() {
+    public string getStandard() {
         return _standard;
     }
 
@@ -51,7 +51,7 @@ public class DocumentIdentification {
      * The value of the element Standard MUST be set to the value 'com.digitalreceiptexchange.GS1'
      * @param standard
      */
-    public void setStandard(String standard) {
+    public void setStandard(string standard) {
         _standard = standard;
     }
 
@@ -70,7 +70,7 @@ public class DocumentIdentification {
      * MUST be included in the payload if sending more than one document type.
      * @return
      */
-    public String getTypeVersion() {
+    public string getTypeVersion() {
         return _typeVersion;
     }
 
@@ -78,7 +78,7 @@ public class DocumentIdentification {
      * Sets the TypeVersion
      * @param typeVersion
      */
-    public void setTypeVersion(String typeVersion) {
+    public void setTypeVersion(string typeVersion) {
         _typeVersion = typeVersion;
     }
 
@@ -91,7 +91,7 @@ public class DocumentIdentification {
      * Example; order, invoice, debitCreditAdvice,
      * @return
      */
-    public String getType() {
+    public string getType() {
         return _type;
     }
 
@@ -99,7 +99,7 @@ public class DocumentIdentification {
      * Sets the Type.
      * @param type
      */
-    public void setType(String type) {
+    public void setType(string type) {
         _type = type;
     }
 
@@ -111,7 +111,7 @@ public class DocumentIdentification {
      * Example: MSG-1645000099
      * @return
      */
-    public String getInstanceIdentifier() {
+    public string getInstanceIdentifier() {
         return _instanceIdentifier;
     }
 
@@ -119,7 +119,7 @@ public class DocumentIdentification {
      * Sets the InstanceIdentifier.
      * @param instanceIdentifier
      */
-    public void setInstanceIdentifier(String instanceIdentifier) {
+    public void setInstanceIdentifier(string instanceIdentifier) {
         _instanceIdentifier = instanceIdentifier;
     }
 
@@ -129,10 +129,10 @@ public class DocumentIdentification {
      * The value of the MultiType element of DocumentIdentification element MUST be set
      * false as the com.digitalreceiptexchange.GS1 XML design allows only one type of business documents to be sent
      * within one message.
-     * TODO: Raised #6 on this as i think it should be a boolean
+     * TODO: Raised #6 on this as i think it should be a bool
      * @return
      */
-    public String getMultipleType() {
+    public string getMultipleType() {
         return _multipleType;
     }
 
@@ -140,7 +140,7 @@ public class DocumentIdentification {
      * Sets the MultipleType property
      * @param multipleType
      */
-    public void setMultipleType(String multipleType) {
+    public void setMultipleType(string multipleType) {
         _multipleType = multipleType;
     }
 

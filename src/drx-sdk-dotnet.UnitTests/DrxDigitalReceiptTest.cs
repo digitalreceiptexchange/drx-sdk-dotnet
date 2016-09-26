@@ -207,13 +207,13 @@ namespace Net.Dreceiptx.UnitTests
 
                 for (int i = 0; i < hasValue.Length; i++)
                 {
-                    result1 += String.Format("{0:X2}", hasValue[i]);
+                    result1 += string.Format("{0:X2}", hasValue[i]);
                 }
             }
             //    string result1 = string.Empty;
             //for (int i = 0; i < hasValue.Length; i++)
             //{
-            //    result1 += String.Format("{0:X2}", hasValue[i]);
+            //    result1 += string.Format("{0:X2}", hasValue[i]);
             //}
             return result1;
         }

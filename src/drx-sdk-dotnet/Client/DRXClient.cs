@@ -157,7 +157,7 @@ namespace Net.Dreceiptx.Client
                     if (exchangeResponse.get("success").getAsbool()) {
                         JsonObject responseData = exchangeResponse.get("responseData").getAsJsonObject();
                         JsonObject userIdentifiersObject = responseData.get("userIdentifiers").getAsJsonObject();
-                        for (Map.Entry<string, JsonElement> entry : userIdentifiersObject.entrySet()) {
+                        for (Dictionary.Entry<string, JsonElement> entry : userIdentifiersObject.entrySet()) {
                             User user = null;
                             if (!entry.getValue().isJsonNull()) {
                                 JsonObject userIdentifierObject = userIdentifiersObject.getAsJsonObject(entry.getKey());
@@ -319,12 +319,12 @@ namespace Net.Dreceiptx.Client
         public NewUserRegistrationResult RegisterNewUser(NewUser newUser) throws ExchangeClientException {
             List<NewUser> _newUserCollection = new ArrayList<>();
             _newUserCollection.add(newUser);
-            Map<string, NewUserRegistrationResult> _newUserRegistrationResponse = this.registerNewUser(_newUserCollection);
+            Dictionary<string, NewUserRegistrationResult> _newUserRegistrationResponse = this.registerNewUser(_newUserCollection);
             return _newUserRegistrationResponse.get(newUser.getEmail());
         }
     
-        public Map<string, NewUserRegistrationResult> RegisterNewUser(List<NewUser> newUsers) throws ExchangeClientException {
-            Map<string, NewUserRegistrationResult> _newUserRegistrationResponse = new HashMap<>();
+        public Dictionary<string, NewUserRegistrationResult> RegisterNewUser(List<NewUser> newUsers) throws ExchangeClientException {
+            Dictionary<string, NewUserRegistrationResult> _newUserRegistrationResponse = new Dictionary<>();
             try {
                 Gson gson = new GsonBuilder()
                     .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -343,7 +343,7 @@ namespace Net.Dreceiptx.Client
                     if (exchangeResponse.get("success").getAsbool()) {
                         JsonObject responseData = exchangeResponse.get("responseData").getAsJsonObject();
                         JsonObject usersObject = responseData.get("users").getAsJsonObject();
-                        for (Map.Entry<string, JsonElement> entry : usersObject.entrySet()) {
+                        for (Dictionary.Entry<string, JsonElement> entry : usersObject.entrySet()) {
                             NewUserRegistrationResult newUserRegistrationResult = new NewUserRegistrationResult();
                             if(!entry.getValue().isJsonNull()){
                                 JsonObject userRegistrationObject = usersObject.getAsJsonObject(entry.getKey());
@@ -437,7 +437,7 @@ namespace Net.Dreceiptx.Client
             if(parameters != null) {
                 StringBuilder parameterstring = new StringBuilder();
                 bool firstIteration = true;
-                for (Map.Entry<string, string> param : parameters.getEntrySet()) {
+                for (Dictionary.Entry<string, string> param : parameters.getEntrySet()) {
                     if(firstIteration){
                         parameterstring.append("?");
                         firstIteration = false;

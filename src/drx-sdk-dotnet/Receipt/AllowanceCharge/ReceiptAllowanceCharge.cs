@@ -1,19 +1,19 @@
-/*
- * Copyright 2016 Digital Receipt Exchange Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+#region copyright
+// Copyright 2016 Digital Receipt Exchange Limited
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+#endregion
 package net.dreceiptx.receipt.allowanceCharge;
 
 import net.dreceiptx.receipt.tax.Tax;
@@ -29,7 +29,7 @@ public class ReceiptAllowanceCharge {
     @SerializedName("allowanceChargeType") private AllowanceChargeType _allowanceChargeType;
     @SerializedName("settlementType") private SettlementType _settlementType;
     @SerializedName("baseAmount") private double _amount;
-    @SerializedName("allowanceChargeDescription") private String _description;
+    @SerializedName("allowanceChargeDescription") private string _description;
     @SerializedName("leviedDutyFeeTax") private List<Tax> _taxes  = new ArrayList<Tax>();;
     
     public double getId() {
@@ -44,7 +44,7 @@ public class ReceiptAllowanceCharge {
         return _amount;
     }
 
-    public String getDescription() {
+    public string getDescription() {
         return _description;
     }
     
@@ -58,7 +58,7 @@ public class ReceiptAllowanceCharge {
         return total;
     }
     
-    public boolean hasTaxes() {
+    public bool hasTaxes() {
         return !_taxes.isEmpty();
     }
 
@@ -84,15 +84,15 @@ public class ReceiptAllowanceCharge {
         return _taxes;
     }
     
-    public boolean isCharge(){
+    public bool isCharge(){
         return (_allowanceOrChargeType == AllowanceOrChargeType.CHARGE);
     }
     
-    public boolean isAllowance(){
+    public bool isAllowance(){
         return (_allowanceOrChargeType == AllowanceOrChargeType.ALLOWANCE);
     }
     
-    public static ReceiptAllowanceCharge Tip(double amount, String description){
+    public static ReceiptAllowanceCharge Tip(double amount, string description){
         ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
         receiptAllowanceCharge._amount = amount;
         receiptAllowanceCharge._description = description;
@@ -102,13 +102,13 @@ public class ReceiptAllowanceCharge {
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge Tip(double amount, String description, Tax tax){
+    public static ReceiptAllowanceCharge Tip(double amount, string description, Tax tax){
         ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.Tip(amount, description);
         receiptAllowanceCharge._taxes.add(tax);
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge DeliveryFee(double amount, String description){
+    public static ReceiptAllowanceCharge DeliveryFee(double amount, string description){
         ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
         receiptAllowanceCharge._amount = amount;
         receiptAllowanceCharge._description = description;
@@ -118,13 +118,13 @@ public class ReceiptAllowanceCharge {
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge DeliveryFee(double amount, String description, Tax tax){
+    public static ReceiptAllowanceCharge DeliveryFee(double amount, string description, Tax tax){
         ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.DeliveryFee(amount, description);
         receiptAllowanceCharge._taxes.add(tax);
         return receiptAllowanceCharge;
     }
 
-    public static ReceiptAllowanceCharge FreightFee(double amount, String description){
+    public static ReceiptAllowanceCharge FreightFee(double amount, string description){
         ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
         receiptAllowanceCharge._amount = amount;
         receiptAllowanceCharge._description = description;
@@ -134,13 +134,13 @@ public class ReceiptAllowanceCharge {
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge FreightFee(double amount, String description, Tax tax){
+    public static ReceiptAllowanceCharge FreightFee(double amount, string description, Tax tax){
         ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.FreightFee(amount, description);
         receiptAllowanceCharge._taxes.add(tax);
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge PackagingFee(double amount, String description){
+    public static ReceiptAllowanceCharge PackagingFee(double amount, string description){
         ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
         receiptAllowanceCharge._amount = amount;
         receiptAllowanceCharge._description = description;
@@ -150,13 +150,13 @@ public class ReceiptAllowanceCharge {
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge PackagingFee(double amount, String description, Tax tax){
+    public static ReceiptAllowanceCharge PackagingFee(double amount, string description, Tax tax){
         ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.PackagingFee(amount, description);
         receiptAllowanceCharge._taxes.add(tax);
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge ProcessingFee(double amount, String description){
+    public static ReceiptAllowanceCharge ProcessingFee(double amount, string description){
         ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
         receiptAllowanceCharge._amount = amount;
         receiptAllowanceCharge._description = description;
@@ -166,13 +166,13 @@ public class ReceiptAllowanceCharge {
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge ProcessingFee(double amount, String description, Tax tax){
+    public static ReceiptAllowanceCharge ProcessingFee(double amount, string description, Tax tax){
         ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.ProcessingFee(amount, description);
         receiptAllowanceCharge._taxes.add(tax);
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge BookingFee(double amount, String description){
+    public static ReceiptAllowanceCharge BookingFee(double amount, string description){
         ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
         receiptAllowanceCharge._amount = amount;
         receiptAllowanceCharge._description = description;
@@ -182,13 +182,13 @@ public class ReceiptAllowanceCharge {
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge BookingFee(double amount, String description, Tax tax){
+    public static ReceiptAllowanceCharge BookingFee(double amount, string description, Tax tax){
         ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.BookingFee(amount, description);
         receiptAllowanceCharge._taxes.add(tax);
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge GeneralDiscount(double amount, String description){
+    public static ReceiptAllowanceCharge GeneralDiscount(double amount, string description){
         ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
         receiptAllowanceCharge._amount = amount;
         receiptAllowanceCharge._description = description;
@@ -198,13 +198,13 @@ public class ReceiptAllowanceCharge {
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge GeneralDiscount(double amount, String description, Tax tax){
+    public static ReceiptAllowanceCharge GeneralDiscount(double amount, string description, Tax tax){
         ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.GeneralDiscount(amount, description);
         receiptAllowanceCharge._taxes.add(tax);
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge MultiBuyDiscount(double amount, String description){
+    public static ReceiptAllowanceCharge MultiBuyDiscount(double amount, string description){
         ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
         receiptAllowanceCharge._amount = amount;
         receiptAllowanceCharge._description = description;
@@ -214,7 +214,7 @@ public class ReceiptAllowanceCharge {
         return receiptAllowanceCharge;
     }
     
-    public static ReceiptAllowanceCharge MultiBuyDiscount(double amount, String description, Tax tax){
+    public static ReceiptAllowanceCharge MultiBuyDiscount(double amount, string description, Tax tax){
         ReceiptAllowanceCharge receiptAllowanceCharge = ReceiptAllowanceCharge.MultiBuyDiscount(amount, description);
         receiptAllowanceCharge._taxes.add(tax);
         return receiptAllowanceCharge;

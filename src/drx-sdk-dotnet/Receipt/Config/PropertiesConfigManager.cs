@@ -29,8 +29,8 @@ import java.util.Properties;
  */
 public class PropertiesConfigManager implements ConfigManager{
     private Properties _properties;
-    private final String _configFile;
-    private static final String _defaultConfigFile = "./src/main/resources/config/drx.properties";
+    private final string _configFile;
+    private static final string _defaultConfigFile = "./src/main/resources/config/drx.properties";
 
     /**
      * Creates instanc of PropertiesConfigManager with the default config file
@@ -45,16 +45,16 @@ public class PropertiesConfigManager implements ConfigManager{
      * read from the configFileLocations
      * @param configFileLocation the location to read the Properties file from.
      */
-    public PropertiesConfigManager(String configFileLocation) {
+    public PropertiesConfigManager(string configFileLocation) {
         _configFile = configFileLocation;
         _properties = getdRxConfig();
     }
 
-    public String getConfigValue(String key) {
+    public string getConfigValue(string key) {
         return _properties.getProperty(key);
     }
 
-    public boolean exists(String key) {
+    public bool exists(string key) {
         return _properties.containsKey(key);
     }
 
@@ -68,11 +68,11 @@ public class PropertiesConfigManager implements ConfigManager{
         return properties;
     }
 
-    public void setConfigValue(String key, String value) {
+    public void setConfigValue(string key, string value) {
         _properties.setProperty(key, value);
     }
     
-    public void setConfigValue(String key, String value, boolean commit) {
+    public void setConfigValue(string key, string value, bool commit) {
         this.setConfigValue(key, value);
         if(commit){
             try {

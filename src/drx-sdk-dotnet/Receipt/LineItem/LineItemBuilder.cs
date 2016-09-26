@@ -1,19 +1,19 @@
-/*
- * Copyright 2016 Digital Receipt Exchange Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+#region copyright
+// Copyright 2016 Digital Receipt Exchange Limited
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+#endregion
 package net.dreceiptx.receipt.lineitem;
 
 import net.dreceiptx.receipt.allowanceCharge.ReceiptAllowanceCharge;
@@ -23,11 +23,11 @@ import java.util.Date;
 public class LineItemBuilder {
     private StandardLineItem _lineItem;
 
-    public LineItemBuilder(String brand, String name, String description, int quantity, double price) {
+    public LineItemBuilder(string brand, string name, string description, int quantity, double price) {
         _lineItem = new StandardLineItem(brand,name, description, quantity, price);
     }
     
-    public LineItemBuilder(TransactionalTradeItemType type, String code, int quantity, double price) {
+    public LineItemBuilder(TransactionalTradeItemType type, string code, int quantity, double price) {
         _lineItem = new StandardLineItem(type,code, quantity, price);
     }
     
@@ -36,37 +36,37 @@ public class LineItemBuilder {
         return this;
     }
     
-    public LineItemBuilder addGeneralDiscount(double amount, String description) {
+    public LineItemBuilder addGeneralDiscount(double amount, string description) {
         _lineItem.addReceiptAllowanceCharges(ReceiptAllowanceCharge.GeneralDiscount(amount, description));
         return this;
     }
 
-    public LineItemBuilder addGeneralDiscount(double amount, String description, Tax tax) {
+    public LineItemBuilder addGeneralDiscount(double amount, string description, Tax tax) {
         _lineItem.addReceiptAllowanceCharges(ReceiptAllowanceCharge.GeneralDiscount(amount, description, tax));
         return this;
     }
     
-    public LineItemBuilder addPackagingFee(double amount, String description) {
+    public LineItemBuilder addPackagingFee(double amount, string description) {
         _lineItem.addReceiptAllowanceCharges(ReceiptAllowanceCharge.PackagingFee(amount, description));
         return this;
     }
 
-    public LineItemBuilder addPackagingFee(double amount, String description, Tax tax) {
+    public LineItemBuilder addPackagingFee(double amount, string description, Tax tax) {
         _lineItem.addReceiptAllowanceCharges(ReceiptAllowanceCharge.PackagingFee(amount, description, tax));
         return this;
     }
     
-    public LineItemBuilder setSerialNumber(String serialNumber) {
+    public LineItemBuilder setSerialNumber(string serialNumber) {
         _lineItem.setSerialNumber(serialNumber);
         return this;
     }
     
-    public LineItemBuilder setBatchNumber(String batchNumber) {
+    public LineItemBuilder setBatchNumber(string batchNumber) {
         _lineItem.setBatchNumber(batchNumber);
         return this;
     }
     
-    public LineItemBuilder setBillingCostCentre(String billingCostCentre) {
+    public LineItemBuilder setBillingCostCentre(string billingCostCentre) {
         _lineItem.setBillingCostCentre(billingCostCentre);
         return this;
     }
@@ -81,7 +81,7 @@ public class LineItemBuilder {
         return this;
     }
     
-    public LineItemBuilder setDeliveryInstructions(String deliveryInstructions){
+    public LineItemBuilder setDeliveryInstructions(string deliveryInstructions){
         _lineItem.setDeliveryInstructions(deliveryInstructions);
         return this;
     }

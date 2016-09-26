@@ -1,19 +1,19 @@
-/*
- * Copyright 2016 Digital Receipt Exchange Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+#region copyright
+// Copyright 2016 Digital Receipt Exchange Limited
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+#endregion
 package net.dreceiptx.receipt.common;
 
 import net.dreceiptx.receipt.allowanceCharge.ReceiptAllowanceCharge;
@@ -35,12 +35,12 @@ public class DeliveryInformation {
         _deliveryFees = new ArrayList<>();
     }
 
-    public DeliveryInformation setName(String deliveryName) {
+    public DeliveryInformation setName(string deliveryName) {
         _locationInformation.getAddress().setName(deliveryName);
         return this;
     }
 
-    public DeliveryInformation setAddress(String streetAddress1,String city, String postalCode,String state, String countryCode) {
+    public DeliveryInformation setAddress(string streetAddress1,string city, string postalCode,string state, string countryCode) {
         _locationInformation.getAddress().setStreetAddress1(streetAddress1);
         _locationInformation.getAddress().setCity(city);
         _locationInformation.getAddress().setPostalCode(postalCode);
@@ -49,21 +49,21 @@ public class DeliveryInformation {
         return this;
     }
     
-    public DeliveryInformation setStreetAddress2(String streetAddress2) {
+    public DeliveryInformation setStreetAddress2(string streetAddress2) {
         _locationInformation.getAddress().setStreetAddress2(streetAddress2);
         return this;
     }
-    public DeliveryInformation setStreetAddress3(String streetAddress3) {
+    public DeliveryInformation setStreetAddress3(string streetAddress3) {
         _locationInformation.getAddress().setStreetAddress3(streetAddress3);
         return this;
     }
     
-    public DeliveryInformation addDeliveryFee(Double deliveryFee, String description ) {
+    public DeliveryInformation addDeliveryFee(Double deliveryFee, string description ) {
         _deliveryFees.add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description));
         return this;
     }
     
-    public DeliveryInformation addDeliveryFee(Double deliveryFee, String description, Tax tax ) {
+    public DeliveryInformation addDeliveryFee(Double deliveryFee, string description, Tax tax ) {
         _deliveryFees.add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description, tax));
         return this;
     }
@@ -73,7 +73,7 @@ public class DeliveryInformation {
         return this;
     }
     
-    public DeliveryInformation addDeliveryInstructions(String instructions) {
+    public DeliveryInformation addDeliveryInstructions(string instructions) {
         _despatchInformation.setInstructions(instructions);
         return this;
     }
@@ -83,7 +83,7 @@ public class DeliveryInformation {
         return this;
     }
 
-    public DeliveryInformation addContact(ContactType type, String value) {
+    public DeliveryInformation addContact(ContactType type, string value) {
         _locationInformation.getContacts().add(new Contact(type,value));
         return this;
     }

@@ -1,19 +1,19 @@
-/*
- * Copyright 2016 Digital Receipt Exchange Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+#region copyright
+// Copyright 2016 Digital Receipt Exchange Limited
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+#endregion
 package net.dreceiptx.receipt;
 
 import net.dreceiptx.receipt.allowanceCharge.ReceiptAllowanceCharge;
@@ -51,7 +51,7 @@ public class DigitalReceipt {
     @SerializedName("paymentReceipts")
     private List<PaymentReceipt> _paymentReceipts;
 
-    public DigitalReceipt(String digitalReceiptJson) throws ReceiptDeserializationException {
+    public DigitalReceipt(string digitalReceiptJson) throws ReceiptDeserializationException {
         JsonParser parser = new JsonParser();
         JsonObject digitalReceiptObject = parser.parse(digitalReceiptJson).getAsJsonObject().getAsJsonObject("dRxDigitalReceipt");
 
@@ -74,19 +74,19 @@ public class DigitalReceipt {
         }
     }
     
-    public String getUserGUID() {
+    public string getUserGUID() {
         return _standardBusinessDocumentHeader.getUserIdentifier();
     }
     
-    public String getMerchantName() {
+    public string getMerchantName() {
         return _invoice.getMerchantName();
     }
     
-    public String getCompanyTaxNumber(TaxCode taxCode) {
+    public string getCompanyTaxNumber(TaxCode taxCode) {
         return _invoice.getCompanyTaxNumber(taxCode);
     }
     
-    public String getMerchantLocationReference() {
+    public string getMerchantLocationReference() {
         return _standardBusinessDocumentHeader.getMerchantGLN();
     }
     
@@ -94,15 +94,15 @@ public class DigitalReceipt {
         return _invoice.getCreationDateTime();
     }
     
-    public String getReceiptReference() {
+    public string getReceiptReference() {
         return _invoice.getInvoiceIdentification();
     }
     
-    public String getPurchaseOrderNumber() {
+    public string getPurchaseOrderNumber() {
         return _invoice.getPurchaseOrder();
     }
 
-    public String getCustomerReferenceNumber() {
+    public string getCustomerReferenceNumber() {
         return _invoice.getCustomerReference();
     }
     

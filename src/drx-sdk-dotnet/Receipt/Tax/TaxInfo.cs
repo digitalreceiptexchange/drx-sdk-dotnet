@@ -1,29 +1,29 @@
-/*
- * Copyright 2016 Digital Receipt Exchange Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+#region copyright
+// Copyright 2016 Digital Receipt Exchange Limited
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+#endregion
 package net.dreceiptx.receipt.tax;
 
 public class TaxInfo {
-    private String _taxCategory;
-    private String _taxCode;
+    private string _taxCategory;
+    private string _taxCode;
     private double _taxableAmount;
     private double _percentage;
     private double _totalTax;
 
-    public TaxInfo(String taxCategory, String taxCode,
+    public TaxInfo(string taxCategory, string taxCode,
                    double taxableAmount, double percentage,
                    double totalTax)
     {
@@ -34,19 +34,19 @@ public class TaxInfo {
         _totalTax = totalTax;
     }
 
-    public String getTaxCategory() {
+    public string getTaxCategory() {
         return _taxCategory;
     }
 
-    public void setTaxCategory(String taxCategory) {
+    public void setTaxCategory(string taxCategory) {
         _taxCategory = taxCategory;
     }
 
-    public String getTaxCode() {
+    public string getTaxCode() {
         return _taxCode;
     }
 
-    public void setTaxCode(String taxCode) {
+    public void setTaxCode(string taxCode) {
         _taxCode = taxCode;
     }
 
@@ -75,7 +75,7 @@ public class TaxInfo {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public bool equals(Object obj) {
         if( obj == null) {
             return false;
         }

@@ -23,25 +23,25 @@ import java.util.Hashtable;
  * Simple Dictionary Based ConfigManager
  */
 public class DictionaryConfigManager implements ConfigManager {
-    private Dictionary<String, String> _config = new Hashtable<>();
+    private Dictionary<string, string> _config = new Hashtable<>();
 
     Override
-    public String getConfigValue(String key) {
+    public string getConfigValue(string key) {
         return _config.get(key);
     }
 
     Override
-    public void setConfigValue(String key, String value) {
+    public void setConfigValue(string key, string value) {
         _config.put(key, value);
     }
 
     Override
-    public boolean exists(String key) {
+    public bool exists(string key) {
         return _config.get(key) != null;
     }
 
     Override
-    public void setConfigValue(String key, String value, boolean commit) {
+    public void setConfigValue(string key, string value, bool commit) {
         this.setConfigValue(key, value);
     }
 }

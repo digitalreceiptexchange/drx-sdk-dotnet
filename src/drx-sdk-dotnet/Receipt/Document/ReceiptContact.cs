@@ -1,19 +1,19 @@
-/*
- * Copyright 2016 Digital Receipt Exchange Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+#region copyright
+// Copyright 2016 Digital Receipt Exchange Limited
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+#endregion
 package net.dreceiptx.receipt.document;
 
 import net.dreceiptx.receipt.common.Contact;
@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ReceiptContact {
     @SerializedName("contactTypeCode") private ReceiptContactType _receiptContactType;
-    @SerializedName("personName") private String _contact;
+    @SerializedName("personName") private string _contact;
     @SerializedName("communicationChannelCode") private List<Contact> _contacts;
     
     public ReceiptContact(ReceiptContactType merchantContactType)
@@ -31,7 +31,7 @@ public class ReceiptContact {
         _receiptContactType = merchantContactType;
     }
 
-    public ReceiptContact(ReceiptContactType merchantContactType, String contactName)
+    public ReceiptContact(ReceiptContactType merchantContactType, string contactName)
     {
         _receiptContactType = merchantContactType;
         _contact = contactName;
@@ -56,11 +56,11 @@ public class ReceiptContact {
         _receiptContactType = receiptContactType;
     }
     
-    public String getContactName() {
+    public string getContactName() {
         return _contact;
     }
 
-    public void setContactName(String contact) {
+    public void setContactName(string contact) {
         _contact = contact;
     }
 
@@ -68,7 +68,7 @@ public class ReceiptContact {
      * Gets the EmailAddress. The EmailAddress, although optional, SHOULD be used, if possible.
      * @return
      */
-    public String getEmailAddress() {
+    public string getEmailAddress() {
         for (Contact contact : _contacts) {
             if(contact.getType().equals(ContactType.EMAIL))
                 return contact.getContact();
@@ -80,7 +80,7 @@ public class ReceiptContact {
      * Sets the EmailAddress. The EmailAddress, although optional, SHOULD be used, if possible.
      * @param emailAddress
      */
-    public void addEmailAddress(String emailAddress) {
+    public void addEmailAddress(string emailAddress) {
         _contacts.add(new Contact(ContactType.EMAIL, emailAddress));
     }
 
@@ -89,7 +89,7 @@ public class ReceiptContact {
      * Example: Delysha Burnet
      * @return
      */
-    public String getContact() {
+    public string getContact() {
         return _contact;
     }
 
@@ -99,7 +99,7 @@ public class ReceiptContact {
      * The tel URI for Telephone Numbers? MAY be used.
      * @return
      */
-    public String getTelephoneNumber() {
+    public string getTelephoneNumber() {
         for (Contact contact : _contacts) {
             if(contact.getType().equals(ContactType.TELEPHONE))
                 return contact.getContact();
@@ -113,7 +113,7 @@ public class ReceiptContact {
      * The tel URI for Telephone Numbers? MAY be used.
      * @param telephoneNumber
      */
-    public void addTelephoneNumber(String telephoneNumber) {
+    public void addTelephoneNumber(string telephoneNumber) {
         _contacts.add(new Contact(ContactType.TELEPHONE, telephoneNumber));
     }
 }

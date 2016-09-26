@@ -1,19 +1,19 @@
-/*
- * Copyright 2016 Digital Receipt Exchange Limited
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+#region copyright
+// Copyright 2016 Digital Receipt Exchange Limited
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+#endregion
 package net.dreceiptx.receipt.invoice;
 
 import net.dreceiptx.receipt.lineitem.LineItem;
@@ -34,14 +34,14 @@ import net.dreceiptx.receipt.tax.TaxCode;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Dictionary;
+import java.util.Dictionary;
 
 public class Invoice {
-    @SerializedName("documentStatusCode") private final String _documentStatusCode = "ORIGINAL";
-    @SerializedName("invoiceType") private final String _invoiceType = "TAX_INVOICE";
-    @SerializedName("invoiceCurrencyCode") private String _invoiceCurrencyCode;
-    @SerializedName("countryOfSupplyOfGoods") private String _countryOfSupplyOfGoods;
+    @SerializedName("documentStatusCode") private final string _documentStatusCode = "ORIGINAL";
+    @SerializedName("invoiceType") private final string _invoiceType = "TAX_INVOICE";
+    @SerializedName("invoiceCurrencyCode") private string _invoiceCurrencyCode;
+    @SerializedName("countryOfSupplyOfGoods") private string _countryOfSupplyOfGoods;
     private transient LocationInformation _origin = new LocationInformation();
     private transient LocationInformation _destination = new LocationInformation();
     private transient DespatchInformation _despatchInformation =  new DespatchInformation();
@@ -50,13 +50,13 @@ public class Invoice {
     private transient Date _creationDateTime = null;
     private transient List<LineItem> _invoiceLineItems = new ArrayList<LineItem>();
     private transient List<ReceiptAllowanceCharge> _allowanceOrCharges = new ArrayList<ReceiptAllowanceCharge>();
-    private transient String _invoiceIdentification;
-    private transient String _merchantName;
-    private transient Map<String, String> _companyTaxNumbers = new HashMap<>();
-    private transient String _purchaseOrder;
-    private transient String _customerReference;
-    private transient String _defaultTimeZone;
-    private transient String _dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
+    private transient string _invoiceIdentification;
+    private transient string _merchantName;
+    private transient Dictionary<string, string> _companyTaxNumbers = new Dictionary<>();
+    private transient string _purchaseOrder;
+    private transient string _customerReference;
+    private transient string _defaultTimeZone;
+    private transient string _dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     public Invoice() {
     }
@@ -68,35 +68,35 @@ public class Invoice {
         _creationDateTime = new Date();
     }
     
-    public String getMerchantName() {
+    public string getMerchantName() {
         return _merchantName;
     }
     
-    public void setMerchantName(String merchantName) {
+    public void setMerchantName(string merchantName) {
         _merchantName = merchantName;
     }
     
-    public String getCompanyTaxNumber(TaxCode taxCode) {
+    public string getCompanyTaxNumber(TaxCode taxCode) {
         return _companyTaxNumbers.get(taxCode.getValue());
     }
     
-    public void addCompanyTaxNumber(String taxCode, String taxNumber) {
+    public void addCompanyTaxNumber(string taxCode, string taxNumber) {
         _companyTaxNumbers.put(taxCode, taxNumber);
     }
     
-    public void setPurchaseOrder(String purchaseOrder) {
+    public void setPurchaseOrder(string purchaseOrder) {
         _purchaseOrder = purchaseOrder;
     }
     
-    public String getPurchaseOrder(){
+    public string getPurchaseOrder(){
         return _purchaseOrder;
     }
 
-    public void setCustomerReference(String customerReference) {
+    public void setCustomerReference(string customerReference) {
         _customerReference = customerReference;
     }
     
-    public String getCustomerReference(){
+    public string getCustomerReference(){
         return _customerReference;
     }
     
@@ -108,32 +108,32 @@ public class Invoice {
         return _creationDateTime;
     }
     
-    public String getCreationDateTimeString(){
+    public string getCreationDateTimeString(){
         DateFormat dateFormat = new SimpleDateFormat(_dateTimeFormat);
         return  dateFormat.format(_creationDateTime);
     }
 
-    public void setInvoiceIdentification(String invoiceIdentification) {
+    public void setInvoiceIdentification(string invoiceIdentification) {
         _invoiceIdentification = invoiceIdentification;
     }
     
-    public String getInvoiceIdentification() {
+    public string getInvoiceIdentification() {
         return _invoiceIdentification;
     }
 
-    public String getInvoiceCurrencyCode() {
+    public string getInvoiceCurrencyCode() {
         return _invoiceCurrencyCode;
     }
 
-    public void setInvoiceCurrencyCode(String invoiceCurrencyCode) {
+    public void setInvoiceCurrencyCode(string invoiceCurrencyCode) {
         _invoiceCurrencyCode = invoiceCurrencyCode;
     }
 
-    public String getCountryOfSupplyOfGoods() {
+    public string getCountryOfSupplyOfGoods() {
         return _countryOfSupplyOfGoods;
     }
 
-    public void setCountryOfSupplyOfGoods(String countryOfSupplyOfGoods) {
+    public void setCountryOfSupplyOfGoods(string countryOfSupplyOfGoods) {
         _countryOfSupplyOfGoods = countryOfSupplyOfGoods;
     }
 
@@ -189,7 +189,7 @@ public class Invoice {
         return taxPercentage;
     }
 
-    private boolean isNullOrWhiteSpace(String value) {
+    private bool isNullOrWhiteSpace(string value) {
         return value == null || value.isEmpty();
     }
 
@@ -262,7 +262,7 @@ public class Invoice {
         }
     }
     
-    public boolean addAllowanceOrCharge(ReceiptAllowanceCharge receiptAllowanceCharge){
+    public bool addAllowanceOrCharge(ReceiptAllowanceCharge receiptAllowanceCharge){
         _allowanceOrCharges.add(receiptAllowanceCharge);
         return true;
     }
