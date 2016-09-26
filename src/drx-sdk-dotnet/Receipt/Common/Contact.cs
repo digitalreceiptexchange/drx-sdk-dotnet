@@ -14,35 +14,23 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.common;
-
-import com.google.gson.annotations.SerializedName;
-
-public class Contact {
-    @SerializedName("communicationChannelCode") private ContactType _type;
-    @SerializedName("communicationValue") private string _value;
-
-    protected Contact() { }
-
-    public Contact(ContactType type, string value)
+namespace Net.Dreceiptx.Receipt.Common
+{
+    public class Contact
     {
-        _type = type;
-        _value = value;
-    }
+        //@SerializedName("communicationChannelCode")
+        public ContactType Type { get; set; }
+        //@SerializedName("communicationValue")
+        public string ContactValue { get; set; }
+        
+        protected Contact()
+        {
+        }
 
-    public ContactType getType() {
-        return _type;
-    }
-
-    public void setType(ContactType type) {
-        _type = type;
-    }
-
-    public string getContact() {
-        return _value;
-    }
-
-    public void setContact(string value) {
-        _value = value;
+        public Contact(ContactType type, string value)
+        {
+            Type = type;
+            ContactValue = value;
+        }
     }
 }

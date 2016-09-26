@@ -14,90 +14,104 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.common;
 
-import net.dreceiptx.receipt.allowanceCharge.ReceiptAllowanceCharge;
-import net.dreceiptx.receipt.tax.Tax;
+using System;
+using System.Collections.Generic;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+namespace Net.Dreceiptx.Receipt.Common
+{
+    public class DeliveryInformation
+    {
+        private readonly LocationInformation _locationInformation;
+        private List<ReceiptAllowanceCharge> _deliveryFees;
+        private readonly DespatchInformation _despatchInformation;
 
-public class DeliveryInformation {
+        public DeliveryInformation()
+        {
+            _locationInformation = new LocationInformation();
+            _despatchInformation = new DespatchInformation();
+            _deliveryFees = new List<ReceiptAllowanceCharge>();
+        }
 
-    private final LocationInformation _locationInformation;
-    private List<ReceiptAllowanceCharge> _deliveryFees;
-    private final DespatchInformation _despatchInformation;
+        public DeliveryInformation setName(string deliveryName)
+        {
+            _locationInformation.getAddress().Name = deliveryName;
+            return this;
+        }
 
-    public DeliveryInformation() {
-        _locationInformation = new LocationInformation();
-        _despatchInformation = new DespatchInformation();
-        _deliveryFees = new ArrayList<>();
+        public DeliveryInformation setAddress(string streetAddress1, string city, string postalCode, string state,
+            string countryCode)
+        {
+            _locationInformation.getAddress().setStreetAddress1(streetAddress1);
+            _locationInformation.getAddress().setCity(city);
+            _locationInformation.getAddress().setPostalCode(postalCode);
+            _locationInformation.getAddress().setState(state);
+            _locationInformation.getAddress().setCountryCode(countryCode);
+            return this;
+        }
+
+        public DeliveryInformation setStreetAddress2(string streetAddress2)
+        {
+            _locationInformation.getAddress().setStreetAddress2(streetAddress2);
+            return this;
+        }
+
+        public DeliveryInformation setStreetAddress3(string streetAddress3)
+        {
+            _locationInformation.getAddress().setStreetAddress3(streetAddress3);
+            return this;
+        }
+
+        public DeliveryInformation addDeliveryFee(Double deliveryFee, string description)
+        {
+            _deliveryFees.add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description));
+            return this;
+        }
+
+        public DeliveryInformation addDeliveryFee(Double deliveryFee, string description, Tax tax)
+        {
+            _deliveryFees.add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description, tax));
+            return this;
+        }
+
+        public DeliveryInformation sddDeliveryDate(Date deliveryDate)
+        {
+            _despatchInformation.setDeliveryDate(deliveryDate);
+            return this;
+        }
+
+        public DeliveryInformation addDeliveryInstructions(string instructions)
+        {
+            _despatchInformation.setInstructions(instructions);
+            return this;
+        }
+
+        public DeliveryInformation addDespatchDate(Date despatchDate)
+        {
+            _despatchInformation.setDespatchDate(despatchDate);
+            return this;
+        }
+
+        public DeliveryInformation addContact(ContactType type, string value)
+        {
+            _locationInformation.getContacts().add(new Contact(type, value));
+            return this;
+        }
+
+        public LocationInformation getLocationInformation()
+        {
+            return _locationInformation;
+        }
+
+        public List<ReceiptAllowanceCharge> getDeliveryFees()
+        {
+            return _deliveryFees;
+        }
+
+        public DespatchInformation getDespatchInformation()
+        {
+            return _despatchInformation;
+        }
     }
 
-    public DeliveryInformation setName(string deliveryName) {
-        _locationInformation.getAddress().setName(deliveryName);
-        return this;
-    }
-
-    public DeliveryInformation setAddress(string streetAddress1,string city, string postalCode,string state, string countryCode) {
-        _locationInformation.getAddress().setStreetAddress1(streetAddress1);
-        _locationInformation.getAddress().setCity(city);
-        _locationInformation.getAddress().setPostalCode(postalCode);
-        _locationInformation.getAddress().setState(state);
-        _locationInformation.getAddress().setCountryCode(countryCode);
-        return this;
-    }
-    
-    public DeliveryInformation setStreetAddress2(string streetAddress2) {
-        _locationInformation.getAddress().setStreetAddress2(streetAddress2);
-        return this;
-    }
-    public DeliveryInformation setStreetAddress3(string streetAddress3) {
-        _locationInformation.getAddress().setStreetAddress3(streetAddress3);
-        return this;
-    }
-    
-    public DeliveryInformation addDeliveryFee(Double deliveryFee, string description ) {
-        _deliveryFees.add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description));
-        return this;
-    }
-    
-    public DeliveryInformation addDeliveryFee(Double deliveryFee, string description, Tax tax ) {
-        _deliveryFees.add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description, tax));
-        return this;
-    }
-    
-    public DeliveryInformation sddDeliveryDate(Date deliveryDate) {
-        _despatchInformation.setDeliveryDate(deliveryDate);
-        return this;
-    }
-    
-    public DeliveryInformation addDeliveryInstructions(string instructions) {
-        _despatchInformation.setInstructions(instructions);
-        return this;
-    }
-    
-    public DeliveryInformation addDespatchDate(Date despatchDate) {
-        _despatchInformation.setDespatchDate(despatchDate);
-        return this;
-    }
-
-    public DeliveryInformation addContact(ContactType type, string value) {
-        _locationInformation.getContacts().add(new Contact(type,value));
-        return this;
-    }
-    
-    public LocationInformation getLocationInformation(){
-        return _locationInformation;
-    }
-    
-    public List<ReceiptAllowanceCharge> getDeliveryFees(){
-        return _deliveryFees;
-    }
-    
-    public DespatchInformation getDespatchInformation(){
-        return _despatchInformation;
-    }
 }
-

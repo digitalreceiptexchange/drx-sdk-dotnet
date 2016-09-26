@@ -14,25 +14,19 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.common;
-
-import com.google.gson.annotations.SerializedName;
-
-public class GeographicalCoordinates {
-    @SerializedName("latitude") private string _latitude;
-    @SerializedName("longitude") private string _longitude;
-    
-    public GeographicalCoordinates(string latitude, string longitude)
+namespace Net.Dreceiptx.Receipt.Common
+{
+    public class GeographicalCoordinates
     {
-        _latitude = latitude;
-        _longitude = longitude;
-    }
+        //@SerializedName("latitude")
+        public string Latitude { get; set; }
+        //@SerializedName("longitude")
+        public string Longitude { get; set; }
 
-    public string getLatitude() {
-        return _latitude;
-    }
-    
-    public string getLongitude() {
-        return _longitude;
+        public GeographicalCoordinates(string latitude, string longitude)
+        {
+            Latitude = latitude;
+            Longitude = longitude;
+        }
     }
 }

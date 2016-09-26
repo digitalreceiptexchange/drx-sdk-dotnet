@@ -14,375 +14,505 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.common;
 
-import com.google.gson.annotations.SerializedName;
-import java.util.Dictionary;
-import java.util.Dictionary;
+using Net.Dreceiptx.Users;
 
-public enum Currency {
-    @SerializedName("AFN")
-    Afghani("AFN", "Afghani"),
-    @SerializedName("EUR")
-    Euro("EUR", "Euro"),
-    @SerializedName("ALL")
-    Lek("ALL", "Lek"),
-    @SerializedName("DZD")
-    Algerian_Dinar("DZD", "Algerian Dinar"),
-    @SerializedName("USD")
-    US_Dollar("USD", "US Dollar"),
-    @SerializedName("AOA")
-    Kwanza("AOA", "Kwanza"),
-    @SerializedName("XCD")
-    East_Caribbean_Dollar("XCD", "East Caribbean Dollar"),
-    @SerializedName("ARS")
-    Argentine_Peso("ARS", "Argentine Peso"),
-    @SerializedName("AMD")
-    Armenian_Dram("AMD", "Armenian Dram"),
-    @SerializedName("AWG")
-    Aruban_Florin("AWG", "Aruban Florin"),
-    @SerializedName("AUD")
-    Australian_Dollar("AUD", "Australian Dollar"),
-    @SerializedName("AZN")
-    Azerbaijanian_Manat("AZN", "Azerbaijanian Manat"),
-    @SerializedName("BSD")
-    Bahamian_Dollar("BSD", "Bahamian Dollar"),
-    @SerializedName("BHD")
-    Bahraini_Dinar("BHD", "Bahraini Dinar"),
-    @SerializedName("BDT")
-    Taka("BDT", "Taka"),
-    @SerializedName("BBD")
-    Barbados_Dollar("BBD", "Barbados Dollar"),
-    @SerializedName("BYR")
-    Belarussian_Ruble("BYR", "Belarussian Ruble"),
-    @SerializedName("BZD")
-    Belize_Dollar("BZD", "Belize Dollar"),
-    @SerializedName("XOF")
-    CFA_Franc_BCEAO("XOF", "CFA Franc BCEAO"),
-    @SerializedName("BMD")
-    Bermudian_Dollar("BMD", "Bermudian Dollar"),
-    @SerializedName("BTN")
-    Ngultrum("BTN", "Ngultrum"),
-    @SerializedName("INR")
-    Indian_Rupee("INR", "Indian Rupee"),
-    @SerializedName("BOB")
-    Boliviano("BOB", "Boliviano"),
-    @SerializedName("BOV")
-    Mvdol("BOV", "Mvdol"),
-    @SerializedName("BAM")
-    Convertible_Mark("BAM", "Convertible Mark"),
-    @SerializedName("BWP")
-    Pula("BWP", "Pula"),
-    @SerializedName("NOK")
-    Norwegian_Krone("NOK", "Norwegian Krone"),
-    @SerializedName("BRL")
-    Brazilian_Real("BRL", "Brazilian Real"),
-    @SerializedName("BND")
-    Brunei_Dollar("BND", "Brunei Dollar"),
-    @SerializedName("BGN")
-    Bulgarian_Lev("BGN", "Bulgarian Lev"),
-    @SerializedName("BIF")
-    Burundi_Franc("BIF", "Burundi Franc"),
-    @SerializedName("CVE")
-    Cabo_Verde_Escudo("CVE", "Cabo Verde Escudo"),
-    @SerializedName("KHR")
-    Riel("KHR", "Riel"),
-    @SerializedName("XAF")
-    CFA_Franc_BEAC("XAF", "CFA Franc BEAC"),
-    @SerializedName("CAD")
-    Canadian_Dollar("CAD", "Canadian Dollar"),
-    @SerializedName("KYD")
-    Cayman_Islands_Dollar("KYD", "Cayman Islands Dollar"),
-    @SerializedName("CLF")
-    Unidad_de_Fomento("CLF", "Unidad de Fomento"),
-    @SerializedName("CLP")
-    Chilean_Peso("CLP", "Chilean Peso"),
-    @SerializedName("CNY")
-    Yuan_Renminbi("CNY", "Yuan Renminbi"),
-    @SerializedName("COP")
-    Colombian_Peso("COP", "Colombian Peso"),
-    @SerializedName("COU")
-    Unidad_de_Valor_Real("COU", "Unidad de Valor Real"),
-    @SerializedName("KMF")
-    Comoro_Franc("KMF", "Comoro Franc"),
-    @SerializedName("CDF")
-    Congolese_Franc("CDF", "Congolese Franc"),
-    @SerializedName("NZD")
-    New_Zealand_Dollar("NZD", "New Zealand Dollar"),
-    @SerializedName("CRC")
-    Costa_Rican_Colon("CRC", "Costa Rican Colon"),
-    @SerializedName("HRK")
-    Kuna("HRK", "Kuna"),
-    @SerializedName("CUC")
-    Peso_Convertible("CUC", "Peso Convertible"),
-    @SerializedName("CUP")
-    Cuban_Peso("CUP", "Cuban Peso"),
-    @SerializedName("ANG")
-    Netherlands_Antillean_Guilder("ANG", "Netherlands Antillean Guilder"),
-    @SerializedName("CZK")
-    Czech_Koruna("CZK", "Czech Koruna"),
-    @SerializedName("DKK")
-    Danish_Krone("DKK", "Danish Krone"),
-    @SerializedName("DJF")
-    Djibouti_Franc("DJF", "Djibouti Franc"),
-    @SerializedName("DOP")
-    Dominican_Peso("DOP", "Dominican Peso"),
-    @SerializedName("EGP")
-    Egyptian_Pound("EGP", "Egyptian Pound"),
-    @SerializedName("SVC")
-    El_Salvador_Colon("SVC", "El Salvador Colon"),
-    @SerializedName("ERN")
-    Nakfa("ERN", "Nakfa"),
-    @SerializedName("ETB")
-    Ethiopian_Birr("ETB", "Ethiopian Birr"),
-    @SerializedName("FKP")
-    Falkland_Islands_Pound("FKP", "Falkland Islands Pound"),
-    @SerializedName("FJD")
-    Fiji_Dollar("FJD", "Fiji Dollar"),
-    @SerializedName("XPF")
-    CFP_Franc("XPF", "CFP Franc"),
-    @SerializedName("GMD")
-    Dalasi("GMD", "Dalasi"),
-    @SerializedName("GEL")
-    Lari("GEL", "Lari"),
-    @SerializedName("GHS")
-    Ghana_Cedi("GHS", "Ghana Cedi"),
-    @SerializedName("GIP")
-    Gibraltar_Pound("GIP", "Gibraltar Pound"),
-    @SerializedName("GTQ")
-    Quetzal("GTQ", "Quetzal"),
-    @SerializedName("GBP")
-    British_Sterling("GBP", "British Sterling(Pound)"),
-    @SerializedName("GNF")
-    Guinea_Franc("GNF", "Guinea Franc"),
-    @SerializedName("GYD")
-    Guyana_Dollar("GYD", "Guyana Dollar"),
-    @SerializedName("HTG")
-    Gourde("HTG", "Gourde"),
-    @SerializedName("HNL")
-    Lempira("HNL", "Lempira"),
-    @SerializedName("HKD")
-    Hong_Kong_Dollar("HKD", "Hong Kong Dollar"),
-    @SerializedName("HUF")
-    Forint("HUF", "Forint"),
-    @SerializedName("ISK")
-    Iceland_Krona("ISK", "Iceland Krona"),
-    @SerializedName("IDR")
-    Rupiah("IDR", "Rupiah"),
-    @SerializedName("IRR")
-    Iranian_Rial("IRR", "Iranian Rial"),
-    @SerializedName("IQD")
-    Iraqi_Dinar("IQD", "Iraqi Dinar"),
-    @SerializedName("ILS")
-    New_Israeli_Sheqel("ILS", "New Israeli Sheqel"),
-    @SerializedName("JMD")
-    Jamaican_Dollar("JMD", "Jamaican Dollar"),
-    @SerializedName("JPY")
-    Yen("JPY", "Yen"),
-    @SerializedName("JOD")
-    Jordanian_Dinar("JOD", "Jordanian Dinar"),
-    @SerializedName("KZT")
-    Tenge("KZT", "Tenge"),
-    @SerializedName("KES")
-    Kenyan_Shilling("KES", "Kenyan Shilling"),
-    @SerializedName("KPW")
-    North_Korean_Won("KPW", "North Korean Won"),
-    @SerializedName("KRW")
-    Won("KRW", "Won"),
-    @SerializedName("KWD")
-    Kuwaiti_Dinar("KWD", "Kuwaiti Dinar"),
-    @SerializedName("KGS")
-    Som("KGS", "Som"),
-    @SerializedName("LAK")
-    Kip("LAK", "Kip"),
-    @SerializedName("LBP")
-    Lebanese_Pound("LBP", "Lebanese Pound"),
-    @SerializedName("LSL")
-    Loti("LSL", "Loti"),
-    @SerializedName("ZAR")
-    Rand("ZAR", "Rand"),
-    @SerializedName("LRD")
-    Liberian_Dollar("LRD", "Liberian Dollar"),
-    @SerializedName("LYD")
-    Libyan_Dinar("LYD", "Libyan Dinar"),
-    @SerializedName("CHF")
-    Swiss_Franc("CHF", "Swiss Franc"),
-    @SerializedName("MOP")
-    Pataca("MOP", "Pataca"),
-    @SerializedName("MKD")
-    Denar("MKD", "Denar"),
-    @SerializedName("MGA")
-    Malagasy_Ariary("MGA", "Malagasy Ariary"),
-    @SerializedName("MWK")
-    Kwacha("MWK", "Kwacha"),
-    @SerializedName("MYR")
-    Malaysian_Ringgit("MYR", "Malaysian Ringgit"),
-    @SerializedName("MVR")
-    Rufiyaa("MVR", "Rufiyaa"),
-    @SerializedName("MRO")
-    Ouguiya("MRO", "Ouguiya"),
-    @SerializedName("MUR")
-    Mauritius_Rupee("MUR", "Mauritius Rupee"),
-    @SerializedName("XUA")
-    ADB_Unit_of_Account("XUA", "ADB Unit of Account"),
-    @SerializedName("MXN")
-    Mexican_Peso("MXN", "Mexican Peso"),
-    @SerializedName("MDL")
-    Moldovan_Leu("MDL", "Moldovan Leu"),
-    @SerializedName("MNT")
-    Tugrik("MNT", "Tugrik"),
-    @SerializedName("MAD")
-    Moroccan_Dirham("MAD", "Moroccan Dirham"),
-    @SerializedName("MZN")
-    Mozambique_Metical("MZN", "Mozambique Metical"),
-    @SerializedName("MMK")
-    Kyat("MMK", "Kyat"),
-    @SerializedName("NAD")
-    Namibia_Dollar("NAD", "Namibia Dollar"),
-    @SerializedName("NPR")
-    Nepalese_Rupee("NPR", "Nepalese Rupee"),
-    @SerializedName("NIO")
-    Cordoba_Oro("NIO", "Cordoba Oro"),
-    @SerializedName("NGN")
-    Naira("NGN", "Naira"),
-    @SerializedName("OMR")
-    Rial_Omani("OMR", "Rial Omani"),
-    @SerializedName("PKR")
-    Pakistan_Rupee("PKR", "Pakistan Rupee"),
-    @SerializedName("PAB")
-    Balboa("PAB", "Balboa"),
-    @SerializedName("PGK")
-    Kina("PGK", "Kina"),
-    @SerializedName("PYG")
-    Guarani("PYG", "Guarani"),
-    @SerializedName("PEN")
-    Nuevo_Sol("PEN", "Nuevo Sol"),
-    @SerializedName("PHP")
-    Philippine_Peso("PHP", "Philippine Peso"),
-    @SerializedName("PLN")
-    Zloty("PLN", "Zloty"),
-    @SerializedName("QAR")
-    Qatari_Rial("QAR", "Qatari Rial"),
-    @SerializedName("RON")
-    Romanian_Leu("RON", "Romanian Leu"),
-    @SerializedName("RUB")
-    Russian_Ruble("RUB", "Russian Ruble"),
-    @SerializedName("RWF")
-    Rwanda_Franc("RWF", "Rwanda Franc"),
-    @SerializedName("SHP")
-    Saint_Helena_Pound("SHP", "Saint Helena Pound"),
-    @SerializedName("WST")
-    Tala("WST", "Tala"),
-    @SerializedName("STD")
-    Dobra("STD", "Dobra"),
-    @SerializedName("SAR")
-    Saudi_Riyal("SAR", "Saudi Riyal"),
-    @SerializedName("RSD")
-    Serbian_Dinar("RSD", "Serbian Dinar"),
-    @SerializedName("SCR")
-    Seychelles_Rupee("SCR", "Seychelles Rupee"),
-    @SerializedName("SLL")
-    Leone("SLL", "Leone"),
-    @SerializedName("SGD")
-    Singapore_Dollar("SGD", "Singapore Dollar"),
-    @SerializedName("XSU")
-    Sucre("XSU", "Sucre"),
-    @SerializedName("SBD")
-    Solomon_Islands_Dollar("SBD", "Solomon Islands Dollar"),
-    @SerializedName("SOS")
-    Somali_Shilling("SOS", "Somali Shilling"),
-    @SerializedName("SSP")
-    South_Sudanese_Pound("SSP", "South Sudanese Pound"),
-    @SerializedName("LKR")
-    Sri_Lanka_Rupee("LKR", "Sri Lanka Rupee"),
-    @SerializedName("SDG")
-    Sudanese_Pound("SDG", "Sudanese Pound"),
-    @SerializedName("SRD")
-    Surinam_Dollar("SRD", "Surinam Dollar"),
-    @SerializedName("SZL")
-    Lilangeni("SZL", "Lilangeni"),
-    @SerializedName("SEK")
-    Swedish_Krona("SEK", "Swedish Krona"),
-    @SerializedName("CHE")
-    WIR_Euro("CHE", "WIR Euro"),
-    @SerializedName("CHW")
-    WIR_Franc("CHW", "WIR Franc"),
-    @SerializedName("SYP")
-    Syrian_Pound("SYP", "Syrian Pound"),
-    @SerializedName("TWD")
-    New_Taiwan_Dollar("TWD", "New Taiwan Dollar"),
-    @SerializedName("TJS")
-    Somoni("TJS", "Somoni"),
-    @SerializedName("TZS")
-    Tanzanian_Shilling("TZS", "Tanzanian Shilling"),
-    @SerializedName("THB")
-    Baht("THB", "Baht"),
-    @SerializedName("TOP")
-    Paanga("TOP", "Pa’anga"),
-    @SerializedName("TTD")
-    Trinidad_and_Tobago_Dollar("TTD", "Trinidad and Tobago Dollar"),
-    @SerializedName("TND")
-    Tunisian_Dinar("TND", "Tunisian Dinar"),
-    @SerializedName("TRY")
-    Turkish_Lira("TRY", "Turkish Lira"),
-    @SerializedName("TMT")
-    Turkmenistan_New_Manat("TMT", "Turkmenistan New Manat"),
-    @SerializedName("UGX")
-    Uganda_Shilling("UGX", "Uganda Shilling"),
-    @SerializedName("UAH")
-    Hryvnia("UAH", "Hryvnia"),
-    @SerializedName("AED")
-    UAE_Dirham("AED", "UAE Dirham"),
-    @SerializedName("UYU")
-    Peso_Uruguayo("UYU", "Peso Uruguayo"),
-    @SerializedName("UZS")
-    Uzbekistan_Sum("UZS", "Uzbekistan Sum"),
-    @SerializedName("VUV")
-    Vatu("VUV", "Vatu"),
-    @SerializedName("VEF")
-    Bolivar("VEF", "Bolivar"),
-    @SerializedName("VND")
-    Dong("VND", "Dong"),
-    @SerializedName("YER")
-    Yemeni_Rial("YER", "Yemeni Rial"),
-    @SerializedName("ZMW")
-    Zambian_Kwacha("ZMW", "Zambian Kwacha"),
-    @SerializedName("ZWL")
-    Zimbabwe_Dollar("ZWL", "Zimbabwe Dollar");
-
-    private string _value;
-
-    private string _displayName;
-    
-    private static Dictionary<string, Currency> enums = new Dictionary<string, Currency>();
-
-    static {
-        for (Currency CurrencyEnum : Currency.values()) {
-            enums.put(CurrencyEnum._value, CurrencyEnum);
-        }
-    }
-
-    Currency(string value, string name) {
-        _value = value;
-        _displayName = name;
-    }
-
-    public string getValue() {
-        return _value;
-    }
-
-    public string getDisplayName() {
-        return _displayName;
-    }
-
-    @Override
-    public string toString() {
-        return _displayName;
-    }
-    
-    private Currency(final string currencyCode) { _value = currencyCode; }
-
-    public static Currency codeOf(string currencyCode) {
-        return enums.get(currencyCode);
+namespace Net.Dreceiptx.Receipt.Common
+{
+    //TODO: Add conversion methods like in java side of things
+    public enum Currency
+    {
+        //@SerializedName("AFN")
+        [DrxEnumExtendedInformation("AFN", "Afghani")]
+        Afghani,
+        //@SerializedName("EUR")
+        [DrxEnumExtendedInformation("EUR", "Euro")]
+        Euro,
+        //@SerializedName("ALL")
+        [DrxEnumExtendedInformation("ALL", "Lek")]
+        Lek,
+        //@SerializedName("DZD")
+        [DrxEnumExtendedInformation("DZD", "Algerian Dinar")]
+        Algerian_Dinar,
+        //@SerializedName("USD")
+        [DrxEnumExtendedInformation("USD", "US Dollar")]
+        US_Dollar,
+        //@SerializedName("AOA")
+        [DrxEnumExtendedInformation("AOA", "Kwanza")]
+        Kwanza,
+        //@SerializedName("XCD")
+        [DrxEnumExtendedInformation("XCD", "East Caribbean Dollar")]
+        East_Caribbean_Dollar,
+        //@SerializedName("ARS")
+        [DrxEnumExtendedInformation("ARS", "Argentine Peso")]
+        Argentine_Peso,
+        //@SerializedName("AMD")
+        [DrxEnumExtendedInformation("AMD", "Armenian Dram")]
+        Armenian_Dram,
+        //@SerializedName("AWG")
+        [DrxEnumExtendedInformation("AWG", "Aruban Florin")]
+        Aruban_Florin,
+        //@SerializedName("AUD")
+        [DrxEnumExtendedInformation("AUD", "Australian Dollar")]
+        Australian_Dollar,
+        //@SerializedName("AZN")
+        [DrxEnumExtendedInformation("AZN", "Azerbaijanian Manat")]
+        Azerbaijanian_Manat,
+        //@SerializedName("BSD")
+        [DrxEnumExtendedInformation("BSD", "Bahamian Dollar")]
+        Bahamian_Dollar,
+        //@SerializedName("BHD")
+        [DrxEnumExtendedInformation("BHD", "Bahraini Dinar")]
+        Bahraini_Dinar,
+        //@SerializedName("BDT")
+        [DrxEnumExtendedInformation("BDT", "Taka")]
+        Taka,
+        //@SerializedName("BBD")
+        [DrxEnumExtendedInformation("BBD", "Barbados Dollar")]
+        Barbados_Dollar,
+        //@SerializedName("BYR")
+        [DrxEnumExtendedInformation("BYR", "Belarussian Ruble")]
+        Belarussian_Ruble,
+        //@SerializedName("BZD")
+        [DrxEnumExtendedInformation("BZD", "Belize Dollar")]
+        Belize_Dollar,
+        //@SerializedName("XOF")
+        [DrxEnumExtendedInformation("XOF", "CFA Franc BCEAO")]
+        CFA_Franc_BCEAO,
+        //@SerializedName("BMD")
+        [DrxEnumExtendedInformation("BMD", "Bermudian Dollar")]
+        Bermudian_Dollar,
+        //@SerializedName("BTN")
+        [DrxEnumExtendedInformation("BTN", "Ngultrum")]
+        Ngultrum,
+        //@SerializedName("INR")
+        [DrxEnumExtendedInformation("INR", "Indian Rupee")]
+        Indian_Rupee,
+        //@SerializedName("BOB")
+        [DrxEnumExtendedInformation("BOB", "Boliviano")]
+        Boliviano,
+        //@SerializedName("BOV")
+        [DrxEnumExtendedInformation("BOV", "Mvdol")]
+        Mvdol,
+        //@SerializedName("BAM")
+        [DrxEnumExtendedInformation("BAM", "Convertible Mark")]
+        Convertible_Mark,
+        //@SerializedName("BWP")
+        [DrxEnumExtendedInformation("BWP", "Pula")]
+        Pula,
+        //@SerializedName("NOK")
+        [DrxEnumExtendedInformation("NOK", "Norwegian Krone")]
+        Norwegian_Krone,
+        //@SerializedName("BRL")
+        [DrxEnumExtendedInformation("BRL", "Brazilian Real")]
+        Brazilian_Real,
+        //@SerializedName("BND")
+        [DrxEnumExtendedInformation("BND", "Brunei Dollar")]
+        Brunei_Dollar,
+        //@SerializedName("BGN")
+        [DrxEnumExtendedInformation("BGN", "Bulgarian Lev")]
+        Bulgarian_Lev,
+        //@SerializedName("BIF")
+        [DrxEnumExtendedInformation("BIF", "Burundi Franc")]
+        Burundi_Franc,
+        //@SerializedName("CVE")
+        [DrxEnumExtendedInformation("CVE", "Cabo Verde Escudo")]
+        Cabo_Verde_Escudo,
+        //@SerializedName("KHR")
+        [DrxEnumExtendedInformation("KHR", "Riel")]
+        Riel,
+        //@SerializedName("XAF")
+        [DrxEnumExtendedInformation("XAF", "CFA Franc BEAC")]
+        CFA_Franc_BEAC,
+        //@SerializedName("CAD")
+        [DrxEnumExtendedInformation("CAD", "Canadian Dollar")]
+        Canadian_Dollar,
+        //@SerializedName("KYD")
+        [DrxEnumExtendedInformation("KYD", "Cayman Islands Dollar")]
+        Cayman_Islands_Dollar,
+        //@SerializedName("CLF")
+        [DrxEnumExtendedInformation("CLF", "Unidad de Fomento")]
+        Unidad_de_Fomento,
+        //@SerializedName("CLP")
+        [DrxEnumExtendedInformation("CLP", "Chilean Peso")]
+        Chilean_Peso,
+        //@SerializedName("CNY")
+        [DrxEnumExtendedInformation("CNY", "Yuan Renminbi")]
+        Yuan_Renminbi,
+        //@SerializedName("COP")
+        [DrxEnumExtendedInformation("COP", "Colombian Peso")]
+        Colombian_Peso,
+        //@SerializedName("COU")
+        [DrxEnumExtendedInformation("COU", "Unidad de Valor Real")]
+        Unidad_de_Valor_Real,
+        //@SerializedName("KMF")
+        [DrxEnumExtendedInformation("KMF", "Comoro Franc")]
+        Comoro_Franc,
+        //@SerializedName("CDF")
+        [DrxEnumExtendedInformation("CDF", "Congolese Franc")]
+        Congolese_Franc,
+        //@SerializedName("NZD")
+        [DrxEnumExtendedInformation("NZD", "New Zealand Dollar")]
+        New_Zealand_Dollar,
+        //@SerializedName("CRC")
+        [DrxEnumExtendedInformation("CRC", "Costa Rican Colon")]
+        Costa_Rican_Colon,
+        //@SerializedName("HRK")
+        [DrxEnumExtendedInformation("HRK", "Kuna")]
+        Kuna,
+        //@SerializedName("CUC")
+        [DrxEnumExtendedInformation("CUC", "Peso Convertible")]
+        Peso_Convertible,
+        //@SerializedName("CUP")
+        [DrxEnumExtendedInformation("CUP", "Cuban Peso")]
+        Cuban_Peso,
+        //@SerializedName("ANG")
+        [DrxEnumExtendedInformation("ANG", "Netherlands Antillean Guilder")]
+        Netherlands_Antillean_Guilder,
+        //@SerializedName("CZK")
+        [DrxEnumExtendedInformation("CZK", "Czech Koruna")]
+        Czech_Koruna,
+        //@SerializedName("DKK")
+        [DrxEnumExtendedInformation("DKK", "Danish Krone")]
+        Danish_Krone,
+        //@SerializedName("DJF")
+        [DrxEnumExtendedInformation("DJF", "Djibouti Franc")]
+        Djibouti_Franc,
+        //@SerializedName("DOP")
+        [DrxEnumExtendedInformation("DOP", "Dominican Peso")]
+        Dominican_Peso,
+        //@SerializedName("EGP")
+        [DrxEnumExtendedInformation("EGP", "Egyptian Pound")]
+        Egyptian_Pound,
+        //@SerializedName("SVC")
+        [DrxEnumExtendedInformation("SVC", "El Salvador Colon")]
+        El_Salvador_Colon,
+        //@SerializedName("ERN")
+        [DrxEnumExtendedInformation("ERN", "Nakfa")]
+        Nakfa,
+        //@SerializedName("ETB")
+        [DrxEnumExtendedInformation("ETB", "Ethiopian Birr")]
+        Ethiopian_Birr,
+        //@SerializedName("FKP")
+        [DrxEnumExtendedInformation("FKP", "Falkland Islands Pound")]
+        Falkland_Islands_Pound,
+        //@SerializedName("FJD")
+        [DrxEnumExtendedInformation("FJD", "Fiji Dollar")]
+        Fiji_Dollar,
+        //@SerializedName("XPF")
+        [DrxEnumExtendedInformation("XPF", "CFP Franc")]
+        CFP_Franc,
+        //@SerializedName("GMD")
+        [DrxEnumExtendedInformation("GMD", "Dalasi")]
+        Dalasi,
+        //@SerializedName("GEL")
+        [DrxEnumExtendedInformation("GEL", "Lari")]
+        Lari,
+        //@SerializedName("GHS")
+        [DrxEnumExtendedInformation("GHS", "Ghana Cedi")]
+        Ghana_Cedi,
+        //@SerializedName("GIP")
+        [DrxEnumExtendedInformation("GIP", "Gibraltar Pound")]
+        Gibraltar_Pound,
+        //@SerializedName("GTQ")
+        [DrxEnumExtendedInformation("GTQ", "Quetzal")]
+        Quetzal,
+        //@SerializedName("GBP")
+        [DrxEnumExtendedInformation("GBP", "British Sterling(Pound)")]
+        British_Sterling,
+        //@SerializedName("GNF")
+        [DrxEnumExtendedInformation("GNF", "Guinea Franc")]
+        Guinea_Franc,
+        //@SerializedName("GYD")
+        [DrxEnumExtendedInformation("GYD", "Guyana Dollar")]
+        Guyana_Dollar,
+        //@SerializedName("HTG")
+        [DrxEnumExtendedInformation("HTG", "Gourde")]
+        Gourde,
+        //@SerializedName("HNL")
+        [DrxEnumExtendedInformation("HNL", "Lempira")]
+        Lempira,
+        //@SerializedName("HKD")
+        [DrxEnumExtendedInformation("HKD", "Hong Kong Dollar")]
+        Hong_Kong_Dollar,
+        //@SerializedName("HUF")
+        [DrxEnumExtendedInformation("HUF", "Forint")]
+        Forint,
+        //@SerializedName("ISK")
+        [DrxEnumExtendedInformation("ISK", "Iceland Krona")]
+        Iceland_Krona,
+        //@SerializedName("IDR")
+        [DrxEnumExtendedInformation("IDR", "Rupiah")]
+        Rupiah,
+        //@SerializedName("IRR")
+        [DrxEnumExtendedInformation("IRR", "Iranian Rial")]
+        Iranian_Rial,
+        //@SerializedName("IQD")
+        [DrxEnumExtendedInformation("IQD", "Iraqi Dinar")]
+        Iraqi_Dinar,
+        //@SerializedName("ILS")
+        [DrxEnumExtendedInformation("ILS", "New Israeli Sheqel")]
+        New_Israeli_Sheqel,
+        //@SerializedName("JMD")
+        [DrxEnumExtendedInformation("JMD", "Jamaican Dollar")]
+        Jamaican_Dollar,
+        //@SerializedName("JPY")
+        [DrxEnumExtendedInformation("JPY", "Yen")]
+        Yen,
+        //@SerializedName("JOD")
+        [DrxEnumExtendedInformation("JOD", "Jordanian Dinar")]
+        Jordanian_Dinar,
+        //@SerializedName("KZT")
+        [DrxEnumExtendedInformation("KZT", "Tenge")]
+        Tenge,
+        //@SerializedName("KES")
+        [DrxEnumExtendedInformation("KES", "Kenyan Shilling")]
+        Kenyan_Shilling,
+        //@SerializedName("KPW")
+        [DrxEnumExtendedInformation("KPW", "North Korean Won")]
+        North_Korean_Won,
+        //@SerializedName("KRW")
+        [DrxEnumExtendedInformation("KRW", "Won")]
+        Won,
+        //@SerializedName("KWD")
+        [DrxEnumExtendedInformation("KWD", "Kuwaiti Dinar")]
+        Kuwaiti_Dinar,
+        //@SerializedName("KGS")
+        [DrxEnumExtendedInformation("KGS", "Som")]
+        Som,
+        //@SerializedName("LAK")
+        [DrxEnumExtendedInformation("LAK", "Kip")]
+        Kip,
+        //@SerializedName("LBP")
+        [DrxEnumExtendedInformation("LBP", "Lebanese Pound")]
+        Lebanese_Pound,
+        //@SerializedName("LSL")
+        [DrxEnumExtendedInformation("LSL", "Loti")]
+        Loti,
+        //@SerializedName("ZAR")
+        [DrxEnumExtendedInformation("ZAR", "Rand")]
+        Rand,
+        //@SerializedName("LRD")
+        [DrxEnumExtendedInformation("LRD", "Liberian Dollar")]
+        Liberian_Dollar,
+        //@SerializedName("LYD")
+        [DrxEnumExtendedInformation("LYD", "Libyan Dinar")]
+        Libyan_Dinar,
+        //@SerializedName("CHF")
+        [DrxEnumExtendedInformation("CHF", "Swiss Franc")]
+        Swiss_Franc,
+        //@SerializedName("MOP")
+        [DrxEnumExtendedInformation("MOP", "Pataca")]
+        Pataca,
+        //@SerializedName("MKD")
+        [DrxEnumExtendedInformation("MKD", "Denar")]
+        Denar,
+        //@SerializedName("MGA")
+        [DrxEnumExtendedInformation("MGA", "Malagasy Ariary")]
+        Malagasy_Ariary,
+        //@SerializedName("MWK")
+        [DrxEnumExtendedInformation("MWK", "Kwacha")]
+        Kwacha,
+        //@SerializedName("MYR")
+        [DrxEnumExtendedInformation("MYR", "Malaysian Ringgit")]
+        Malaysian_Ringgit,
+        //@SerializedName("MVR")
+        [DrxEnumExtendedInformation("MVR", "Rufiyaa")]
+        Rufiyaa,
+        //@SerializedName("MRO")
+        [DrxEnumExtendedInformation("MRO", "Ouguiya")]
+        Ouguiya,
+        //@SerializedName("MUR")
+        [DrxEnumExtendedInformation("MUR", "Mauritius Rupee")]
+        Mauritius_Rupee,
+        //@SerializedName("XUA")
+        [DrxEnumExtendedInformation("XUA", "ADB Unit of Account")]
+        ADB_Unit_of_Account,
+        //@SerializedName("MXN")
+        [DrxEnumExtendedInformation("MXN", "Mexican Peso")]
+        Mexican_Peso,
+        //@SerializedName("MDL")
+        [DrxEnumExtendedInformation("MDL", "Moldovan Leu")]
+        Moldovan_Leu,
+        //@SerializedName("MNT")
+        [DrxEnumExtendedInformation("MNT", "Tugrik")]
+        Tugrik,
+        //@SerializedName("MAD")
+        [DrxEnumExtendedInformation("MAD", "Moroccan Dirham")]
+        Moroccan_Dirham,
+        //@SerializedName("MZN")
+        [DrxEnumExtendedInformation("MZN", "Mozambique Metical")]
+        Mozambique_Metical,
+        //@SerializedName("MMK")
+        [DrxEnumExtendedInformation("MMK", "Kyat")]
+        Kyat,
+        //@SerializedName("NAD")
+        [DrxEnumExtendedInformation("NAD", "Namibia Dollar")]
+        Namibia_Dollar,
+        //@SerializedName("NPR")
+        [DrxEnumExtendedInformation("NPR", "Nepalese Rupee")]
+        Nepalese_Rupee,
+        //@SerializedName("NIO")
+        [DrxEnumExtendedInformation("NIO", "Cordoba Oro")]
+        Cordoba_Oro,
+        //@SerializedName("NGN")
+        [DrxEnumExtendedInformation("NGN", "Naira")]
+        Naira,
+        //@SerializedName("OMR")
+        [DrxEnumExtendedInformation("OMR", "Rial Omani")]
+        Rial_Omani,
+        //@SerializedName("PKR")
+        [DrxEnumExtendedInformation("PKR", "Pakistan Rupee")]
+        Pakistan_Rupee,
+        //@SerializedName("PAB")
+        [DrxEnumExtendedInformation("PAB", "Balboa")]
+        Balboa,
+        //@SerializedName("PGK")
+        [DrxEnumExtendedInformation("PGK", "Kina")]
+        Kina,
+        //@SerializedName("PYG")
+        [DrxEnumExtendedInformation("PYG", "Guarani")]
+        Guarani,
+        //@SerializedName("PEN")
+        [DrxEnumExtendedInformation("PEN", "Nuevo Sol")]
+        Nuevo_Sol,
+        //@SerializedName("PHP")
+        [DrxEnumExtendedInformation("PHP", "Philippine Peso")]
+        Philippine_Peso,
+        //@SerializedName("PLN")
+        [DrxEnumExtendedInformation("PLN", "Zloty")]
+        Zloty,
+        //@SerializedName("QAR")
+        [DrxEnumExtendedInformation("QAR", "Qatari Rial")]
+        Qatari_Rial,
+        //@SerializedName("RON")
+        [DrxEnumExtendedInformation("RON", "Romanian Leu")]
+        Romanian_Leu,
+        //@SerializedName("RUB")
+        [DrxEnumExtendedInformation("RUB", "Russian Ruble")]
+        Russian_Ruble,
+        //@SerializedName("RWF")
+        [DrxEnumExtendedInformation("RWF", "Rwanda Franc")]
+        Rwanda_Franc,
+        //@SerializedName("SHP")
+        [DrxEnumExtendedInformation("SHP", "Saint Helena Pound")]
+        Saint_Helena_Pound,
+        //@SerializedName("WST")
+        [DrxEnumExtendedInformation("WST", "Tala")]
+        Tala,
+        //@SerializedName("STD")
+        [DrxEnumExtendedInformation("STD", "Dobra")]
+        Dobra,
+        //@SerializedName("SAR")
+        [DrxEnumExtendedInformation("SAR", "Saudi Riyal")]
+        Saudi_Riyal,
+        //@SerializedName("RSD")
+        [DrxEnumExtendedInformation("RSD", "Serbian Dinar")]
+        Serbian_Dinar,
+        //@SerializedName("SCR")
+        [DrxEnumExtendedInformation("SCR", "Seychelles Rupee")]
+        Seychelles_Rupee,
+        //@SerializedName("SLL")
+        [DrxEnumExtendedInformation("SLL", "Leone")]
+        Leone,
+        //@SerializedName("SGD")
+        [DrxEnumExtendedInformation("SGD", "Singapore Dollar")]
+        Singapore_Dollar,
+        //@SerializedName("XSU")
+        [DrxEnumExtendedInformation("XSU", "Sucre")]
+        Sucre,
+        //@SerializedName("SBD")
+        [DrxEnumExtendedInformation("SBD", "Solomon Islands Dollar")]
+        Solomon_Islands_Dollar,
+        //@SerializedName("SOS")
+        [DrxEnumExtendedInformation("SOS", "Somali Shilling")]
+        Somali_Shilling,
+        //@SerializedName("SSP")
+        [DrxEnumExtendedInformation("SSP", "South Sudanese Pound")]
+        South_Sudanese_Pound,
+        //@SerializedName("LKR")
+        [DrxEnumExtendedInformation("LKR", "Sri Lanka Rupee")]
+        Sri_Lanka_Rupee,
+        //@SerializedName("SDG")
+        [DrxEnumExtendedInformation("SDG", "Sudanese Pound")]
+        Sudanese_Pound,
+        //@SerializedName("SRD")
+        [DrxEnumExtendedInformation("SRD", "Surinam Dollar")]
+        Surinam_Dollar,
+        //@SerializedName("SZL")
+        [DrxEnumExtendedInformation("SZL", "Lilangeni")]
+        Lilangeni,
+        //@SerializedName("SEK")
+        [DrxEnumExtendedInformation("SEK", "Swedish Krona")]
+        Swedish_Krona,
+        //@SerializedName("CHE")
+        [DrxEnumExtendedInformation("CHE", "WIR Euro")]
+        WIR_Euro,
+        //@SerializedName("CHW")
+        [DrxEnumExtendedInformation("CHW", "WIR Franc")]
+        WIR_Franc,
+        //@SerializedName("SYP")
+        [DrxEnumExtendedInformation("SYP", "Syrian Pound")]
+        Syrian_Pound,
+        //@SerializedName("TWD")
+        [DrxEnumExtendedInformation("TWD", "New Taiwan Dollar")]
+        New_Taiwan_Dollar,
+        //@SerializedName("TJS")
+        [DrxEnumExtendedInformation("TJS", "Somoni")]
+        Somoni,
+        //@SerializedName("TZS")
+        [DrxEnumExtendedInformation("TZS", "Tanzanian Shilling")]
+        Tanzanian_Shilling,
+        //@SerializedName("THB")
+        [DrxEnumExtendedInformation("THB", "Baht")]
+        Baht,
+        //@SerializedName("TOP")
+        [DrxEnumExtendedInformation("TOP", "Pa’anga")]
+        Paanga,
+        //@SerializedName("TTD")
+        [DrxEnumExtendedInformation("TTD", "Trinidad and Tobago Dollar")]
+        Trinidad_and_Tobago_Dollar,
+        //@SerializedName("TND")
+        [DrxEnumExtendedInformation("TND", "Tunisian Dinar")]
+        Tunisian_Dinar,
+        //@SerializedName("TRY")
+        [DrxEnumExtendedInformation("TRY", "Turkish Lira")]
+        Turkish_Lira,
+        //@SerializedName("TMT")
+        [DrxEnumExtendedInformation("TMT", "Turkmenistan New Manat")]
+        Turkmenistan_New_Manat,
+        //@SerializedName("UGX")
+        [DrxEnumExtendedInformation("UGX", "Uganda Shilling")]
+        Uganda_Shilling,
+        //@SerializedName("UAH")
+        [DrxEnumExtendedInformation("UAH", "Hryvnia")]
+        Hryvnia,
+        //@SerializedName("AED")
+        [DrxEnumExtendedInformation("AED", "UAE Dirham")]
+        UAE_Dirham,
+        //@SerializedName("UYU")
+        [DrxEnumExtendedInformation("UYU", "Peso Uruguayo")]
+        Peso_Uruguayo,
+        //@SerializedName("UZS")
+        [DrxEnumExtendedInformation("UZS", "Uzbekistan Sum")]
+        Uzbekistan_Sum,
+        //@SerializedName("VUV")
+        [DrxEnumExtendedInformation("VUV", "Vatu")]
+        Vatu,
+        //@SerializedName("VEF")
+        [DrxEnumExtendedInformation("VEF", "Bolivar")]
+        Bolivar,
+        //@SerializedName("VND")
+        [DrxEnumExtendedInformation("VND", "Dong")]
+        Dong,
+        //@SerializedName("YER")
+        [DrxEnumExtendedInformation("YER", "Yemeni Rial")]
+        Yemeni_Rial,
+        //@SerializedName("ZMW")
+        [DrxEnumExtendedInformation("ZMW", "Zambian Kwacha")]
+        Zambian_Kwacha,
+        //@SerializedName("ZWL")
+        [DrxEnumExtendedInformation("ZWL", "Zimbabwe Dollar")]
+        Zimbabwe_Dollar
     }
 }

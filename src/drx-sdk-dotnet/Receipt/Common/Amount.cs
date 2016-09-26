@@ -14,30 +14,25 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.common;
-
-import com.google.gson.annotations.SerializedName;
-
-public class Amount {
-    @SerializedName("currencyCode") private Currency _currencyCode;
-    @SerializedName("value") private Double _value;
-
-    public Amount(Currency currency, Double amount) {
-        _value = amount;
-        _currencyCode = currency;
-    }
-    
-    public Amount(Double amount, Currency currency)
+namespace Net.Dreceiptx.Receipt.Common
+{
+    public class Amount
     {
-        _value = amount;
-        _currencyCode = currency;
-    }
+        //@SerializedName("currencyCode")
+        public Currency CurrencyCode { get; private set; }
+        //@SerializedName("value")
+        public double Value { get; private set; }
 
-    public Currency getCurrencyCode() {
-        return _currencyCode;
-    }
+        public Amount(Currency currency, double amount)
+        {
+            Value = amount;
+            CurrencyCode = currency;
+        }
 
-    public Double getValue() {
-        return _value;
+        public Amount(double amount, Currency currency)
+        {
+            Value = amount;
+            CurrencyCode = currency;
+        }
     }
 }

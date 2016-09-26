@@ -14,72 +14,75 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.common;
 
-import com.google.gson.annotations.SerializedName;
-import java.util.ArrayList;
-import java.util.List;
+using System.Collections.Generic;
 
-public class LocationInformation {
-    @SerializedName("address") private Address _address = null;
-    @SerializedName("contact") private List<Contact> _contacts = null;
+namespace Net.Dreceiptx.Receipt.Common
+{
+    public class LocationInformation
+    {
+        //@SerializedName("address")
+        //@SerializedName("contact")
+        private List<Contact> _contacts = null;
 
-    public LocationInformation(){
-    }
-    
-    public LocationInformation(Address address, Contact contact){
-        _address = address;
-    }
-    
-    public LocationInformation(Address address){
-        _address = address;
-    }
-
-    public LocationInformation(GeographicalCoordinates geographicalCoordinates){
-        this.setGeographicalCoordinates(geographicalCoordinates);
-    }
-    
-    public LocationInformation(Contact contact){
-        _contacts.add(contact);
-    }
-    
-    public void addContact(Contact contact){
-        if(_contacts == null){
-            _contacts = new ArrayList<>();
+        public LocationInformation()
+        {
         }
-        _contacts.add(contact);
-    }
-
-    public void setAddress(Address address) {
-        _address = address;
-    }
-
-    public void setGeographicalCoordinates(GeographicalCoordinates geographicalCoordinates) {
-        if(_address != null){
-            _address.setGeographicalCoordinates(geographicalCoordinates);
-        }else{
-            _address = new Address(geographicalCoordinates);
-        }
-    }
-
-    public Address getAddress() {
-        return _address;
-    }
-
-    public GeographicalCoordinates getGeographicalCoordinates() {
-        if(_address != null){
-            return _address.getGeographicalCoordinates();
+        
+        public LocationInformation(Address address, Contact contact)
+        {
+            Address = address;
+            AddContact(contact);
         }
 
-        return null;
-    }
-    
-    public List<Contact> getContacts() {
-        return _contacts;
-    }
-    
-    public bool gsonValidator(){
-        return _address != null || (_contacts != null && !_contacts.isEmpty());
+        public LocationInformation(Address address)
+        {
+            Address = address;
+        }
 
+        public LocationInformation(GeographicalCoordinates geographicalCoordinates)
+        {
+            GeographicalCoordinates = geographicalCoordinates;
+        }
+
+        public LocationInformation(Contact contact)
+        {
+            AddContact(contact);
+        }
+
+        public void AddContact(Contact contact)
+        {
+            if (_contacts == null)
+            {
+                _contacts = new List<Contact>();
+            }
+            _contacts.Add(contact);
+        }
+
+        public GeographicalCoordinates GeographicalCoordinates
+        {
+            get { return Address?.GeographicalCoordinates; }
+            set
+            {
+                if (Address != null)
+                {
+                    Address.GeographicalCoordinates = value;
+                }
+                else
+                {
+                    Address = new Address(value);
+                }
+            }
+        }
+
+        public Address Address { get; set; }
+
+        public List<Contact> Contacts => _contacts;
+
+        public bool gsonValidator()
+        {
+            return Address != null || (_contacts != null && _contacts.Count!= 0);
+
+        }
     }
 }

@@ -14,35 +14,18 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.common;
 
-import com.google.gson.annotations.SerializedName;
+using Net.Dreceiptx.Users;
 
-public enum ContactType {
-    @SerializedName("EMAIL")
-    EMAIL("EMAIL", "Contact primary email address"),
-    @SerializedName("TELEPHONE")
-    TELEPHONE("TELEPHONE", "Contact primary telephone address");
-
-    private string _value;
-
-    private string _displayName;
-
-    ContactType(string value, string name) {
-        _value = value;
-        _displayName = name;
-    }
-
-    public string getValue() {
-        return _value;
-    }
-
-    public string getDisplayName() {
-        return _displayName;
-    }
-
-    @Override
-    public string toString() {
-        return _displayName;
+namespace Net.Dreceiptx.Receipt.Common
+{
+    public enum ContactType
+    {
+        //@SerializedName("EMAIL")
+        [DrxEnumExtendedInformation("EMAIL", "Contact primary email address")]
+        EMAIL,
+        //@SerializedName("TELEPHONE")
+        [DrxEnumExtendedInformation("TELEPHONE", "Contact primary telephone address")]
+        TELEPHONE
     }
 }

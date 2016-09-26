@@ -14,60 +14,52 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.common;
 
-import com.google.gson.annotations.SerializedName;
-import java.util.Date;
+using System;
 
-public class DespatchInformation {
-    @SerializedName("estimatedDeliveryDateTime") private Date _deliveryDate;
-    @SerializedName("despatchDateTime") private Date _despatchDate;
-    @SerializedName("deliveryInstructions") private string _instructions;
+namespace Net.Dreceiptx.Receipt.Common
+{
+    public class DespatchInformation
+    {
+        //@SerializedName("estimatedDeliveryDateTime")
+        private DateTime _deliveryDate;
+        //@SerializedName("despatchDateTime")
+        private DateTime _despatchDate;
+        //@SerializedName("deliveryInstructions")
 
-    public DespatchInformation(){
-    }
-    
-    public DespatchInformation(Date deliveryDate){
-        _deliveryDate = deliveryDate;
-    }
-    
-    public DespatchInformation(Date deliveryDate, string instructions){
-        _deliveryDate = deliveryDate;
-        _instructions = instructions;
-    }
-    
-    public DespatchInformation(Date deliveryDate, Date despatchDate, string instructions){
-        _deliveryDate = deliveryDate;
-        _despatchDate = despatchDate;
-        _instructions = instructions;
-    }
+        public DespatchInformation()
+        {
+        }
 
-    public Date getDeliveryDate() {
-        return _deliveryDate;
-    }
-    
-    public void setDeliveryDate(Date deliveryDate) {
-         _deliveryDate = deliveryDate;
-    }
-    
-    public Date getDespatchDate() {
-        return _despatchDate;
-    }
-    
-    public void setDespatchDate(Date despatchDate) {
-         _despatchDate = despatchDate;
-    }
+        public DespatchInformation(DateTime deliveryDate)
+        {
+            _deliveryDate = deliveryDate;
+        }
 
-    public string getDeliveryInstructions() {
-        return _instructions;
-    }
-    
-    public void setInstructions(string instructions) {
-         _instructions = instructions;
-    }
-    
-    public bool gsonValidator(){
-        return _instructions != null || _despatchDate != null || _deliveryDate != null;
+        public DespatchInformation(DateTime deliveryDate, string instructions)
+        {
+            _deliveryDate = deliveryDate;
+            DeliveryInstructions = instructions;
+        }
 
+        public DespatchInformation(DateTime deliveryDate, DateTime despatchDate, string instructions)
+        {
+            _deliveryDate = deliveryDate;
+            _despatchDate = despatchDate;
+            DeliveryInstructions = instructions;
+        }
+
+        public DateTime DeliveryDate { get; set; }
+
+        public DateTime DespatchDate { get; set; }
+
+        public string DeliveryInstructions { get; set; }
+
+        //TODO: Remove this
+        public bool gsonValidator()
+        {
+            return DeliveryInstructions != null || _despatchDate != null || _deliveryDate != null;
+
+        }
     }
 }
