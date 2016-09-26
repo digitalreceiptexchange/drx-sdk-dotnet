@@ -14,28 +14,30 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.config;
+namespace Net.Dreceiptx.Receipt.Config
+{
+    public class DatabaseConfigManager : IConfigManager
+    {
+        public string GetConfigValue(string key)
+        {
+            // look up the value in the DB.
+            return null;
+        }
 
-public class DatabaseConfigManager implements ConfigManager{
-    Override
-    public string getConfigValue(string key) {
-        // Connect to DB and get the value and potentially cache it or whatever
-        return null;
-    }
+        public void SetConfigValue(string key, string value)
+        {
+            // Connect to DB and set the value
+        }
 
-    Override
-    public void setConfigValue(string key, string value) {
-        // Only update the currenct object value and don't commit
-    }
+        public void SetConfigValue(string key, string value, bool commit)
+        {
+            // Connect to DB and set the value
+        }
 
-    Override
-    public bool exists(string key) {
-        // look up the value in the DB.
-        return false;
-    }
-
-    Override
-    public void setConfigValue(string key, string value, bool commit) {
-        // Connect to DB and set the value
+        public bool Exists(string key)
+        {
+            // look up the value in the DB.
+            return false;
+        }
     }
 }

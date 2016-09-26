@@ -14,34 +14,36 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.config;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
+using System.Collections.Generic;
 
-/**
- * Simple Dictionary Based ConfigManager
- */
-public class DictionaryConfigManager implements ConfigManager {
-    private Dictionary<string, string> _config = new Hashtable<>();
+namespace Net.Dreceiptx.Receipt.Config
+{
+    /**
+     * Simple Dictionary Based ConfigManager
+     */
+    public class DictionaryConfigManager : IConfigManager
+    {
+        private readonly Dictionary<string, string> _config = new Dictionary<string, string>();
 
-    Override
-    public string getConfigValue(string key) {
-        return _config.get(key);
-    }
+        public string GetConfigValue(string key)
+        {
+            return _config[key];
+        }
 
-    Override
-    public void setConfigValue(string key, string value) {
-        _config.put(key, value);
-    }
+        public void SetConfigValue(string key, string value)
+        {
+            _config.Add(key, value);
+        }
 
-    Override
-    public bool exists(string key) {
-        return _config.get(key) != null;
-    }
+        public void SetConfigValue(string key, string value, bool commit)
+        {
+            SetConfigValue(key, value);
+        }
 
-    Override
-    public void setConfigValue(string key, string value, bool commit) {
-        this.setConfigValue(key, value);
+        public bool Exists(string key)
+        {
+            return _config.ContainsKey(key);
+        }
     }
 }
