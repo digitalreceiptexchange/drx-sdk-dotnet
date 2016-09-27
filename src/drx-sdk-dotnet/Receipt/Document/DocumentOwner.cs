@@ -14,44 +14,42 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.document;
 
-import com.google.gson.annotations.SerializedName;
-import java.util.ArrayList;
-import java.util.List;
+using System.Collections.Generic;
 
-public class DocumentOwner {
-    @SerializedName("identifier")  private DocumentOwnerIdentification _identifier;
-    @SerializedName("contactInformation") private List<ReceiptContact> _contactInformation;
-    public DocumentOwner()
+namespace Net.Dreceiptx.Receipt.Document
+{
+
+    public class DocumentOwner
     {
-        _identifier = new DocumentOwnerIdentification();
-    }
-    
-    public void setValue(string value) {
-        _identifier.setValue(value);
-    }
-    
-    public string getValue() {
-       return  _identifier.getValue();
-    }
 
-    public DocumentOwnerIdentification getIdentifier() {
-        return _identifier;
-    }
+        //@SerializedName("contactInformation")
+        private List<ReceiptContact> _contactInformation;
 
-    public void setIdentifier(DocumentOwnerIdentification identifier) {
-        _identifier = identifier;
-    }
-    
-    public void addDocumentOwnerContact(ReceiptContact documentOwnerContact) {
-        if(_contactInformation == null){
-            _contactInformation = new ArrayList<ReceiptContact>();
+        public DocumentOwner()
+        {
+            Identifier = new DocumentOwnerIdentification();
         }
-        _contactInformation.add(documentOwnerContact);
-    }
-    
-    public List<ReceiptContact> getDocumentOwnerContact() {
-        return _contactInformation;
+        //TODO: Not sure id we need this here. Should just do via the DocumentOwnderIdentification instance
+        public string Value
+        {
+            get { return Identifier.Value; }
+            set { Identifier.Value = value; }
+        }
+
+
+        //@SerializedName("identifier")
+        public DocumentOwnerIdentification Identifier { get; set; }
+
+        public void AddDocumentOwnerContact(ReceiptContact documentOwnerContact)
+        {
+            if (_contactInformation == null)
+            {
+                _contactInformation = new List<ReceiptContact>();
+            }
+            _contactInformation.Add(documentOwnerContact);
+        }
+
+        public List<ReceiptContact> DocumentOwnerContact => _contactInformation;
     }
 }

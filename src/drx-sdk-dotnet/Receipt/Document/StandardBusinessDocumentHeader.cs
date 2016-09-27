@@ -14,103 +14,97 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.document;
 
-import net.dreceiptx.receipt.validation.ReceiptValidation;
-import java.util.ArrayList;
-import java.util.List;
-import com.google.gson.annotations.SerializedName;
-import net.dreceiptx.receipt.validation.ValidationErrors;
+using System.Collections.Generic;
+using Net.Dreceiptx.Receipt.Validation;
 
-public class StandardBusinessDocumentHeader {
-    @SerializedName("sender") private List<DocumentOwner> _sender;
-    @SerializedName("receiver") private List<DocumentOwner> _receiver;
-    @SerializedName("documentIdentification") private DocumentIdentification _documentIdentification;
-    
-    public StandardBusinessDocumentHeader()
+namespace Net.Dreceiptx.Receipt.Document
+{
+    public class StandardBusinessDocumentHeader
     {
-        _sender = new ArrayList<DocumentOwner>();
-        _receiver = new ArrayList<DocumentOwner>();
-        _documentIdentification = new DocumentIdentification();
+        //@SerializedName("sender")
+        private List<DocumentOwner> _sender;
+        //@SerializedName("receiver")
+        private List<DocumentOwner> _receiver;
         
-        DocumentOwner merchant = new DocumentOwner();
-        merchant.getIdentifier().setAuthority("GS1");
-        merchant.getIdentifier().setValue(null);
-        _sender.add(0, merchant);
-        
-        DocumentOwner dRx = new DocumentOwner();
-        dRx.getIdentifier().setAuthority("GS1");
-        dRx.getIdentifier().setValue(null);
-        _receiver.add(0, dRx);
-        
-        DocumentOwner user = new DocumentOwner();
-        user.getIdentifier().setAuthority("dRx");
-        user.getIdentifier().setValue(null);
-        _receiver.add(1, user);
-    }
+        private DocumentOwner _merchant;
+        private DocumentOwner _dRx;
+        private DocumentOwner _user;
 
-    public void setMerchantGLN(string merchantGLN) {
-        _sender.get(0).setValue(merchantGLN);
-    }
-    
-    public string getMerchantGLN() {
-        return _sender.get(0).getValue();
-    }
-    
-    public void setdRxGLN(string dRxGLN) {
-        _receiver.get(0).setValue(dRxGLN);
-    }
-    
-    public string getdRxGLN() {
-        return _receiver.get(0).getValue();
-    }
-    
-    public void setUserIdentifier(string userIdentifier) {
-        _receiver.get(1).setValue(userIdentifier);
-    }
-    
-    public string getUserIdentifier() {
-        return _receiver.get(1).getValue();
-    }
-    
-    public List<ReceiptContact> getClientContacts() {
-        return _receiver.get(1).getDocumentOwnerContact();
-    }
-    
-    public void addMerchantContact(ReceiptContact contact) {
-        _sender.get(0).addDocumentOwnerContact(contact);
-    }
-    
-    public void addRMSContact(ReceiptContact contact) {
-        _receiver.get(1).addDocumentOwnerContact(contact);
-    }
+        public StandardBusinessDocumentHeader()
+        {
+            _sender = new List<DocumentOwner>();
+            _receiver = new List<DocumentOwner>();
+            DocumentIdentification = new DocumentIdentification();
 
-    public List<DocumentOwner> getReceiver() {
-        return _receiver;
-    }
-    
-    public List<DocumentOwner> getSender() {
-        return _sender;
-    }
+            _merchant = new DocumentOwner();
+            _merchant.Identifier.Authority = "GS1";
+            _merchant.Identifier.Value = null;
+            _sender.Add(_merchant);
 
-    public void addReceiver(DocumentOwner receiver) {
-        _receiver.add(receiver);
-    }
+            _dRx = new DocumentOwner();
+            _dRx.Identifier.Authority = "GS1";
+            _dRx.Identifier.Value = null;
+            _receiver.Add(_dRx);
 
-    public DocumentIdentification getDocumentIdentification() {
-        return _documentIdentification;
-    }
-
-    public void setDocumentIdentification(DocumentIdentification documentIdentification) {
-        _documentIdentification = documentIdentification;
-    }
-    
-    public ReceiptValidation validate(ReceiptValidation receiptValidation) {
-        if (_sender.isEmpty()) {
-            receiptValidation.AddError(ValidationErrors.MerchantGLNMustBeSet);
+            _user = new DocumentOwner();
+            _user.Identifier.Authority = "dRx";
+            _user.Identifier.Value = null;
+            _receiver.Add(_user);
         }
 
-        return receiptValidation;
+        public string MerchantGLN
+        {
+            get { return _merchant.Value; }
+            set { _merchant.Value = value ; }
+        }
 
+        public string DrxFLN
+        {
+            get { return _dRx.Value; }
+            set { _dRx.Value = value; }
+        }
+
+        public string UserIdentifier
+        {
+            get { return _user.Value; }
+            set { _user.Value = value; }
+        }
+
+
+        public List<ReceiptContact> ClientContacts => _user.DocumentOwnerContact;
+
+        public void AddMerchantContact(ReceiptContact contact)
+        {
+            _merchant.AddDocumentOwnerContact(contact);
+        }
+
+        public void AddRMSContact(ReceiptContact contact)
+        {
+            _user.AddDocumentOwnerContact(contact);
+        }
+
+        public List<DocumentOwner> Receiver => _receiver;
+
+        public List<DocumentOwner> Sender => _sender;
+
+        public void AddReceiver(DocumentOwner receiver)
+        {
+            _receiver.Add(receiver);
+        }
+
+        //@SerializedName("documentIdentification")
+        public DocumentIdentification DocumentIdentification { get; set; }
+
+        public ReceiptValidation Validate(ReceiptValidation receiptValidation)
+        {
+            if (_sender.Count == 0)
+            {
+                receiptValidation.AddError(ValidationErrors.MerchantGLNMustBeSet);
+            }
+
+            return receiptValidation;
+
+        }
     }
 }

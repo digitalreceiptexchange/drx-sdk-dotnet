@@ -14,106 +14,74 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.document;
 
-import net.dreceiptx.receipt.common.Contact;
-import net.dreceiptx.receipt.common.ContactType;
-import com.google.gson.annotations.SerializedName;
-import java.util.List;
+using System.Collections.Generic;
+using System.Linq;
+using Net.Dreceiptx.Receipt.Common;
 
-public class ReceiptContact {
-    @SerializedName("contactTypeCode") private ReceiptContactType _receiptContactType;
-    @SerializedName("personName") private string _contact;
-    @SerializedName("communicationChannelCode") private List<Contact> _contacts;
-    
-    public ReceiptContact(ReceiptContactType merchantContactType)
+namespace Net.Dreceiptx.Receipt.Document
+{
+    public class ReceiptContact
     {
-        _receiptContactType = merchantContactType;
-    }
+        //@SerializedName("communicationChannelCode")
+        private List<Contact> _contacts;
 
-    public ReceiptContact(ReceiptContactType merchantContactType, string contactName)
-    {
-        _receiptContactType = merchantContactType;
-        _contact = contactName;
-    }
-    
-    /**
-     * Gets the ContactTypeIdentifier. Role of the identifier.
-     * Example: EDI co-ordinator
-     * @return
-     */
-    public ReceiptContactType getReceiptContactType() {
-        return _receiptContactType;
-    }
-
-    /**
-     *
-     * Sets the DocumentOwnerContactType. Role of the identifier.
-     * Example: SALES_ADMINISTRATION
-     * @param receiptContactType
-     */
-    public void setReceiptContactType(ReceiptContactType receiptContactType) {
-        _receiptContactType = receiptContactType;
-    }
-    
-    public string getContactName() {
-        return _contact;
-    }
-
-    public void setContactName(string contact) {
-        _contact = contact;
-    }
-
-    /**
-     * Gets the EmailAddress. The EmailAddress, although optional, SHOULD be used, if possible.
-     * @return
-     */
-    public string getEmailAddress() {
-        for (Contact contact : _contacts) {
-            if(contact.getType().equals(ContactType.EMAIL))
-                return contact.getContact();
+        public ReceiptContact(ReceiptContactType receiptContactType)
+        {
+            _contacts = new List<Contact>();
+            ReceiptContactType = receiptContactType;
         }
-        return null;
-    }
 
-    /**
-     * Sets the EmailAddress. The EmailAddress, although optional, SHOULD be used, if possible.
-     * @param emailAddress
-     */
-    public void addEmailAddress(string emailAddress) {
-        _contacts.add(new Contact(ContactType.EMAIL, emailAddress));
-    }
-
-    /**
-     * Gets and sets the Name of contact person or department.
-     * Example: Delysha Burnet
-     * @return
-     */
-    public string getContact() {
-        return _contact;
-    }
-
-    /**
-     * Gets the TelephoneNumber. A number format agreed upon between the Sender
-     * and Receiver SHOULD be used. Number format expressed using [RFC3966].
-     * The tel URI for Telephone Numbers? MAY be used.
-     * @return
-     */
-    public string getTelephoneNumber() {
-        for (Contact contact : _contacts) {
-            if(contact.getType().equals(ContactType.TELEPHONE))
-                return contact.getContact();
+        public ReceiptContact(ReceiptContactType receiptContactType, string contactName) : this(receiptContactType)
+        {
+            Contact = contactName;
         }
-        return null;
-    }
 
-    /**
-     * Sets the TelephoneNumber. A number format agreed upon between the Sender
-     * and Receiver SHOULD be used. Number format expressed using [RFC3966].
-     * The tel URI for Telephone Numbers? MAY be used.
-     * @param telephoneNumber
-     */
-    public void addTelephoneNumber(string telephoneNumber) {
-        _contacts.add(new Contact(ContactType.TELEPHONE, telephoneNumber));
+
+        //@SerializedName("contactTypeCode")
+        /// <summary>
+        /// Gets and sets the ContactTypeIdentifier. Role of the identifier.
+        /// Example: EDI co-ordinator
+        /// </summary>
+        public ReceiptContactType ReceiptContactType { get; set; }
+
+        //TODO: Why not just make if PersonName?
+        //@SerializedName("personName")
+        /// <summary>
+        /// Gets and sets the the Name of contact person or department.
+        /// </summary>
+        public string Contact { get; set; }
+
+        /// <summary>
+        /// Gets the EmailAddress.The EmailAddress, although optional, SHOULD be used, if possible.
+        /// </summary>
+        public string EmailAddress => _contacts.FirstOrDefault(x => x.Type == Common.ContactType.EMAIL)?.ContactValue;
+
+        public void AddEmailAddress(string emailAddress)
+        {
+            // TODO: If we add multiple emails then the getEmail falls down. Should we replace
+            // this add email with just setEmailAddress otherwise the getEMailAddress should change
+            _contacts.Add(new Contact(ContactType.EMAIL, emailAddress));
+        }
+
+        /// <summary>
+        /// Gets the TelephoneNumber.A number format agreed upon between the Sender
+        /// and Receiver SHOULD be used.Number format expressed using [RFC3966].
+        /// The tel URI for Telephone Numbers? MAY be used.
+        /// </summary>
+        public string TelephoneNumber => _contacts.FirstOrDefault(x => x.Type == Common.ContactType.TELEPHONE)?.ContactValue;
+
+        /// <summary>
+        ///  Sets the TelephoneNumber.A number format agreed upon between the Sender
+        /// and Receiver SHOULD be used.Number format expressed using [RFC3966].
+        /// The tel URI for Telephone Numbers? MAY be used.
+        /// </summary>
+        /// <param name="telephoneNumber"></param>
+        public void AddTelephoneNumber(string telephoneNumber)
+        {
+            // TODO: If we add multiple telephones then the getEmail falls down. Should we replace
+            // this add email with just setEmailAddress otherwise the getEMailAddress should change
+            _contacts.Add(new Contact(ContactType.TELEPHONE, telephoneNumber));
+        }
     }
 }

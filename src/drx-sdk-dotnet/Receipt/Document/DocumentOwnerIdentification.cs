@@ -14,35 +14,18 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.document;
-
-import com.google.gson.annotations.SerializedName;
-
-public class DocumentOwnerIdentification {
-    @SerializedName("authority")  private string _authority;
-    @SerializedName("value")  private string _value;
-
-    /**
-     * Gets and sets the Authority agency of the identification key.
-     * The "Authority" attribute, will be either set to GS1 or dRx
-     */
-    public string getAuthority() {
-        return _authority;
-    }
-
-    /**
-     * Sets the Authority agency of the identification key
-     * @param authority
-     */
-    public void setAuthority(string authority) {
-        _authority = authority;
-    }
-
-    public string getValue() {
-        return _value;
-    }
-
-    public void setValue(string value) {
-        _value = value;
+namespace Net.Dreceiptx.Receipt.Document
+{
+    public class DocumentOwnerIdentification
+    {
+        //@SerializedName("authority")
+        /// <summary>
+        /// Gets and sets the Authority agency of the identification key.
+        /// The "Authority" attribute, will be either set to GS1 or dRx
+        /// </summary>
+        public string Authority { get; set; }
+        
+        //@SerializedName("value")
+        public string Value { get; set; }
     }
 }

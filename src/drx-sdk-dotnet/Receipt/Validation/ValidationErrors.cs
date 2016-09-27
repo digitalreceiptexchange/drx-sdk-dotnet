@@ -14,15 +14,19 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.validation;
+namespace Net.Dreceiptx.Receipt.Validation
+{
 
-public class ValidationErrors {
-    public static final string ReceiptMustHaveALeastLineItem = "Digital Receipt must have a least 1 line item.";
-    public static final string ReceiptTypeMustBeSet = "Receipt Type must be set.";
-    public static final string CurrencyCodeMustBeSet = "Currency Code must be set.";
-    public static final string CountryCodeMustBeSet = "Country Code must be set.";
-    public static final string MerchantGLNMustBeSet = "Merchant GLN must be set.";
-    public static final string UserGUIDMustBeSet = "User GUID must be set.";
-    public static final string MerchantReferencenumberMustBeSet = "Merchant referenceNumber must be set.";
-    public static final string ReceiptTransactionDateMustBeSet = "Receipt transactionDateTime must be set.";
+
+    public class ValidationErrors
+    {
+        public static readonly string ReceiptMustHaveALeastLineItem = "Digital Receipt must have a least 1 line item.";
+        public static readonly string ReceiptTypeMustBeSet = "Receipt Type must be set.";
+        public static readonly string CurrencyCodeMustBeSet = "Currency Code must be set.";
+        public static readonly string CountryCodeMustBeSet = "Country Code must be set.";
+        public static readonly string MerchantGLNMustBeSet = "Merchant GLN must be set.";
+        public static readonly string UserGUIDMustBeSet = "User GUID must be set.";
+        public static readonly string MerchantReferencenumberMustBeSet = "Merchant referenceNumber must be set.";
+        public static readonly string ReceiptTransactionDateMustBeSet = "Receipt transactionDateTime must be set.";
+    }
 }

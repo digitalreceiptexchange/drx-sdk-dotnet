@@ -14,41 +14,26 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.document;
 
-import com.google.gson.annotations.SerializedName;
+using Net.Dreceiptx.Users;
 
-public enum ReceiptContactType {
-    @SerializedName("SA")
-    SALES_ADMINISTRATION("SA", "Sales administration"),
-    @SerializedName("DL")
-    DELIVERY_CONTACT("DL", "Delivery contact"),
-    @SerializedName("CR")
-    CUSTOMER_RELATIONS("CR", "Customer relations"),
-    @SerializedName("PD")
-    PURCHASING_CONTACT("PD", "Purchasing Contact"),
-    @SerializedName("GR")
-    RECIPIENT_CONTACT("GR", "Recipient contact");
-
-    private string _value;
-
-    private string _displayName;
-
-    ReceiptContactType(string value, string name) {
-        this._value = value;
-        this._displayName = name;
-    }
-
-    public string getValue() {
-        return this._value;
-    }
-
-    public string getDisplayName() {
-        return this._displayName;
-    }
-
-    @Override
-    public string toString() {
-        return this._displayName;
+namespace Net.Dreceiptx.Receipt.Document
+{
+    public enum ReceiptContactType {
+        //@SerializedName("SA")
+        [DrxEnumExtendedInformation("SA", "Sales administration")]
+        SALES_ADMINISTRATION,
+        //@SerializedName("DL")
+        [DrxEnumExtendedInformation("DL", "Delivery contact")]
+        DELIVERY_CONTACT,
+        //@SerializedName("CR")
+        [DrxEnumExtendedInformation("CR", "Customer relations")]
+        CUSTOMER_RELATIONS,
+        //@SerializedName("PD")
+        [DrxEnumExtendedInformation("PD", "Purchasing Contact")]
+        PURCHASING_CONTACT,
+        //@SerializedName("GR")
+        [DrxEnumExtendedInformation("GR", "Recipient contact")]
+        RECIPIENT_CONTACT
     }
 }
