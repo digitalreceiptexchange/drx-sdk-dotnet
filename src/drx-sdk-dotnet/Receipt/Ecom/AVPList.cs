@@ -14,56 +14,67 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.ecom;
 
-import java.util.Dictionary;
-import java.util.Dictionary;
-import java.util.Set;
+using System.Collections.Generic;
+using System.Linq;
 
-public class AVPList {
-    private Dictionary<string, AVP> _avpList = new Dictionary<string, AVP>();
+namespace Net.Dreceiptx.Receipt.Ecom
+{
 
-    public void add( string code, AVP avp){
-        _avpList.put(code, avp);
-    }
+    public class AVPList
+    {
+        private Dictionary<string, AVP> _avpList = new Dictionary<string, AVP>();
 
-    public void add(AVP avp){
-        _avpList.put(avp.getAttributeName(), avp);
-    }
-
-    public void add( string code, string value){
-        _avpList.put(code, new AVP(code, value));
-    }
-    
-    public AVP get(string code){
-        return this.get(code, null);
-    }
-    
-    public AVP get(string code, AVP defaultValue){
-        if(_avpList.containsKey(code)){
-            return _avpList.get(code);
-        }else{
-            return defaultValue;
+        public void Add(string code, AVP avp)
+        {
+            _avpList.Add(code, avp);
         }
-    }
 
-    public string getValue(string code){
-        return this.getValue(code, null);
-    }
-
-    public string getValue(string code, string defaultValue){
-        if(_avpList.containsKey(code)){
-            return _avpList.get(code).getValue();
-        }else{
-            return defaultValue;
+        public void Add(AVP avp)
+        {
+            _avpList.Add(avp.AttributeName, avp);
         }
-    }
 
-    public bool has(string code){
-        return this._avpList.containsKey(code);
-    }
-    
-    public Set<Dictionary.Entry<string, AVP>> getEntrySet(){
-        return _avpList.entrySet();
+        public void Add(string code, string value)
+        {
+            _avpList.Add(code, new AVP(code, value));
+        }
+
+        public AVP GetAVP(string code)
+        {
+            return GetAVP(code, null);
+        }
+
+        public AVP GetAVP(string code, AVP defaultValue)
+        {
+            AVP value;
+            if (!_avpList.TryGetValue(code, out value))
+            {
+                value = defaultValue;
+            }
+            return value;
+        }
+
+        public string GetAVPValue(string code)
+        {
+            return GetAVPValue(code, null);
+        }
+
+        public string GetAVPValue(string code, string defaultValue)
+        {
+            AVP value;
+            if (!_avpList.TryGetValue(code, out value))
+            {
+                return defaultValue;
+            }
+            return value.Value;
+        }
+
+        public bool Contains(string code)
+        {
+            return _avpList.ContainsKey(code);
+        }
+
+        public List<KeyValuePair<string, AVP>> KeyValuePairs => _avpList.ToList();
     }
 }

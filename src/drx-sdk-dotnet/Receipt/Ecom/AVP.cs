@@ -14,65 +14,30 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.ecom;
+namespace Net.Dreceiptx.Receipt.Ecom
+{
+    public class AVP
+    {
+        public AVP(string name, string value)
+        {
+            AttributeName = name;
+            Value = value;
+        }
 
-import com.google.gson.annotations.SerializedName;
-import net.dreceiptx.receipt.common.Address;
-import net.dreceiptx.receipt.common.Contact;
-import net.dreceiptx.receipt.common.GeographicalCoordinates;
+        //@SerializedName("attributeName")
+        public string AttributeName { get; set; }
 
-import java.util.ArrayList;
-import java.util.List;
+        //@SerializedName("qualifierCodeList")
+        public string CodeList { get; set; } = null;
 
-public class AVP {
-    @SerializedName("attributeName") private string _name = null;
-    @SerializedName("qualifierCodeList") private string _codeList = null;
-    @SerializedName("qualifierCodeListVersion") private string _codeListVersion = null;
-    @SerializedName("qualifierCodeName") private string _codeName = null;
-    @SerializedName("value") private string _value = null;
+        //@SerializedName("qualifierCodeListVersion")
+        public string CodeListVersion { get; set; } = null;
 
-    public AVP(string _name, string _value) {
-        this._name = _name;
-        this._value = _value;
+        //@SerializedName("qualifierCodeName")
+        public string CodeName { get; set; } = null;
+
+        //@SerializedName("value")
+        public string Value { get; set; } = null;
     }
 
-    public string getAttributeName() {
-        return _name;
-    }
-
-    public void setAttributeName(string _name) {
-        this._name = _name;
-    }
-
-    public string getCodelist() {
-        return _codeList;
-    }
-
-    public void setCodelist(string _Codelist) {
-        this._codeList = _Codelist;
-    }
-
-    public string getCodelistVersion() {
-        return _codeListVersion;
-    }
-
-    public void setCodelistVersion(string _CodelistVersion) {
-        this._codeListVersion = _CodelistVersion;
-    }
-
-    public string getCodeName() {
-        return _codeName;
-    }
-
-    public void setCodeName(string _CodeName) {
-        this._codeName = _CodeName;
-    }
-
-    public string getValue() {
-        return _value;
-    }
-
-    public void setValue(string _value) {
-        this._value = _value;
-    }
 }

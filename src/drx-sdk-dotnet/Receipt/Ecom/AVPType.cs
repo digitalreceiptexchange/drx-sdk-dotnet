@@ -14,23 +14,21 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.ecom;
 
-public enum AVPType {
-    DRIVER_NAME("DRIVER_NAME"),
-    PASSENGER_NAME("PASSENGER_NAME"),
-    TRIP_DISTANCE("TRIP_DISTANCE"),
-    VEHICLE_IDENTIFIER("VEHICLE_IDENTIFIER");
+using Net.Dreceiptx.Users;
 
-    private string code;
-
-    AVPType(string code)
+namespace Net.Dreceiptx.Receipt.Ecom
+{
+    public enum AVPType
     {
-        this.code = code;
-    }
+        [DrxEnumExtendedInformation("DRIVER_NAME", null)]
+        DRIVER_NAME,
+        [DrxEnumExtendedInformation("PASSENGER_NAME", null)]
+        PASSENGER_NAME,
+        [DrxEnumExtendedInformation("TRIP_DISTANCE", null)]
+        TRIP_DISTANCE,
+        [DrxEnumExtendedInformation("VEHICLE_IDENTIFIER", null)]
+        VEHICLE_IDENTIFIER
 
-    public string Code(){
-        return this.code;
     }
-
 }
