@@ -14,31 +14,31 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem.general;
+namespace Net.Dreceiptx.Receipt.LineItem.General
+{
+    public class Book : LineItem
+    {
+        public static readonly string LineItemTypeValue = "GENERAL0001";
+        private readonly string _tradeItemIdentificationISBN = "ISBN";
 
-import net.dreceiptx.receipt.lineitem.TradeItemDescriptionInformation;
-import net.dreceiptx.receipt.lineitem.LineItem;
-import net.dreceiptx.receipt.lineitem.TransactionalTradeItemType;
+        public Book(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) 
+            : base(tradeItemDescriptionInformation, quantity, price)
+        {
+            _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
+            addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Book.LineItemTypeValue);
+        }
 
-public class Book extends LineItem {
-    public static final string LineItemTypeValue = "GENERAL0001";
-    private final string _tradeItemIdentificationISBN = "ISBN";
+        public Book(string ISBN, int quantity, double price) :base()
+        {
+            addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Book.LineItemTypeValue);
+            addTradeItemIdentification(_tradeItemIdentificationISBN, ISBN);
+            _quantity = quantity;
+            _price = price;
+        }
 
-    public Book(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) {
-        super(tradeItemDescriptionInformation, quantity, price);
-        this._transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
-        this.addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Book.LineItemTypeValue);
-    }
-
-    public Book(string ISBN, int quantity, double price) {
-        super();
-        this.addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Book.LineItemTypeValue);
-        this.addTradeItemIdentification(_tradeItemIdentificationISBN, ISBN);
-        this._quantity = quantity;
-        this._price = price;
-    }
-    
-    public string getIBSNNumber(){
-        return this.getTradeItemIdentificationValue(_tradeItemIdentificationISBN);
+        public string getIBSNNumber()
+        {
+            return getTradeItemIdentificationValue(_tradeItemIdentificationISBN);
+        }
     }
 }

@@ -14,63 +14,63 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem.travel;
 
-import net.dreceiptx.receipt.ecom.AVPType;
-import net.dreceiptx.receipt.lineitem.TradeItemDescriptionInformation;
-import net.dreceiptx.receipt.lineitem.TransactionalTradeItemType;
-import net.dreceiptx.receipt.lineitem.LineItem;
+using System;
+using Net.Dreceiptx.Receipt.Ecom;
 
-import java.util.Date;
+namespace Net.Dreceiptx.Receipt.LineItem.Travel
+{
+    public class Accommodation : LineItem
+    {
+        public static readonly string LineItemTypeValue = "TRAVEL0001";
 
-public class Accommodation extends LineItem {
-    public static final string LineItemTypeValue = "TRAVEL0001";
+        public Accommodation(AccommodationType accommodationType, string provider, string shortDescription,
+            string longDescription, int nights, double rate) : base(provider, shortDescription, longDescription, nights, rate)
+        {
+            setTradeItemGroupIdentificationCode(accommodationType.code());
+            addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Accommodation.LineItemTypeValue);
+        }
 
-    public Accommodation(AccommodationType accommodationType, string provider, string shortDescription, string longDescription, int nights, double rate) {
-        super(provider, shortDescription, longDescription, nights, rate);
-        this.setTradeItemGroupIdentificationCode(accommodationType.code());
-        this.addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Accommodation.LineItemTypeValue);
-    }
+        public Accommodation(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) 
+            : base(tradeItemDescriptionInformation, quantity, price)
+        {
+            _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
+            addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Accommodation.LineItemTypeValue);
+        }
 
-    public Accommodation(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) {
-        super(tradeItemDescriptionInformation, quantity, price);
-        this._transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
-        this.addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Accommodation.LineItemTypeValue);
-    }
-    
-    public string getProviderName(){
-        return this.getBrandName();
-    }
+        public string ProviderName => BrandName;
 
-    public string getShortDescription(){
-        return this.getName();
-    }
+        public string ShortDescription => Name;
 
-    public string getDetailedDescription(){
-        return this.getDescription();
-    }
-    
-    public AccommodationType getAccommodationType(){
-        return (AccommodationType)this.getLineItemType(AccommodationType.class, AccommodationType.DEFAULT);
-    }
+        public string DetailedDescription => Description;
 
-    public void setPassengerName(string passengerName){
-        this._AVPList.add(AVPType.PASSENGER_NAME.Code(), passengerName);
-    }
+        public AccommodationType getAccommodationType()
+        {
+            return (AccommodationType) getLineItemType(AccommodationType.class,
+            AccommodationType.DEFAULT)
+            ;
+        }
 
-    public Date getDepartureDate(){
-        return this.getDespatchDate();
-    }
+        public void setPassengerName(string passengerName)
+        {
+            _AVPList.Add(AVPType.PASSENGER_NAME.Code(), passengerName);
+        }
 
-    public void setDepartureDate(Date departureDate){
-        this.setDespatchDate(departureDate);
-    }
+        public DateTime getDepartureDate()
+        {
+            return getDespatchDate();
+        }
 
-    public Date getArrivalDate(){
-        return this.getDeliveryDate();
-    }
+        public void setDepartureDate(DateTime departureDate)
+        {
+            setDespatchDate(departureDate);
+        }
 
-    public void setArrivalDate(Date arrivalDate){
-        this.setDeliveryDate(arrivalDate);
+        public DateTime ArrivalDate
+        {
+            get { return DeliveryDate; }
+            set { DeliveryDate = value; }
+        }
+
     }
 }

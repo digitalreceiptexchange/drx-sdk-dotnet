@@ -14,24 +14,26 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem;
+namespace Net.Dreceiptx.Receipt.LineItem
+{
+    public class StandardLineItem : LineItem
+    {
+        public static readonly string LineItemTypeValue = "STANDARD";
 
-public class StandardLineItem extends LineItem {
+        public StandardLineItem(string brand, string name, string description, int quantity, double price) :base(brand, name, description, quantity, price)
+        {
+            addTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
+        }
 
-    public static final string LineItemTypeValue = "STANDARD";
+        public StandardLineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) : base(tradeItemDescriptionInformation, quantity, price)
+        {
+            addTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
+        }
 
-    public StandardLineItem(string brand, string name, string description, int quantity, double price) {
-        super(brand, name, description, quantity, price);
-        this.addTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
-    }
-
-    public StandardLineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) {
-        super(tradeItemDescriptionInformation, quantity, price);
-        this.addTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
-    }
-
-    public StandardLineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode, int quantity, double price) {
-        super(transactionalTradeItemType, transactionalTradeItemCode, quantity, price);
-        this.addTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
+        public StandardLineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode,
+            int quantity, double price) : base(transactionalTradeItemType, transactionalTradeItemCode, quantity, price)
+        {
+            addTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
+        }
     }
 }

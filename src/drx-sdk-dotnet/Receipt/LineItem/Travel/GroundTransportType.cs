@@ -14,34 +14,27 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem.travel;
 
-import net.dreceiptx.receipt.lineitem.LineItemTypeDescription;
+using Net.Dreceiptx.Users;
 
-public enum GroundTransportType implements LineItemTypeDescription {
-    DEFAULT("GTP0000", "Transportation"),
-    TAXI("GTP0001", "Taxi"),
-    TRAIN("GTP0002", "Train"),
-    BUS("GTP0003", "Bus"),
-    RIDE_SHARING("GTP0004", "Ride Sharing"),
-    CAR_POOLING("GTP0005", "Car Sharing"),
-    CAR_RENTAL("GTP0006", "Car Rental"),
-    PRIVATE_CAR_RENTAL("GTP0007", "Private Car Rental");
-
-    private string code;
-    private string description;
-
-    GroundTransportType(string code, string description)
+namespace Net.Dreceiptx.Receipt.LineItem.Travel
+{
+    public enum GroundTransportType
     {
-        this.code = code;
-        this.description = description;
-    }
-
-    public string code(){
-        return this.code;
-    }
-
-    public string description(){
-        return this.description;
-    }
+        [DrxEnumExtendedInformation("GTP0000", "Transportation")]
+        DEFAULT,
+        [DrxEnumExtendedInformation("GTP0001", "Taxi")]
+        TAXI,
+        [DrxEnumExtendedInformation("GTP0002", "Train")]
+        TRAIN,
+        [DrxEnumExtendedInformation("GTP0003", "Bus")]
+        BUS,
+        [DrxEnumExtendedInformation("GTP0004", "Ride Sharing")]
+        RIDE_SHARING,
+        [DrxEnumExtendedInformation("GTP0005", "Car Sharing")]
+        CAR_POOLING,
+        [DrxEnumExtendedInformation("GTP0006", "Car Rental")]
+        CAR_RENTAL,
+        [DrxEnumExtendedInformation("GTP0007", "Private Car Rental")]
+        PRIVATE_CAR_RENTAL
 }

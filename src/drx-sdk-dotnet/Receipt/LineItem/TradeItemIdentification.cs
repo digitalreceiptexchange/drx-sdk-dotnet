@@ -14,36 +14,38 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem;
 
-import java.util.Dictionary;
-import java.util.Dictionary;
-import java.util.Set;
+using System.Collections.Generic;
+using System.Linq;
+using Net.Dreceiptx.Extensions;
 
-public class TradeItemIdentification {
-    private Dictionary<string, string> _additionalTradeItemIdentification = new Dictionary<string, string>();
-    
-    public void add( string code, string value){
-        _additionalTradeItemIdentification.put(code, value);
-    }
-    
-    public string get(string code){
-        return this.get(code, null);
-    }
-    
-    public string get(string code, string defaultValue){
-        if(_additionalTradeItemIdentification.containsKey(code)){
-            return _additionalTradeItemIdentification.get(code);
-        }else{
-            return defaultValue;
+namespace Net.Dreceiptx.Receipt.LineItem
+{
+    public class TradeItemIdentification
+    {
+        private Dictionary<string, string> _additionalTradeItemIdentification = new Dictionary<string, string>();
+
+        public void Add(string code, string value)
+        {
+            _additionalTradeItemIdentification.Add(code, value);
         }
+
+        public string Get(string code)
+        {
+            return Get(code, null);
+        }
+
+        public string Get(string code, string defaultValue)
+        {
+            return _additionalTradeItemIdentification.GetOrDefault(code, defaultValue);
+        }
+
+        public bool Contains(string code)
+        {
+            return _additionalTradeItemIdentification.ContainsKey(code);
+        }
+
+        public List<KeyValuePair<string, string>> KeyValuePairs => _additionalTradeItemIdentification.ToList();
     }
 
-    public bool has(string code){
-        return this._additionalTradeItemIdentification.containsKey(code);
-    }
-    
-    public Set<Dictionary.Entry<string, string>> getEntrySet(){
-        return _additionalTradeItemIdentification.entrySet();
-    }
 }

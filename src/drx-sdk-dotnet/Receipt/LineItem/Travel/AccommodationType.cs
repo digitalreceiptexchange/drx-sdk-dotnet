@@ -14,33 +14,26 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem.travel;
 
-import net.dreceiptx.receipt.lineitem.LineItemTypeDescription;
+using Net.Dreceiptx.Users;
 
-public enum AccommodationType implements LineItemTypeDescription{
-    DEFAULT("ACC0000", "Accommodation"),
-    HOTEL("ACC0001", "Hotel"),
-    HOSTEL("ACC0002", "Hostel"),
-    MOTEL("ACC0003", "Motel"),
-    BED_AND_BREAKFAST("ACC0004", "Bed and Breakfast"),
-    RENTAL("ACC0005", "Rental"),
-    PRIVATE_RENTAL("ACC0006", "Private Rental");
-
-    private string code;
-    private string description;
-
-    AccommodationType(string code, string description)
+namespace Net.Dreceiptx.Receipt.LineItem.Travel
+{
+    public enum AccommodationType
     {
-        this.code = code;
-        this.description = description;
-    }
-
-    public string code(){
-        return this.code;
-    }
-
-    public string description(){
-        return this.description;
+        [DrxEnumExtendedInformation("ACC0000", "Accommodation")]
+        DEFAULT,
+        [DrxEnumExtendedInformation("ACC0001", "Hotel")]
+        HOTEL,
+        [DrxEnumExtendedInformation("ACC0002", "Hostel")]
+        HOSTEL,
+        [DrxEnumExtendedInformation("ACC0003", "Motel")]
+        MOTEL,
+        [DrxEnumExtendedInformation("ACC0004", "Bed and Breakfast")]
+        BED_AND_BREAKFAST,
+        [DrxEnumExtendedInformation("ACC0005", "Rental")]
+        RENTAL,
+        [DrxEnumExtendedInformation("ACC0006", "Private Rental")]
+        PRIVATE_RENTAL
     }
 }

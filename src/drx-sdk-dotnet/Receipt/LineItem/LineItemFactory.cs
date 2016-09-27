@@ -14,16 +14,15 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem;
 
-import net.dreceiptx.receipt.lineitem.general.Book;
-import net.dreceiptx.receipt.lineitem.travel.*;
+using System;
+using System.Collections.Generic;
+using Net.Dreceiptx.Receipt.LineItem.General;
 
-import java.lang.reflect.Constructor;
-import java.util.Dictionary;
-import java.util.Dictionary;
-
-public class LineItemFactory {
+namespace Net.Dreceiptx.Receipt.LineItem.Travel
+{
+    public class LineItemFactory
+    {
     private static Dictionary<string, Class<? extends LineItem>> _lineItems = new Dictionary<>();
 
     private static string add(string id, Class<? extends LineItem> lineItem) {
@@ -45,10 +44,10 @@ public class LineItemFactory {
         }
     }
 
-    public static final string STANDARD = add(StandardLineItem.LineItemTypeValue, StandardLineItem.class);
-    public static final string GENERAL0001 = add(Book.LineItemTypeValue, Book.class);
-    public static final string TRAVEL0001 = add(Accommodation.LineItemTypeValue, Accommodation.class);
-    public static final string TRAVEL0002 = add(Flight.LineItemTypeValue, Flight.class);
-    public static final string TRAVEL0003 = add(GroundTransport.LineItemTypeValue, GroundTransport.class);
+    public static readonly string STANDARD = add(StandardLineItem.LineItemTypeValue, StandardLineItem.class);
+    public static readonly string GENERAL0001 = add(Book.LineItemTypeValue, Book.class);
+    public static readonly string TRAVEL0001 = add(Accommodation.LineItemTypeValue, Accommodation.class);
+    public static readonly string TRAVEL0002 = add(Flight.LineItemTypeValue, Flight.class);
+    public static readonly string TRAVEL0003 = add(GroundTransport.LineItemTypeValue, GroundTransport.class);
 
 }

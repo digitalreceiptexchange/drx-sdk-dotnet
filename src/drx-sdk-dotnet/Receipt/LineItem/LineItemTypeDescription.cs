@@ -14,9 +14,11 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem;
-
-public interface LineItemTypeDescription {
-    string code();
-    string description();
+namespace Net.Dreceiptx.Receipt.LineItem
+{
+    public interface LineItemTypeDescription
+    {
+        string code();
+        string description();
+    }
 }

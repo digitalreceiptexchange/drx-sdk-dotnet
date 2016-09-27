@@ -65,6 +65,7 @@
     <Compile Include="Client\ExchangeResponse.cs" />
     <Compile Include="Client\UriParameters.cs" />
     <Compile Include="DrxService.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="GS1\SDBH\DocumentIdentification.cs" />
     <Compile Include="GS1\SDBH\NameSpaceDoc.cs" />
     <Compile Include="GS1\SDBH\Partner.cs" />
@@ -118,7 +119,6 @@
     <Compile Include="Receipt\Ecom\AVPType.cs" />
     <Compile Include="Receipt\Invoice\Invoice.cs" />
     <Compile Include="Receipt\LineItem\General\Book.cs" />
-    <Compile Include="Receipt\LineItem\ILineItem.cs" />
     <Compile Include="Receipt\LineItem\LineItem.cs" />
     <Compile Include="Receipt\LineItem\LineItemBuilder.cs" />
     <Compile Include="Receipt\LineItem\LineItemFactory.cs" />

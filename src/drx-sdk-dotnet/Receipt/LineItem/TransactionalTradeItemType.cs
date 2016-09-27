@@ -14,31 +14,16 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem;
 
-public enum TransactionalTradeItemType {
-    MANUAL("MANUAL", "Manual Trade Information"),
-    GTIN("GTIN", "Global Trade Item Information");
+using Net.Dreceiptx.Users;
 
-    private string _value;
-
-    private string _displayName;
-
-    TransactionalTradeItemType(string value, string name) {
-        _value = value;
-        _displayName = name;
-    }
-
-    public string getValue() {
-        return _value;
-    }
-
-    public string getDisplayName() {
-        return _displayName;
-    }
-
-    @Override
-    public string toString() {
-        return _displayName;
+namespace Net.Dreceiptx.Receipt.LineItem
+{
+    public enum TransactionalTradeItemType
+    {
+        [DrxEnumExtendedInformation("MANUAL", "Manual Trade Information")]
+        MANUAL,
+        [DrxEnumExtendedInformation("GTIN", "Global Trade Item Information")]
+        GTIN
     }
 }

@@ -14,29 +14,18 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem.travel;
 
-import net.dreceiptx.receipt.lineitem.LineItemTypeDescription;
+using Net.Dreceiptx.Users;
 
-public enum FlightType implements LineItemTypeDescription{
-    DEFAULT("FLT0000", "Flight"),
-    COMMERCIAL("FLT0001", "Commercial"),
-    PRIVATE("FLT0002", "Private");
-
-    private string code;
-    private string description;
-
-    FlightType(string code, string description)
+namespace Net.Dreceiptx.Receipt.LineItem.Travel
+{
+    public enum FlightType
     {
-        this.code = code;
-        this.description = description;
-    }
-
-    public string code(){
-        return this.code;
-    }
-
-    public string description(){
-        return this.description;
+        [DrxEnumExtendedInformation("FLT0000", "Flight")]
+        DEFAULT,
+        [DrxEnumExtendedInformation("FLT0001", "Commercial")]
+        COMMERCIAL,
+        [DrxEnumExtendedInformation("FLT0002", "Private")]
+        PRIVATE
     }
 }

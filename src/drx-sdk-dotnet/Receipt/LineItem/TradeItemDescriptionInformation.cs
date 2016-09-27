@@ -14,73 +14,37 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem;
+namespace Net.Dreceiptx.Receipt.LineItem
+{
+    public class TradeItemDescriptionInformation
+    {
+        protected TradeItemDescriptionInformation()
+        {
+        }
 
-import com.google.gson.annotations.SerializedName;
+        public TradeItemDescriptionInformation(string brandName, string descriptionShort, string tradeItemDescription)
+        {
+            BrandName = brandName;
+            DescriptionShort = descriptionShort;
+            TradeItemDescription = tradeItemDescription;
+        }
 
-public class TradeItemDescriptionInformation {
-    @SerializedName("brandName") private string _brandName;
-    @SerializedName("descriptionShort") private string _descriptionShort;
-    @SerializedName("tradeItemDescription") private string _tradeItemDescription;
-    @SerializedName("isTradeItemAService") private bool _isAService = false;
-    @SerializedName("isTradeItemReconditioned") private bool _isReconditioned = false;
-    @SerializedName("tradeItemGroupIdentificationCode") private string _tradeItemGroupIdentificationCode;
+        //@SerializedName("descriptionShort")
+        public string DescriptionShort { get; set; }
 
-    protected TradeItemDescriptionInformation() {
-    }
+        //@SerializedName("isTradeItemAService")
+        public bool IsTradeItemAService { get; set; } = false;
 
-    public TradeItemDescriptionInformation(string brandName, string descriptionShort, string tradeItemDescription) {
-        _brandName = brandName;
-        _descriptionShort = descriptionShort;
-        _tradeItemDescription = tradeItemDescription;
+        //@SerializedName("isTradeItemReconditioned")
+        public bool IsTradeItemReconditioned { get; set; } = false;
 
-    }
+        //@SerializedName("brandName")
+        public string BrandName { get; set; }
 
-    public string getDescriptionShort() {
-        return _descriptionShort;
-    }
+        //@SerializedName("tradeItemDescription")
+        public string TradeItemDescription { get; set; }
 
-    public void setDescriptionShort(string descriptionShort) {
-        _descriptionShort = descriptionShort;
-    }
-
-    public bool getIsTradeItemAService() {
-        return _isAService;
-    }
-
-    public void setIsTradeItemAService(bool isAService) {
-        _isAService = isAService;
-    }
-
-    public bool getIsTradeItemReconditioned() {
-        return _isReconditioned;
-    }
-
-    public void setIsTradeItemReconditioned(bool isReconditioned) {
-        _isReconditioned = isReconditioned;
-    }
-
-    public string getBrandName() {
-        return _brandName;
-    }
-
-    public void setBrandName(string brandName) {
-        _brandName = brandName;
-    }
-
-    public string getTradeItemDescription() {
-        return _tradeItemDescription;
-    }
-
-    public void setTradeItemDescription(string tradeItemDescription) {
-        _tradeItemDescription = tradeItemDescription;
-    }
-
-    public string getTradeItemGroupIdentificationCode() {
-        return _tradeItemGroupIdentificationCode;
-    }
-
-    public void setTradeItemGroupIdentificationCode(string tradeItemGroupIdentificationCode) {
-        this._tradeItemGroupIdentificationCode = tradeItemGroupIdentificationCode;
+        //@SerializedName("tradeItemGroupIdentificationCode")
+        public string TradeItemGroupIdentificationCode { get; set; }
     }
 }
