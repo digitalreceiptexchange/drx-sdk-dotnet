@@ -17,6 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Ecom;
 
@@ -25,58 +27,35 @@ namespace Net.Dreceiptx.Receipt.LineItem
     public abstract class LineItem
     {
         //transient
-        protected int _quantity;
-        //transient
-        protected double _price;
-
-        //transient
         protected readonly List<Tax.Tax> _taxes = new List<Tax.Tax>();
         //transient
         protected readonly List<ReceiptAllowanceCharge> _receiptAllowanceCharges = new List<ReceiptAllowanceCharge>();
-        //transient
-        protected DespatchInformation  _despatchInformation = new DespatchInformation();
-        //transient
-        protected TradeItemIdentification _tradeItemIdentification = new TradeItemIdentification();
-        //transient
-        protected TradeItemDescriptionInformation _tradeItemDescriptionInformation = null;
         //transient
         protected AVPList _AVPList = new AVPList();
         //transient
         protected TransactionalTradeItemType? _transactionalTradeItemType = null;
         //transient
         protected string _transactionalTradeItemCode = null;
-        //transient
-        protected string _serialNumber = null;
-        //transient
-        protected string _batchNumber = null;
-        //transient
-        protected string _billingCostCentre = null;
-        //transient
-        protected LocationInformation _origin = new LocationInformation();
-        //transient 
-        protected LocationInformation _destination = new LocationInformation();
-
         public static readonly string LineItemTypeIdentifier = "DRX_LINEITEM_TYPE";
 
         protected LineItem()
         {
-
         }
 
         public LineItem(string brand, string name, string description, int quantity, double price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
-            _tradeItemDescriptionInformation = new TradeItemDescriptionInformation(brand, name, description);
-            _quantity = quantity;
-            _price = price;
+            ItemDescriptionInformation = new TradeItemDescriptionInformation(brand, name, description);
+            Quantity = quantity;
+            Price = price;
         }
 
         public LineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
-            _tradeItemDescriptionInformation = tradeItemDescriptionInformation;
-            _quantity = quantity;
-            _price = price;
+            ItemDescriptionInformation = tradeItemDescriptionInformation;
+            Quantity = quantity;
+            Price = price;
         }
 
         public LineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode,
@@ -84,15 +63,15 @@ namespace Net.Dreceiptx.Receipt.LineItem
         {
             _transactionalTradeItemType = transactionalTradeItemType;
             _transactionalTradeItemCode = transactionalTradeItemCode;
-            _quantity = quantity;
-            _price = price;
+            Quantity = quantity;
+            Price = price;
         }
 
-        public string BrandName => _tradeItemDescriptionInformation.BrandName;
+        public string BrandName => ItemDescriptionInformation.BrandName;
 
-        public string Name => _tradeItemDescriptionInformation.DescriptionShort;
+        public string Name => ItemDescriptionInformation.DescriptionShort;
 
-        public string Description => _tradeItemDescriptionInformation.TradeItemDescription;
+        public string Description => ItemDescriptionInformation.TradeItemDescription;
 
         //transient
         public int LineItemId { get; set; }
@@ -108,317 +87,204 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public void SetTradeItemDescriptionInformation(string brand, string name, string description)
         {
-            if (_tradeItemDescriptionInformation != null)
+            if (ItemDescriptionInformation != null)
             {
-                _tradeItemDescriptionInformation.BrandName = brand;
-                _tradeItemDescriptionInformation.DescriptionShort = name;
-                _tradeItemDescriptionInformation.TradeItemDescription = description;
+                ItemDescriptionInformation.BrandName = brand;
+                ItemDescriptionInformation.DescriptionShort = name;
+                ItemDescriptionInformation.TradeItemDescription = description;
             }
             else
             {
-                _tradeItemDescriptionInformation = new TradeItemDescriptionInformation(brand, name, description);
+                ItemDescriptionInformation = new TradeItemDescriptionInformation(brand, name, description);
             }
         }
 
-        public void setTradeItemDescriptionInformation(TradeItemDescriptionInformation tradeItemDescriptionInformation)
-        {
-            _tradeItemDescriptionInformation = tradeItemDescriptionInformation;
-        }
+        //transient
+        public TradeItemDescriptionInformation ItemDescriptionInformation { get; set; } = null;
 
-        protected void setTradeItemGroupIdentificationCode(string code)
+        protected string TradeItemGroupIdentificationCode
         {
-            if (_tradeItemDescriptionInformation != null)
-            {
-                _tradeItemDescriptionInformation.TradeItemGroupIdentificationCode = code;
-            }
-        }
-
-        protected <
-        T extends
-        Enum<T>
-        &
-        LineItemTypeDescription
-        >
-
-        LineItemTypeDescription getLineItemType(Class<T> lineItemTypeDescription, LineItemTypeDescription defaultValue)
-        {
-            if (_tradeItemDescriptionInformation != null)
-            {
-                for (T lineItemTypeDescriptionEnum :
-                lineItemTypeDescription.getEnumConstants())
+            get { return ItemDescriptionInformation?.TradeItemGroupIdentificationCode; }
+            set {
+                if (ItemDescriptionInformation != null)
                 {
-                    if (
-                        lineItemTypeDescriptionEnum.code()
-                            .equals(_tradeItemDescriptionInformation.getTradeItemGroupIdentificationCode()))
-                    {
-                        return lineItemTypeDescriptionEnum;
-                    }
+                    ItemDescriptionInformation.TradeItemGroupIdentificationCode = value;
                 }
             }
-
-            return defaultValue;
+            
         }
 
-        public TradeItemDescriptionInformation getTradeItemDescriptionInformation()
-        {
-            return _tradeItemDescriptionInformation;
-        }
+        //protected <
+        //T extends
+        //Enum<T>
+        //&
+        //LineItemTypeDescription
+        //>
 
-        public void setTransactionalTradeItemType(TransactionalTradeItemType transactionalTradeItemType,
+        //LineItemTypeDescription getLineItemType(Class<T> lineItemTypeDescription, LineItemTypeDescription defaultValue)
+        //{
+        //    if (_tradeItemDescriptionInformation != null)
+        //    {
+        //        for (T lineItemTypeDescriptionEnum :
+        //        lineItemTypeDescription.getEnumConstants())
+        //        {
+        //            if (
+        //                lineItemTypeDescriptionEnum.code()
+        //                    .equals(_tradeItemDescriptionInformation.getTradeItemGroupIdentificationCode()))
+        //            {
+        //                return lineItemTypeDescriptionEnum;
+        //            }
+        //        }
+        //    }
+
+        //    return defaultValue;
+        //}
+
+
+
+        //TODO: why does this take two parameters and not just a simple getter/setter?
+        public void SetTransactionalTradeItemType(TransactionalTradeItemType transactionalTradeItemType,
             string transactionalTradeItemCode)
         {
             _transactionalTradeItemType = transactionalTradeItemType;
             _transactionalTradeItemCode = transactionalTradeItemCode;
         }
 
-        public TransactionalTradeItemType getTransactionalTradeItemType()
+        public TransactionalTradeItemType? TransTradeItemType => _transactionalTradeItemType;
+
+        public string TransTradeItemCode => _transactionalTradeItemCode;
+
+        //transient
+        public TradeItemIdentification ItemIdentification { get; set; } = new TradeItemIdentification();
+
+        public void AddTradeItemIdentification(string code, string value)
         {
-            return _transactionalTradeItemType;
+            ItemIdentification.Add(code, value);
         }
 
-        public string getTransactionalTradeItemCode()
+        public bool HasTradeItemIdentificationValue(string code)
         {
-            return _transactionalTradeItemCode;
-        }
-
-        public void setTradeItemIdentification(TradeItemIdentification tradeItemIdentification)
-        {
-            _tradeItemIdentification = tradeItemIdentification;
-        }
-
-        public TradeItemIdentification getTradeItemIdentification()
-        {
-            return _tradeItemIdentification;
-        }
-
-        public void addTradeItemIdentification(string code, string value)
-        {
-            _tradeItemIdentification.add(code, value);
-        }
-
-        public bool hasTradeItemIdentificationValue(string code)
-        {
-            return _tradeItemIdentification.has(code);
+            return ItemIdentification.Contains(code);
         }
 
         public string getTradeItemIdentificationValue(string code)
         {
-            if (_tradeItemIdentification.has(code))
+            if (ItemIdentification.Contains(code))
             {
-                return _tradeItemIdentification.get(code);
+                return ItemIdentification.Get(code);
             }
 
             return null;
         }
 
-        public AVPList getEcomAVPList()
+        public AVPList EcomAVPList => _AVPList;
+
+        public void AddEcomAVP(AVP avp)
         {
-            return this._AVPList;
+            _AVPList.Add(avp);
         }
 
-        public void addEcomAVP(AVP avp)
+        //transient
+        public string SerialNumber { get; set; } = null;
+        //transient
+        public string BatchNumber { get; set; } = null;
+        //transient
+        public string BillingCostCentre { get; set; } = null;
+
+        public DateTime DespatchDate
         {
-            this._AVPList.add(avp);
+            get { return Information.DespatchDate; }
+            set { Information.DespatchDate = value; }
         }
 
-        public void setSerialNumber(string serialNumber)
-        {
-            _serialNumber = serialNumber;
-        }
-
-        public string getSerialNumber()
-        {
-            return _serialNumber;
-        }
-
-        public void setBatchNumber(string batchNumber)
-        {
-            _batchNumber = batchNumber;
-        }
-
-        public string getBatchNumber()
-        {
-            return _batchNumber;
-        }
-
-        public void setBillingCostCentre(string billingCostCentre)
-        {
-            _billingCostCentre = billingCostCentre;
-        }
-
-        public string getBillingCostCentre()
-        {
-            return _billingCostCentre;
-        }
-
-        public void setDespatchDate(Date despatchDate)
-        {
-            _despatchInformation.setDespatchDate(despatchDate);
-        }
-
-        public Date getDespatchDate()
-        {
-            return _despatchInformation.getDespatchDate();
-        }
-
-        public void setDeliveryDate(Date deliveryDate)
-        {
-            _despatchInformation.setDeliveryDate(deliveryDate);
-        }
 
         public DateTime DeliveryDate
         {
-            get { return _despatchInformation.DeliveryDate; }
-            set { _despatchInformation.DeliveryDate = value; }
+            get { return Information.DeliveryDate; }
+            set { Information.DeliveryDate = value; }
         }
 
-        public void setDespatchInformation(DespatchInformation despatchInformation)
-        {
-            _despatchInformation = despatchInformation;
-        }
+        //transient
+        public DespatchInformation Information { get; set; } = new DespatchInformation();
+        //transient
+        public LocationInformation Origin { get; set; } = new LocationInformation();
+        //transient 
+        public LocationInformation Destination { get; set; } = new LocationInformation();
 
-        public DespatchInformation getDespatchInformation()
-        {
-            return _despatchInformation;
-        }
 
-        public void setOriginInformation(LocationInformation originInformation)
+        public double SubTotal
         {
-            _origin = originInformation;
-        }
-
-        public LocationInformation getOriginInformation()
-        {
-            return _origin;
-        }
-
-        public void setDestinationInformation(LocationInformation destinationInformation)
-        {
-            _destination = destinationInformation;
-        }
-
-        public LocationInformation getDestinationInformation()
-        {
-            return _destination;
-        }
-
-        public double getSubTotal()
-        {
-            double total = this._price*this._quantity;
-            return total;
-        }
-
-        public double getNetTotal()
-        {
-            double total = this._price*this._quantity;
-            for (ReceiptAllowanceCharge receiptAllowanceCharge :
-            _receiptAllowanceCharges)
+            get
             {
-                total += receiptAllowanceCharge.getNetTotal();
+                double total = Price*Quantity;
+                return total;
             }
-            return total;
         }
 
-        public double getTotal()
+        public double NetTotal
         {
-            double total = this._price*this._quantity;
-            for (Tax tax :
-            _taxes)
+            get
             {
-                total += tax.getTaxTotal();
+                double total = Price*Quantity;
+                total += _receiptAllowanceCharges.Sum(x => x.NetTotal);
+                return total;
             }
-            for (ReceiptAllowanceCharge receiptAllowanceCharge :
-            _receiptAllowanceCharges)
-            {
-                total += receiptAllowanceCharge.getTotal();
-            }
-            return total;
         }
 
-        public double getTaxesTotal()
+        public double Total
+        {
+            get
+            {
+                double total = Price*Quantity;
+                total += _taxes.Sum(x => x.TaxTotal);
+                total += _receiptAllowanceCharges.Sum(x => x.Total);
+                return total;
+            }
+        }
+
+        public double TaxesTotal
+        {
+            get
+            {
+                double total = 0;
+                total += _taxes.Sum(x => x.TaxTotal);
+                total += _receiptAllowanceCharges.Sum(x => x.TaxesTotal);
+                return total;
+            }
+        }
+
+        public double CalculateTaxesTotal(TaxCode taxCode)
         {
             double total = 0;
-            for (Tax tax :
-            _taxes)
-            {
-                total += tax.getTaxTotal();
-            }
-            for (ReceiptAllowanceCharge receiptAllowanceCharge :
-            _receiptAllowanceCharges)
-            {
-                total += receiptAllowanceCharge.getTaxesTotal();
-            }
+            total += _taxes.Where(x => x.TaxCode == taxCode).Sum(x => x.TaxTotal);
+            total += _receiptAllowanceCharges.Sum(x => x.TaxesTotal);
             return total;
         }
 
-        public double getTaxesTotal(TaxCode taxCode)
+        public double AllowancesTotal
         {
-            double total = 0;
-            for (Tax tax :
-            _taxes)
+            get
             {
-                if (tax.getTaxCode().equals(taxCode))
-                {
-                    total += tax.getTaxTotal();
-                }
+                double total = 0;
+                total += _receiptAllowanceCharges.Sum(x => x.NetTotal);
+                return total;
             }
-            for (ReceiptAllowanceCharge receiptAllowanceCharge :
-            _receiptAllowanceCharges)
-            {
-                total += receiptAllowanceCharge.getTaxesTotal(taxCode);
-            }
-            return total;
         }
 
-        public double getAllowancesTotal()
+        public List<ReceiptAllowanceCharge> ReceiptAllowanceCharges => _receiptAllowanceCharges;
+
+        public void AddTax(Tax.Tax tax)
         {
-            double total = 0;
-            for (ReceiptAllowanceCharge receiptAllowanceCharge :
-            _receiptAllowanceCharges)
-            {
-                total += receiptAllowanceCharge.getNetTotal();
-            }
-            return total;
+            _taxes.Add(tax);
         }
 
-        public List<ReceiptAllowanceCharge> getReceiptAllowanceCharges()
-        {
-            return _receiptAllowanceCharges;
-        }
+        public List<Tax.Tax> Taxes => _taxes;
 
-        public void addTax(Tax tax)
-        {
-            _taxes.add(tax);
-        }
+        //transient
+        public int Quantity { get; set; }
+        //transient
+        public double Price { get; set; }
 
-        public List<Tax> getTaxes()
-        {
-            return _taxes;
-        }
-
-        public long getQuantity()
-        {
-            return _quantity;
-        }
-
-        public void setQuantity(int quantity)
-        {
-            _quantity = quantity;
-        }
-
-        public double getPrice()
-        {
-            return _price;
-        }
-
-        public void setPrice(double price)
-        {
-            _price = price;
-        }
-
-        public bool hasTaxes()
-        {
-            return !_taxes.isEmpty();
-        }
+        public bool HasTaxes => _taxes.Any();
     }
 }

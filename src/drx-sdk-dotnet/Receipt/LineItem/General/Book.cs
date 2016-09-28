@@ -24,7 +24,7 @@ namespace Net.Dreceiptx.Receipt.LineItem.General
         public Book(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) 
             : base(tradeItemDescriptionInformation, quantity, price)
         {
-            _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
+            _transactionalTradeItemType = TransTradeItemType.MANUAL;
             addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Book.LineItemTypeValue);
         }
 
@@ -32,8 +32,8 @@ namespace Net.Dreceiptx.Receipt.LineItem.General
         {
             addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Book.LineItemTypeValue);
             addTradeItemIdentification(_tradeItemIdentificationISBN, ISBN);
-            _quantity = quantity;
-            _price = price;
+            Quantity = quantity;
+            Price = price;
         }
 
         public string getIBSNNumber()

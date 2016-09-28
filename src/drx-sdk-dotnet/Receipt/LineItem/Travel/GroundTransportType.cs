@@ -21,20 +21,13 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 {
     public enum GroundTransportType
     {
-        [DrxEnumExtendedInformation("GTP0000", "Transportation")]
-        DEFAULT,
-        [DrxEnumExtendedInformation("GTP0001", "Taxi")]
-        TAXI,
-        [DrxEnumExtendedInformation("GTP0002", "Train")]
-        TRAIN,
-        [DrxEnumExtendedInformation("GTP0003", "Bus")]
-        BUS,
-        [DrxEnumExtendedInformation("GTP0004", "Ride Sharing")]
-        RIDE_SHARING,
-        [DrxEnumExtendedInformation("GTP0005", "Car Sharing")]
-        CAR_POOLING,
-        [DrxEnumExtendedInformation("GTP0006", "Car Rental")]
-        CAR_RENTAL,
-        [DrxEnumExtendedInformation("GTP0007", "Private Car Rental")]
-        PRIVATE_CAR_RENTAL
+        [DrxEnumExtendedInformation("GTP0000", "Transportation")] DEFAULT,
+        [DrxEnumExtendedInformation("GTP0001", "Taxi")] TAXI,
+        [DrxEnumExtendedInformation("GTP0002", "Train")] TRAIN,
+        [DrxEnumExtendedInformation("GTP0003", "Bus")] BUS,
+        [DrxEnumExtendedInformation("GTP0004", "Ride Sharing")] RIDE_SHARING,
+        [DrxEnumExtendedInformation("GTP0005", "Car Sharing")] CAR_POOLING,
+        [DrxEnumExtendedInformation("GTP0006", "Car Rental")] CAR_RENTAL,
+        [DrxEnumExtendedInformation("GTP0007", "Private Car Rental")] PRIVATE_CAR_RENTAL
+    }
 }

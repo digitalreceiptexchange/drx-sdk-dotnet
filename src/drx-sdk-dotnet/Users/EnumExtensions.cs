@@ -20,34 +20,34 @@ using Net.Dreceiptx.Users;
 
 public static class EnumExtensions
 {
-    private static Dictionary<UserConfigOptionType, DrxEnumExtendedInformationAttribute> userConfigTypeDictionary;
+    //private static Dictionary<UserConfigOptionType, DrxEnumExtendedInformationAttribute> userConfigTypeDictionary;
 
-    public static DrxEnumExtendedInformationAttribute ExtendedInformation(this UserConfigOptionType userConfigOptionType)
+    //public static DrxEnumExtendedInformationAttribute ExtendedInformation(this UserConfigOptionType userConfigOptionType)
+    //{
+    //    if (userConfigTypeDictionary == null)
+    //    {
+    //        userConfigTypeDictionary = new Dictionary<UserConfigOptionType, DrxEnumExtendedInformationAttribute>();
+    //        foreach (UserConfigOptionType instance in Enum.GetValues(typeof(UserConfigOptionType)))
+    //        {
+    //            userConfigTypeDictionary.Add(instance, instance.GetCustomAttribute<DrxEnumExtendedInformationAttribute, UserConfigOptionType>());
+    //        }
+    //    }
+    //    return userConfigTypeDictionary[userConfigOptionType];
+    //}
+
+    public static DrxEnumExtendedInformationAttribute ExtendedInformation(this Enum enumValue)
     {
-        if (userConfigTypeDictionary == null)
-        {
-            userConfigTypeDictionary = new Dictionary<UserConfigOptionType, DrxEnumExtendedInformationAttribute>();
-            foreach (UserConfigOptionType instance in Enum.GetValues(typeof(UserConfigOptionType)))
-            {
-                userConfigTypeDictionary.Add(instance, instance.GetCustomAttribute<DrxEnumExtendedInformationAttribute, UserConfigOptionType>());
-            }
-        }
-        return userConfigTypeDictionary[userConfigOptionType];
+        return enumValue.GetCustomAttribute<DrxEnumExtendedInformationAttribute>();
     }
 
-    public static string Value(this UserConfigOptionType userConfigOptionType)
+    public static string Value(this Enum enumValue)
     {
-        return userConfigOptionType.ExtendedInformation().Value;
+        return enumValue.GetCustomAttribute<DrxEnumExtendedInformationAttribute>()?.Value;
     }
 
-    public static string Description(this UserConfigOptionType userConfigOptionType)
+    public static string Description(this Enum enumValue)
     {
-        return userConfigOptionType.ExtendedInformation().Description;
-    }
-
-    public static DrxEnumExtendedInformationAttribute ExtendedInformation(this UserIdentifierType enumValue)
-    {
-        return enumValue.GetCustomAttribute<DrxEnumExtendedInformationAttribute, UserIdentifierType>();
+        return enumValue.GetCustomAttribute<DrxEnumExtendedInformationAttribute>()?.Description;
     }
 
     public static string Value(this UserIdentifierType enumValue)
@@ -57,9 +57,11 @@ public static class EnumExtensions
 
     
 
-    public static TAttribute GetCustomAttribute<TAttribute,TValue>(this TValue value) where TAttribute : Attribute
+    public static TAttribute GetCustomAttribute<TAttribute>(this Enum value) where TAttribute : Attribute
     {
-        object[] attributes = value.GetType().GetCustomAttributes(typeof(TAttribute), false);
-        return ((TAttribute) attributes[0]);
+        var type = value.GetType();
+        var memInfo = type.GetMember(value.ToString());
+        var attributes = memInfo[0].GetCustomAttributes(typeof(TAttribute), false);
+        return (attributes.Length > 0) ? (TAttribute)attributes[0] : null;
     }
 }

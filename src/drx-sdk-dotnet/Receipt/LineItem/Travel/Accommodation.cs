@@ -17,6 +17,7 @@
 
 using System;
 using Net.Dreceiptx.Receipt.Ecom;
+using System.Linq;
 
 namespace Net.Dreceiptx.Receipt.LineItem.Travel
 {
@@ -25,17 +26,18 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
         public static readonly string LineItemTypeValue = "TRAVEL0001";
 
         public Accommodation(AccommodationType accommodationType, string provider, string shortDescription,
-            string longDescription, int nights, double rate) : base(provider, shortDescription, longDescription, nights, rate)
+            string longDescription, int nights, double rate) 
+            : base(provider, shortDescription, longDescription, nights, rate)
         {
-            setTradeItemGroupIdentificationCode(accommodationType.code());
-            addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Accommodation.LineItemTypeValue);
+            TradeItemGroupIdentificationCode = accommodationType.Value();
+            AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
         }
 
         public Accommodation(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) 
             : base(tradeItemDescriptionInformation, quantity, price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
-            addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Accommodation.LineItemTypeValue);
+            AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
         }
 
         public string ProviderName => BrandName;
@@ -44,26 +46,23 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 
         public string DetailedDescription => Description;
 
-        public AccommodationType getAccommodationType()
+        //public AccommodationType getAccommodationType()
+        //{
+        //    return (AccommodationType) getLineItemType(AccommodationType.class,
+        //    AccommodationType.DEFAULT)
+        //    ;
+        //}
+
+        public string PassengerName
         {
-            return (AccommodationType) getLineItemType(AccommodationType.class,
-            AccommodationType.DEFAULT)
-            ;
+            get { return _AVPList.GetAVPValue(AVPType.PASSENGER_NAME.Value()); }
+            set { _AVPList.Add(AVPType.PASSENGER_NAME.Value(), value); }
         }
 
-        public void setPassengerName(string passengerName)
+        public DateTime DepartureDate
         {
-            _AVPList.Add(AVPType.PASSENGER_NAME.Code(), passengerName);
-        }
-
-        public DateTime getDepartureDate()
-        {
-            return getDespatchDate();
-        }
-
-        public void setDepartureDate(DateTime departureDate)
-        {
-            setDespatchDate(departureDate);
+            get { return DespatchDate; }
+            set { DespatchDate = value; }
         }
 
         public DateTime ArrivalDate

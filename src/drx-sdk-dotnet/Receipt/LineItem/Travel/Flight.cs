@@ -14,66 +14,59 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem.travel;
 
-import net.dreceiptx.receipt.ecom.AVPType;
-import net.dreceiptx.receipt.lineitem.TradeItemDescriptionInformation;
-import net.dreceiptx.receipt.lineitem.TransactionalTradeItemType;
-import net.dreceiptx.receipt.lineitem.LineItem;
-import java.util.Date;
+using System;
+using Net.Dreceiptx.Receipt.Ecom;
 
-public class Flight extends LineItem {
-    public static final string LineItemTypeValue = "TRAVEL0002";
+namespace Net.Dreceiptx.Receipt.LineItem.Travel
+{
+    public class Flight : LineItem
+    {
+        public static readonly string LineItemTypeValue = "TRAVEL0002";
 
-    public Flight(FlightType flightType, string airline, string shortItinerary, string longItinerary, int quantity, double price) {
-        super(airline, shortItinerary, longItinerary, quantity, price);
-        this.setTradeItemGroupIdentificationCode(flightType.code());
-        this.addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Flight.LineItemTypeValue);
-    }
+        public Flight(FlightType flightType, string airline, string shortItinerary, string longItinerary, int quantity,
+            double price) : base(airline, shortItinerary, longItinerary, quantity, price)
+        {
+            TradeItemGroupIdentificationCode = flightType.Value();
+            AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
+        }
 
-    public Flight(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) {
-        super(tradeItemDescriptionInformation, quantity, price);
-        this._transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
-        this.addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Flight.LineItemTypeValue);
-    }
-    
-    public string getAirline(){
-        return this.getBrandName();
-    }
-    
-    public string getItinerary(){
-        return this.getName();
-    }
-    
-    public string getItineraryDescription(){
-        return this.getDescription();
-    }
+        public Flight(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price)
+                :base(tradeItemDescriptionInformation, quantity, price)
+        {
+            _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
+            AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
+        }
 
-    public FlightType getFlightType(){
-        return (FlightType)this.getLineItemType(FlightType.class, FlightType.DEFAULT);
-    }
+        public string Airline => BrandName;
 
-    public void setPassengerName(string passengerName){
-        this._AVPList.add(AVPType.PASSENGER_NAME.Code(), passengerName);
-    }
+        public string Itinerary => Name;
 
-    public string getPassengerName(){
-        return this._AVPList.get(AVPType.PASSENGER_NAME.Code()).getValue();
-    }
-    
-    public Date getDepartureDate(){
-        return this.getDespatchDate();
-    }
-    
-    public void setDepartureDate(Date departureDate){
-        this.setDespatchDate(departureDate);
-    }
-    
-    public void setTicketNumber(string ticketNumber){
-        this._serialNumber = ticketNumber;
-    }
-    
-    public string getTicketNumber(){
-        return this._serialNumber;
+        public string ItineraryDescription => Description;
+
+    //public FlightType getFlightType()
+    //{
+    //    return (FlightType) this.getLineItemType(FlightType.class,
+    //    FlightType.DEFAULT)
+    //    ;
+    //}
+
+        public string PassengerName
+        {
+            get { return _AVPList.GetAVPValue(AVPType.PASSENGER_NAME.Value()); }
+            set { _AVPList.Add(AVPType.PASSENGER_NAME.Value(), value); }
+        }
+
+        public DateTime DepartureDate
+        {
+            get { return DespatchDate; }
+            set { DespatchDate = value; }
+        }
+
+        public string TicketNumber
+        {
+            get {  return SerialNumber; }
+            set { SerialNumber = value; }
+        }
     }
 }

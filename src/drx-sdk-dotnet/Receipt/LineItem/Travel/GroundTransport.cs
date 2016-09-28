@@ -14,130 +14,122 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.lineitem.travel;
 
-import net.dreceiptx.receipt.common.GeographicalCoordinates;
-import net.dreceiptx.receipt.ecom.AVPType;
-import net.dreceiptx.receipt.lineitem.TradeItemDescriptionInformation;
-import net.dreceiptx.receipt.lineitem.TransactionalTradeItemType;
-import net.dreceiptx.receipt.lineitem.LineItem;
+using System;
+using Net.Dreceiptx.Receipt.Common;
+using Net.Dreceiptx.Receipt.Ecom;
 
-import java.util.Date;
+namespace Net.Dreceiptx.Receipt.LineItem.Travel
+{
+    public class GroundTransport : LineItem
+    {
+        public static readonly string LineItemTypeValue = "TRAVEL0003";
 
-public class GroundTransport extends LineItem {
-    public static final string LineItemTypeValue = "TRAVEL0003";
-
-    public GroundTransport(GroundTransportType groundTransportType, string provider, string shortDescription, string longDescription, double price) {
-        this(groundTransportType, provider, shortDescription, longDescription, 1, price);
-    }
-    
-    public GroundTransport(GroundTransportType groundTransportType, string provider, string shortDescription, string longDescription, int quantity, double price) {
-        super(provider, shortDescription, longDescription , quantity, price);
-        this.setTradeItemGroupIdentificationCode(groundTransportType.code());
-        this.addTradeItemIdentification(LineItem.LineItemTypeIdentifier, GroundTransport.LineItemTypeValue);
-    }
-
-    public GroundTransport(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) {
-        super(tradeItemDescriptionInformation, quantity, price);
-        this._transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
-        this.addTradeItemIdentification(LineItem.LineItemTypeIdentifier, GroundTransport.LineItemTypeValue);
-    }
-    
-    public string getProvider(){
-        return this.getBrandName();
-    }
-    
-    public GroundTransportType getGroundTransportType(){
-        return (GroundTransportType)this.getLineItemType(GroundTransportType.class, GroundTransportType.DEFAULT);
-    }
-    
-    public string getTripDescription(){
-        return this.getDescription();
-    }
-    
-    public void setPassengerName(string passengerName){
-        this._AVPList.add(AVPType.PASSENGER_NAME.Code(), passengerName);
-    }
-    
-    public string getPassengerName(){
-        return this._AVPList.get(AVPType.PASSENGER_NAME.Code()).getValue();
-    }
-
-    public void setDriveName(string driverName){
-        this._AVPList.add(AVPType.DRIVER_NAME.Code(), driverName);
-    }
-
-    public string getDriverName(){
-        return this._AVPList.get(AVPType.DRIVER_NAME.Code()).getValue();
-    }
-
-    public void setVehicleIdentifier(string vehicleIdentifier){
-        this._AVPList.add(AVPType.VEHICLE_IDENTIFIER.Code(), vehicleIdentifier);
-    }
-
-    public string getVehicleIdentifier(){
-        return this._AVPList.get(AVPType.VEHICLE_IDENTIFIER.Code()).getValue();
-    }
-
-    public void setTripDistance(Double tripDistance){
-        this._AVPList.add(AVPType.TRIP_DISTANCE.Code(), tripDistance.toString());
-    }
-
-    public Double getTripDistance(){
-        if(this._AVPList.has(AVPType.TRIP_DISTANCE.Code())){
-            return Double.parseDouble(this._AVPList.get(AVPType.TRIP_DISTANCE.Code()).getValue());
+        public GroundTransport(GroundTransportType groundTransportType, string provider, string shortDescription,
+            string longDescription, double price) 
+            : this(groundTransportType, provider, shortDescription, longDescription, 1, price)
+        {
         }
 
-        return null;
-    }
-    
-    public Date getDepartureDate(){
-        return this.getDespatchDate();
-    }
-    
-    public void setDepartureDate(Date departureDate){
-        this.setDespatchDate(departureDate);
-    }
+        public GroundTransport(GroundTransportType groundTransportType, string provider, string shortDescription,
+            string longDescription, int quantity, double price) 
+            : base(provider, shortDescription, longDescription, quantity, price)
+        {
+            TradeItemGroupIdentificationCode = groundTransportType.Value();
+            AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
+        }
 
-    public Date getArrivalDate(){
-        return this.getDeliveryDate();
-    }
+        public GroundTransport(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price)
+            : base(tradeItemDescriptionInformation, quantity, price)
+        {
+            _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
+            AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
+        }
 
-    public void setArrivalDate(Date arrivalDate){
-        this.setDeliveryDate(arrivalDate);
-    }
-    
-    public void setBookingNumber(string bookingNumber){
-        this._serialNumber = bookingNumber;
-    }
-    
-    public string getBookingNumber(){
-        return this._serialNumber;
-    }
+        public string Provider => BrandName;
 
-    public void setDepartureGeoLocation(GeographicalCoordinates geographicalCoordinates) {
-        _origin.setGeographicalCoordinates(geographicalCoordinates);
-    }
+        //public GroundTransportType getGroundTransportType()
+        //{
+        //    return (GroundTransportType) this.getLineItemType(GroundTransportType.class,
+        //    GroundTransportType.DEFAULT)
+        //    ;
+        //}
 
-    public GeographicalCoordinates getDepartureGeoLocation(){
-        return _origin.getGeographicalCoordinates();
-    }
+        public string TripDescription => Description;
 
-    public void setArrivalGeoLocation(GeographicalCoordinates geographicalCoordinates) {
-        _destination.setGeographicalCoordinates(geographicalCoordinates);
-    }
+        public string PassengerName
+        {
+            get { return _AVPList.GetAVPValue(AVPType.PASSENGER_NAME.Value()); }
+            set { _AVPList.Add(AVPType.PASSENGER_NAME.Value(), value); }
+        }
 
-    public GeographicalCoordinates getArrivalGeoLocation(){
-        return _destination.getGeographicalCoordinates();
-    }
+        public string DriveName
+        {
+            get { return _AVPList.GetAVPValue(AVPType.DRIVER_NAME.Value()); }
+            set { _AVPList.Add(AVPType.DRIVER_NAME.Value(), value); }
+        }
 
-    public void setDepartureDetails(Date departureDate, GeographicalCoordinates geographicalCoordinates){
-        this.setDespatchDate(departureDate);
-        _origin.setGeographicalCoordinates(geographicalCoordinates);
-    }
+        public string VehicleIdentifier
+        {
+            get { return _AVPList.GetAVPValue(AVPType.VEHICLE_IDENTIFIER.Value()); }
+            set { _AVPList.Add(AVPType.VEHICLE_IDENTIFIER.Value(), value); }
+        }
 
-    public void setArrivalDetails(Date arrivalDate, GeographicalCoordinates geographicalCoordinates){
-        this.setArrivalDate(arrivalDate);
-        _destination.setGeographicalCoordinates(geographicalCoordinates);
+        public double? TripDistance
+        {
+            set { _AVPList.Add(AVPType.TRIP_DISTANCE.Value(), value.ToString()); }
+            get
+            {
+                if (_AVPList.Contains(AVPType.TRIP_DISTANCE.Value()))
+                {
+                    return double.Parse(_AVPList.GetAVPValue(AVPType.TRIP_DISTANCE.Value()));
+                }
+
+                return null;
+            }
+        }
+
+        public DateTime DepartureDate
+        {
+            get { return DespatchDate; }
+            set { DespatchDate = value; }
+        }
+
+
+        public DateTime ArrivalDate
+        {
+            get { return DeliveryDate; }
+            set { DeliveryDate = value; }
+        }
+
+        public string BookingNumber
+        {
+            get { return SerialNumber; }
+            set { SerialNumber = value; }
+        }
+
+        public GeographicalCoordinates DepartureGeoLocation
+        {
+            get { return Origin.GeographicalCoordinates; }
+            set { Origin.GeographicalCoordinates = value; }
+        }
+
+        public GeographicalCoordinates ArrivalGeoLocation
+        {
+            get { return Destination.GeographicalCoordinates; }
+            set { Destination.GeographicalCoordinates = value; }
+        }
+
+        public void SetDepartureDetails(DateTime departureDate, GeographicalCoordinates geographicalCoordinates)
+        {
+            DespatchDate = departureDate;
+            DepartureGeoLocation = geographicalCoordinates;
+        }
+
+        public void ArrivalDetails(DateTime arrivalDate, GeographicalCoordinates geographicalCoordinates)
+        {
+            ArrivalDate = arrivalDate;
+            ArrivalGeoLocation = geographicalCoordinates;
+        }
     }
 }
