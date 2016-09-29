@@ -16,6 +16,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using Net.Dreceiptx.Receipt.Tax;
 using Net.Dreceiptx.Users;
 
 public static class EnumExtensions
@@ -64,4 +65,9 @@ public static class EnumExtensions
         var attributes = memInfo[0].GetCustomAttributes(typeof(TAttribute), false);
         return (attributes.Length > 0) ? (TAttribute)attributes[0] : null;
     }
+
+    //public static TaxCategory? CodeOf(this TaxCategory t)
+    //{
+    //    return null;
+    //}
 }

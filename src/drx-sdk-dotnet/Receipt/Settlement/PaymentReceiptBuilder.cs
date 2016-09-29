@@ -14,28 +14,36 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.settlement;
 
-import net.dreceiptx.receipt.common.Currency;
+using Net.Dreceiptx.Receipt.Common;
 
-public class PaymentReceiptBuilder {
-    private PaymentReceipt _paymentReceipt;
+namespace Net.Dreceiptx.Receipt.Settlement
+{
+    public class PaymentReceiptBuilder
+    {
+        private PaymentReceipt _paymentReceipt;
 
-    public PaymentReceiptBuilder(PaymentMethodType paymentMethodCode, Double paymentAmount) {
-        _paymentReceipt = new PaymentReceipt(paymentMethodCode,paymentAmount);
-    }
-    
-    public PaymentReceiptBuilder setSettlementCurrency(Currency currency) {
-        _paymentReceipt.setSettlementCurrency(currency);
-        return this;
-    }
-    
-    public PaymentReceiptBuilder setPaymentAuthorisation(string paymentProvider, string authorisationNumber,string authorisationCode) {
-        _paymentReceipt.setPaymentAuthorisation(new PaymentAuthorisation(paymentProvider,authorisationNumber,authorisationCode));
-        return this;
-    }
-    
-    public PaymentReceipt create(){
-        return _paymentReceipt;
+        public PaymentReceiptBuilder(PaymentMethodType paymentMethodCode, double paymentAmount)
+        {
+            _paymentReceipt = new PaymentReceipt(paymentMethodCode, paymentAmount);
+        }
+
+        public PaymentReceiptBuilder SettlementCurrency(Currency currency)
+        {
+            _paymentReceipt.SettlementCurrency = currency;
+            return this;
+        }
+
+        public PaymentReceiptBuilder PaymentAuthorisation(string paymentProvider, string authorisationNumber,
+            string authorisationCode)
+        {
+            _paymentReceipt.PaymentAuthorisation = new PaymentAuthorisation(paymentProvider, authorisationNumber, authorisationCode);
+            return this;
+        }
+
+        public PaymentReceipt Build()
+        {
+            return _paymentReceipt;
+        }
     }
 }

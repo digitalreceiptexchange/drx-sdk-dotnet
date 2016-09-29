@@ -14,105 +14,79 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.tax;
 
-public class TaxInfo {
-    private string _taxCategory;
-    private string _taxCode;
-    private double _taxableAmount;
-    private double _percentage;
-    private double _totalTax;
+using System;
 
-    public TaxInfo(string taxCategory, string taxCode,
-                   double taxableAmount, double percentage,
-                   double totalTax)
+namespace Net.Dreceiptx.Receipt.Tax
+{
+    public class TaxInfo
     {
-        _taxCategory = taxCategory;
-        _taxCode = taxCode;
-        _taxableAmount = taxableAmount;
-        _percentage = percentage;
-        _totalTax = totalTax;
-    }
-
-    public string getTaxCategory() {
-        return _taxCategory;
-    }
-
-    public void setTaxCategory(string taxCategory) {
-        _taxCategory = taxCategory;
-    }
-
-    public string getTaxCode() {
-        return _taxCode;
-    }
-
-    public void setTaxCode(string taxCode) {
-        _taxCode = taxCode;
-    }
-
-    public double getTaxableAmount() {
-        return _taxableAmount;
-    }
-
-    public void setTaxableAmount(double taxableAmount) {
-        _taxableAmount = taxableAmount;
-    }
-
-    public double getPercentage() {
-        return _percentage;
-    }
-
-    public void setPercentage(double percentage) {
-        _percentage = percentage;
-    }
-
-    public double getTotalTax() {
-        return _totalTax;
-    }
-
-    public void setTotalTax(double totalTax) {
-        _totalTax = totalTax;
-    }
-
-    @Override
-    public bool equals(Object obj) {
-        if( obj == null) {
-            return false;
+        public TaxInfo(string taxCategory, string taxCode,
+            double taxableAmount, double percentage,
+            double totalTax)
+        {
+            Category = taxCategory;
+            TaxCode = taxCode;
+            TaxableAmount = taxableAmount;
+            Percentage = percentage;
+            TotalTax = totalTax;
         }
-        if(getClass() != obj.getClass()) {
-            return false;
-        }
-        final TaxInfo other = (TaxInfo)obj;
-        if(!_taxCategory.equals(other._taxCategory)) {
-            return false;
-        }
-        if(!_taxCode.equals(other._taxCode)) {
-            return false;
-        }
-        if(_taxableAmount != other._taxableAmount) {
-            return false;
-        }
-        if(_percentage != other._percentage) {
-            return false;
-        }
-        if(_totalTax != other._totalTax) {
-            return false;
-        }
-        return true;
-    }
 
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = _taxCategory != null ? _taxCategory.hashCode() : 0;
-        result = 31 * result + (_taxCode != null ? _taxCode.hashCode() : 0);
-        temp = Double.doubleToLongBits(_taxableAmount);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(_percentage);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(_totalTax);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        return result;
+        public string Category { get; set; }
+        public string TaxCode { get; set; }
+        public double TaxableAmount { get; set; }
+        public double Percentage { get; set; }
+        public double TotalTax { get; set; }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            TaxInfo other = obj as TaxInfo;
+            if (other == null)
+            {
+                return false;
+            }
+            
+            if (Category != other.Category)
+            {
+                return false;
+            }
+            if (TaxCode != other.TaxCode)
+            {
+                return false;
+            }
+            if (TaxableAmount != other.TaxableAmount)
+            {
+                return false;
+            }
+            if (Percentage != other.Percentage)
+            {
+                return false;
+            }
+            if (TotalTax != other.TotalTax)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        
+        public override int GetHashCode()
+        {
+            int result;
+            long temp;
+            result = Category?.GetHashCode() ?? 0;
+            result = 31*result + (TaxCode?.GetHashCode() ?? 0);
+            temp = BitConverter.DoubleToInt64Bits(TaxableAmount);
+            result = 31*result + (int) (temp ^ (temp >> 32));
+            temp = BitConverter.DoubleToInt64Bits(Percentage);
+            result = 31*result + (int) (temp ^ (temp >> 32));
+            temp = BitConverter.DoubleToInt64Bits(TotalTax);
+            result = 31*result + (int) (temp ^ (temp >> 32));
+            return result;
+        }
     }
 }

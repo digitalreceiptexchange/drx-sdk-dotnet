@@ -29,6 +29,5 @@ namespace Net.Dreceiptx.Receipt.Ecom
         TRIP_DISTANCE,
         [DrxEnumExtendedInformation("VEHICLE_IDENTIFIER", null)]
         VEHICLE_IDENTIFIER
-
     }
 }

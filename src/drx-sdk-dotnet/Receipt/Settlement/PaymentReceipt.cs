@@ -14,69 +14,36 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.settlement;
 
-import net.dreceiptx.receipt.common.Currency;
+using Net.Dreceiptx.Receipt.Common;
 
-public class PaymentReceipt {
-    private int _id;
-    private PaymentMethodType _paymentMethodType;
-    private double _paymentAmount;
-    private Currency _settlementCurrency;
-    private PaymentAuthorisation _paymentAuthorisation;
+namespace Net.Dreceiptx.Receipt.Settlement
+{
+    public class PaymentReceipt
+    {
+        public int Id { get; set; }
+        public PaymentMethodType MethodType { get; set; }
+        public double PaymentAmount { get; set; }
+        public Currency SettlementCurrency { get; internal set; }
+        public PaymentAuthorisation PaymentAuthorisation { get; set; }
 
-    public PaymentReceipt(PaymentMethodType paymentMethodCode, Double paymentAmount) {
-        _paymentMethodType = paymentMethodCode;
-        _paymentAmount = paymentAmount;
-    }
+        public PaymentReceipt(PaymentMethodType paymentMethodCode, double paymentAmount)
+        {
+            MethodType = paymentMethodCode;
+            PaymentAmount = paymentAmount;
+        }
 
-    public PaymentReceipt(PaymentMethodType paymentMethodCode, Double paymentAmount,Currency settlementCurrency) {
-        this(paymentMethodCode, paymentAmount);
-        _settlementCurrency = settlementCurrency;
-        _paymentAuthorisation = null;
-    }
-    
-    public void setId(int id){
-        _id = id;
-    }
-    
-    public int getId(){
-        return _id;
-    }
+        //TODO: payment amount is non nullable unlike java
+        public PaymentReceipt(PaymentMethodType paymentMethodCode, double paymentAmount, Currency settlementCurrency)
+            : this(paymentMethodCode, paymentAmount)
+        {
+            SettlementCurrency = settlementCurrency;
+            PaymentAuthorisation = null;
+        }
 
-    public PaymentMethodType getPaymentMethodType() {
-        return _paymentMethodType;
-    }
-
-    public void setPaymentMethodType(PaymentMethodType paymentMethodType) {
-        _paymentMethodType = paymentMethodType;
-    }
-
-    public double getPaymentAmount() {
-        return _paymentAmount;
-    }
-
-    public void setPaymentAmount(double paymentAmount) {
-        _paymentAmount = paymentAmount;
-    }
-    
-    public Currency getSettlementCurrency() {
-        return _settlementCurrency;
-    }
-
-    public void setSettlementCurrency(Currency settlementCurrency) {
-        _settlementCurrency = settlementCurrency;
-    }
-    
-    public bool hasPaymentAuthorisation() {
-        return !(_paymentAuthorisation == null);
-    }
-    
-    public PaymentAuthorisation getPaymentAuthorisation() {
-        return _paymentAuthorisation;
-    }
-
-    public void setPaymentAuthorisation(PaymentAuthorisation paymentAuthorisation) {
-        _paymentAuthorisation = paymentAuthorisation;
+        public bool HasPaymentAuthorisation()
+        {
+            return PaymentAuthorisation != null;
+        }
     }
 }

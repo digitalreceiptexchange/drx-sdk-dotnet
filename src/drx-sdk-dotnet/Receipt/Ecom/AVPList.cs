@@ -20,7 +20,6 @@ using System.Linq;
 
 namespace Net.Dreceiptx.Receipt.Ecom
 {
-
     public class AVPList
     {
         private Dictionary<string, AVP> _avpList = new Dictionary<string, AVP>();

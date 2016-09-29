@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using Net.Dreceiptx.Receipt.AllowanceCharge;
 
 namespace Net.Dreceiptx.Receipt.Common
 {
@@ -33,85 +34,75 @@ namespace Net.Dreceiptx.Receipt.Common
             _deliveryFees = new List<ReceiptAllowanceCharge>();
         }
 
-        public DeliveryInformation setName(string deliveryName)
+        public DeliveryInformation Name(string deliveryName)
         {
-            _locationInformation.getAddress().Name = deliveryName;
+            _locationInformation.Address.Name = deliveryName;
             return this;
         }
 
-        public DeliveryInformation setAddress(string streetAddress1, string city, string postalCode, string state,
+        public DeliveryInformation Address(string streetAddress1, string city, string postalCode, string state,
             string countryCode)
         {
-            _locationInformation.getAddress().setStreetAddress1(streetAddress1);
-            _locationInformation.getAddress().setCity(city);
-            _locationInformation.getAddress().setPostalCode(postalCode);
-            _locationInformation.getAddress().setState(state);
-            _locationInformation.getAddress().setCountryCode(countryCode);
+            _locationInformation.Address.StreetAddress1 = streetAddress1;
+            _locationInformation.Address.City = city;
+            _locationInformation.Address.PostalCode = postalCode;
+            _locationInformation.Address.State = state;
+            _locationInformation.Address.CountryCode = countryCode;
             return this;
         }
 
-        public DeliveryInformation setStreetAddress2(string streetAddress2)
+        public DeliveryInformation StreetAddress2(string streetAddress2)
         {
-            _locationInformation.getAddress().setStreetAddress2(streetAddress2);
+            _locationInformation.Address.StreetAddress2 = streetAddress2;
             return this;
         }
 
-        public DeliveryInformation setStreetAddress3(string streetAddress3)
+        public DeliveryInformation StreetAddress3(string streetAddress3)
         {
-            _locationInformation.getAddress().setStreetAddress3(streetAddress3);
+            _locationInformation.Address.StreetAddress3 = streetAddress3;
             return this;
         }
 
-        public DeliveryInformation addDeliveryFee(Double deliveryFee, string description)
+        public DeliveryInformation AddDeliveryFee(Double deliveryFee, string description)
         {
-            _deliveryFees.add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description));
+            _deliveryFees.Add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description));
             return this;
         }
 
-        public DeliveryInformation addDeliveryFee(Double deliveryFee, string description, Tax tax)
+        public DeliveryInformation AddDeliveryFee(Double deliveryFee, string description, Tax.Tax tax)
         {
-            _deliveryFees.add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description, tax));
+            _deliveryFees.Add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description, tax));
             return this;
         }
 
-        public DeliveryInformation sddDeliveryDate(Date deliveryDate)
+        public DeliveryInformation DeliveryDate(DateTime deliveryDate)
         {
-            _despatchInformation.setDeliveryDate(deliveryDate);
+            _despatchInformation.DeliveryDate = deliveryDate;
             return this;
         }
 
-        public DeliveryInformation addDeliveryInstructions(string instructions)
+        public DeliveryInformation DeliveryInstructions(string instructions)
         {
-            _despatchInformation.setInstructions(instructions);
+            _despatchInformation.DeliveryInstructions = instructions;
             return this;
         }
 
-        public DeliveryInformation addDespatchDate(Date despatchDate)
+        public DeliveryInformation DespatchDate(DateTime despatchDate)
         {
-            _despatchInformation.setDespatchDate(despatchDate);
+            _despatchInformation.DespatchDate = despatchDate;
             return this;
         }
 
-        public DeliveryInformation addContact(ContactType type, string value)
+        public DeliveryInformation AddContact(ContactType type, string value)
         {
-            _locationInformation.getContacts().add(new Contact(type, value));
+            _locationInformation.Contacts.Add(new Contact(type, value));
             return this;
         }
 
-        public LocationInformation getLocationInformation()
-        {
-            return _locationInformation;
-        }
+        public LocationInformation LocationInformation => _locationInformation;
 
-        public List<ReceiptAllowanceCharge> getDeliveryFees()
-        {
-            return _deliveryFees;
-        }
+        public List<ReceiptAllowanceCharge> DeliveryFees => _deliveryFees;
 
-        public DespatchInformation getDespatchInformation()
-        {
-            return _despatchInformation;
-        }
+        public DespatchInformation DespatchInformation => _despatchInformation;
     }
-
 }

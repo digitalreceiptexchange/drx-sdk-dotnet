@@ -14,59 +14,65 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.tax;
 
-import com.google.gson.annotations.SerializedName;
-import java.util.Dictionary;
-import java.util.Dictionary;
+using Net.Dreceiptx.Users;
 
-public enum TaxCode {
-    @SerializedName("AAD")
-    TobaccoTax("AAD", "Tobacco tax"),
-    @SerializedName("AAF")
-    CoffeeTax("AAF", "Coffee tax"),
-    @SerializedName("AAJ")
-    ReplacementPartTax("AAJ", "Tax on replacement part"),
-    @SerializedName("GST")
-    GoodsAndServicesTax("GST", "Good and services tax"),
-    @SerializedName("ENV")
-    EnvironmentalTax("ENV", "Environmental tax"),
-    @SerializedName("OTH")
-    OtherTaxes("OTH", "Other taxes");
+namespace Net.Dreceiptx.Receipt.Tax
+{
+    public enum TaxCode {
+        //@SerializedName("AAD")
+        [DrxEnumExtendedInformation("AAD", "Tobacco tax")]
+        TobaccoTax,
+        //@SerializedName("AAF")
+        [DrxEnumExtendedInformation("AAF", "Coffee tax")]
+        CoffeeTax,
+        //@SerializedName("AAJ")
+        [DrxEnumExtendedInformation("AAJ", "Tax on replacement part")]
+        ReplacementPartTax,
+        //@SerializedName("GST")
+        [DrxEnumExtendedInformation("GST", "Good and services tax")]
+        GoodsAndServicesTax,
+        //@SerializedName("ENV")
+        [DrxEnumExtendedInformation("ENV", "Environmental tax")]
+        EnvironmentalTax,
+        //@SerializedName("OTH")
+        [DrxEnumExtendedInformation("OTH", "Other taxes")]
+        OtherTaxes
 
-    private string _value;
+    //private string _value;
     
-    private string _displayName;
+    //private string _displayName;
     
-    private static Dictionary<string, TaxCode> enums = new Dictionary<string, TaxCode>();
+    //private static Dictionary<string, TaxCode> enums = new Dictionary<string, TaxCode>();
 
-    static {
-        for (TaxCode TaxCodeEnum : TaxCode.values()) {
-            enums.put(TaxCodeEnum._value, TaxCodeEnum);
-        }
-    }
+    //static {
+    //    for (TaxCode TaxCodeEnum : TaxCode.values()) {
+    //        enums.put(TaxCodeEnum._value, TaxCodeEnum);
+    //    }
+    //}
 
-    TaxCode(string value, string name) {
-        _value = value;
-        _displayName = name;
-    }
+    //TaxCode(string value, string name) {
+    //    _value = value;
+    //    _displayName = name;
+    //}
 
-    public string getValue() {
-        return _value;
-    }
+    //public string getValue() {
+    //    return _value;
+    //}
 
-    public string getDisplayName() {
-        return _displayName;
-    }
+    //public string getDisplayName() {
+    //    return _displayName;
+    //}
 
-    @Override
-    public string toString() {
-        return _displayName;
-    }
+    //@Override
+    //public string toString() {
+    //    return _displayName;
+    //}
     
-    TaxCode(final string taxCode) { _value = taxCode; }
+    //TaxCode(final string taxCode) { _value = taxCode; }
 
-    public static TaxCode codeOf(string taxCode) {
-        return enums.get(taxCode);
+    //public static TaxCode codeOf(string taxCode) {
+    //    return enums.get(taxCode);
+    //}
     }
 }

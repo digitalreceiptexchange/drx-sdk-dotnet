@@ -24,21 +24,18 @@ namespace Net.Dreceiptx.Receipt.LineItem.General
         public Book(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) 
             : base(tradeItemDescriptionInformation, quantity, price)
         {
-            _transactionalTradeItemType = TransTradeItemType.MANUAL;
-            addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Book.LineItemTypeValue);
+            _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
+            AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, Book.LineItemTypeValue);
         }
 
         public Book(string ISBN, int quantity, double price) :base()
         {
-            addTradeItemIdentification(LineItem.LineItemTypeIdentifier, Book.LineItemTypeValue);
-            addTradeItemIdentification(_tradeItemIdentificationISBN, ISBN);
+            AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, Book.LineItemTypeValue);
+            AddTradeItemIdentification(_tradeItemIdentificationISBN, ISBN);
             Quantity = quantity;
             Price = price;
         }
 
-        public string getIBSNNumber()
-        {
-            return getTradeItemIdentificationValue(_tradeItemIdentificationISBN);
-        }
+        public string IBSNNumber => getTradeItemIdentificationValue(_tradeItemIdentificationISBN);
     }
 }

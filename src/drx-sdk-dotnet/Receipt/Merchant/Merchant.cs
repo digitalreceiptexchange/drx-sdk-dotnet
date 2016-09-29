@@ -14,88 +14,40 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Collections.Generic;
+
 namespace Net.Dreceiptx.Receipt.Merchant
 {
     public class Merchant
     {
-        private string _id;
-        @SerializedName("industry")
-        private string _industry;
-        @SerializedName("sector")
-        private string _sector;
-        @SerializedName("fullName")
-        private string _fullname;
-        @SerializedName("commonName")
-        private string _commonName;
-        @SerializedName("businessTaxNumber")
-        private string _businessTaxNumber;
-        @SerializedName("businessRegistrationNumber")
-        private string _businessRegistrationNumber;
-        @SerializedName("primaryPhone")
-        private string _primaryPhone;
-        @SerializedName("primaryAddress")
-        private MerchantAddress _primaryAddress;
-        @SerializedName("contacts")
-        private List<MerchantContact> _contacts;
-        private transient string
-        _merchantLocationHostname
-        = "https://cdn.dreceiptx.net/merchant/location/";
+        //transient
+        private string _merchantLocationHostname = "https://cdn.dreceiptx.net/merchant/location/";
+        //@SerializedName("industry")
+        public string Industry { get; }
+        //@SerializedName("sector")
+        public string Sector { get; }
 
-        public string getIndustry()
-        {
-            return _industry;
-        }
+        public string LocationId { get; }
 
-        public string getSector()
-        {
-            return _sector;
-        }
+        //@SerializedName("fullName")
+        public string FullName { get; }
+        //@SerializedName("commonName")
+        public string CommonName { get; }
+        //@SerializedName("businessTaxNumber")
+        public string BusinessTaxNumber { get; }
+        //@SerializedName("businessRegistrationNumber")
+        public string BusinessRegistrationNumber { get; }
+        //@SerializedName("primaryPhone")
+        public string PrimaryPhone { get; }
+        //@SerializedName("primaryAddress")
+        public MerchantAddress PrimaryAddress { get; }
+        //@SerializedName("contacts")
+        public List<MerchantContact> Contacts { get; }
 
-        public string getLocationId()
-        {
-            return _id;
-        }
+        public string MerchantLogoUrl => _merchantLocationHostname + LocationId + "/logo.jpg";
 
-        public string getFullName()
-        {
-            return _fullname;
-        }
-
-        public string getCommonName()
-        {
-            return _commonName;
-        }
-
-        public string getBusinessTaxNumber()
-        {
-            return _businessTaxNumber;
-        }
-
-        public string getBusinessRegistrationNumber()
-        {
-            return _businessRegistrationNumber;
-        }
-
-        public string getPrimaryPhone()
-        {
-            return _primaryPhone;
-        }
-
-        public MerchantAddress getPrimaryAddress()
-        {
-            return _primaryAddress;
-        }
-
-        public List<MerchantContact> getContacts()
-        {
-            return _contacts;
-        }
-
-        public string getMerchantLogoUrl()
-        {
-            return _merchantLocationHostname + _id + "/logo.jpg";
-        }
-
+        //TODO: No getter?
         public void setMerchantLocationHostname(string merchantLocationHostname)
         {
             _merchantLocationHostname = merchantLocationHostname;

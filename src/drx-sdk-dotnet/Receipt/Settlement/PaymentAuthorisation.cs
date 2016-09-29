@@ -14,42 +14,20 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.settlement;
-
-public class PaymentAuthorisation {
-    private string _paymentProvider;
-    private string _authorisationNumber;
-    private string _authorisationCode;
-
-    public PaymentAuthorisation(string paymentProvider, string authorisationNumber,
-                                string authorisationCode)
+namespace Net.Dreceiptx.Receipt.Settlement
+{
+    public class PaymentAuthorisation
     {
-        _paymentProvider = paymentProvider;
-        _authorisationNumber = authorisationNumber;
-        _authorisationCode = authorisationCode;
-    }
+        public string PaymentProvider { get; set; }
+        public string AuthorisationNumber { get; set; }
+        public string AuthorisationCode { get; set; }
 
-    public string getPaymentProvider() {
-        return _paymentProvider;
-    }
-
-    public void setPaymentProvider(string paymentProvider) {
-        _paymentProvider = paymentProvider;
-    }
-
-    public string getAuthorisationNumber() {
-        return _authorisationNumber;
-    }
-
-    public void setAuthorisationNumber(string authorisationNumber) {
-        _authorisationNumber = authorisationNumber;
-    }
-
-    public string getAuthorisationCode() {
-        return _authorisationCode;
-    }
-
-    public void setAuthorisationCode(string authorisationCode) {
-        _authorisationCode = authorisationCode;
+        public PaymentAuthorisation(string paymentProvider, string authorisationNumber,
+            string authorisationCode)
+        {
+            PaymentProvider = paymentProvider;
+            AuthorisationNumber = authorisationNumber;
+            AuthorisationCode = authorisationCode;
+        }
     }
 }

@@ -14,6 +14,10 @@
 // limitations under the License.
 // 
 #endregion
+
+using System;
+using Net.Dreceiptx.Receipt.AllowanceCharge;
+
 namespace Net.Dreceiptx.Receipt.LineItem
 {
     public class LineItemBuilder
@@ -32,7 +36,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public LineItemBuilder addTax(Tax.Tax tax)
         {
-            _lineItem.addTax(tax);
+            _lineItem.AddTax(tax);
             return this;
         }
 
@@ -42,7 +46,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             return this;
         }
 
-        public LineItemBuilder AddGeneralDiscount(double amount, string description, Tax tax)
+        public LineItemBuilder AddGeneralDiscount(double amount, string description, Tax.Tax tax)
         {
             _lineItem.AddReceiptAllowanceCharges(ReceiptAllowanceCharge.GeneralDiscount(amount, description, tax));
             return this;
@@ -54,49 +58,49 @@ namespace Net.Dreceiptx.Receipt.LineItem
             return this;
         }
 
-        public LineItemBuilder AddPackagingFee(double amount, string description, Tax tax)
+        public LineItemBuilder AddPackagingFee(double amount, string description, Tax.Tax tax)
         {
             _lineItem.AddReceiptAllowanceCharges(ReceiptAllowanceCharge.PackagingFee(amount, description, tax));
             return this;
         }
 
-        public LineItemBuilder setSerialNumber(string serialNumber)
+        public LineItemBuilder SerialNumber(string serialNumber)
         {
-            _lineItem.setSerialNumber(serialNumber);
+            _lineItem.SerialNumber = serialNumber;
             return this;
         }
 
-        public LineItemBuilder setBatchNumber(string batchNumber)
+        public LineItemBuilder BatchNumber(string batchNumber)
         {
-            _lineItem.setBatchNumber(batchNumber);
+            _lineItem.BatchNumber = batchNumber;
             return this;
         }
 
-        public LineItemBuilder setBillingCostCentre(string billingCostCentre)
+        public LineItemBuilder BillingCostCentre(string billingCostCentre)
         {
-            _lineItem.setBillingCostCentre(billingCostCentre);
+            _lineItem.BillingCostCentre = billingCostCentre;
             return this;
         }
 
-        public LineItemBuilder setDespatchDate(Date despatchDate)
+        public LineItemBuilder DespatchDate(DateTime despatchDate)
         {
-            _lineItem.setDespatchDate(despatchDate);
+            _lineItem.DespatchDate = despatchDate;
             return this;
         }
 
-        public LineItemBuilder setDeliveryDate(Date deliveryDate)
+        public LineItemBuilder DeliveryDate(DateTime deliveryDate)
         {
-            _lineItem.setDeliveryDate(deliveryDate);
+            _lineItem.DeliveryDate = deliveryDate;
             return this;
         }
 
-        public LineItemBuilder setDeliveryInstructions(string deliveryInstructions)
+        public LineItemBuilder SetDeliveryInstructions(string deliveryInstructions)
         {
-            _lineItem.setDeliveryInstructions(deliveryInstructions);
+            _lineItem.DeliveryInstructions = deliveryInstructions;
             return this;
         }
 
-        public LineItem create()
+        public LineItem Build()
         {
             return _lineItem;
         }

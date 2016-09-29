@@ -18,36 +18,37 @@
 using System;
 using System.Collections.Generic;
 using Net.Dreceiptx.Receipt.LineItem.General;
+using Net.Dreceiptx.Receipt.LineItem.Travel;
 
-namespace Net.Dreceiptx.Receipt.LineItem.Travel
+namespace Net.Dreceiptx.Receipt.LineItem
 {
     public class LineItemFactory
     {
-    private static Dictionary<string, Class<? extends LineItem>> _lineItems = new Dictionary<>();
+        private static readonly Dictionary<string, LineItemFunc> LineItems = new Dictionary<string, LineItemFunc>();
 
-    private static string add(string id, Class<? extends LineItem> lineItem) {
-        _lineItems.put(id,lineItem);
-        return id;
-    }
+        private delegate LineItem LineItemFunc(
+            TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price);
 
-    public LineItem createLineItem(string lineItemCode, TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) {
-        if(!_lineItems.containsKey(lineItemCode)){
-            lineItemCode = StandardLineItem.LineItemTypeValue;
+        public LineItem CreateLineItem(string lineItemCode, TradeItemDescriptionInformation tradeItemDescriptionInformation, 
+            int quantity, double price)
+        {
+            if (!LineItems.ContainsKey(lineItemCode))
+            {
+                lineItemCode = StandardLineItem.LineItemTypeValue;
+            }
+            return LineItems[lineItemCode](tradeItemDescriptionInformation, quantity, price);
         }
-        try {
-            Class newLineItemClazz = _lineItems.get(lineItemCode);
-            Constructor constructor = newLineItemClazz.getConstructor(TradeItemDescriptionInformation.class, int.class, double.class);
-            return (LineItem)constructor.newInstance(tradeItemDescriptionInformation, quantity, price);
-        } catch (Exception e) {
-            //Didn't work, just return a StandardLineItem
-            return new StandardLineItem(tradeItemDescriptionInformation, quantity, price);
+
+        public static readonly string STANDARD    = Add(StandardLineItem.LineItemTypeValue, (desc, qty, price) => new StandardLineItem(desc, qty, price));
+        public static readonly string GENERAL0001 = Add(Book.LineItemTypeValue,             (desc, qty, price) => new Book(desc, qty, price));
+        public static readonly string TRAVEL0001  = Add(Accommodation.LineItemTypeValue,    (desc, qty, price) => new Accommodation(desc, qty, price));
+        public static readonly string TRAVEL0002  = Add(Flight.LineItemTypeValue,           (desc, qty, price) => new Flight(desc, qty, price));
+        public static readonly string TRAVEL0003  = Add(GroundTransport.LineItemTypeValue,  (desc, qty, price) => new GroundTransport(desc, qty, price));
+
+        private static string Add(string id, LineItemFunc lineItemFunc)
+        {
+            LineItems.Add(id, lineItemFunc);
+            return id;
         }
     }
-
-    public static readonly string STANDARD = add(StandardLineItem.LineItemTypeValue, StandardLineItem.class);
-    public static readonly string GENERAL0001 = add(Book.LineItemTypeValue, Book.class);
-    public static readonly string TRAVEL0001 = add(Accommodation.LineItemTypeValue, Accommodation.class);
-    public static readonly string TRAVEL0002 = add(Flight.LineItemTypeValue, Flight.class);
-    public static readonly string TRAVEL0003 = add(GroundTransport.LineItemTypeValue, GroundTransport.class);
-
 }

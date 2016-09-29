@@ -16,8 +16,6 @@
 #endregion
 namespace Net.Dreceiptx.Receipt.Validation
 {
-
-
     public class ValidationErrors
     {
         public static readonly string ReceiptMustHaveALeastLineItem = "Digital Receipt must have a least 1 line item.";

@@ -193,19 +193,25 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public DateTime DespatchDate
         {
-            get { return Information.DespatchDate; }
-            set { Information.DespatchDate = value; }
+            get { return _information.DespatchDate; }
+            set { _information.DespatchDate = value; }
         }
 
 
         public DateTime DeliveryDate
         {
-            get { return Information.DeliveryDate; }
-            set { Information.DeliveryDate = value; }
+            get { return _information.DeliveryDate; }
+            set { _information.DeliveryDate = value; }
+        }
+
+        public string DeliveryInstructions
+        {
+            get { return _information.DeliveryInstructions; }
+            set { _information.DeliveryInstructions = value; }
         }
 
         //transient
-        public DespatchInformation Information { get; set; } = new DespatchInformation();
+        private DespatchInformation _information  = new DespatchInformation();
         //transient
         public LocationInformation Origin { get; set; } = new LocationInformation();
         //transient 
@@ -253,7 +259,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             }
         }
 
-        public double CalculateTaxesTotal(TaxCode taxCode)
+        public double TaxesTotalByTaxCode(TaxCode taxCode)
         {
             double total = 0;
             total += _taxes.Where(x => x.TaxCode == taxCode).Sum(x => x.TaxTotal);

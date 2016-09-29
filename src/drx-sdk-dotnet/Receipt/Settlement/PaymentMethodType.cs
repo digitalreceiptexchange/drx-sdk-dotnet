@@ -14,41 +14,27 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.settlement;
 
-import com.google.gson.annotations.SerializedName;
+using Net.Dreceiptx.Users;
 
-public enum PaymentMethodType {
-    @SerializedName("CASH")
-    CASH("CASH", "Cash Payment"),
-    @SerializedName("CREDIT_CARD")
-    CREDIT_CARD("CREDIT_CARD", "Credit Card Payment"),
-    @SerializedName("DEBIT CARD")
-    DEBIT_CARD("DEBIT_CARD", "Debit Card Payment"),
-    @SerializedName("CHEQUE")
-    CHEQUE("CHEQUE", "Cheque payment"),
-    @SerializedName("OTHER")
-    OTHER("OTHER", "Other");
-
-    private string _value;
-
-    private string _displayName;
-
-    PaymentMethodType(string value, string name) {
-        _value = value;
-        _displayName = name;
-    }
-
-    public string getValue() {
-        return _value;
-    }
-
-    public string getDisplayName() {
-        return _displayName;
-    }
-
-    @Override
-    public string toString() {
-        return _displayName;
+namespace Net.Dreceiptx.Receipt.Settlement
+{
+    public enum PaymentMethodType
+    {
+        //@SerializedName("CASH")
+        [DrxEnumExtendedInformation("CASH", "Cash Payment")]
+        CASH,
+        //@SerializedName("CREDIT_CARD")
+        [DrxEnumExtendedInformation("CREDIT_CARD", "Credit Card Payment")]
+        CREDIT_CARD,
+        //@SerializedName("DEBIT CARD")
+        [DrxEnumExtendedInformation("DEBIT_CARD", "Debit Card Payment")]
+        DEBIT_CARD,
+        //@SerializedName("CHEQUE")
+        [DrxEnumExtendedInformation("CHEQUE", "Cheque payment")]
+        CHEQUE,
+        //@SerializedName("OTHER")
+        [DrxEnumExtendedInformation("OTHER", "Other")]
+        OTHER
     }
 }

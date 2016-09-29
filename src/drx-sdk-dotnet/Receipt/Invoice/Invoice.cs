@@ -18,9 +18,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Net.Dreceiptx.Extensions;
+using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Config;
+using Net.Dreceiptx.Receipt.Validation;
 
 namespace Net.Dreceiptx.Receipt.Invoice
 {
@@ -30,11 +33,8 @@ namespace Net.Dreceiptx.Receipt.Invoice
         private readonly string _documentStatusCode = "ORIGINAL";
         //@SerializedName("invoiceType")
         private readonly string _invoiceType = "TAX_INVOICE";
-
-
-
-        private readonly static int _lineItemId = 1;
-        private readonly static int _allowanceOrChargeId = 1;
+        private static int _lineItemId = 1;
+        private static int _allowanceOrChargeId = 1;
         //transient
         private List<ReceiptAllowanceCharge> _allowanceOrCharges = new List<ReceiptAllowanceCharge>();
         //transient 
@@ -59,14 +59,14 @@ namespace Net.Dreceiptx.Receipt.Invoice
         //transient
         public string MerchantName { get; set; }
 
-        public string getCompanyTaxNumber(TaxCode taxCode)
+        public string GetCompanyTaxNumber(TaxCode taxCode)
         {
-            return _companyTaxNumbers.GetOrNull(taxCode.V.getValue());
+            return _companyTaxNumbers.GetOrNull(taxCode.Value());
         }
 
-        public void addCompanyTaxNumber(string taxCode, string taxNumber)
+        public void AddCompanyTaxNumber(string taxCode, string taxNumber)
         {
-            _companyTaxNumbers.put(taxCode, taxNumber);
+            _companyTaxNumbers.Add(taxCode, taxNumber);
         }
 
         //transient
@@ -76,7 +76,7 @@ namespace Net.Dreceiptx.Receipt.Invoice
         public string CustomerReference { get; set; }
 
         //transient
-        public DateTime? CreationDateTime { get; set; } = null;
+        public DateTime? CreationDateTime { get; set; }
 
         public string CreationDateTimeString => CreationDateTime?.ToString(_dateTimeFormat);
 
@@ -90,12 +90,9 @@ namespace Net.Dreceiptx.Receipt.Invoice
         public string CountryOfSupplyOfGoods { get; set; }
 
         //transient
-        public List<LineItem> InvoiceLineItems { get; set; } = new List<LineItem>();
+        public List<LineItem.LineItem> InvoiceLineItems { get; set; } = new List<LineItem.LineItem>();
 
-        public List<ReceiptAllowanceCharge> getAllowanceOrCharges()
-        {
-            return _allowanceOrCharges;
-        }
+        public List<ReceiptAllowanceCharge> AllowanceOrCharges => _allowanceOrCharges;
 
         //transient
         public LocationInformation OriginInformation { get; set; } = new LocationInformation();
@@ -110,20 +107,23 @@ namespace Net.Dreceiptx.Receipt.Invoice
         {
             get
             {
-                return this.getSubTotal() + this.getTaxesTotal() + this.getSubTotalAllowances() -
-                       this.getSubTotalCharges();
+                return SubTotal + getTaxesTotal() + getSubTotalAllowances() -
+                       getSubTotalCharges();
             }
         }
 
-        public double getTaxPercentage()
+        public double TaxPercentage
         {
-            double subTotal = this.getSubTotal() + this.getSubTotalAllowances() - this.getSubTotalCharges();
-            double taxPercentage = 0;
-            if (subTotal != 0)
+            get
             {
-                taxPercentage = (this.getTaxesTotal()/subTotal)*100;
+                double subTotal = this.SubTotal + getSubTotalAllowances() - getSubTotalCharges();
+                double taxPercentage = 0;
+                if (subTotal != 0)
+                {
+                    taxPercentage = (getTaxesTotal()/subTotal)*100;
+                }
+                return taxPercentage;
             }
-            return taxPercentage;
         }
 
         private bool isNullOrWhiteSpace(string value)
@@ -135,85 +135,62 @@ namespace Net.Dreceiptx.Receipt.Invoice
         {
             get
             {
-                return InvoiceLineItems.Sum(x => x);
-                
+                return InvoiceLineItems.Sum(x => x.Total);
             }
         }
 
-        public double getTaxesTotal()
+        public double TaxesTotal
+        {
+            get
+            {
+                double total = 0;
+                total += InvoiceLineItems.Sum(x => x.TaxesTotal);
+                total += _allowanceOrCharges.Sum(x => x.TaxesTotal);
+                return total;
+            }
+        }
+
+        public double TaxesTotalByTaxCode(TaxCode taxCode)
         {
             double total = 0;
-            for (LineItem lineItem :
-            InvoiceLineItems)
-            {
-                total += lineItem.getTaxesTotal();
-            }
-            for (ReceiptAllowanceCharge allowanceCharge :
-            _allowanceOrCharges)
-            {
-                total += allowanceCharge.getTaxesTotal();
-            }
+            total += InvoiceLineItems.Sum(x => x.TaxesTotalByTaxCode(taxCode));
+            total += _allowanceOrCharges.Sum(x => x.TaxesTotalByTaxCode(taxCode));
             return total;
         }
 
-        public double getTaxesTotal(TaxCode taxCode)
+        public double SubTotalCharges
         {
-            double total = 0;
-            for (LineItem lineItem :
-            InvoiceLineItems)
+            get
             {
-                total += lineItem.getTaxesTotal(taxCode);
+                double total = 0;
+                total += _allowanceOrCharges.Where(x => x.IsCharge).Sum(x => x.SubTotal);
+                return total;
             }
-            for (ReceiptAllowanceCharge allowanceCharge :
-            _allowanceOrCharges)
-            {
-                total += allowanceCharge.getTaxesTotal(taxCode);
-            }
-            return total;
         }
 
-        public double getSubTotalCharges()
+        public double SubTotalAllowances
         {
-            double total = 0;
-            for (ReceiptAllowanceCharge allowanceCharge :
-            _allowanceOrCharges)
+            get
             {
-                if (allowanceCharge.isCharge())
-                {
-                    total += allowanceCharge.getSubTotal();
-                }
+                double total = 0;
+                total += _allowanceOrCharges.Where(x => x.IsAllowance).Sum(x => x.SubTotal);
+                return total;
             }
-            return total;
         }
 
-        public double getSubTotalAllowances()
+        public int AddLineItem(LineItem.LineItem lineItem)
         {
-            double total = 0;
-            for (ReceiptAllowanceCharge allowanceCharge :
-            _allowanceOrCharges)
+            lineItem.LineItemId = Interlocked.Add(ref _lineItemId, 1);
+            InvoiceLineItems.Add(lineItem);
+            return lineItem.LineItemId;
+        }
+
+        public void RemoveLineItem(int lineItemId)
+        {
+            LineItem.LineItem item = null;
+            foreach (LineItem.LineItem lineItem in InvoiceLineItems)
             {
-                if (allowanceCharge.isAllowance())
-                {
-                    total += allowanceCharge.getSubTotal();
-                }
-            }
-            return total;
-        }
-
-        public int addLineItem(LineItem lineItem)
-        {
-            lineItem.setLineItemId(_lineItemId.getAndIncrement());
-            InvoiceLineItems.add(lineItem);
-            return lineItem.getLineItemId();
-        }
-
-        public void removeLineItem(int lineItemId)
-        {
-            LineItem item = null;
-            for (LineItem lineItem :
-            InvoiceLineItems)
-            {
-                if (lineItem.getLineItemId() == lineItemId)
+                if (lineItem.LineItemId == lineItemId)
                 {
                     item = lineItem;
                     break;
@@ -221,23 +198,22 @@ namespace Net.Dreceiptx.Receipt.Invoice
             }
             if (item != null)
             {
-                InvoiceLineItems.remove(item);
+                InvoiceLineItems.Remove(item);
             }
         }
 
-        public bool addAllowanceOrCharge(ReceiptAllowanceCharge receiptAllowanceCharge)
+        public bool AddAllowanceOrCharge(ReceiptAllowanceCharge receiptAllowanceCharge)
         {
-            _allowanceOrCharges.add(receiptAllowanceCharge);
+            _allowanceOrCharges.Add(receiptAllowanceCharge);
             return true;
         }
 
-        public void removeAllowanceOrChange(int id)
+        public void RemoveAllowanceOrChange(int id)
         {
             ReceiptAllowanceCharge item = null;
-            for (ReceiptAllowanceCharge receiptAllowanceCharge :
-            _allowanceOrCharges)
+            foreach (ReceiptAllowanceCharge receiptAllowanceCharge in _allowanceOrCharges)
             {
-                if (receiptAllowanceCharge.getId() == id)
+                if (receiptAllowanceCharge.Id == id)
                 {
                     item = receiptAllowanceCharge;
                     break;
@@ -245,15 +221,15 @@ namespace Net.Dreceiptx.Receipt.Invoice
             }
             if (item != null)
             {
-                _allowanceOrCharges.remove(item);
+                _allowanceOrCharges.Remove(item);
             }
         }
 
-        public ReceiptValidation validate(ReceiptValidation receiptValidation)
+        public ReceiptValidation Validate(ReceiptValidation receiptValidation)
         {
-            if (InvoiceLineItems.size() < 1)
+            if (!InvoiceLineItems.Any())
             {
-                receiptValidation.AddError(ReceiptMustHaveALeastLineItem);
+                receiptValidation.AddError(ValidationErrors.ReceiptMustHaveALeastLineItem);
             }
 
             return receiptValidation;

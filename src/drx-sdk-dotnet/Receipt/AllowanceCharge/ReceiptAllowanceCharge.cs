@@ -37,6 +37,7 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
         //@SerializedName("leviedDutyFeeTax")
         private List<Tax.Tax> _taxes = new List<Tax.Tax>();
 
+        //TODO: If we keep it this should not be a double
         public double Id => _id;
 
         public SettlementType SettlementType => _settlementType;
@@ -69,7 +70,7 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
         /// </summary>
         /// <param name="taxCode">to filter the taxes</param>
         /// <returns>TotalTaxes for the given TaxCode if they exist otherwise 0</returns>
-        public double CalculateTaxesTotal(TaxCode taxCode)
+        public double TaxesTotalByTaxCode(TaxCode taxCode)
         {
             double totalTaxes = 0.0;
             foreach (Tax.Tax tax in _taxes)

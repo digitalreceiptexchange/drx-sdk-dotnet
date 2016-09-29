@@ -19,10 +19,8 @@ using System.Collections.Generic;
 
 namespace Net.Dreceiptx.Receipt.Document
 {
-
     public class DocumentOwner
     {
-
         //@SerializedName("contactInformation")
         private List<ReceiptContact> _contactInformation;
 
@@ -30,6 +28,7 @@ namespace Net.Dreceiptx.Receipt.Document
         {
             Identifier = new DocumentOwnerIdentification();
         }
+
         //TODO: Not sure id we need this here. Should just do via the DocumentOwnderIdentification instance
         public string Value
         {
