@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using Net.Dreceiptx.Receipt.Tax;
 
 namespace Net.Dreceiptx.Receipt.AllowanceCharge
 {

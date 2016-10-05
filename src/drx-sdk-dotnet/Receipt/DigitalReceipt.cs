@@ -14,207 +14,148 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt;
 
-import net.dreceiptx.receipt.allowanceCharge.ReceiptAllowanceCharge;
-import net.dreceiptx.receipt.common.Address;
-import net.dreceiptx.receipt.common.Contact;
-import net.dreceiptx.receipt.common.GeographicalCoordinates;
-import net.dreceiptx.receipt.document.DocumentOwner;
-import net.dreceiptx.receipt.document.ReceiptContact;
-import net.dreceiptx.receipt.document.ReceiptContactType;
-import net.dreceiptx.receipt.document.StandardBusinessDocumentHeader;
-import net.dreceiptx.receipt.invoice.Invoice;
-import net.dreceiptx.receipt.lineitem.LineItem;
-import net.dreceiptx.receipt.serialization.json.InvoiceDeserializer;
-import net.dreceiptx.receipt.serialization.json.LineItemDeserializer;
-import net.dreceiptx.receipt.serialization.json.PaymentReceiptDeserializer;
-import net.dreceiptx.receipt.settlement.PaymentReceipt;
-import net.dreceiptx.receipt.tax.TaxCode;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
-import net.dreceiptx.receipt.validation.ReceiptDeserializationException;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Net.Dreceiptx.Receipt.AllowanceCharge;
+using Net.Dreceiptx.Receipt.Common;
+using Net.Dreceiptx.Receipt.Document;
+using Net.Dreceiptx.Receipt.Settlement;
+using Net.Dreceiptx.Receipt.Tax;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+namespace Net.Dreceiptx.Receipt
+{
 
-public class DigitalReceipt {
-    @SerializedName("standardBusinessDocumentHeader")
-    private StandardBusinessDocumentHeader _standardBusinessDocumentHeader;
-    @SerializedName("invoice")
-    private Invoice _invoice;
-    @SerializedName("paymentReceipts")
-    private List<PaymentReceipt> _paymentReceipts;
+    public class DigitalReceipt
+    {
+        //@SerializedName("standardBusinessDocumentHeader")
+        private StandardBusinessDocumentHeader _standardBusinessDocumentHeader;
+        //@SerializedName("invoice")
+        private Invoice.Invoice _invoice;
+        //@SerializedName("paymentReceipts")
+        private List<PaymentReceipt> _paymentReceipts;
 
-    public DigitalReceipt(string digitalReceiptJson) throws ReceiptDeserializationException {
-        JsonParser parser = new JsonParser();
-        JsonObject digitalReceiptObject = parser.parse(digitalReceiptJson).getAsJsonObject().getAsJsonObject("dRxDigitalReceipt");
+        public DigitalReceipt(string digitalReceiptJson)
+        {
+            //JsonParser parser = new JsonParser();
+            //JsonObject digitalReceiptObject = parser.parse(digitalReceiptJson).getAsJsonObject().getAsJsonObject("dRxDigitalReceipt");
 
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Invoice.class, new InvoiceDeserializer())
-                .registerTypeHierarchyAdapter(LineItem.class, new LineItemDeserializer())
-                .registerTypeAdapter(new TypeToken<List<PaymentReceipt>>() {
-                }.getType(), new PaymentReceiptDeserializer())
-                .create();
+            //Gson gson = new GsonBuilder()
+            //        .registerTypeAdapter(Invoice.class, new InvoiceDeserializer())
+            //        .registerTypeHierarchyAdapter(LineItem.class, new LineItemDeserializer())
+            //        .registerTypeAdapter(new TypeToken<List<PaymentReceipt>>() {
+            //        }.getType(), new PaymentReceiptDeserializer())
+            //        .create();
 
-        this._standardBusinessDocumentHeader = gson.fromJson(digitalReceiptObject.get("standardBusinessDocumentHeader").toString(), StandardBusinessDocumentHeader.class);
-        this._invoice = gson.fromJson(digitalReceiptObject.get("invoice").toString(), Invoice.class);
-        this._paymentReceipts = gson.fromJson(digitalReceiptObject.get("paymentReceipts").toString(), new TypeToken<List<PaymentReceipt>>() {
-        }.getType());
+            //this._standardBusinessDocumentHeader = gson.fromJson(digitalReceiptObject.get("standardBusinessDocumentHeader").toString(), StandardBusinessDocumentHeader.class);
+            //this._invoice = gson.fromJson(digitalReceiptObject.get("invoice").toString(), Invoice.class);
+            //this._paymentReceipts = gson.fromJson(digitalReceiptObject.get("paymentReceipts").toString(), new TypeToken<List<PaymentReceipt>>() {
+            //}.getType());
 
-        if( _invoice == null
-                || this._standardBusinessDocumentHeader.equals(null)
-                || this._paymentReceipts.equals(null)){
-            throw new ReceiptDeserializationException("Failed to deserialize Digital Receipt data from source");
+            //if( _invoice == null
+            //        || this._standardBusinessDocumentHeader.equals(null)
+            //        || this._paymentReceipts.equals(null)){
+            //    throw new ReceiptDeserializationException("Failed to deserialize Digital Receipt data from source");
+            //}
         }
-    }
     
-    public string getUserGUID() {
-        return _standardBusinessDocumentHeader.getUserIdentifier();
-    }
-    
-    public string getMerchantName() {
-        return _invoice.getMerchantName();
-    }
-    
-    public string getCompanyTaxNumber(TaxCode taxCode) {
-        return _invoice.getCompanyTaxNumber(taxCode);
-    }
-    
-    public string getMerchantLocationReference() {
-        return _standardBusinessDocumentHeader.getMerchantGLN();
-    }
-    
-    public Date getReceiptDate() {
-        return _invoice.getCreationDateTime();
-    }
-    
-    public string getReceiptReference() {
-        return _invoice.getInvoiceIdentification();
-    }
-    
-    public string getPurchaseOrderNumber() {
-        return _invoice.getPurchaseOrder();
-    }
+        public string UserGUID => _standardBusinessDocumentHeader.UserIdentifier;
 
-    public string getCustomerReferenceNumber() {
-        return _invoice.getCustomerReference();
-    }
+        public string MerchantName => _invoice.MerchantName;
     
-    public List<ReceiptContact> getMerchantCustomerRelations(){
-        return this.getMerchantContact(ReceiptContactType.CUSTOMER_RELATIONS);
-    }
+        public string GetCompanyTaxNumber(TaxCode taxCode)
+        {
+            return _invoice.GetCompanyTaxNumber(taxCode);
+        }
     
-    public List<ReceiptContact> getMerchantDeliveryContact(){
-        return this.getMerchantContact(ReceiptContactType.DELIVERY_CONTACT);
-    }
+        public string MerchantLocationReference => _standardBusinessDocumentHeader.MerchantGLN;
     
-    public List<ReceiptContact> getMerchantSalesAssistant(){
-        return this.getMerchantContact(ReceiptContactType.SALES_ADMINISTRATION);
-    }
+        public DateTime? ReceiptDate => _invoice.CreationDateTime;
     
-    private List<ReceiptContact> getMerchantContact(ReceiptContactType receiptContactType){
-        List<ReceiptContact> contacts = new ArrayList<ReceiptContact>();
-        for (DocumentOwner sender : _standardBusinessDocumentHeader.getSender()) {
-            if(sender.getIdentifier().getAuthority().equals("GS1")){
-                for (ReceiptContact contact : sender.getDocumentOwnerContact()) {
-                    if(contact.getReceiptContactType().equals(receiptContactType)){
-                        contacts.add(contact);
+        public string ReceiptReference =>_invoice.InvoiceIdentification;
+    
+        public string PurchaseOrderNumber => _invoice.PurchaseOrder;
+
+        public string CustomerReferenceNumber => _invoice.CustomerReference;
+    
+        public List<ReceiptContact> MerchantCustomerRelations => GetMerchantContact(ReceiptContactType.CUSTOMER_RELATIONS);
+    
+        public List<ReceiptContact> MerchantDeliveryContact => GetMerchantContact(ReceiptContactType.DELIVERY_CONTACT);
+    
+        public List<ReceiptContact> MerchantSalesAssistant => GetMerchantContact(ReceiptContactType.SALES_ADMINISTRATION);
+    
+        private List<ReceiptContact> GetMerchantContact(ReceiptContactType receiptContactType)
+        {
+            List<ReceiptContact> contacts = new List<ReceiptContact>();
+            foreach (DocumentOwner sender in _standardBusinessDocumentHeader.Sender)
+            {
+                if(sender.Identifier.Authority == "GS1")
+                {
+                    foreach (ReceiptContact contact in sender.DocumentOwnerContact)
+                    {
+                        if(contact.ReceiptContactType == receiptContactType)
+                        {
+                            contacts.Add(contact);
+                        }
                     }
                 }
             }
+            return contacts;
         }
-        return contacts;
-    }
     
-    public List<ReceiptContact> getClientRecipientContact(){
-        return this.getRMSContact(ReceiptContactType.RECIPIENT_CONTACT);
-    }
+        public List<ReceiptContact> ClientRecipientContact => GetRMSContact(ReceiptContactType.RECIPIENT_CONTACT);
     
-    public List<ReceiptContact> getClientPurchasingContact(){
-        return this.getRMSContact(ReceiptContactType.PURCHASING_CONTACT);
-    }
+        public List<ReceiptContact> ClientPurchasingContact => GetRMSContact(ReceiptContactType.PURCHASING_CONTACT);
     
-    private List<ReceiptContact> getRMSContact(ReceiptContactType contactType){
-        List<ReceiptContact> contacts = new ArrayList<ReceiptContact>();
-        for (DocumentOwner receiver : _standardBusinessDocumentHeader.getReceiver()) {
-            if(receiver.getIdentifier().getAuthority().equals("dRx")){
-                if(receiver.getDocumentOwnerContact() == null){
-                    return contacts;
-                }
-                
-                for (ReceiptContact contact : receiver.getDocumentOwnerContact()) {
-                    if(contact.getReceiptContactType().equals(contactType)){
-                        contacts.add(contact);
+        private List<ReceiptContact> GetRMSContact(ReceiptContactType contactType)
+        {
+            List<ReceiptContact> contacts = new List<ReceiptContact>();
+            foreach (DocumentOwner receiver in _standardBusinessDocumentHeader.Receiver)
+            {
+                if(receiver.Identifier.Authority == "dRx")
+                {
+                    if(receiver.DocumentOwnerContact == null)
+                    {
+                        return contacts;
+                    }
+
+                    foreach (ReceiptContact contact in receiver.DocumentOwnerContact) 
+                    {
+                        if(contact.ReceiptContactType == contactType)
+                        {
+                            contacts.Add(contact);
+                        }
                     }
                 }
             }
+            return contacts;
         }
-        return contacts;
-    }
 
-    public Address getDeliveryAddress() {
-        return _invoice.getDestinationInformation().getAddress();
-    }
+        public Net.Dreceiptx.Receipt.Common.Address DeliveryAddress => _invoice.DestinationInformation.Address;
 
-    public List<Contact> getCustomerDeliveryContactDetails() {
-        return _invoice.getDestinationInformation().getContacts();
-    }
+        public List<Contact> CustomerDeliveryContactDetails => _invoice.DestinationInformation.Contacts;
 
-    public Address getOriginAddress() {
-        return _invoice.getOriginInformation().getAddress();
-    }
+        public Net.Dreceiptx.Receipt.Common.Address OriginAddress => _invoice.OriginInformation.Address;
 
-    public List<Contact> getOriginContact() {
-        return _invoice.getOriginInformation().getContacts();
-    }
+        public List<Contact> OriginContact => _invoice.OriginInformation.Contacts;
 
-    public GeographicalCoordinates getOriginCoordinates() {
-        return _invoice.getOriginInformation().getAddress().getGeographicalCoordinates();
-    }
+        public GeographicalCoordinates OriginCoordinates => _invoice.OriginInformation.Address.GeographicalCoordinates;
     
-    public GeographicalCoordinates getDestinationCoordinates() {
-        return _invoice.getDestinationInformation().getAddress().getGeographicalCoordinates();
-    }
+        public GeographicalCoordinates DestinationCoordinates => _invoice.DestinationInformation.Address.GeographicalCoordinates;
     
-    public List<LineItem> getLineItems() {
-        return _invoice.getInvoiceLineItems();
-    }
+        public List<LineItem.LineItem> LineItems => _invoice.InvoiceLineItems;
     
-    public List<ReceiptAllowanceCharge> getCharges() {
-        List<ReceiptAllowanceCharge> charges = new ArrayList<ReceiptAllowanceCharge>();
-        for (ReceiptAllowanceCharge receiptAllowanceCharge : _invoice.getAllowanceOrCharges()) {
-            if(receiptAllowanceCharge.isCharge()){
-                charges.add(receiptAllowanceCharge);
-            }
+        public List<ReceiptAllowanceCharge> Charges => _invoice.AllowanceOrCharges.Where(x => x.IsCharge).ToList();
+
+        public List<ReceiptAllowanceCharge> Allowances => _invoice.AllowanceOrCharges.Where(x => x.IsAllowance).ToList();
+    
+        public double Total => _invoice.Total;
+    
+        public double SubTotal => _invoice.SubTotal;
+    
+        public double GetTaxTotal(TaxCode taxCode) {
+            return _invoice.TaxesTotalByTaxCode(taxCode);
         }
-        return charges;
-    }
-    
-    public List<ReceiptAllowanceCharge> getAllowances() {
-        List<ReceiptAllowanceCharge> allowances = new ArrayList<ReceiptAllowanceCharge>();
-        for (ReceiptAllowanceCharge receiptAllowanceCharge : _invoice.getAllowanceOrCharges()) {
-            if(receiptAllowanceCharge.isAllowance()){
-                allowances.add(receiptAllowanceCharge);
-            }
-        }
-        return allowances;
-    }
-    
-    public double getTotal() {
-        return _invoice.getTotal();
-    }
-    
-    public double getSubTotal() {
-        return _invoice.getSubTotal();
-    }
-    
-    public double getTaxTotal(TaxCode taxCode) {
-        return _invoice.getTaxesTotal(taxCode);
     }
 }

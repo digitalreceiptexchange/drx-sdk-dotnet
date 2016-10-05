@@ -14,29 +14,36 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.validation;
 
-public class ReceiptDeserializationException extends Exception {
-    private int _errorCode;
-    public ReceiptDeserializationException() {
-        super();
-    }
+using System;
 
-    public ReceiptDeserializationException(int errorCode, string message) {
-        super(message);
-        _errorCode = errorCode;
-    }
+namespace Net.Dreceiptx.Receipt.Validation
+{
+    public class ReceiptDeserializationException : Exception
+    {
+        private readonly int _errorCode;
 
-    public ReceiptDeserializationException(int errorCode, string message, Throwable cause) {
-        super(message, cause);
-        _errorCode = errorCode;
-    }
+        public ReceiptDeserializationException() :base ()
+        {
+        }
 
-    public ReceiptDeserializationException(string cause) {
-        super(cause);
-    }
+        public ReceiptDeserializationException(int errorCode, string message) : base (message)
+        {
+            _errorCode = errorCode;
+        }
 
-    public int getErrorCode() {
-        return _errorCode;
+        public ReceiptDeserializationException(int errorCode, string message, Exception innerException) : base(message, innerException)
+        {
+            _errorCode = errorCode;
+        }
+
+        public ReceiptDeserializationException(string cause) : base (cause)
+        {
+        }
+
+        public int getErrorCode()
+        {
+            return _errorCode;
+        }
     }
 }

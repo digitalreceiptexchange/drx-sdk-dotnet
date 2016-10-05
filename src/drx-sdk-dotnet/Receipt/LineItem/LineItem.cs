@@ -21,6 +21,7 @@ using System.Linq;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Ecom;
+using Net.Dreceiptx.Receipt.Tax;
 
 namespace Net.Dreceiptx.Receipt.LineItem
 {

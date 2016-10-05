@@ -55,7 +55,7 @@ namespace Net.Dreceiptx.Users
                 _email = value;
                 if (_addEmailAsIdentifier)
                 {
-                    _identifiers.Add(UserIdentifierType.EMAIL, _email);
+                    _identifiers.Add(UserIdentifierType.Email, _email);
                 }
             }
         }

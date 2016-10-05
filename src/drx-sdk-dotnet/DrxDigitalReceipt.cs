@@ -30,7 +30,7 @@ namespace Net.Dreceiptx
         [DataMember]
         public StandardBusinessDocumentHeader StandardBusinessDocumentHeader { get; set; }
 
-        [DataMember]
-        public DigitalReceipt Invoice { get; set; }
+        //[DataMember]
+        //public DigitalReceipt Invoice { get; set; }
     }
 }

@@ -14,29 +14,29 @@
 // limitations under the License.
 // 
 #endregion
-package net.dreceiptx.receipt.validation;
 
-import java.util.ArrayList;
-import java.util.List;
+using System.Collections.Generic;
 
-public class ReceiptValidation {
-    private final List<string> _errors = new ArrayList<string>();
-    private bool _isValid;
+namespace Net.Dreceiptx.Receipt.Validation
+{
+    public class ReceiptValidation
+    {
+        private readonly List<string> _errors = new List<string>();
+        private bool _isValid;
 
-    public ReceiptValidation() {
-        _isValid = true;
-    }
+        public ReceiptValidation()
+        {
+            _isValid = true;
+        }
 
-    public bool isValid() {
-        return _isValid;
-    }
+        public bool IsValid => _isValid;
 
-    public List<string> getErrors() {
-        return _errors;
-    }
+        public List<string> Errors => _errors;
 
-    public void AddError(string error) {
-        _isValid = false;
-        _errors.add(error);
+        public void AddError(string error)
+        {
+            _isValid = false;
+            _errors.Add(error);
+        }
     }
 }

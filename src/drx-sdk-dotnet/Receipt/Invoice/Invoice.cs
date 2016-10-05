@@ -23,6 +23,7 @@ using Net.Dreceiptx.Extensions;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Config;
+using Net.Dreceiptx.Receipt.Tax;
 using Net.Dreceiptx.Receipt.Validation;
 
 namespace Net.Dreceiptx.Receipt.Invoice
@@ -81,7 +82,7 @@ namespace Net.Dreceiptx.Receipt.Invoice
         public string CreationDateTimeString => CreationDateTime?.ToString(_dateTimeFormat);
 
         //transient
-        public string Identification { get; set; }
+        public string InvoiceIdentification { get; set; }
 
         //@SerializedName("invoiceCurrencyCode")
         public string InvoiceCurrencyCode { get; set; }
@@ -98,46 +99,28 @@ namespace Net.Dreceiptx.Receipt.Invoice
         public LocationInformation OriginInformation { get; set; } = new LocationInformation();
 
         //transient
-        public LocationInformation DestinationInformation { get; private set; } = new LocationInformation();
+        public LocationInformation DestinationInformation { get; set; } = new LocationInformation();
 
         //transient
-        public DespatchInformation Information { get; set; } = new DespatchInformation();
+        public DespatchInformation DespatchInformation { get; set; } = new DespatchInformation();
 
-        public double Total
-        {
-            get
-            {
-                return SubTotal + getTaxesTotal() + getSubTotalAllowances() -
-                       getSubTotalCharges();
-            }
-        }
+        public double Total => SubTotal + TaxesTotal + SubTotalAllowances - SubTotalCharges;
 
         public double TaxPercentage
         {
             get
             {
-                double subTotal = this.SubTotal + getSubTotalAllowances() - getSubTotalCharges();
+                double subTotal = this.SubTotal + SubTotalAllowances - SubTotalCharges;
                 double taxPercentage = 0;
                 if (subTotal != 0)
                 {
-                    taxPercentage = (getTaxesTotal()/subTotal)*100;
+                    taxPercentage = (TaxesTotal/subTotal)*100;
                 }
                 return taxPercentage;
             }
         }
 
-        private bool isNullOrWhiteSpace(string value)
-        {
-            return value == null || value.isEmpty();
-        }
-
-        public double SubTotal
-        {
-            get
-            {
-                return InvoiceLineItems.Sum(x => x.Total);
-            }
-        }
+        public double SubTotal => InvoiceLineItems.Sum(x => x.Total);
 
         public double TaxesTotal
         {
@@ -158,25 +141,9 @@ namespace Net.Dreceiptx.Receipt.Invoice
             return total;
         }
 
-        public double SubTotalCharges
-        {
-            get
-            {
-                double total = 0;
-                total += _allowanceOrCharges.Where(x => x.IsCharge).Sum(x => x.SubTotal);
-                return total;
-            }
-        }
+        public double SubTotalCharges => _allowanceOrCharges.Where(x => x.IsCharge).Sum(x => x.SubTotal);
 
-        public double SubTotalAllowances
-        {
-            get
-            {
-                double total = 0;
-                total += _allowanceOrCharges.Where(x => x.IsAllowance).Sum(x => x.SubTotal);
-                return total;
-            }
-        }
+        public double SubTotalAllowances => _allowanceOrCharges.Where(x => x.IsAllowance).Sum(x => x.SubTotal);
 
         public int AddLineItem(LineItem.LineItem lineItem)
         {

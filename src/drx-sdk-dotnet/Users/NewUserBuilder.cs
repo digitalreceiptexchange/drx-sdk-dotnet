@@ -23,18 +23,18 @@ namespace Net.Dreceiptx.Users
         public NewUserBuilder(string email)
         {
             _newUser = new NewUser();
-            _newUser.setUserEmail(email);
+            _newUser.Email = email;
         }
 
         public NewUserBuilder AddEmailIdentifier(string identifier)
         {
-            _newUser.addIdentifier(UserIdentifierType.EMAIL, identifier);
+            _newUser.AddIdentifier(UserIdentifierType.Email, identifier);
             return this;
         }
 
         public NewUserBuilder AddConfigEndpointId(string optionValue)
         {
-            _newUser.addConfigOption(UserConfigOptionType.ENDPOINTID, optionValue);
+            _newUser.AddConfigOption(UserConfigOptionType.EndPointId, optionValue);
             return this;
         }
 

@@ -14,380 +14,415 @@
 // limitations under the License.
 // 
 #endregion
+
 using System;
 using System.Collections.Generic;
-using Net.Dreceiptx.GS1.SDBH;
+using System.Threading;
+using Net.Dreceiptx.Client;
+using Net.Dreceiptx.Client.Exceptions;
+using Net.Dreceiptx.Receipt.AllowanceCharge;
+using Net.Dreceiptx.Receipt.Common;
+using Net.Dreceiptx.Receipt.Config;
+using Net.Dreceiptx.Receipt.Document;
+using Net.Dreceiptx.Receipt.LineItem;
+using Net.Dreceiptx.Receipt.Settlement;
+using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt
 {
     public class DigitalReceiptGenerator
     {
-    //@SerializedName("standardBusinessDocumentHeader")
-    private StandardBusinessDocumentHeader _standardBusinessDocumentHeader;
-    //@SerializedName("invoice")
-    private Invoice _invoice;
-    //@SerializedName("paymentReceipts")
-    private List<PaymentReceipt> _paymentReceipts;
+        //@SerializedName("standardBusinessDocumentHeader")
+        private StandardBusinessDocumentHeader _standardBusinessDocumentHeader;
+        //@SerializedName("invoice")
+        private Invoice.Invoice _invoice;
+        //@SerializedName("paymentReceipts")
+        private List<PaymentReceipt> _paymentReceipts;
 
-    private readonly static AtomicInteger _paymentReceiptId = new AtomicInteger(1);
-    private readonly ConfigManager _configManager;
-    private ExchangeClient _exchangeClient;
-    private string _dRxGLN;
-    private string _merchantGLN;
-    private string _userGUID;
-    private TaxCategory _defaultTaxCategory;
-    private TaxCode _defaultTaxCode;
-    private net.dreceiptx.receipt.common.Currency _defaultCurrency;
-    private string _defaultLanguage;
-    private string _defaultTimeZone;
-    private string _defaultCountry;
+        private static int _paymentReceiptId = 1;
+        private readonly IConfigManager _configManager;
+        private IExchangeClient _exchangeClient;
+        private string _dRxGLN;
+        private string _merchantGLN;
+        private string _userGUID;
+        private Net.Dreceiptx.Receipt.Tax.TaxCategory _defaultTaxCategory;
+        private Net.Dreceiptx.Receipt.Tax.TaxCode _defaultTaxCode;
+        private Currency _defaultCurrency;
+        private string _defaultLanguage;
+        private string _defaultTimeZone;
+        private string _defaultCountry;
 
-    public DigitalReceiptGenerator(ConfigManager configManager) throws ExchangeClientException {
-        _configManager = configManager;
-        _defaultCountry = this.validateConfigOption("default.country");
-        _defaultLanguage =  this.validateConfigOption("default.language");
-        _defaultTimeZone = this.validateConfigOption("default.timezone");
-        _defaultCurrency = net.dreceiptx.receipt.common.Currency.codeOf(this.validateConfigOption("default.currency"));
-        _defaultTaxCategory = Enum.valueOf(TaxCategory.class, this.validateConfigOption("default.taxCategory"));
-        _defaultTaxCode = Enum.valueOf(TaxCode.class, this.validateConfigOption("default.taxCode"));
+        public DigitalReceiptGenerator(IConfigManager configManager)
+        {
+            _configManager = configManager;
+            //_defaultCountry = validateConfigOption("default.country");
+            //_defaultLanguage =  validateConfigOption("default.language");
+            //_defaultTimeZone = validateConfigOption("default.timezone");
+            //_defaultCurrency = net.dreceiptx.receipt.common.Currency.codeOf(validateConfigOption("default.currency"));
+            //_defaultTaxCategory = Enum.valueOf(TaxCategory.class, validateConfigOption("default.taxCategory"));
+            //_defaultTaxCode = Enum.valueOf(TaxCode.class, validateConfigOption("default.taxCode"));
 
-        _standardBusinessDocumentHeader = new StandardBusinessDocumentHeader();
-        _standardBusinessDocumentHeader.setdRxGLN(this.validateConfigOption("drx.gln"));
-        _standardBusinessDocumentHeader.setMerchantGLN(this.validateConfigOption("merchant.gln"));
-        _standardBusinessDocumentHeader.getDocumentIdentification().setTypeVersion(this.validateConfigOption("receipt.version"));
-        _standardBusinessDocumentHeader.getDocumentIdentification().setCreationDateAndTime(Calendar.getInstance().getTime());
+            _standardBusinessDocumentHeader = new StandardBusinessDocumentHeader();
+            _standardBusinessDocumentHeader.DrxFLN = ValidateConfigOption("drx.gln");
+            _standardBusinessDocumentHeader.MerchantGLN = ValidateConfigOption("merchant.gln");
+            _standardBusinessDocumentHeader.DocumentIdentification.TypeVersion = ValidateConfigOption("receipt.version");
+            _standardBusinessDocumentHeader.DocumentIdentification.CreationDateAndTime = DateTime.Now;
 
-        _paymentReceipts = new ArrayList<>();
-        _invoice = new Invoice(_configManager);
-    }
+            _paymentReceipts = new List<PaymentReceipt>();
+            _invoice = new Invoice.Invoice(_configManager);
+        }
     
-    public void setMerchantGLN(string merchantGLN) {
-        _standardBusinessDocumentHeader.setMerchantGLN(merchantGLN);
-    }
+        public void SetMerchantGLN(string merchantGLN)
+        {
+            _standardBusinessDocumentHeader.MerchantGLN = merchantGLN;
+        }
     
-    public void setUserGUID(UserIdentifierType userIdentifierType, string userIdentifierValue) throws ExchangeClientException {
-        _userGUID = userIdentifierType.getValue()+":"+userIdentifierValue;
-        _standardBusinessDocumentHeader.setUserIdentifier(_userGUID);
-    }
+        public void SetUserGUID(UserIdentifierType userIdentifierType, string userIdentifierValue)
+        {
+            _userGUID = $"{userIdentifierType.Value()}:{userIdentifierValue}";
+            _standardBusinessDocumentHeader.UserIdentifier = _userGUID;
+        }
     
-    public void setMerchantReference(string merchantReference){
-        _standardBusinessDocumentHeader.getDocumentIdentification().setInstanceIdentifier(merchantReference);
+        public void SetMerchantReference(string merchantReference)
+        {
+            _standardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier = merchantReference;
         
-        if(_invoice.getInvoiceIdentification() == null){
-            _invoice.setInvoiceIdentification(merchantReference);
-        }
-    }
-
-    public void setReceiptCurrency(net.dreceiptx.receipt.common.Currency currency) {
-        _defaultCurrency = currency;
-    }
-
-    public void setReceiptLanguage(string languageCode) {
-        _defaultLanguage = languageCode;
-    }
-    
-    public void setReceiptDateTime(Date invoiceDate) {
-        _invoice.setCreationDateTime(invoiceDate);
-    }
-    
-    public void setPurchaseOrderNumber(string purchaseOrder) {
-        _invoice.setPurchaseOrder(purchaseOrder);
-    }
-
-    public void setCustomerReferenceNumber(string customerReference) {
-        _invoice.setCustomerReference(customerReference);
-    }
-    
-    public void addClientRecipientContact(string name, string email, string phone){
-        this.addRMSContact(ReceiptContactType.RECIPIENT_CONTACT, name, email, phone);
-    }
-    
-    public void addClientRecipientContact(string name, string email){
-        this.addRMSContact(ReceiptContactType.RECIPIENT_CONTACT, name, email, null);
-    }
-    
-    public void addClientRecipientContact(string name){
-        this.addRMSContact(ReceiptContactType.RECIPIENT_CONTACT, name, null, null);
-    }
-    
-    public void addClientPurchasingContact(string name, string email, string phone){
-        this.addRMSContact(ReceiptContactType.PURCHASING_CONTACT, name, email, phone);
-    }
-    
-    public void addClientPurchasingContact(string name, string email){
-        this.addRMSContact(ReceiptContactType.PURCHASING_CONTACT, name, email, null);
-    }
-    
-    public void addClientPurchasingContact(string name){
-        this.addRMSContact(ReceiptContactType.PURCHASING_CONTACT, name, null, null);
-    }
-    
-    private void addRMSContact(ReceiptContactType type, string name, string email, string phone){
-        ReceiptContact rmsContact = new ReceiptContact(type, name);
-        if(email != null){rmsContact.addEmailAddress(email);}
-        if(phone != null){rmsContact.addTelephoneNumber(phone);}
-        _standardBusinessDocumentHeader.addRMSContact(rmsContact);
-    }
-    
-    public void addMerchantCustomerRelationsContact(string name, string email, string phone){
-        this.addMerchantContact(ReceiptContactType.CUSTOMER_RELATIONS, name, email, phone);
-    }
-    
-    public void addMerchantCustomerRelationsContact(string name, string email){
-        this.addMerchantContact(ReceiptContactType.CUSTOMER_RELATIONS, name, email, null);
-    }
-    
-    public void addMerchantCustomerRelationsContact(string name){
-        this.addMerchantContact(ReceiptContactType.CUSTOMER_RELATIONS, name, null, null);
-    }
-    
-    public void addMerchantDeliveryContact(string name, string email, string phone){
-        this.addMerchantContact(ReceiptContactType.DELIVERY_CONTACT, name, email, phone);
-    }
-    
-    public void addMerchantDeliveryContact(string name, string email){
-        this.addMerchantContact(ReceiptContactType.DELIVERY_CONTACT, name, email, null);
-    }
-    
-    public void addMerchantDeliveryContact(string name){
-        this.addMerchantContact(ReceiptContactType.DELIVERY_CONTACT, name, null, null);
-    }
-    
-    public void addMerchantSalesAssistantContact(string name, string email, string phone){
-        this.addMerchantContact(ReceiptContactType.SALES_ADMINISTRATION, name, email, phone);
-    }
-    
-    public void addMerchantSalesAssistantContact(string name, string email){
-        this.addMerchantContact(ReceiptContactType.SALES_ADMINISTRATION, name, email, null);
-    }
-    
-    public void addMerchantSalesAssistantContact(string name){
-        this.addMerchantContact(ReceiptContactType.SALES_ADMINISTRATION, name, null, null);
-    }
-    
-    private void addMerchantContact(ReceiptContactType type, string name, string email, string phone){
-        ReceiptContact merchantContact = new ReceiptContact(type, name);
-        if(email != null){merchantContact.addEmailAddress(email);}
-        if(phone != null){merchantContact.addTelephoneNumber(phone);}
-        _standardBusinessDocumentHeader.addMerchantContact(merchantContact);
-    }
-    
-    public void setReceiptNumber(string receiptNumber){
-        _invoice.setInvoiceIdentification(receiptNumber);
-        
-        if(_standardBusinessDocumentHeader.getDocumentIdentification().getInstanceIdentifier() == null){
-            _standardBusinessDocumentHeader.getDocumentIdentification().setInstanceIdentifier(receiptNumber);
-        }
-    }
-
-    public int addLineItem(LineItem lineItem) {
-        for (Tax lineItemTax : lineItem.getTaxes()) {
-            this.configureTax(lineItemTax);
-        }
-        return _invoice.addLineItem(lineItem);
-    }
-    
-    public int addLineItem(string brand, string name, Integer quantity, Double price) {
-        LineItem lineItem = new StandardLineItem(brand, name, "", quantity, price);
-        return _invoice.addLineItem(lineItem);
-    }
-    
-    public int addLineItem(string brand, string name, Integer quantity, Double price, Tax tax) {
-        LineItem lineItem = new StandardLineItem(brand, name, "", quantity, price);
-        lineItem.addTax(this.configureTax(tax));
-        return _invoice.addLineItem(lineItem);
-    }
-
-    public int addLineItem(string brand, string name, string description, Integer quantity, Double price) {
-        LineItem lineItem = new StandardLineItem(brand, name, description, quantity, price);
-        return _invoice.addLineItem(lineItem);
-    }
-
-    public int addLineItem(string brand, string name, string description, Integer quantity, Double price, Tax tax) {
-        LineItem lineItem = new StandardLineItem(brand, name, description, quantity, price);
-        lineItem.addTax(this.configureTax(tax)); 
-        return _invoice.addLineItem(lineItem);
-    }
-
-    public int addLineItem(string brand, string name, string description, Integer quantity, Double price, Double taxRate, bool taxInclusive) {
-        LineItem lineItem;
-
-        if (taxInclusive) {
-            Double netPrice = price * (1 - taxRate);
-            Double total = quantity * netPrice;
-            Tax tax = new Tax(_defaultTaxCategory, _defaultTaxCode, total, taxRate);
-            lineItem = new StandardLineItem(brand, name, description, quantity, price);
-            lineItem.addTax(tax);
-        } else {
-            Double netPrice = price;
-            Double total = quantity * netPrice;
-            Tax tax = new Tax(_defaultTaxCategory, _defaultTaxCode, total, taxRate);
-            lineItem = new StandardLineItem(brand, name, description, quantity, price);
-            lineItem.addTax(tax);
-        }
-
-        return _invoice.addLineItem(lineItem);
-    }
-
-    public int addPaymentReceipt(PaymentMethodType paymentMethodCode, Double paymentAmount) {
-        PaymentReceipt paymentReceipt = new PaymentReceipt(paymentMethodCode, paymentAmount);
-        paymentReceipt.setSettlementCurrency(_defaultCurrency);
-        paymentReceipt.setId(_paymentReceiptId.getAndIncrement());
-        _paymentReceipts.add(paymentReceipt);
-        return paymentReceipt.getId();
-    }
-
-    public int addPaymentReceipt(PaymentReceipt paymentReceipt) {
-        paymentReceipt.setId(_paymentReceiptId.getAndIncrement());
-        paymentReceipt.setSettlementCurrency(_defaultCurrency);
-        _paymentReceipts.add(paymentReceipt);
-        return paymentReceipt.getId();
-    }
-
-    public void removePaymentReceipt(int paymentId) {
-        PaymentReceipt item = null;
-        for (PaymentReceipt paymentReceipt : _paymentReceipts) {
-            if (paymentReceipt.getId() == paymentId) {
-                item = paymentReceipt;
-                break;
+            if(_invoice.InvoiceIdentification == null){
+                _invoice.InvoiceIdentification = merchantReference;
             }
         }
-        if (item != null) {
-            _paymentReceipts.remove(item);
+
+        public void SetReceiptCurrency(Currency currency)
+        {
+            _defaultCurrency = currency;
         }
-    }
 
-    public void addGeneralDiscount(double amount, string description) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.GeneralDiscount(amount, description));
-    }
-    
-    public void addGeneralDiscount(double amount, string description, Tax tax) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.GeneralDiscount(amount, description, this.configureTax(tax)));
-    }
-
-    public void addTip(double amount, string description) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.Tip(amount, description));
-    }
-    
-    public void addTip(double amount, string description, Tax tax) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.Tip(amount, description, this.configureTax(tax)));
-    }
-
-    public void addPackagingFee(double amount, string description) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.PackagingFee(amount, description));
-    }
-    
-    public void addPackagingFee(double amount, string description, Tax tax) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.PackagingFee(amount, description, this.configureTax(tax)));
-    }
-
-    public void addDeliveryFee(double amount, string description) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.DeliveryFee(amount, description));
-    }
-    
-    public void addDeliveryFee(double amount, string description, Tax tax) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.DeliveryFee(amount, description, this.configureTax(tax)));
-    }
-
-    public void addFrieghtFee(double amount, string description) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.FreightFee(amount, description));
-    }
-    
-    public void addFrieghtFee(double amount, string description, Tax tax) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.FreightFee(amount, description, this.configureTax(tax)));
-    }
-
-    public void addProcessingFee(double amount, string description) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.ProcessingFee(amount, description));
-    }
-    
-    public void addProcessingFee(double amount, string description, Tax tax) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.ProcessingFee(amount, description, this.configureTax(tax)));
-    }
-    
-    public void addBookingFee(double amount, string description) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.BookingFee(amount, description));
-    }
-    
-    public void addBookingFee(double amount, string description, Tax tax) {
-        _invoice.addAllowanceOrCharge(ReceiptAllowanceCharge.BookingFee(amount, description, this.configureTax(tax)));
-    }
-
-    public void setDeliveryInformation(DeliveryInformation deliveryInformation) {
-        _invoice.setDestinationInformation(deliveryInformation.getLocationInformation());
-        _invoice.getAllowanceOrCharges().addAll(deliveryInformation.getDeliveryFees());
-        _invoice.setDespatchInformation(deliveryInformation.getDespatchInformation());
-    }
-
-    public void setDeliveryAddress(Address address) {
-        _invoice.getDestinationInformation().setAddress(address);
-    }
-
-    public void setDeliveryAddress(Address address, Contact contact) {
-        _invoice.getDestinationInformation().setAddress(address);
-        _invoice.getDestinationInformation().addContact(contact);
-    }
-
-    public void setDestinationCoordinates(GeographicalCoordinates geographicalCoordinates) {
-        _invoice.getDestinationInformation().setGeographicalCoordinates(geographicalCoordinates);
-    }
-
-    public void setDeliveryDate(Date deliverDate) {
-        _invoice.getDespatchInformation().setDeliveryDate(deliverDate);
-    }
-
-    public void setOriginAddress(Address address) {
-        _invoice.getOriginInformation().setAddress(address);
-    }
-
-    public void setOriginAddress(Address address, Contact contact) {
-        _invoice.getOriginInformation().setAddress(address);
-        _invoice.getOriginInformation().addContact(contact);
-    }
-
-    public void setOriginCoordinates(GeographicalCoordinates geographicalCoordinates) {
-        _invoice.getOriginInformation().setGeographicalCoordinates(geographicalCoordinates);
-    }
-
-    public void validate() {
-        ReceiptValidation receiptValidation = new ReceiptValidation();
-        _standardBusinessDocumentHeader.validate(receiptValidation);
-        _invoice.validate(receiptValidation);
-    }
-    
-    private Tax configureTax(Tax tax){
-        if(tax.getTaxCategory() == null){
-            tax.setTaxCategory(_defaultTaxCategory);
+        public void SetReceiptLanguage(string languageCode)
+        {
+            _defaultLanguage = languageCode;
         }
+    
+        public void SetReceiptDateTime(DateTime invoiceDate)
+        {
+            _invoice.CreationDateTime = invoiceDate;
+        }
+    
+        public void SetPurchaseOrderNumber(string purchaseOrder)
+        {
+            _invoice.PurchaseOrder = purchaseOrder;
+        }
+
+        public void SetCustomerReferenceNumber(string customerReference)
+        {
+            _invoice.CustomerReference = customerReference;
+        }
+    
+        public void AddClientRecipientContact(string name, string email, string phone)
+        {
+            AddRMSContact(ReceiptContactType.RECIPIENT_CONTACT, name, email, phone);
+        }
+    
+        public void AddClientRecipientContact(string name, string email)
+        {
+            AddRMSContact(ReceiptContactType.RECIPIENT_CONTACT, name, email, null);
+        }
+    
+        public void AddClientRecipientContact(string name)
+        {
+            AddRMSContact(ReceiptContactType.RECIPIENT_CONTACT, name, null, null);
+        }
+    
+        public void AddClientPurchasingContact(string name, string email, string phone)
+        {
+            AddRMSContact(ReceiptContactType.PURCHASING_CONTACT, name, email, phone);
+        }
+    
+        public void AddClientPurchasingContact(string name, string email)
+        {
+            AddRMSContact(ReceiptContactType.PURCHASING_CONTACT, name, email, null);
+        }
+    
+        public void AddClientPurchasingContact(string name)
+        {
+            AddRMSContact(ReceiptContactType.PURCHASING_CONTACT, name, null, null);
+        }
+    
+        private void AddRMSContact(ReceiptContactType type, string name, string email, string phone){
+            ReceiptContact rmsContact = new ReceiptContact(type, name);
+            if (email != null)
+            {
+                rmsContact.AddEmailAddress(email);
+            }
+            if (phone != null)
+            {
+                rmsContact.AddTelephoneNumber(phone);
+            }
+            _standardBusinessDocumentHeader.AddRMSContact(rmsContact);
+        }
+    
+        public void AddMerchantCustomerRelationsContact(string name, string email, string phone){
+            AddMerchantContact(ReceiptContactType.CUSTOMER_RELATIONS, name, email, phone);
+        }
+    
+        public void AddMerchantCustomerRelationsContact(string name, string email){
+            AddMerchantContact(ReceiptContactType.CUSTOMER_RELATIONS, name, email, null);
+        }
+    
+        public void AddMerchantCustomerRelationsContact(string name){
+            AddMerchantContact(ReceiptContactType.CUSTOMER_RELATIONS, name, null, null);
+        }
+    
+        public void AddMerchantDeliveryContact(string name, string email, string phone){
+            AddMerchantContact(ReceiptContactType.DELIVERY_CONTACT, name, email, phone);
+        }
+    
+        public void AddMerchantDeliveryContact(string name, string email){
+            AddMerchantContact(ReceiptContactType.DELIVERY_CONTACT, name, email, null);
+        }
+    
+        public void AddMerchantDeliveryContact(string name){
+            AddMerchantContact(ReceiptContactType.DELIVERY_CONTACT, name, null, null);
+        }
+    
+        public void AddMerchantSalesAssistantContact(string name, string email, string phone){
+            AddMerchantContact(ReceiptContactType.SALES_ADMINISTRATION, name, email, phone);
+        }
+    
+        public void AddMerchantSalesAssistantContact(string name, string email){
+            AddMerchantContact(ReceiptContactType.SALES_ADMINISTRATION, name, email, null);
+        }
+    
+        public void AddMerchantSalesAssistantContact(string name){
+            AddMerchantContact(ReceiptContactType.SALES_ADMINISTRATION, name, null, null);
+        }
+    
+        private void AddMerchantContact(ReceiptContactType type, string name, string email, string phone){
+            ReceiptContact merchantContact = new ReceiptContact(type, name);
+            if(email != null){merchantContact.AddEmailAddress(email);}
+            if(phone != null){merchantContact.AddTelephoneNumber(phone);}
+            _standardBusinessDocumentHeader.AddMerchantContact(merchantContact);
+        }
+    
+        public void SetReceiptNumber(string receiptNumber){
+            _invoice.InvoiceIdentification = receiptNumber;
         
-        if(tax.getTaxCode()== null){
-            tax.setTaxCode(_defaultTaxCode);
+            if(_standardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier == null){
+                _standardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier = receiptNumber;
+            }
         }
-        return tax;
-    }
 
-    public string encodeJson() {
-        DigitalReceiptSerializer digitalReceiptMapper = new DigitalReceiptSerializer();
-        digitalReceiptMapper.setInvoice(_invoice);
-        digitalReceiptMapper.setStandardBusinessDocumentHeader(_standardBusinessDocumentHeader);
-        digitalReceiptMapper.setPaymentReceipts(_paymentReceipts);
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                .registerTypeAdapter(Invoice.class, new InvoiceSerializer(_defaultCurrency))
-                .registerTypeHierarchyAdapter(LineItem.class, new LineItemSerializer(_defaultCurrency))
-                .registerTypeAdapter(new TypeToken<List<PaymentReceipt>>() {
-                }.getType(), new PaymentReceiptsSerializer(_dRxGLN, _merchantGLN, _userGUID))
-                .create();
-        string digitalReceiptJson = gson.toJson(digitalReceiptMapper);
-        return digitalReceiptJson;
-    }
+        public int addLineItem(LineItem.LineItem lineItem) {
+            foreach (Tax.Tax lineItemTax in lineItem.Taxes) {
+                ConfigureTax(lineItemTax);
+            }
+            return _invoice.AddLineItem(lineItem);
+        }
     
-    private string validateConfigOption(string configParameter) throws ExchangeClientException {
-        if(_configManager.exists(configParameter)){
-            return _configManager.getConfigValue(configParameter);
-        }else{
-            throw new ExchangeClientException(101, "Required config parameter "+configParameter+" not supplied");
+        public int addLineItem(string brand, string name, int quantity, double price) {
+            LineItem.LineItem lineItem = new StandardLineItem(brand, name, "", quantity, price);
+            return _invoice.AddLineItem(lineItem);
+        }
+    
+        public int addLineItem(string brand, string name, int quantity, double price, Tax.Tax tax) {
+            LineItem.LineItem lineItem = new StandardLineItem(brand, name, "", quantity, price);
+            lineItem.AddTax(ConfigureTax(tax));
+            return _invoice.AddLineItem(lineItem);
+        }
+
+        public int addLineItem(string brand, string name, string description, int quantity, double price) {
+            LineItem.LineItem lineItem = new StandardLineItem(brand, name, description, quantity, price);
+            return _invoice.AddLineItem(lineItem);
+        }
+
+        public int addLineItem(string brand, string name, string description, int quantity, double price, Tax.Tax tax) {
+            LineItem.LineItem lineItem = new StandardLineItem(brand, name, description, quantity, price);
+            lineItem.AddTax(ConfigureTax(tax)); 
+            return _invoice.AddLineItem(lineItem);
+        }
+
+        public int addLineItem(string brand, string name, string description, int quantity, double price, double taxRate, bool taxInclusive) {
+            LineItem.LineItem lineItem;
+
+            if (taxInclusive)
+            {
+                Double netPrice = price * (1 - taxRate);
+                Double total = quantity * netPrice;
+                Tax.Tax tax = new Tax.Tax(_defaultTaxCategory, _defaultTaxCode, total, taxRate);
+                lineItem = new StandardLineItem(brand, name, description, quantity, price);
+                lineItem.AddTax(tax);
+            } else {
+                Double netPrice = price;
+                Double total = quantity * netPrice;
+                Tax.Tax tax = new Tax.Tax(_defaultTaxCategory, _defaultTaxCode, total, taxRate);
+                lineItem = new StandardLineItem(brand, name, description, quantity, price);
+                lineItem.AddTax(tax);
+            }
+
+            return _invoice.AddLineItem(lineItem);
+        }
+
+        public int addPaymentReceipt(PaymentMethodType paymentMethodCode, double paymentAmount) {
+            PaymentReceipt paymentReceipt = new PaymentReceipt(paymentMethodCode, paymentAmount);
+            paymentReceipt.SettlementCurrency = _defaultCurrency;
+            paymentReceipt.Id = Interlocked.Add(ref _paymentReceiptId, 1);
+            _paymentReceipts.Add(paymentReceipt);
+            return paymentReceipt.Id;
+        }
+
+        public int addPaymentReceipt(PaymentReceipt paymentReceipt) {
+            paymentReceipt.Id = Interlocked.Add(ref _paymentReceiptId, 1);
+            paymentReceipt.SettlementCurrency = _defaultCurrency;
+            _paymentReceipts.Add(paymentReceipt);
+            return paymentReceipt.Id;
+        }
+
+        public void removePaymentReceipt(int paymentId) {
+            PaymentReceipt item = null;
+            foreach (PaymentReceipt paymentReceipt in _paymentReceipts)
+            {
+                if (paymentReceipt.Id == paymentId) {
+                    item = paymentReceipt;
+                    break;
+                }
+            }
+            if (item != null)
+            {
+                _paymentReceipts.Remove(item);
+            }
+        }
+
+        public void AddGeneralDiscount(double amount, string description) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.GeneralDiscount(amount, description));
+        }
+    
+        public void AddGeneralDiscount(double amount, string description, Tax.Tax tax) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.GeneralDiscount(amount, description, ConfigureTax(tax)));
+        }
+
+        public void AddTip(double amount, string description) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.Tip(amount, description));
+        }
+    
+        public void AddTip(double amount, string description, Tax.Tax tax) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.Tip(amount, description, ConfigureTax(tax)));
+        }
+
+        public void AddPackagingFee(double amount, string description) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.PackagingFee(amount, description));
+        }
+    
+        public void AddPackagingFee(double amount, string description, Tax.Tax tax) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.PackagingFee(amount, description, ConfigureTax(tax)));
+        }
+
+        public void AddDeliveryFee(double amount, string description) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.DeliveryFee(amount, description));
+        }
+    
+        public void AddDeliveryFee(double amount, string description, Tax.Tax tax) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.DeliveryFee(amount, description, ConfigureTax(tax)));
+        }
+
+        public void AddFrieghtFee(double amount, string description) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.FreightFee(amount, description));
+        }
+    
+        public void AddFrieghtFee(double amount, string description, Tax.Tax tax) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.FreightFee(amount, description, ConfigureTax(tax)));
+        }
+
+        public void AddProcessingFee(double amount, string description) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.ProcessingFee(amount, description));
+        }
+    
+        public void AddProcessingFee(double amount, string description, Tax.Tax tax) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.ProcessingFee(amount, description, ConfigureTax(tax)));
+        }
+    
+        public void AddBookingFee(double amount, string description) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.BookingFee(amount, description));
+        }
+    
+        public void AddBookingFee(double amount, string description, Tax.Tax tax) {
+            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.BookingFee(amount, description, ConfigureTax(tax)));
+        }
+
+        public void SetDeliveryInformation(DeliveryInformation deliveryInformation) {
+            _invoice.DestinationInformation = deliveryInformation.LocationInformation;
+            _invoice.AllowanceOrCharges.AddRange(deliveryInformation.DeliveryFees);
+            _invoice.DespatchInformation = deliveryInformation.DespatchInformation;
+        }
+
+        public void SetDeliveryAddress(Address address) {
+            _invoice.DestinationInformation.Address = address;
+        }
+
+        public void SetDeliveryAddress(Address address, Contact contact) {
+            _invoice.DestinationInformation.Address = address;
+            _invoice.DestinationInformation.AddContact(contact);
+        }
+
+        public void SetDestinationCoordinates(GeographicalCoordinates geographicalCoordinates) {
+            _invoice.DestinationInformation.GeographicalCoordinates = geographicalCoordinates;
+        }
+
+        public void SetDeliveryDate(DateTime deliverDate) {
+            _invoice.DespatchInformation.DeliveryDate = deliverDate;
+        }
+
+        public void SetOriginAddress(Address address) {
+            _invoice.OriginInformation.Address = address;
+        }
+
+        public void SetOriginAddress(Address address, Contact contact) {
+            _invoice.OriginInformation.Address = address;
+            _invoice.OriginInformation.AddContact(contact);
+        }
+
+        public void SetOriginCoordinates(GeographicalCoordinates geographicalCoordinates) {
+            _invoice.OriginInformation.GeographicalCoordinates = geographicalCoordinates;
+        }
+
+        public void Validate() {
+            ReceiptValidation receiptValidation = new ReceiptValidation();
+            _standardBusinessDocumentHeader.Validate(receiptValidation);
+            _invoice.Validate(receiptValidation);
+        }
+    
+        private Tax.Tax ConfigureTax(Tax.Tax tax){
+            if(tax.TaxCategory == null){
+                tax.TaxCategory = _defaultTaxCategory;
+            }
+        
+            if(tax.TaxCode== null){
+                tax.TaxCode = _defaultTaxCode;
+            }
+            return tax;
+        }
+
+        public string encodeJson() {
+            //    DigitalReceiptSerializer digitalReceiptMapper = new DigitalReceiptSerializer();
+            //    digitalReceiptMapper.setInvoice(_invoice);
+            //    digitalReceiptMapper.setStandardBusinessDocumentHeader(_standardBusinessDocumentHeader);
+            //    digitalReceiptMapper.setPaymentReceipts(_paymentReceipts);
+            //    Gson gson = new GsonBuilder()
+            //            .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+            //            .registerTypeAdapter(Invoice.class, new InvoiceSerializer(_defaultCurrency))
+            //            .registerTypeHierarchyAdapter(LineItem.class, new LineItemSerializer(_defaultCurrency))
+            //            .registerTypeAdapter(new TypeToken<List<PaymentReceipt>>().getType(), new PaymentReceiptsSerializer(_dRxGLN, _merchantGLN, _userGUID))
+            //            .create();
+            //    string digitalReceiptJson = gson.toJson(digitalReceiptMapper);
+            //    return digitalReceiptJson;
+            return null;
+        }
+
+        private string ValidateConfigOption(string configParameter)
+        {
+            if(_configManager.Exists(configParameter)){
+                return _configManager.GetConfigValue(configParameter);
+            }else{
+                throw new ExchangeClientException(101, "Required config parameter "+configParameter+" not supplied");
+            }
         }
     }
-}
 }
