@@ -66,6 +66,7 @@
     <Compile Include="Client\UriParameters.cs" />
     <Compile Include="DrxService.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\MiscExtensions.cs" />
     <Compile Include="GS1\SDBH\DocumentIdentification.cs" />
     <Compile Include="GS1\SDBH\NameSpaceDoc.cs" />
     <Compile Include="GS1\SDBH\Partner.cs" />

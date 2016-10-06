@@ -19,7 +19,8 @@ using System.Linq;
 
 namespace Net.Dreceiptx.Client
 {
-    public class UriParameters {
+    public class UriParameters
+    {
         private readonly Dictionary<string, string> _uriParameters = new Dictionary<string, string>();
 
         public void Add( string name, string value)

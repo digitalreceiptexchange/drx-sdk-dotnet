@@ -121,7 +121,7 @@ namespace Net.Dreceiptx
     public class ExchangeResponse
     {
         public bool Success { get; set; }
-        public string Code { get; set; }
+        public int? Code { get; set; }
         public ResponseData ResponseData { get; set; }
         public string ExceptionMessage { get; set; }
     }
@@ -130,5 +130,7 @@ namespace Net.Dreceiptx
     {
         public string ReceiptId { get; set; }
         public string Reference { get; set; }
+        public string Guid { get; set; }
+        public string Rms { get; set; }
     }
 }
