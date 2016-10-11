@@ -37,7 +37,7 @@ namespace Net.Dreceiptx.Client
          * @return The matching users will be returned if it is found otherwise null
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        Users.Users SearchUsers(UserIdentifierType identifierType, List<string> userIdentifiers);
+        List<User> SearchUsers(UserIdentifierType identifierType, List<string> userIdentifiers);
     
         /**
          * @param receipt

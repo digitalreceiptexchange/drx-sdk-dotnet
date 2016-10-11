@@ -54,6 +54,7 @@ namespace Net.Dreceiptx.Client
         private readonly string _downloadDirectory;
         private int _responseErrorCode = 500;
         private string _responseErrorMessage = "Unknown Error";
+        private readonly JsonSerializerSettings _jsonSerializerSettings;
 
         /**
          * Creates instance of ExchangeClient using the given ConfigManager
@@ -92,6 +93,12 @@ namespace Net.Dreceiptx.Client
                     _directoryProtocol = "https";
                 break;
             }
+
+            _jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            };
         }
 
         public User SearchUser(UserIdentifierType identifierType, string identifier)
@@ -102,97 +109,23 @@ namespace Net.Dreceiptx.Client
             return SearchUser(encodedIdentifier, uriParameters);
         }
 
-        private HttpClient CreateConnection(string protocol, string hostname, string uri, string contentType, string requestMethod,
-            string requestVersion, UriParameters uriParameters)
+        private User SearchUser(string encodedIdentifier, UriParameters uriParameters)
         {
-            var client = new HttpClient();
-            
-            var url = new Uri($"{protocol}://{hostname}");
-            uriParameters?.GetKeyValuePairs().ForEach(x => url.AddQuery(x.Key, x.Value));
-            client.BaseAddress = url;
-
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            long timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
-            client.DefaultRequestHeaders.Add("x-drx-timestamp", timestamp.ToString());
-            client.DefaultRequestHeaders.Add("x-drx-requester", _requesterId);
-            client.DefaultRequestHeaders.Add("x-drx-version", requestVersion);
-            client.DefaultRequestHeaders.Add("User-Agent", USER_AGENT);
-            string auth = "DRX " + CreateAuthKey(timestamp);
-            client.DefaultRequestHeaders.Add("Authorization", auth);
-            HttpRequestMessage message = new HttpRequestMessage();
-            Receipt.DigitalReceipt receipt = null;
-            message.Content = new StringContent(JsonConvert.SerializeObject(receipt, Formatting.Indented, new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc
-            }), Encoding.UTF8, "application/json");
-
-            client.Timeout = new TimeSpan(0, 0, 0, 30);
-            return client;
-                
-            Console.WriteLine(message.Content);
-
-
             try
             {
-                JsonMediaTypeFormatter jsonFormatter = new JsonMediaTypeFormatter();
-                jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                var response = client.PostAsync("receipt?XDEBUG_SESSION_START=netbeans-xdebug", new { dRxDigitalReceipt = receipt }, jsonFormatter).Result;
-
-                string contentResult = response.Content.ReadAsStringAsync().Result;
-                Console.WriteLine($"StatusCode={response.StatusCode}");
-                Console.WriteLine($"ResponseData={contentResult}");
-                ExchangeResponseResult exchangeResponse = JsonConvert.DeserializeObject<ExchangeResponseResult>(contentResult, new JsonSerializerSettings
+                using (HttpClient client = CreateConnection("/user/" + encodedIdentifier, _userVersion, uriParameters))
                 {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                    DateTimeZoneHandling = DateTimeZoneHandling.Utc
-                });
-                if (exchangeResponse.ExchangeResponse.Success)
-                {
-                    Console.WriteLine($"Success!, RecieptId={exchangeResponse.ExchangeResponse.ResponseData.ReceiptId}, Reference={exchangeResponse.ExchangeResponse.ResponseData.Reference}");
-                }
-                else
-                {
-                    Console.WriteLine($"FAILURE,{exchangeResponse.ExchangeResponse.ExceptionMessage}");
-                }
-
-                //return exchangeResponse.ExchangeResponse;
-                return client;
-            }
-            catch (HttpRequestException e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            
-        }
-        private User SearchUser(string encodedIdentifier, UriParameters uriParameters) {
-            try {
-
-                using (HttpClient client = CreateConnection(_directoryProtocol, _directoryHostname,
-                    "/user/" + encodedIdentifier, CONTENT_TYPE_JSON, "GET", _userVersion, uriParameters))
-                {
-
-                    //var response = client.PostAsync("receipt?XDEBUG_SESSION_START=netbeans-xdebug", new { dRxDigitalReceipt = receipt }, jsonFormatter).Result;
                     var response = client.GetAsync("");
-
                     var statusCode = response.Result.StatusCode;
                     if (response.Result.StatusCode == HttpStatusCode.OK ||
                         response.Result.StatusCode == HttpStatusCode.BadRequest)
                     {
                         string contentResult = response.Result.Content.ReadAsStringAsync().Result;
-                        ExchangeResponseResult exchangeResponse =
-                            JsonConvert.DeserializeObject<ExchangeResponseResult>(contentResult,
-                                new JsonSerializerSettings
-                                {
-                                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                                    DateTimeZoneHandling = DateTimeZoneHandling.Utc
-                                });
+                        ExchangeResponseResult exchangeResponse = JsonConvert.DeserializeObject<ExchangeResponseResult>(
+                            contentResult, _jsonSerializerSettings);
                         if (exchangeResponse.ExchangeResponse.Success)
                         {
                             User user = new User();
-
                             user.Guid = exchangeResponse?.ExchangeResponse?.ResponseData?.Guid;
                             user.Rms = exchangeResponse?.ExchangeResponse?.ResponseData?.Rms;
                             return user;
@@ -233,78 +166,166 @@ namespace Net.Dreceiptx.Client
             //catch (SocketTimeoutException te){
             //    throw new ExchangeClientException(500, "The connection to the exchange timed out and did not receive a response", te);
             //}
-            catch (ExchangeClientException dRxE) {
+            catch (ExchangeClientException dRxE)
+            {
                 throw dRxE;
-            }catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 throw new ExchangeClientException(500, e.ToString(), e);
             }
         }
 
-        public Users.Users SearchUsers(UserIdentifierType identifierType, List<string> userIdentifiers)  {
-            //UriParameters uriParameters = new UriParameters();
-            //uriParameters.Add("type", identifierType.Value().ToLower());
-            //StringBuilder userIdentifiersParam = new StringBuilder();
-            //bool firstIteration = true;
-            //foreach (string userIdentifier in userIdentifiers) {
-            //    if(!firstIteration){
-            //        userIdentifiersParam.Append(";");
-            //    }
-            //    userIdentifiersParam.Append(userIdentifier);
-            //    firstIteration = false;
-            //}
-            //uriParameters.Add("identifiers", userIdentifiersParam.ToString());
-            //Users.Users users = new Users();
-            //try {
-            //    HttpURLConnection connection = createConnection(_directoryProtocol, _directoryHostname,
-            //            "/user", CONTENT_TYPE_JSON, "GET", _userVersion, uriParameters);
-            //    connection.connect();
-            //    int responseCode = connection.getResponseCode();
-            //    if (responseCode == HttpCodes.HTTP_200_OK) {
-            //        JsonObject exchangeResponse = getResponseJsonObject(connection);
+        private HttpClient CreateConnection(string uri, string requestVersion, UriParameters uriParameters)
+        {
+            var client = new HttpClient();
+            
+            var url = new Uri($"{_directoryProtocol}://{_directoryHostname}{uri}");
+            uriParameters?.GetKeyValuePairs().ForEach(x => url.AddQuery(x.Key, x.Value));
+            client.BaseAddress = url;
 
-            //        if (exchangeResponse.get("success").getAsbool()) {
-            //            JsonObject responseData = exchangeResponse.get("responseData").getAsJsonObject();
-            //            JsonObject userIdentifiersObject = responseData.get("userIdentifiers").getAsJsonObject();
-            //            for (Dictionary.Entry<string, JsonElement> entry : userIdentifiersObject.entrySet()) {
-            //                User user = null;
-            //                if (!entry.getValue().isJsonNull()) {
-            //                    JsonObject userIdentifierObject = userIdentifiersObject.getAsJsonObject(entry.getKey());
-            //                    user = new User();
-            //                    user.setIdentifierType(identifierType);
-            //                    user.setIdentifier(entry.getKey());
-            //                    user.setGUID(userIdentifierObject.get("guid").getAsstring());
-            //                    user.setRMS(userIdentifierObject.get("rms").getAsstring());
-            //                }
-            //                users.add(entry.getKey(), user);
-            //            }
-            //            connection.disconnect();
-            //            return users;
-            //        } else {
-            //            throw new ExchangeClientException(exchangeResponse.get("code").getAsInt(), exchangeResponse.get("exceptionMessage").getAsstring());
-            //        }
-            //    } else if (responseCode == HttpCodes.HTTP_404_NOTFOUND) {
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(404, "The exchange host could not be found or is currently unavailable, please check ConfigManager setting and ensure they are correct.");
-            //    } else if (responseCode == HttpCodes.HTTP_400_BAD_REQUEST || responseCode == HttpCodes.HTTP_401_UNAUTHORIZED) {
-            //        loadErrorResponseJsonObject(connection);
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(_responseErrorCode, _responseErrorMessage);
-            //    } else {
-            //        string errorMessage = connection.getResponseMessage();
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(responseCode, errorMessage);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            long timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
+            client.DefaultRequestHeaders.Add("x-drx-timestamp", timestamp.ToString());
+            client.DefaultRequestHeaders.Add("x-drx-requester", _requesterId);
+            client.DefaultRequestHeaders.Add("x-drx-version", requestVersion);
+            client.DefaultRequestHeaders.Add("User-Agent", USER_AGENT);
+            string auth = "DRX " + CreateAuthKey(timestamp);
+            client.DefaultRequestHeaders.Add("Authorization", auth);
+            //HttpRequestMessage message = new HttpRequestMessage();
+            //Receipt.DigitalReceipt receipt = null;
+            //message.Content = new StringContent(JsonConvert.SerializeObject(receipt, Formatting.Indented, new JsonSerializerSettings
+            //{
+            //    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            //    DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            //}), Encoding.UTF8, "application/json");
+
+            client.Timeout = new TimeSpan(0, 0, 0, 30);
+            return client;
+                
+            ////Console.WriteLine(message.Content);
+
+
+            //try
+            //{
+            //    JsonMediaTypeFormatter jsonFormatter = new JsonMediaTypeFormatter();
+            //    jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            //    var response = client.PostAsync("receipt?XDEBUG_SESSION_START=netbeans-xdebug", new { dRxDigitalReceipt = receipt }, jsonFormatter).Result;
+
+            //    string contentResult = response.Content.ReadAsStringAsync().Result;
+            //    Console.WriteLine($"StatusCode={response.StatusCode}");
+            //    Console.WriteLine($"ResponseData={contentResult}");
+            //    ExchangeResponseResult exchangeResponse = JsonConvert.DeserializeObject<ExchangeResponseResult>(contentResult, new JsonSerializerSettings
+            //    {
+            //        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            //        DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            //    });
+            //    if (exchangeResponse.ExchangeResponse.Success)
+            //    {
+            //        Console.WriteLine($"Success!, RecieptId={exchangeResponse.ExchangeResponse.ResponseData.ReceiptId}, Reference={exchangeResponse.ExchangeResponse.ResponseData.Reference}");
             //    }
-            //}catch(ConnectException ce){
+            //    else
+            //    {
+            //        Console.WriteLine($"FAILURE,{exchangeResponse.ExchangeResponse.ExceptionMessage}");
+            //    }
+
+            //    //return exchangeResponse.ExchangeResponse;
+            //    return client;
+            //}
+            //catch (HttpRequestException e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw;
+            //}
+            
+        }
+
+
+        public List<User> SearchUsers(UserIdentifierType identifierType, List<string> userIdentifiers)  {
+            List<User> users = new List<User>();
+            UriParameters uriParameters = new UriParameters();
+            uriParameters.Add("type", identifierType.Value().ToLower());
+            StringBuilder userIdentifiersParam = new StringBuilder();
+            bool firstIteration = true;
+            foreach (string userIdentifier in userIdentifiers)
+            {
+                if (!firstIteration)
+                {
+                    userIdentifiersParam.Append(";");
+                }
+                userIdentifiersParam.Append(userIdentifier);
+                firstIteration = false;
+            }
+            uriParameters.Add("identifiers", userIdentifiersParam.ToString());
+            try
+            {
+                using (HttpClient client = CreateConnection("/user", _userVersion, uriParameters))
+                {
+                    var response = client.GetAsync("");
+                    var statusCode = response.Result.StatusCode;
+                    if (response.Result.StatusCode == HttpStatusCode.OK)
+                    {
+                        string contentResult = response.Result.Content.ReadAsStringAsync().Result;
+                        UsersResponse exchangeResponse = JsonConvert.DeserializeObject<UsersResponse>(contentResult, _jsonSerializerSettings);
+                        if (exchangeResponse.ExchangeResponse.Success)
+                        {
+                            foreach (var keyValuePair in exchangeResponse.ExchangeResponse.ResponseData.UserIdentifiers)
+                            {
+                                User user = new User();
+                                user.IdentifierType = identifierType;
+                                user.Identifier = keyValuePair.Key;
+                                user.Guid = keyValuePair.Value.Guid;
+                                user.Rms = keyValuePair.Value.Rms;
+                                users.Add(user);
+                            }
+                            return users;
+                        }
+                        else
+                        {
+                            throw new ExchangeClientException(exchangeResponse.ExchangeResponse.Code.Value,
+                                exchangeResponse.ExchangeResponse.ExceptionMessage);
+                        }
+                    }
+                    else if (response.Result.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        throw new ExchangeClientException(404,
+                            "The exchange host could not be found or is currently unavailable, please check ConfigManager setting and ensure they are correct.");
+                    }
+                    else if (response.Result.StatusCode == HttpStatusCode.BadGateway ||
+                        response.Result.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        string contentResult = response.Result.Content.ReadAsStringAsync().Result;
+                        ExchangeResponseResult exchangeResponse =
+                            JsonConvert.DeserializeObject<ExchangeResponseResult>(contentResult, _jsonSerializerSettings);
+                        throw new ExchangeClientException(exchangeResponse.ExchangeResponse.Code.Value,
+                            exchangeResponse.ExchangeResponse.ExceptionMessage);
+                    }
+                    else
+                    {
+                        //TODO: Not sure if errorMessage is correc here
+                        string errorMessage = response.Result.Content.ToString();
+                        throw new ExchangeClientException((int)statusCode, errorMessage);
+                    }
+                }
+            }
+            //catch (ConnectException ce)
+            //{
             //    throw new ExchangeClientException(500, "There was a connection exception, please ensure internet connectivity and exchange host settings", ce);
-            //}catch (SocketTimeoutException te){
-            //    throw new ExchangeClientException(500, "The connection to the exchange timed out and did not receive a response", te);
-            //}catch (ExchangeClientException dRxE) {
-            //    throw dRxE;
-            //}catch (Exception e) {
-            //    throw new ExchangeClientException(500, e.tostring(), e);
             //}
+            //catch (SocketTimeoutException te)
+            //{
+            //    throw new ExchangeClientException(500, "The connection to the exchange timed out and did not receive a response", te);
+            //}
+            catch (ExchangeClientException dRxE)
+            {
+                throw dRxE;
+            }
+            catch (Exception e)
+            {
+                throw new ExchangeClientException(500, e.ToString(), e);
+            }
 
-            return null;
         }
 
         public string SendReceipt(DigitalReceiptGenerator receipt)

@@ -15,6 +15,7 @@
 // 
 #endregion
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
@@ -122,8 +123,9 @@ namespace Net.Dreceiptx
     {
         public bool Success { get; set; }
         public int? Code { get; set; }
-        public ResponseData ResponseData { get; set; }
         public string ExceptionMessage { get; set; }
+        public ResponseData ResponseData { get; set; }
+        
     }
 
     public class ResponseData
@@ -132,5 +134,23 @@ namespace Net.Dreceiptx
         public string Reference { get; set; }
         public string Guid { get; set; }
         public string Rms { get; set; }
+    }
+
+    public class UsersResponse
+    {
+        public UserReponseExchangeResponse ExchangeResponse { get; set; }
+    }
+
+    public class UserReponseExchangeResponse
+    {
+        public bool Success { get; set; }
+        public int? Code { get; set; }
+        public string ExceptionMessage { get; set; }
+        public UserReponseResponseData ResponseData { get; set; }
+    }
+
+    public class UserReponseResponseData
+    {
+        public Dictionary<string, ResponseData> UserIdentifiers { get; set; }
     }
 }
