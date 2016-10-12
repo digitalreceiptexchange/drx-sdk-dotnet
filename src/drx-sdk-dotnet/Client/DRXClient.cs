@@ -181,11 +181,11 @@ namespace Net.Dreceiptx.Client
             var client = new HttpClient();
             
             var url = new Uri($"{_directoryProtocol}://{_directoryHostname}{uri}");
-            uriParameters?.GetKeyValuePairs().ForEach(x => url.AddQuery(x.Key, x.Value));
+            uriParameters?.GetKeyValuePairs().ForEach(x => url = url.AddQuery(x.Key, x.Value));
             client.BaseAddress = url;
 
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(CONTENT_TYPE_JSON));
             long timestamp = (long)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
             client.DefaultRequestHeaders.Add("x-drx-timestamp", timestamp.ToString());
             client.DefaultRequestHeaders.Add("x-drx-requester", _requesterId);
@@ -238,6 +238,7 @@ namespace Net.Dreceiptx.Client
             //    Console.WriteLine(e);
             //    throw;
             //}
+
             
         }
 

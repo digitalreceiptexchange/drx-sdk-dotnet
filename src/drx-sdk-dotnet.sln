@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "drx-sdk-dotnet", "drx-sdk-dotnet\drx-sdk-dotnet.csproj", "{FB717DF1-D423-4553-A285-323D23711338}"
 EndProject
@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{24EE13
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "drx-sdk-dotnet.UnitTests", "drx-sdk-dotnet.UnitTests\drx-sdk-dotnet.UnitTests.csproj", "{24CB8637-E49E-4BD0-ADE5-DE04F8A6CA6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "drx-sdk-dotnet.IntegrationTests", "drx-sdk-dotnet.IntegrationTests\drx-sdk-dotnet.IntegrationTests.csproj", "{D4B37E02-E268-4523-9DFB-AAB7447D2D6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,22 +30,10 @@ Global
 		{24CB8637-E49E-4BD0-ADE5-DE04F8A6CA6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24CB8637-E49E-4BD0-ADE5-DE04F8A6CA6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24CB8637-E49E-4BD0-ADE5-DE04F8A6CA6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73FEDA36-376A-4D2A-93B0-8C1DA95294B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73FEDA36-376A-4D2A-93B0-8C1DA95294B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73FEDA36-376A-4D2A-93B0-8C1DA95294B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73FEDA36-376A-4D2A-93B0-8C1DA95294B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F12D927-E5DE-446A-B5C7-A01C94070E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F12D927-E5DE-446A-B5C7-A01C94070E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F12D927-E5DE-446A-B5C7-A01C94070E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F12D927-E5DE-446A-B5C7-A01C94070E29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A0BE10F-C7E2-41CA-947E-816A93B2D1F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A0BE10F-C7E2-41CA-947E-816A93B2D1F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A0BE10F-C7E2-41CA-947E-816A93B2D1F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A0BE10F-C7E2-41CA-947E-816A93B2D1F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A351EB5A-A499-44E6-B4A4-54F7216E8864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A351EB5A-A499-44E6-B4A4-54F7216E8864}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A351EB5A-A499-44E6-B4A4-54F7216E8864}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A351EB5A-A499-44E6-B4A4-54F7216E8864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4B37E02-E268-4523-9DFB-AAB7447D2D6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4B37E02-E268-4523-9DFB-AAB7447D2D6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4B37E02-E268-4523-9DFB-AAB7447D2D6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4B37E02-E268-4523-9DFB-AAB7447D2D6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

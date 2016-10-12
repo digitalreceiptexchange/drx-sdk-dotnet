@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\DRXClientTest.cs" />
     <Compile Include="DigitalReceiptTest.cs" />
     <Compile Include="DrxDigitalReceiptTest.cs" />
     <Compile Include="JavaGeneratedJson.cs" />

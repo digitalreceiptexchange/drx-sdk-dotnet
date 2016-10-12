@@ -22,6 +22,7 @@ namespace Net.Dreceiptx.Users
         Guid,
         [DrxEnumExtendedInformation("EMAIL", "Users primary email")]
         Email,
+        //TODO: Mobile number is not part of the User object
         [DrxEnumExtendedInformation("MOBILE", "Users mobile number with country code without the +")]
         Mobile
     }
