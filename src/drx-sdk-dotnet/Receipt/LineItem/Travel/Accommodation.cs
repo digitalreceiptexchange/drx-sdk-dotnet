@@ -26,14 +26,14 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
         public static readonly string LineItemTypeValue = "TRAVEL0001";
 
         public Accommodation(AccommodationType accommodationType, string provider, string shortDescription,
-            string longDescription, int nights, double rate) 
+            string longDescription, int nights, decimal rate) 
             : base(provider, shortDescription, longDescription, nights, rate)
         {
             TradeItemGroupIdentificationCode = accommodationType.Value();
             AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
         }
 
-        public Accommodation(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) 
+        public Accommodation(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price) 
             : base(tradeItemDescriptionInformation, quantity, price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;

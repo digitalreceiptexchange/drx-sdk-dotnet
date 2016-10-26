@@ -23,18 +23,18 @@ namespace Net.Dreceiptx.Receipt.Settlement
     {
         public int Id { get; set; }
         public PaymentMethodType MethodType { get; set; }
-        public double PaymentAmount { get; set; }
+        public decimal PaymentAmount { get; set; }
         public Currency SettlementCurrency { get; internal set; }
         public PaymentAuthorisation PaymentAuthorisation { get; set; }
 
-        public PaymentReceipt(PaymentMethodType paymentMethodCode, double paymentAmount)
+        public PaymentReceipt(PaymentMethodType paymentMethodCode, decimal paymentAmount)
         {
             MethodType = paymentMethodCode;
             PaymentAmount = paymentAmount;
         }
 
         //TODO: payment amount is non nullable unlike java
-        public PaymentReceipt(PaymentMethodType paymentMethodCode, double paymentAmount, Currency settlementCurrency)
+        public PaymentReceipt(PaymentMethodType paymentMethodCode, decimal paymentAmount, Currency settlementCurrency)
             : this(paymentMethodCode, paymentAmount)
         {
             SettlementCurrency = settlementCurrency;

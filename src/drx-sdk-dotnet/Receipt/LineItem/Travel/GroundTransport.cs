@@ -26,20 +26,20 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
         public static readonly string LineItemTypeValue = "TRAVEL0003";
 
         public GroundTransport(GroundTransportType groundTransportType, string provider, string shortDescription,
-            string longDescription, double price) 
+            string longDescription, decimal price) 
             : this(groundTransportType, provider, shortDescription, longDescription, 1, price)
         {
         }
 
         public GroundTransport(GroundTransportType groundTransportType, string provider, string shortDescription,
-            string longDescription, int quantity, double price) 
+            string longDescription, int quantity, decimal price) 
             : base(provider, shortDescription, longDescription, quantity, price)
         {
             TradeItemGroupIdentificationCode = groundTransportType.Value();
             AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
         }
 
-        public GroundTransport(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price)
+        public GroundTransport(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price)
             : base(tradeItemDescriptionInformation, quantity, price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
@@ -75,14 +75,14 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
             set { _AVPList.Add(AVPType.VEHICLE_IDENTIFIER.Value(), value); }
         }
 
-        public double? TripDistance
+        public decimal? TripDistance
         {
             set { _AVPList.Add(AVPType.TRIP_DISTANCE.Value(), value.ToString()); }
             get
             {
                 if (_AVPList.Contains(AVPType.TRIP_DISTANCE.Value()))
                 {
-                    return double.Parse(_AVPList.GetAVPValue(AVPType.TRIP_DISTANCE.Value()));
+                    return decimal.Parse(_AVPList.GetAVPValue(AVPType.TRIP_DISTANCE.Value()));
                 }
 
                 return null;

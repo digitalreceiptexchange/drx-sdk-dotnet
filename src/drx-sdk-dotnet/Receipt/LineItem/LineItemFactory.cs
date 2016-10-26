@@ -27,10 +27,10 @@ namespace Net.Dreceiptx.Receipt.LineItem
         private static readonly Dictionary<string, LineItemFunc> LineItems = new Dictionary<string, LineItemFunc>();
 
         private delegate LineItem LineItemFunc(
-            TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price);
+            TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price);
 
         public LineItem CreateLineItem(string lineItemCode, TradeItemDescriptionInformation tradeItemDescriptionInformation, 
-            int quantity, double price)
+            int quantity, decimal price)
         {
             if (!LineItems.ContainsKey(lineItemCode))
             {

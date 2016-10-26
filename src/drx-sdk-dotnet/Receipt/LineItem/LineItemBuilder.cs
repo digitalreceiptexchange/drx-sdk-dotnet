@@ -24,12 +24,12 @@ namespace Net.Dreceiptx.Receipt.LineItem
     {
         private StandardLineItem _lineItem;
 
-        public LineItemBuilder(string brand, string name, string description, int quantity, double price)
+        public LineItemBuilder(string brand, string name, string description, int quantity, decimal price)
         {
             _lineItem = new StandardLineItem(brand, name, description, quantity, price);
         }
 
-        public LineItemBuilder(TransactionalTradeItemType type, string code, int quantity, double price)
+        public LineItemBuilder(TransactionalTradeItemType type, string code, int quantity, decimal price)
         {
             _lineItem = new StandardLineItem(type, code, quantity, price);
         }
@@ -40,25 +40,25 @@ namespace Net.Dreceiptx.Receipt.LineItem
             return this;
         }
 
-        public LineItemBuilder AddGeneralDiscount(double amount, string description)
+        public LineItemBuilder AddGeneralDiscount(decimal amount, string description)
         {
             _lineItem.AddReceiptAllowanceCharges(ReceiptAllowanceCharge.GeneralDiscount(amount, description));
             return this;
         }
 
-        public LineItemBuilder AddGeneralDiscount(double amount, string description, Tax.Tax tax)
+        public LineItemBuilder AddGeneralDiscount(decimal amount, string description, Tax.Tax tax)
         {
             _lineItem.AddReceiptAllowanceCharges(ReceiptAllowanceCharge.GeneralDiscount(amount, description, tax));
             return this;
         }
 
-        public LineItemBuilder AddPackagingFee(double amount, string description)
+        public LineItemBuilder AddPackagingFee(decimal amount, string description)
         {
             _lineItem.AddReceiptAllowanceCharges(ReceiptAllowanceCharge.PackagingFee(amount, description));
             return this;
         }
 
-        public LineItemBuilder AddPackagingFee(double amount, string description, Tax.Tax tax)
+        public LineItemBuilder AddPackagingFee(decimal amount, string description, Tax.Tax tax)
         {
             _lineItem.AddReceiptAllowanceCharges(ReceiptAllowanceCharge.PackagingFee(amount, description, tax));
             return this;

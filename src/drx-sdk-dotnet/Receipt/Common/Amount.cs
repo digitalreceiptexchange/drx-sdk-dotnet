@@ -21,15 +21,14 @@ namespace Net.Dreceiptx.Receipt.Common
         //@SerializedName("currencyCode")
         public Currency CurrencyCode { get; private set; }
         //@SerializedName("value")
-        public double Value { get; private set; }
-
-        public Amount(Currency currency, double amount)
+        public decimal Value { get; private set; }
+        public Amount(Currency currency, decimal amount)
         {
             Value = amount;
             CurrencyCode = currency;
         }
 
-        public Amount(double amount, Currency currency)
+        public Amount(decimal amount, Currency currency)
         {
             Value = amount;
             CurrencyCode = currency;

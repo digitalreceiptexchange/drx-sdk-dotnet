@@ -105,7 +105,7 @@ namespace Net.Dreceiptx.Client
         {
             string encodedIdentifier = HttpUtility.UrlEncode(identifier);
             UriParameters uriParameters = new UriParameters();
-            uriParameters.Add("type", identifierType.Value());
+            uriParameters.Add("idtype", identifierType.Value());
             return SearchUser(encodedIdentifier, uriParameters);
         }
 
@@ -246,7 +246,7 @@ namespace Net.Dreceiptx.Client
         public List<User> SearchUsers(UserIdentifierType identifierType, List<string> userIdentifiers)  {
             List<User> users = new List<User>();
             UriParameters uriParameters = new UriParameters();
-            uriParameters.Add("type", identifierType.Value().ToLower());
+            uriParameters.Add("idtype", identifierType.Value().ToLower());
             StringBuilder userIdentifiersParam = new StringBuilder();
             bool firstIteration = true;
             foreach (string userIdentifier in userIdentifiers)
@@ -676,15 +676,6 @@ namespace Net.Dreceiptx.Client
             }
         }
 
-        private static class HttpCodes {
-            private static int HTTP_200_OK = 200;
-            private static int HTTP_201_CREATED = 201;
-            private static int HTTP_400_BAD_REQUEST = 400;
-            private static int HTTP_401_UNAUTHORIZED = 401;
-            private static int HTTP_404_NOTFOUND = 404;
-            private static int HTTP_501_INTERNAL_SERVER_ERROR = 501;
-        }
-    
         private enum EnvironmentType
         {
             [DrxEnumExtendedInformation("DEV", "Development or System Test")]

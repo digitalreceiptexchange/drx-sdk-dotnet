@@ -19,14 +19,14 @@ namespace Net.Dreceiptx.Receipt.Tax
 {
     public class Tax
     {
-        public Tax(double taxableAmount, double totalTax)
+        public Tax(decimal taxableAmount, decimal totalTax)
         {
             TaxableAmount = taxableAmount;
             TaxTotal = totalTax;
             TaxRate = (TaxTotal/TaxableAmount)*100;
         }
 
-        public Tax(TaxCategory category, TaxCode code, double taxableAmount, double totalTax)
+        public Tax(TaxCategory category, TaxCode code, decimal taxableAmount, decimal totalTax)
         {
             TaxCategory = category;
             TaxCode = code;
@@ -42,13 +42,13 @@ namespace Net.Dreceiptx.Receipt.Tax
         public TaxCode? TaxCode { get; set; } = null;
 
         //@SerializedName("dutyFeeTaxPercentage")
-        public double TaxRate { get; set; }
+        public decimal TaxRate { get; set; }
 
         //@SerializedName("dutyFeeTaxBasisAmount")
-        public double TaxableAmount { get; }
+        public decimal TaxableAmount { get; }
 
         //@SerializedName("dutyFeeTaxAmount")
-        public double TaxTotal { get; set; }
+        public decimal TaxTotal { get; set; }
 
         public bool IsTaxCode(TaxCode taxCode)
         {

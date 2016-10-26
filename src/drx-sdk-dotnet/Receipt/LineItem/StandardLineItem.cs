@@ -20,20 +20,20 @@ namespace Net.Dreceiptx.Receipt.LineItem
     {
         public static readonly string LineItemTypeValue = "STANDARD";
 
-        public StandardLineItem(string brand, string name, string description, int quantity, double price) 
+        public StandardLineItem(string brand, string name, string description, int quantity, decimal price) 
             : base(brand, name, description, quantity, price)
         {
             AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
         }
 
-        public StandardLineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price) 
+        public StandardLineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price) 
             : base(tradeItemDescriptionInformation, quantity, price)
         {
             AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
         }
 
         public StandardLineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode,
-            int quantity, double price) : base(transactionalTradeItemType, transactionalTradeItemCode, quantity, price)
+            int quantity, decimal price) : base(transactionalTradeItemType, transactionalTradeItemCode, quantity, price)
         {
             AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
         }

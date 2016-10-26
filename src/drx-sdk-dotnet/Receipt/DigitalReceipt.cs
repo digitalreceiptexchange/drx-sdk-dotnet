@@ -150,11 +150,11 @@ namespace Net.Dreceiptx.Receipt
 
         public List<ReceiptAllowanceCharge> Allowances => _invoice.AllowanceOrCharges.Where(x => x.IsAllowance).ToList();
     
-        public double Total => _invoice.Total;
+        public decimal Total => _invoice.Total;
     
-        public double SubTotal => _invoice.SubTotal;
+        public decimal SubTotal => _invoice.SubTotal;
     
-        public double GetTaxTotal(TaxCode taxCode) {
+        public decimal GetTaxTotal(TaxCode taxCode) {
             return _invoice.TaxesTotalByTaxCode(taxCode);
         }
     }

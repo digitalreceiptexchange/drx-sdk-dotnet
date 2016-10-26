@@ -63,13 +63,13 @@ namespace Net.Dreceiptx.Receipt.Common
             return this;
         }
 
-        public DeliveryInformation AddDeliveryFee(Double deliveryFee, string description)
+        public DeliveryInformation AddDeliveryFee(decimal deliveryFee, string description)
         {
             _deliveryFees.Add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description));
             return this;
         }
 
-        public DeliveryInformation AddDeliveryFee(Double deliveryFee, string description, Tax.Tax tax)
+        public DeliveryInformation AddDeliveryFee(decimal deliveryFee, string description, Tax.Tax tax)
         {
             _deliveryFees.Add(ReceiptAllowanceCharge.DeliveryFee(deliveryFee, description, tax));
             return this;

@@ -218,41 +218,41 @@ namespace Net.Dreceiptx.Receipt
             return _invoice.AddLineItem(lineItem);
         }
     
-        public int addLineItem(string brand, string name, int quantity, double price) {
+        public int addLineItem(string brand, string name, int quantity, decimal price) {
             LineItem.LineItem lineItem = new StandardLineItem(brand, name, "", quantity, price);
             return _invoice.AddLineItem(lineItem);
         }
     
-        public int addLineItem(string brand, string name, int quantity, double price, Tax.Tax tax) {
+        public int addLineItem(string brand, string name, int quantity, decimal price, Tax.Tax tax) {
             LineItem.LineItem lineItem = new StandardLineItem(brand, name, "", quantity, price);
             lineItem.AddTax(ConfigureTax(tax));
             return _invoice.AddLineItem(lineItem);
         }
 
-        public int addLineItem(string brand, string name, string description, int quantity, double price) {
+        public int addLineItem(string brand, string name, string description, int quantity, decimal price) {
             LineItem.LineItem lineItem = new StandardLineItem(brand, name, description, quantity, price);
             return _invoice.AddLineItem(lineItem);
         }
 
-        public int addLineItem(string brand, string name, string description, int quantity, double price, Tax.Tax tax) {
+        public int addLineItem(string brand, string name, string description, int quantity, decimal price, Tax.Tax tax) {
             LineItem.LineItem lineItem = new StandardLineItem(brand, name, description, quantity, price);
             lineItem.AddTax(ConfigureTax(tax)); 
             return _invoice.AddLineItem(lineItem);
         }
 
-        public int addLineItem(string brand, string name, string description, int quantity, double price, double taxRate, bool taxInclusive) {
+        public int addLineItem(string brand, string name, string description, int quantity, decimal price, decimal taxRate, bool taxInclusive) {
             LineItem.LineItem lineItem;
 
             if (taxInclusive)
             {
-                Double netPrice = price * (1 - taxRate);
-                Double total = quantity * netPrice;
+                decimal netPrice = price * (1 - taxRate);
+                decimal total = quantity * netPrice;
                 Tax.Tax tax = new Tax.Tax(_defaultTaxCategory, _defaultTaxCode, total, taxRate);
                 lineItem = new StandardLineItem(brand, name, description, quantity, price);
                 lineItem.AddTax(tax);
             } else {
-                Double netPrice = price;
-                Double total = quantity * netPrice;
+                decimal netPrice = price;
+                decimal total = quantity * netPrice;
                 Tax.Tax tax = new Tax.Tax(_defaultTaxCategory, _defaultTaxCode, total, taxRate);
                 lineItem = new StandardLineItem(brand, name, description, quantity, price);
                 lineItem.AddTax(tax);
@@ -261,7 +261,7 @@ namespace Net.Dreceiptx.Receipt
             return _invoice.AddLineItem(lineItem);
         }
 
-        public int addPaymentReceipt(PaymentMethodType paymentMethodCode, double paymentAmount) {
+        public int addPaymentReceipt(PaymentMethodType paymentMethodCode, decimal paymentAmount) {
             PaymentReceipt paymentReceipt = new PaymentReceipt(paymentMethodCode, paymentAmount);
             paymentReceipt.SettlementCurrency = _defaultCurrency;
             paymentReceipt.Id = Interlocked.Add(ref _paymentReceiptId, 1);
@@ -291,59 +291,59 @@ namespace Net.Dreceiptx.Receipt
             }
         }
 
-        public void AddGeneralDiscount(double amount, string description) {
+        public void AddGeneralDiscount(decimal amount, string description) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.GeneralDiscount(amount, description));
         }
     
-        public void AddGeneralDiscount(double amount, string description, Tax.Tax tax) {
+        public void AddGeneralDiscount(decimal amount, string description, Tax.Tax tax) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.GeneralDiscount(amount, description, ConfigureTax(tax)));
         }
 
-        public void AddTip(double amount, string description) {
+        public void AddTip(decimal amount, string description) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.Tip(amount, description));
         }
     
-        public void AddTip(double amount, string description, Tax.Tax tax) {
+        public void AddTip(decimal amount, string description, Tax.Tax tax) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.Tip(amount, description, ConfigureTax(tax)));
         }
 
-        public void AddPackagingFee(double amount, string description) {
+        public void AddPackagingFee(decimal amount, string description) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.PackagingFee(amount, description));
         }
     
-        public void AddPackagingFee(double amount, string description, Tax.Tax tax) {
+        public void AddPackagingFee(decimal amount, string description, Tax.Tax tax) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.PackagingFee(amount, description, ConfigureTax(tax)));
         }
 
-        public void AddDeliveryFee(double amount, string description) {
+        public void AddDeliveryFee(decimal amount, string description) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.DeliveryFee(amount, description));
         }
     
-        public void AddDeliveryFee(double amount, string description, Tax.Tax tax) {
+        public void AddDeliveryFee(decimal amount, string description, Tax.Tax tax) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.DeliveryFee(amount, description, ConfigureTax(tax)));
         }
 
-        public void AddFrieghtFee(double amount, string description) {
+        public void AddFrieghtFee(decimal amount, string description) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.FreightFee(amount, description));
         }
     
-        public void AddFrieghtFee(double amount, string description, Tax.Tax tax) {
+        public void AddFrieghtFee(decimal amount, string description, Tax.Tax tax) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.FreightFee(amount, description, ConfigureTax(tax)));
         }
 
-        public void AddProcessingFee(double amount, string description) {
+        public void AddProcessingFee(decimal amount, string description) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.ProcessingFee(amount, description));
         }
     
-        public void AddProcessingFee(double amount, string description, Tax.Tax tax) {
+        public void AddProcessingFee(decimal amount, string description, Tax.Tax tax) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.ProcessingFee(amount, description, ConfigureTax(tax)));
         }
     
-        public void AddBookingFee(double amount, string description) {
+        public void AddBookingFee(decimal amount, string description) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.BookingFee(amount, description));
         }
     
-        public void AddBookingFee(double amount, string description, Tax.Tax tax) {
+        public void AddBookingFee(decimal amount, string description, Tax.Tax tax) {
             _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.BookingFee(amount, description, ConfigureTax(tax)));
         }
 

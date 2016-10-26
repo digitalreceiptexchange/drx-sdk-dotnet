@@ -25,13 +25,13 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
         public static readonly string LineItemTypeValue = "TRAVEL0002";
 
         public Flight(FlightType flightType, string airline, string shortItinerary, string longItinerary, int quantity,
-            double price) : base(airline, shortItinerary, longItinerary, quantity, price)
+            decimal price) : base(airline, shortItinerary, longItinerary, quantity, price)
         {
             TradeItemGroupIdentificationCode = flightType.Value();
             AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
         }
 
-        public Flight(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price)
+        public Flight(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price)
                 :base(tradeItemDescriptionInformation, quantity, price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;

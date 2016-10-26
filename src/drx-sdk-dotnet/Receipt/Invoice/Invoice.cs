@@ -104,14 +104,14 @@ namespace Net.Dreceiptx.Receipt.Invoice
         //transient
         public DespatchInformation DespatchInformation { get; set; } = new DespatchInformation();
 
-        public double Total => SubTotal + TaxesTotal + SubTotalAllowances - SubTotalCharges;
+        public decimal Total => SubTotal + TaxesTotal + SubTotalAllowances - SubTotalCharges;
 
-        public double TaxPercentage
+        public decimal TaxPercentage
         {
             get
             {
-                double subTotal = this.SubTotal + SubTotalAllowances - SubTotalCharges;
-                double taxPercentage = 0;
+                decimal subTotal = this.SubTotal + SubTotalAllowances - SubTotalCharges;
+                decimal taxPercentage = 0;
                 if (subTotal != 0)
                 {
                     taxPercentage = (TaxesTotal/subTotal)*100;
@@ -120,30 +120,30 @@ namespace Net.Dreceiptx.Receipt.Invoice
             }
         }
 
-        public double SubTotal => InvoiceLineItems.Sum(x => x.Total);
+        public decimal SubTotal => InvoiceLineItems.Sum(x => x.Total);
 
-        public double TaxesTotal
+        public decimal TaxesTotal
         {
             get
             {
-                double total = 0;
+                decimal total = 0;
                 total += InvoiceLineItems.Sum(x => x.TaxesTotal);
                 total += _allowanceOrCharges.Sum(x => x.TaxesTotal);
                 return total;
             }
         }
 
-        public double TaxesTotalByTaxCode(TaxCode taxCode)
+        public decimal TaxesTotalByTaxCode(TaxCode taxCode)
         {
-            double total = 0;
+            decimal total = 0;
             total += InvoiceLineItems.Sum(x => x.TaxesTotalByTaxCode(taxCode));
             total += _allowanceOrCharges.Sum(x => x.TaxesTotalByTaxCode(taxCode));
             return total;
         }
 
-        public double SubTotalCharges => _allowanceOrCharges.Where(x => x.IsCharge).Sum(x => x.SubTotal);
+        public decimal SubTotalCharges => _allowanceOrCharges.Where(x => x.IsCharge).Sum(x => x.SubTotal);
 
-        public double SubTotalAllowances => _allowanceOrCharges.Where(x => x.IsAllowance).Sum(x => x.SubTotal);
+        public decimal SubTotalAllowances => _allowanceOrCharges.Where(x => x.IsAllowance).Sum(x => x.SubTotal);
 
         public int AddLineItem(LineItem.LineItem lineItem)
         {

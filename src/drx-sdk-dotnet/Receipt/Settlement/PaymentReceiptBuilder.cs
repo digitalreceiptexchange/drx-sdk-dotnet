@@ -23,7 +23,7 @@ namespace Net.Dreceiptx.Receipt.Settlement
     {
         private PaymentReceipt _paymentReceipt;
 
-        public PaymentReceiptBuilder(PaymentMethodType paymentMethodCode, double paymentAmount)
+        public PaymentReceiptBuilder(PaymentMethodType paymentMethodCode, decimal paymentAmount)
         {
             _paymentReceipt = new PaymentReceipt(paymentMethodCode, paymentAmount);
         }

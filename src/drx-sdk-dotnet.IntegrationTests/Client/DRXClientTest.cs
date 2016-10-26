@@ -47,18 +47,29 @@ namespace Net.Dreceiptx.IntegrationTests.Client
         public void TestSearchUser()
         {
             DRXClient client = new DRXClient(_configManager);
-            User user = client.SearchUser(UserIdentifierType.Email, "belinda.spiteri@yum.com");
-            user = client.SearchUser(UserIdentifierType.Guid, user.Guid);
-            Assert.IsNotNull(user);
-            user = client.SearchUser(UserIdentifierType.Mobile, "123456789");
-            Assert.IsNotNull(user);
+            //User user = client.SearchUser(UserIdentifierType.Email, "johannes.lambinon@yum.com");
+            //User user = client.SearchUser(UserIdentifierType.Email, "Fatima.Syed@yum.com");
+            User user1 = client.SearchUser(UserIdentifierType.Email, "david.gorecki@yum.com");
+            Assert.IsNotNull(user1);
+            User user2 = client.SearchUser(UserIdentifierType.Guid, user1.Guid);
+            Assert.IsNotNull(user2);
+            Assert.AreEqual(user1.Guid, user2.Guid);
+            Assert.AreEqual(user1.Rms, user2.Rms);
+            //user = client.SearchUser(UserIdentifierType.Mobile, "123456789");
+            //Assert.IsNotNull(user);
         }
 
         [Test]
         public void TestSearchUsers()
         {
             DRXClient client = new DRXClient(_configManager);
-            List<User> user = client.SearchUsers(UserIdentifierType.Email, new List<string> { "dominic.catherin@digitalreceiptexchange.com"});
+            List<User> user = client.SearchUsers(UserIdentifierType.Email, new List<string>
+            {
+                "david.gorecki@yum.com",
+                "johannes.lambinon@yum.com",
+                "Fatima.Syed@yum.com"
+
+            });
             Assert.IsNotNull(user);
             Assert.AreEqual(1, user.Count);
         }

@@ -43,7 +43,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         {
         }
 
-        public LineItem(string brand, string name, string description, int quantity, double price)
+        public LineItem(string brand, string name, string description, int quantity, decimal price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
             ItemDescriptionInformation = new TradeItemDescriptionInformation(brand, name, description);
@@ -51,7 +51,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             Price = price;
         }
 
-        public LineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, double price)
+        public LineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
             ItemDescriptionInformation = tradeItemDescriptionInformation;
@@ -60,7 +60,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         }
 
         public LineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode,
-            int quantity, double price)
+            int quantity, decimal price)
         {
             _transactionalTradeItemType = transactionalTradeItemType;
             _transactionalTradeItemCode = transactionalTradeItemCode;
@@ -219,60 +219,60 @@ namespace Net.Dreceiptx.Receipt.LineItem
         public LocationInformation Destination { get; set; } = new LocationInformation();
 
 
-        public double SubTotal
+        public decimal SubTotal
         {
             get
             {
-                double total = Price*Quantity;
+                decimal total = Price*Quantity;
                 return total;
             }
         }
 
-        public double NetTotal
+        public decimal NetTotal
         {
             get
             {
-                double total = Price*Quantity;
+                decimal total = Price*Quantity;
                 total += _receiptAllowanceCharges.Sum(x => x.NetTotal);
                 return total;
             }
         }
 
-        public double Total
+        public decimal Total
         {
             get
             {
-                double total = Price*Quantity;
+                decimal total = Price*Quantity;
                 total += _taxes.Sum(x => x.TaxTotal);
                 total += _receiptAllowanceCharges.Sum(x => x.Total);
                 return total;
             }
         }
 
-        public double TaxesTotal
+        public decimal TaxesTotal
         {
             get
             {
-                double total = 0;
+                decimal total = 0;
                 total += _taxes.Sum(x => x.TaxTotal);
                 total += _receiptAllowanceCharges.Sum(x => x.TaxesTotal);
                 return total;
             }
         }
 
-        public double TaxesTotalByTaxCode(TaxCode taxCode)
+        public decimal TaxesTotalByTaxCode(TaxCode taxCode)
         {
-            double total = 0;
+            decimal total = 0;
             total += _taxes.Where(x => x.TaxCode == taxCode).Sum(x => x.TaxTotal);
             total += _receiptAllowanceCharges.Sum(x => x.TaxesTotal);
             return total;
         }
 
-        public double AllowancesTotal
+        public decimal AllowancesTotal
         {
             get
             {
-                double total = 0;
+                decimal total = 0;
                 total += _receiptAllowanceCharges.Sum(x => x.NetTotal);
                 return total;
             }
@@ -290,7 +290,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         //transient
         public int Quantity { get; set; }
         //transient
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         public bool HasTaxes => _taxes.Any();
     }

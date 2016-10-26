@@ -22,8 +22,8 @@ namespace Net.Dreceiptx.Receipt.Tax
     public class TaxInfo
     {
         public TaxInfo(string taxCategory, string taxCode,
-            double taxableAmount, double percentage,
-            double totalTax)
+            decimal taxableAmount, decimal percentage,
+            decimal totalTax)
         {
             Category = taxCategory;
             TaxCode = taxCode;
@@ -34,9 +34,9 @@ namespace Net.Dreceiptx.Receipt.Tax
 
         public string Category { get; set; }
         public string TaxCode { get; set; }
-        public double TaxableAmount { get; set; }
-        public double Percentage { get; set; }
-        public double TotalTax { get; set; }
+        public decimal TaxableAmount { get; set; }
+        public decimal Percentage { get; set; }
+        public decimal TotalTax { get; set; }
 
         public override bool Equals(Object obj)
         {
@@ -80,11 +80,11 @@ namespace Net.Dreceiptx.Receipt.Tax
             long temp;
             result = Category?.GetHashCode() ?? 0;
             result = 31*result + (TaxCode?.GetHashCode() ?? 0);
-            temp = BitConverter.DoubleToInt64Bits(TaxableAmount);
+            temp = TaxableAmount.GetHashCode();
             result = 31*result + (int) (temp ^ (temp >> 32));
-            temp = BitConverter.DoubleToInt64Bits(Percentage);
+            temp = Percentage.GetHashCode();
             result = 31*result + (int) (temp ^ (temp >> 32));
-            temp = BitConverter.DoubleToInt64Bits(TotalTax);
+            temp = TotalTax.GetHashCode();
             result = 31*result + (int) (temp ^ (temp >> 32));
             return result;
         }
