@@ -14,18 +14,22 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Runtime.Serialization;
+
 namespace Net.Dreceiptx.Receipt.Document
 {
+    [DataContract]
     public class DocumentOwnerIdentification
     {
-        //@SerializedName("authority")
         /// <summary>
         /// Gets and sets the Authority agency of the identification key.
         /// The "Authority" attribute, will be either set to GS1 or dRx
         /// </summary>
+        [DataMember]
         public string Authority { get; set; }
         
-        //@SerializedName("value")
+        [DataMember]
         public string Value { get; set; }
     }
 }

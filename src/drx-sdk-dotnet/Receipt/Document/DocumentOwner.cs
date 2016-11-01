@@ -16,18 +16,23 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Receipt.Document
 {
+    [DataContract]
     public class DocumentOwner
     {
-        //@SerializedName("contactInformation")
-        private List<ReceiptContact> _contactInformation;
-
         public DocumentOwner()
         {
             Identifier = new DocumentOwnerIdentification();
         }
+
+        [DataMember]
+        public DocumentOwnerIdentification Identifier { get; set; }
+
+        [DataMember(Name = "ContactInformation")]
+        public List<ReceiptContact> DocumentOwnerContact { get; set; }
 
         //TODO: Not sure id we need this here. Should just do via the DocumentOwnderIdentification instance
         public string Value
@@ -36,19 +41,15 @@ namespace Net.Dreceiptx.Receipt.Document
             set { Identifier.Value = value; }
         }
 
-
-        //@SerializedName("identifier")
-        public DocumentOwnerIdentification Identifier { get; set; }
-
         public void AddDocumentOwnerContact(ReceiptContact documentOwnerContact)
         {
-            if (_contactInformation == null)
+            if (DocumentOwnerContact == null)
             {
-                _contactInformation = new List<ReceiptContact>();
+                DocumentOwnerContact = new List<ReceiptContact>();
             }
-            _contactInformation.Add(documentOwnerContact);
+            DocumentOwnerContact.Add(documentOwnerContact);
         }
 
-        public List<ReceiptContact> DocumentOwnerContact => _contactInformation;
+
     }
 }

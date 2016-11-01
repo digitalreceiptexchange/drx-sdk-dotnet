@@ -61,6 +61,7 @@
     <Compile Include="JavaGeneratedJson.cs" />
     <Compile Include="LineItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Receipt\Document\StandardBusinessDocumentHeaderTest.cs" />
     <Compile Include="Resource1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

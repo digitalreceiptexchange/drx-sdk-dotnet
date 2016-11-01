@@ -15,25 +15,31 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.Document
 {
+    [DataContract]
     public enum ReceiptContactType {
-        //@SerializedName("SA")
         [DrxEnumExtendedInformation("SA", "Sales administration")]
+        [EnumMember(Value= "SA")]
         SALES_ADMINISTRATION,
-        //@SerializedName("DL")
+
         [DrxEnumExtendedInformation("DL", "Delivery contact")]
+        [EnumMember(Value = "DL")]
         DELIVERY_CONTACT,
-        //@SerializedName("CR")
+
         [DrxEnumExtendedInformation("CR", "Customer relations")]
+        [EnumMember(Value = "CR")]
         CUSTOMER_RELATIONS,
-        //@SerializedName("PD")
+
         [DrxEnumExtendedInformation("PD", "Purchasing Contact")]
+        [EnumMember(Value = "PD")]
         PURCHASING_CONTACT,
-        //@SerializedName("GR")
+
         [DrxEnumExtendedInformation("GR", "Recipient contact")]
+        [EnumMember(Value = "GR")]
         RECIPIENT_CONTACT
     }
 }

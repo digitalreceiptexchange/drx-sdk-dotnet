@@ -71,7 +71,7 @@ namespace Net.Dreceiptx.IntegrationTests.Client
 
             });
             Assert.IsNotNull(user);
-            Assert.AreEqual(1, user.Count);
+            Assert.AreEqual(3, user.Count);
         }
     }
 }

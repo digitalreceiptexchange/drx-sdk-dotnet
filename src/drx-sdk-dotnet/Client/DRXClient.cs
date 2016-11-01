@@ -374,33 +374,58 @@ namespace Net.Dreceiptx.Client
 
         public DigitalReceipt LookupReceipt(string receiptId)
         {
-            //try {
-            //    HttpURLConnection connection = createConnection(_exchangeProtocol, _exchangeHostname, "/receipt/" + receiptId, CONTENT_TYPE_JSON, "GET", _receiptVersion);
-            //    connection.connect();
-            //    int responseCode = connection.getResponseCode();
-            //    if (responseCode == HttpCodes.HTTP_200_OK) {
-            //        string response = getResponsestring(connection);
-            //        connection.disconnect();
-            //        return new DigitalReceipt(response);
-            //    } else if (responseCode == HttpCodes.HTTP_404_NOTFOUND) {
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(404, "The exchange host could not be found or is currently unavailable, please check ConfigManager setting and ensure they are correct.");
-            //    } else if (responseCode == HttpCodes.HTTP_400_BAD_REQUEST || responseCode == HttpCodes.HTTP_401_UNAUTHORIZED) {
-            //        loadErrorResponseJsonObject(connection);
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(_responseErrorCode, _responseErrorMessage);
-            //    } else {
-            //        string errorMessage = connection.getResponseMessage();
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(responseCode, errorMessage);
-            //    }
-            //}catch(ConnectException ce){
-            //    throw new ExchangeClientException(500, "There was a connection exception, please ensure internet connectivity and exchange host settings", ce);
-            //}catch (SocketTimeoutException te){
-            //        throw new ExchangeClientException(500, "The connection to the exchange timed out and did not receive a response", te);
-            //}catch (Exception e) {
-            //    throw new ExchangeClientException(500, e.tostring(), e);
-            //}
+//            try {
+//                using (HttpClient client = CreateConnection("/receipt/" + receiptId, _receiptVersion, null))
+//                {
+//                    var response = client.GetAsync("");
+//                    var statusCode = response.Result.StatusCode;
+//                    if (response.Result.StatusCode == HttpStatusCode.OK)
+//                    {
+//                        string contentResult = response.Result.Content.ReadAsStringAsync().Result;
+//                        ExchangeResponseResult exchangeResponse = JsonConvert.DeserializeObject<ExchangeResponseResult>(
+//                            contentResult, _jsonSerializerSettings);
+//                        if (exchangeResponse.ExchangeResponse.Success)
+//                        {
+//                            User user = new User();
+//                            user.Guid = exchangeResponse?.ExchangeResponse?.ResponseData?.Guid;
+//                            user.Rms = exchangeResponse?.ExchangeResponse?.ResponseData?.Rms;
+//                            return user;
+//                        }
+//                        else
+//                        {
+//                            throw new ExchangeClientException(exchangeResponse.ExchangeResponse.Code.Value,
+//                                exchangeResponse.ExchangeResponse.ExceptionMessage);
+//                        }
+//                    }
+//                    else if (response.Result.StatusCode == HttpStatusCode.NotFound)
+//                    {
+//                        throw new ExchangeClientException(404,
+//                            "The exchange host could not be found or is currently unavailable, please check ConfigManager setting and ensure they are correct.");
+//                    }
+//                    int responseCode = connection.getResponseCode();
+//                if (responseCode == HttpCodes.HTTP_200_OK) {
+//                    string response = getResponsestring(connection);
+//                    connection.disconnect();
+//                    return new DigitalReceipt(response);
+//                } else if (responseCode == HttpCodes.HTTP_404_NOTFOUND) {
+//                    connection.disconnect();
+//                    throw new ExchangeClientException(404, "The exchange host could not be found or is currently unavailable, please check ConfigManager setting and ensure they are correct.");
+//                } else if (responseCode == HttpCodes.HTTP_400_BAD_REQUEST || responseCode == HttpCodes.HTTP_401_UNAUTHORIZED) {
+//                    loadErrorResponseJsonObject(connection);
+//                    connection.disconnect();
+//                    throw new ExchangeClientException(_responseErrorCode, _responseErrorMessage);
+//                } else {
+//                    string errorMessage = connection.getResponseMessage();
+//                    connection.disconnect();
+//                    throw new ExchangeClientException(responseCode, errorMessage);
+//                }
+//            }catch(ConnectException ce){
+//                throw new ExchangeClientException(500, "There was a connection exception, please ensure internet connectivity and exchange host settings", ce);
+//            }catch (SocketTimeoutException te){
+//                    throw new ExchangeClientException(500, "The connection to the exchange timed out and did not receive a response", te);
+//            }catch (Exception e) {
+//                throw new ExchangeClientException(500, e.tostring(), e);
+//            }
 
             return null;
         }

@@ -16,9 +16,11 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Receipt.Document
 {
+    [DataContract]
     public class DocumentIdentification
     {
         // TODO: Why do we send this if always set to GS1 and if we send then lets
@@ -28,6 +30,7 @@ namespace Net.Dreceiptx.Receipt.Document
         /// Gets and sets the Standard. The name of the document standard contained in the payload
         /// The value of the element Standard MUST be set to the value 'GS1'
         /// </summary>
+        [DataMember]
         public string Standard { get; set; } = "GS1";
 
         //@SerializedName("typeVersion")
@@ -44,6 +47,7 @@ namespace Net.Dreceiptx.Receipt.Document
         /// belonging to the same BMS publication release and having the same version number 
         /// MUST be included in the payload if sending more than one document type.
         /// </summary>
+        [DataMember]
         public string TypeVersion { get; set; }
 
         //@SerializedName("type")
@@ -55,6 +59,7 @@ namespace Net.Dreceiptx.Receipt.Document
         /// business document in consideration.
         /// Example; order, invoice, debitCreditAdvice,
         /// </summary>
+        [DataMember]
         public string Type { get; set; } = "DIGITALRECEIPT";
 
         /**
@@ -73,6 +78,7 @@ namespace Net.Dreceiptx.Receipt.Document
         /// distinct from others.
         /// Example: MSG-1645000099
         /// </summary>
+        [DataMember]
         public string InstanceIdentifier { get; set; }
 
         //@SerializedName("multipleType")
@@ -84,6 +90,7 @@ namespace Net.Dreceiptx.Receipt.Document
         /// within one message.
         /// TODO: Raised #6 on this as i think it should be a bool
         /// </summary>
+        [DataMember]
         public string MultipleType { get; set; } = "true";
 
         //@SerializedName("creationDateAndTime")
@@ -94,6 +101,7 @@ namespace Net.Dreceiptx.Receipt.Document
         /// This value will typically be populated by the trading partner and will typically
         /// differ from the time stamping of the message by the communications software.
         /// </summary>
+        [DataMember]
         public DateTime CreationDateAndTime { get; set; }
     }
 }

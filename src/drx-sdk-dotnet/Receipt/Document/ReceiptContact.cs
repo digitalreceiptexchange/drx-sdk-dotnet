@@ -17,32 +17,32 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Receipt.Common;
 
 namespace Net.Dreceiptx.Receipt.Document
 {
+    [DataContract]
     public class ReceiptContact
     {
-        //@SerializedName("communicationChannelCode")
-        private List<Contact> _contacts;
-
         public ReceiptContact(ReceiptContactType receiptContactType)
         {
-            _contacts = new List<Contact>();
+            Contacts = new List<Contact>();
             ReceiptContactType = receiptContactType;
         }
 
-        public ReceiptContact(ReceiptContactType receiptContactType, string contactName) : this(receiptContactType)
+        public ReceiptContact(ReceiptContactType receiptContactType, string contactName)
+            : this(receiptContactType)
         {
             Contact = contactName;
         }
-
 
         //@SerializedName("contactTypeCode")
         /// <summary>
         /// Gets and sets the ContactTypeIdentifier. Role of the identifier.
         /// Example: EDI co-ordinator
         /// </summary>
+        [DataMember(Name = "ContactTypeCode")]
         public ReceiptContactType ReceiptContactType { get; set; }
 
         //TODO: Why not just make if PersonName?
@@ -50,18 +50,23 @@ namespace Net.Dreceiptx.Receipt.Document
         /// <summary>
         /// Gets and sets the the Name of contact person or department.
         /// </summary>
+        [DataMember(Name = "PersonName")]
         public string Contact { get; set; }
+
+        //@SerializedName("communicationChannelCode")
+        [DataMember(Name = "CommunicationChannelCode")]
+        public List<Contact> Contacts { get; set; }
 
         /// <summary>
         /// Gets the EmailAddress.The EmailAddress, although optional, SHOULD be used, if possible.
         /// </summary>
-        public string EmailAddress => _contacts.FirstOrDefault(x => x.Type == Common.ContactType.EMAIL)?.ContactValue;
+        public string EmailAddress => Contacts.FirstOrDefault(x => x.Type == Common.ContactType.EMAIL)?.ContactValue;
 
         public void AddEmailAddress(string emailAddress)
         {
             // TODO: If we add multiple emails then the getEmail falls down. Should we replace
             // this add email with just setEmailAddress otherwise the getEMailAddress should change
-            _contacts.Add(new Contact(ContactType.EMAIL, emailAddress));
+            Contacts.Add(new Contact(ContactType.EMAIL, emailAddress));
         }
 
         /// <summary>
@@ -69,7 +74,7 @@ namespace Net.Dreceiptx.Receipt.Document
         /// and Receiver SHOULD be used.Number format expressed using [RFC3966].
         /// The tel URI for Telephone Numbers? MAY be used.
         /// </summary>
-        public string TelephoneNumber => _contacts.FirstOrDefault(x => x.Type == Common.ContactType.TELEPHONE)?.ContactValue;
+        public string TelephoneNumber => Contacts.FirstOrDefault(x => x.Type == Common.ContactType.TELEPHONE)?.ContactValue;
 
         /// <summary>
         ///  Sets the TelephoneNumber.A number format agreed upon between the Sender
@@ -81,7 +86,7 @@ namespace Net.Dreceiptx.Receipt.Document
         {
             // TODO: If we add multiple telephones then the getEmail falls down. Should we replace
             // this add email with just setEmailAddress otherwise the getEMailAddress should change
-            _contacts.Add(new Contact(ContactType.TELEPHONE, telephoneNumber));
+            Contacts.Add(new Contact(ContactType.TELEPHONE, telephoneNumber));
         }
     }
 }

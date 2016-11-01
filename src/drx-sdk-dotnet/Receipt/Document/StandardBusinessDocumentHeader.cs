@@ -16,95 +16,91 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Receipt.Validation;
 
 namespace Net.Dreceiptx.Receipt.Document
 {
+    [DataContract]
     public class StandardBusinessDocumentHeader
     {
-        //@SerializedName("sender")
-        private List<DocumentOwner> _sender;
-        //@SerializedName("receiver")
-        private List<DocumentOwner> _receiver;
-        
-        private DocumentOwner _merchant;
-        private DocumentOwner _dRx;
-        private DocumentOwner _user;
-
         public StandardBusinessDocumentHeader()
         {
-            _sender = new List<DocumentOwner>();
-            _receiver = new List<DocumentOwner>();
+            Sender = new List<DocumentOwner>();
+            Receiver = new List<DocumentOwner>();
             DocumentIdentification = new DocumentIdentification();
 
-            _merchant = new DocumentOwner();
-            _merchant.Identifier.Authority = "GS1";
-            _merchant.Identifier.Value = null;
-            _sender.Add(_merchant);
+            DocumentOwner merchant = new DocumentOwner();
+            merchant.Identifier.Authority = "GS1";
+            merchant.Identifier.Value = null;
+            Sender.Add(merchant);
 
-            _dRx = new DocumentOwner();
-            _dRx.Identifier.Authority = "GS1";
-            _dRx.Identifier.Value = null;
-            _receiver.Add(_dRx);
+            DocumentOwner dRx = new DocumentOwner();
+            dRx.Identifier.Authority = "GS1";
+            dRx.Identifier.Value = null;
+            Receiver.Add(dRx);
 
-            _user = new DocumentOwner();
-            _user.Identifier.Authority = "dRx";
-            _user.Identifier.Value = null;
-            _receiver.Add(_user);
+            DocumentOwner user = new DocumentOwner();
+            user.Identifier.Authority = "dRx";
+            user.Identifier.Value = null;
+            Receiver.Add(user);
         }
+
 
         public string MerchantGLN
         {
-            get { return _merchant.Value; }
-            set { _merchant.Value = value ; }
+            get { return Sender[0].Value; }
+            set { Sender[0].Value = value ; }
         }
 
         public string DrxFLN
         {
-            get { return _dRx.Value; }
-            set { _dRx.Value = value; }
+            get { return Receiver[0].Value; }
+            set { Receiver[0].Value = value; }
         }
 
         public string UserIdentifier
         {
-            get { return _user.Value; }
-            set { _user.Value = value; }
+            get { return Receiver[1].Value; }
+            set { Receiver[1].Value = value; }
         }
 
 
-        public List<ReceiptContact> ClientContacts => _user.DocumentOwnerContact;
+        public List<ReceiptContact> ClientContacts => Receiver[1].DocumentOwnerContact;
 
         public void AddMerchantContact(ReceiptContact contact)
         {
-            _merchant.AddDocumentOwnerContact(contact);
+            Sender[0].AddDocumentOwnerContact(contact);
         }
 
         public void AddRMSContact(ReceiptContact contact)
         {
-            _user.AddDocumentOwnerContact(contact);
+            Receiver[1].AddDocumentOwnerContact(contact);
         }
 
-        public List<DocumentOwner> Receiver => _receiver;
+        [DataMember]
+        public List<DocumentOwner> Receiver { get ; set ; }
 
-        public List<DocumentOwner> Sender => _sender;
+        [DataMember]
+        public List<DocumentOwner> Sender { get ; set ; }
 
         public void AddReceiver(DocumentOwner receiver)
         {
-            _receiver.Add(receiver);
+            Receiver.Add(receiver);
         }
 
         //@SerializedName("documentIdentification")
+        [DataMember]
         public DocumentIdentification DocumentIdentification { get; set; }
 
         public ReceiptValidation Validate(ReceiptValidation receiptValidation)
         {
-            if (_sender.Count == 0)
+            if (Sender.Count == 0)
             {
                 receiptValidation.AddError(ValidationErrors.MerchantGLNMustBeSet);
             }
 
             return receiptValidation;
-
         }
     }
 }
