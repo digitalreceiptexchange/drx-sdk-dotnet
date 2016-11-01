@@ -86,3 +86,5 @@ packages
 
 # Windows
 Thumbs.db
+/src/.idea/.idea.drx-sdk-dotnet/.idea
+/src/.idea/.idea.drx-sdk-dotnet
