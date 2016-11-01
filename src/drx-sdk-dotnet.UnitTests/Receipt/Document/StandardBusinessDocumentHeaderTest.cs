@@ -47,6 +47,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Document
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 //DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                //https://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx
                 DateFormatString = "yyyy-MM-ddTHH:mm:ss%K"
             };
             settings.Converters.Add(new StringEnumConverter());
