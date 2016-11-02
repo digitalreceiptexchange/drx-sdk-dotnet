@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading;
 using Net.Dreceiptx.Extensions;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
@@ -30,20 +31,11 @@ namespace Net.Dreceiptx.Receipt.Invoice
 {
     public class Invoice
     {
-        //@SerializedName("documentStatusCode")
-        private readonly string _documentStatusCode = "ORIGINAL";
-        //@SerializedName("invoiceType")
-        private readonly string _invoiceType = "TAX_INVOICE";
         private static int _lineItemId = 1;
         private static int _allowanceOrChargeId = 1;
-        //transient
         private List<ReceiptAllowanceCharge> _allowanceOrCharges = new List<ReceiptAllowanceCharge>();
-        //transient 
         private Dictionary<string, string> _companyTaxNumbers = new Dictionary<string, string>();
-        //transient
         private string _defaultTimeZone;
-        //transient
-        private string _dateTimeFormat = "yyyy-MM-dd'T'HH:mm:ssZ";
 
         public Invoice()
         {
@@ -57,7 +49,13 @@ namespace Net.Dreceiptx.Receipt.Invoice
             CreationDateTime = new DateTime();
         }
 
-        //transient
+        [DataMember]
+        public string DocumentStatusCode { get; set; } = "ORIGINAL";
+
+        [DataMember]
+        private string InvoiceType { get; set; } = "TAX_INVOICE";
+
+        //TODO: This does not appear to be serialized on the java side of thigns?
         public string MerchantName { get; set; }
 
         public string GetCompanyTaxNumber(TaxCode taxCode)
@@ -70,39 +68,54 @@ namespace Net.Dreceiptx.Receipt.Invoice
             _companyTaxNumbers.Add(taxCode, taxNumber);
         }
 
-        //transient
-        public string PurchaseOrder { get; set; }
+        [DataMember]
+        public Identification PurchaseOrder { get; set; }
 
-        //transient
-        public string CustomerReference { get; set; }
+        [DataMember]
+        public Identification CustomerReference { get; set; }
 
-        //transient
+        [DataMember]
+        public Identification InvoiceIdentification { get; set; }
+
+        [DataMember]
         public DateTime? CreationDateTime { get; set; }
 
-        public string CreationDateTimeString => CreationDateTime?.ToString(_dateTimeFormat);
-
-        //transient
-        public string InvoiceIdentification { get; set; }
-
-        //@SerializedName("invoiceCurrencyCode")
+        [DataMember]
         public string InvoiceCurrencyCode { get; set; }
 
-        //@SerializedName("countryOfSupplyOfGoods")
+        [DataMember]
         public string CountryOfSupplyOfGoods { get; set; }
 
-        //transient
+        [DataMember(Name = "InvoiceLineItem")]
         public List<LineItem.LineItem> InvoiceLineItems { get; set; } = new List<LineItem.LineItem>();
 
+        [DataMember(Name = "InvoiceAllowanceCharge")]
         public List<ReceiptAllowanceCharge> AllowanceOrCharges => _allowanceOrCharges;
 
-        //transient
+        [DataMember(Name = "ShipFrom")]
         public LocationInformation OriginInformation { get; set; } = new LocationInformation();
 
-        //transient
+        [DataMember(Name = "ShipTo")]
         public LocationInformation DestinationInformation { get; set; } = new LocationInformation();
 
-        //transient
+        [DataMember]
         public DespatchInformation DespatchInformation { get; set; } = new DespatchInformation();
+
+        [DataMember]
+        public InvoiceSummary InvoiceTotals
+        {
+            get
+            {
+                return new InvoiceSummary
+                {
+                    TotalInvoiceAmount = new Amount(EnumExtensions.Currency(InvoiceCurrencyCode), SubTotal),
+                    TotalLineAmountInclusiveAllowanceesCharges =
+                        new Amount(EnumExtensions.Currency(InvoiceCurrencyCode), Total),
+                    TotalTaxAmount = new Amount(EnumExtensions.Currency(InvoiceCurrencyCode), TaxesTotal),
+                };
+            }
+            set { /* do nothing */ }
+        }
 
         public decimal Total => SubTotal + TaxesTotal + SubTotalAllowances - SubTotalCharges;
 
@@ -110,7 +123,7 @@ namespace Net.Dreceiptx.Receipt.Invoice
         {
             get
             {
-                decimal subTotal = this.SubTotal + SubTotalAllowances - SubTotalCharges;
+                decimal subTotal = SubTotal + SubTotalAllowances - SubTotalCharges;
                 decimal taxPercentage = 0;
                 if (subTotal != 0)
                 {

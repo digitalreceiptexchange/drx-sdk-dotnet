@@ -39,7 +39,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Document
                 .AddRMSContact(new ReceiptContact(ReceiptContactType.RECIPIENT_CONTACT, "Clarke Emma MS"))
                 .DocumentInformation().InstanceIdentifier("UATANZALPHADR0000000014679796096749582")
                 .TypeVersion("1.2.0")
-                .CreationDateAndTime(DateTime.Now)
+                .CreationDateAndTime(new DateTime(2016,11,2,12,0,0, DateTimeKind.Local))
                 .Builder()
                 .Build();
 
@@ -47,13 +47,16 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Document
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 //DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-                //https://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx
-                DateFormatString = "yyyy-MM-ddTHH:mm:ss%K"
+                DateFormatString = "yyyy-MM-ddTHH:mm:ss%K",
             };
             settings.Converters.Add(new StringEnumConverter());
-            string result = JsonConvert.SerializeObject(header, Formatting.Indented, settings);
+            string result = JsonConvert.SerializeObject(header, settings);
+            
             //string result = new { dRxDigitalReceipt = receipt}.SerializeToJson();}
             Console.WriteLine(result);
+
+            string expectedResult = @"{""receiver"":[{""identifier"":{""authority"":""GS1"",""value"":""AUS_ALPHA_EXPENSEMANAGER""},""contactInformation"":null},{""identifier"":{""authority"":""dRx"",""value"":""UATANZALPHAUSR14660443061787969""},""contactInformation"":[{""contactTypeCode"":""PD"",""personName"":""Grignell Michelle"",""communicationChannelCode"":[]},{""contactTypeCode"":""GR"",""personName"":""Clarke Emma MS"",""communicationChannelCode"":[]}]}],""sender"":[{""identifier"":{""authority"":""GS1"",""value"":""anz_concierge""},""contactInformation"":[{""contactTypeCode"":""SA"",""personName"":""Sabre Online"",""communicationChannelCode"":[]}]}],""documentIdentification"":{""standard"":""GS1"",""typeVersion"":""1.2.0"",""type"":""DIGITALRECEIPT"",""instanceIdentifier"":""UATANZALPHADR0000000014679796096749582"",""multipleType"":""true"",""creationDateAndTime"":""2016-11-02T12:00:00+11:00""}}";
+            Assert.AreEqual(expectedResult, result);
         }
     }
 

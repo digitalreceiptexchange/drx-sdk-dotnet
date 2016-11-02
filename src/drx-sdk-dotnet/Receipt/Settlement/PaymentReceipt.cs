@@ -15,6 +15,7 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Receipt.Common;
 
 namespace Net.Dreceiptx.Receipt.Settlement
@@ -22,8 +23,10 @@ namespace Net.Dreceiptx.Receipt.Settlement
     public class PaymentReceipt
     {
         public int Id { get; set; }
+        [DataMember(Name = "SettlementIdentification")]
         public PaymentMethodType MethodType { get; set; }
         public decimal PaymentAmount { get; set; }
+        [DataMember]
         public Currency SettlementCurrency { get; internal set; }
         public PaymentAuthorisation PaymentAuthorisation { get; set; }
 

@@ -73,11 +73,11 @@ namespace Net.Dreceiptx.Receipt
     
         public DateTime? ReceiptDate => _invoice.CreationDateTime;
     
-        public string ReceiptReference =>_invoice.InvoiceIdentification;
+        public string ReceiptReference =>_invoice.InvoiceIdentification?.EntityIdentification;
     
-        public string PurchaseOrderNumber => _invoice.PurchaseOrder;
+        public string PurchaseOrderNumber => _invoice.PurchaseOrder?.EntityIdentification;
 
-        public string CustomerReferenceNumber => _invoice.CustomerReference;
+        public string CustomerReferenceNumber => _invoice.CustomerReference?.EntityIdentification;
     
         public List<ReceiptContact> MerchantCustomerRelations => GetMerchantContact(ReceiptContactType.CUSTOMER_RELATIONS);
     

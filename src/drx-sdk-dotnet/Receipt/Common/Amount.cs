@@ -14,24 +14,22 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Runtime.Serialization;
+
 namespace Net.Dreceiptx.Receipt.Common
 {
     public class Amount
     {
-        //@SerializedName("currencyCode")
-        public Currency CurrencyCode { get; private set; }
-        //@SerializedName("value")
-        public decimal Value { get; private set; }
         public Amount(Currency currency, decimal amount)
         {
             Value = amount;
             CurrencyCode = currency;
         }
 
-        public Amount(decimal amount, Currency currency)
-        {
-            Value = amount;
-            CurrencyCode = currency;
-        }
+        [DataMember]
+        public Currency CurrencyCode { get; private set; }
+        [DataMember]
+        public decimal Value { get; private set; }
     }
 }

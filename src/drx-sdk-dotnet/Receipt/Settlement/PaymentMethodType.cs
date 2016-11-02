@@ -15,25 +15,30 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.Settlement
 {
     public enum PaymentMethodType
     {
-        //@SerializedName("CASH")
+        [EnumMember(Value = "CASH")]
         [DrxEnumExtendedInformation("CASH", "Cash Payment")]
         CASH,
-        //@SerializedName("CREDIT_CARD")
+
+        [EnumMember(Value = "CREDIT_CARD")]
         [DrxEnumExtendedInformation("CREDIT_CARD", "Credit Card Payment")]
         CREDIT_CARD,
-        //@SerializedName("DEBIT CARD")
+
+        [EnumMember(Value = "DEBIT CARD")]
         [DrxEnumExtendedInformation("DEBIT_CARD", "Debit Card Payment")]
         DEBIT_CARD,
-        //@SerializedName("CHEQUE")
+
+        [EnumMember(Value = "CHEQUE")]
         [DrxEnumExtendedInformation("CHEQUE", "Cheque payment")]
         CHEQUE,
-        //@SerializedName("OTHER")
+
+        [EnumMember(Value = "OTHER")]
         [DrxEnumExtendedInformation("OTHER", "Other")]
         OTHER
     }

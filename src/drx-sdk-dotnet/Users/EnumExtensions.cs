@@ -16,6 +16,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using Net.Dreceiptx.Iso;
 using Net.Dreceiptx.Receipt.Tax;
 using Net.Dreceiptx.Users;
 
@@ -56,8 +57,6 @@ public static class EnumExtensions
         return enumValue.ExtendedInformation().Value;
     }
 
-    
-
     public static TAttribute GetCustomAttribute<TAttribute>(this Enum value) where TAttribute : Attribute
     {
         var type = value.GetType();
@@ -66,8 +65,23 @@ public static class EnumExtensions
         return (attributes.Length > 0) ? (TAttribute)attributes[0] : null;
     }
 
-    //public static TaxCategory? CodeOf(this TaxCategory t)
-    //{
-    //    return null;
-    //}
+    private static Dictionary<string, Net.Dreceiptx.Receipt.Common.Currency> _currencyDictionary;
+
+    public static Net.Dreceiptx.Receipt.Common.Currency Currency(string currencyCode)
+    {
+        if (_currencyDictionary == null)
+        {
+            _currencyDictionary = new Dictionary<string, Net.Dreceiptx.Receipt.Common.Currency>();
+            foreach (Net.Dreceiptx.Receipt.Common.Currency currency in Enum.GetValues(typeof(Net.Dreceiptx.Receipt.Common.Currency)))
+            {
+                _currencyDictionary.Add(currency.Value(), currency);
+            }
+        }
+        Net.Dreceiptx.Receipt.Common.Currency result;
+        if (!_currencyDictionary.TryGetValue(currencyCode, out result))
+        {
+            throw new InvalidOperationException($"CurrencyCode {currencyCode} is invalid");
+        }
+        return result;
+    }
 }

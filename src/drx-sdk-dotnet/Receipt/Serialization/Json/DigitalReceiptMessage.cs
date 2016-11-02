@@ -14,48 +14,26 @@
  * limitations under the License.
  */
 
-package net.dreceiptx.receipt.serialization.json;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+using Net.Dreceiptx.Receipt.Document;
+using Net.Dreceiptx.Receipt.Settlement;
 
-import net.dreceiptx.receipt.document.StandardBusinessDocumentHeader;
-import net.dreceiptx.receipt.invoice.Invoice;
-import net.dreceiptx.receipt.settlement.PaymentReceipt;
-import com.google.gson.annotations.SerializedName;
+namespace Net.Dreceiptx.Receipt.Serialization.Json
+{
+    [DataContract]
+    public class DigitalReceiptMessage
+    {
+        public DigitalReceiptMessage()
+        {
+            Invoice = new Invoice.Invoice();
+        }
 
-import java.util.List;
-
-public class DigitalReceiptMessage {
-    @SerializedName("standardBusinessDocumentHeader")
-    private StandardBusinessDocumentHeader _standardBusinessDocumentHeader;
-    @SerializedName("invoice")
-    private Invoice _invoice;
-    @SerializedName("paymentReceipts")
-    private List<PaymentReceipt> _paymentReceipts;
-    
-    public DigitalReceiptMessage(){
-        _invoice = new Invoice();
-    }
-    
-    public void setInvoice(Invoice invoice) {
-        _invoice = invoice;
-    }
-    
-    public Invoice getInvoice() {
-        return _invoice;
-    }
-    
-    public void setStandardBusinessDocumentHeader(StandardBusinessDocumentHeader standardBusinessDocumentHeader) {
-        _standardBusinessDocumentHeader = standardBusinessDocumentHeader;
-    }
-    
-    public StandardBusinessDocumentHeader getStandardBusinessDocumentHeader() {
-        return _standardBusinessDocumentHeader;
-    }
-    
-    public void setPaymentReceipts(List<PaymentReceipt> paymentReceipts) {
-        _paymentReceipts = paymentReceipts;
-    }
-    
-    public List<PaymentReceipt> getPaymentReceipts() {
-        return _paymentReceipts;
+        [DataMember]
+        public StandardBusinessDocumentHeader StandardBusinessDocumentHeader { get; private set; }
+        [DataMember]
+        public Invoice.Invoice Invoice { get; private set; }
+        [DataMember]
+        public List<PaymentReceipt> PaymentReceipts { get; private set; }
     }
 }

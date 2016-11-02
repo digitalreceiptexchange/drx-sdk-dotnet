@@ -24,6 +24,7 @@ using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Config;
 using Net.Dreceiptx.Receipt.Document;
+using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.LineItem;
 using Net.Dreceiptx.Receipt.Settlement;
 using Net.Dreceiptx.Users;
@@ -88,7 +89,7 @@ namespace Net.Dreceiptx.Receipt
             _standardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier = merchantReference;
         
             if(_invoice.InvoiceIdentification == null){
-                _invoice.InvoiceIdentification = merchantReference;
+                _invoice.InvoiceIdentification = new Identification(merchantReference);
             }
         }
 
@@ -109,12 +110,12 @@ namespace Net.Dreceiptx.Receipt
     
         public void SetPurchaseOrderNumber(string purchaseOrder)
         {
-            _invoice.PurchaseOrder = purchaseOrder;
+            _invoice.PurchaseOrder = new Identification(purchaseOrder);
         }
 
         public void SetCustomerReferenceNumber(string customerReference)
         {
-            _invoice.CustomerReference = customerReference;
+            _invoice.CustomerReference = new Identification(customerReference);
         }
     
         public void AddClientRecipientContact(string name, string email, string phone)
@@ -204,7 +205,7 @@ namespace Net.Dreceiptx.Receipt
         }
     
         public void SetReceiptNumber(string receiptNumber){
-            _invoice.InvoiceIdentification = receiptNumber;
+            _invoice.InvoiceIdentification = new Identification(receiptNumber);
         
             if(_standardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier == null){
                 _standardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier = receiptNumber;

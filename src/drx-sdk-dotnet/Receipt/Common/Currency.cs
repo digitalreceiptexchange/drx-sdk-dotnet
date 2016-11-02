@@ -15,6 +15,7 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.Common
@@ -22,497 +23,660 @@ namespace Net.Dreceiptx.Receipt.Common
     //TODO: Add conversion methods like in java side of things
     public enum Currency
     {
-        //@SerializedName("AFN")
+        [EnumMember(Value = "AFN")]
         [DrxEnumExtendedInformation("AFN", "Afghani")]
         Afghani,
-        //@SerializedName("EUR")
+
+        [EnumMember(Value = "EUR")]
         [DrxEnumExtendedInformation("EUR", "Euro")]
         Euro,
-        //@SerializedName("ALL")
+
+        [EnumMember(Value = "ALL")]
         [DrxEnumExtendedInformation("ALL", "Lek")]
         Lek,
-        //@SerializedName("DZD")
+
+        [EnumMember(Value = "DZD")]
         [DrxEnumExtendedInformation("DZD", "Algerian Dinar")]
-        Algerian_Dinar,
-        //@SerializedName("USD")
+        AlgerianDinar,
+
+        [EnumMember(Value = "USD")]
         [DrxEnumExtendedInformation("USD", "US Dollar")]
-        US_Dollar,
-        //@SerializedName("AOA")
+        UsDollar,
+
+        [EnumMember(Value = "AOA")]
         [DrxEnumExtendedInformation("AOA", "Kwanza")]
         Kwanza,
-        //@SerializedName("XCD")
+
+        [EnumMember(Value = "XCD")]
         [DrxEnumExtendedInformation("XCD", "East Caribbean Dollar")]
-        East_Caribbean_Dollar,
-        //@SerializedName("ARS")
+        EastCaribbeanDollar,
+
+        [EnumMember(Value = "ARS")]
         [DrxEnumExtendedInformation("ARS", "Argentine Peso")]
-        Argentine_Peso,
-        //@SerializedName("AMD")
+        ArgentinePeso,
+
+        [EnumMember(Value = "AMD")]
         [DrxEnumExtendedInformation("AMD", "Armenian Dram")]
-        Armenian_Dram,
-        //@SerializedName("AWG")
+        ArmenianDram,
+
+        [EnumMember(Value = "AWG")]
         [DrxEnumExtendedInformation("AWG", "Aruban Florin")]
-        Aruban_Florin,
-        //@SerializedName("AUD")
+        ArubanFlorin,
+
+        [EnumMember(Value = "AUD")]
         [DrxEnumExtendedInformation("AUD", "Australian Dollar")]
-        Australian_Dollar,
-        //@SerializedName("AZN")
+        AustralianDollar,
+
+        [EnumMember(Value = "AZN")]
         [DrxEnumExtendedInformation("AZN", "Azerbaijanian Manat")]
-        Azerbaijanian_Manat,
-        //@SerializedName("BSD")
+        AzerbaijanianManat,
+
+        [EnumMember(Value = "BSD")]
         [DrxEnumExtendedInformation("BSD", "Bahamian Dollar")]
-        Bahamian_Dollar,
-        //@SerializedName("BHD")
+        BahamianDollar,
+
+        [EnumMember(Value = "BHD")]
         [DrxEnumExtendedInformation("BHD", "Bahraini Dinar")]
-        Bahraini_Dinar,
-        //@SerializedName("BDT")
+        BahrainiDinar,
+
+        [EnumMember(Value = "BDT")]
         [DrxEnumExtendedInformation("BDT", "Taka")]
         Taka,
-        //@SerializedName("BBD")
+
+        [EnumMember(Value = "BBD")]
         [DrxEnumExtendedInformation("BBD", "Barbados Dollar")]
-        Barbados_Dollar,
-        //@SerializedName("BYR")
+        BarbadosDollar,
+
+        [EnumMember(Value = "BYR")]
         [DrxEnumExtendedInformation("BYR", "Belarussian Ruble")]
-        Belarussian_Ruble,
-        //@SerializedName("BZD")
+        BelarussianRuble,
+
+        [EnumMember(Value = "BZD")]
         [DrxEnumExtendedInformation("BZD", "Belize Dollar")]
-        Belize_Dollar,
-        //@SerializedName("XOF")
+        BelizeDollar,
+
+        [EnumMember(Value = "XOF")]
         [DrxEnumExtendedInformation("XOF", "CFA Franc BCEAO")]
-        CFA_Franc_BCEAO,
-        //@SerializedName("BMD")
+        CfaFrancBceao,
+
+        [EnumMember(Value = "BMD")]
         [DrxEnumExtendedInformation("BMD", "Bermudian Dollar")]
-        Bermudian_Dollar,
-        //@SerializedName("BTN")
+        BermudianDollar,
+
+        [EnumMember(Value = "BTN")]
         [DrxEnumExtendedInformation("BTN", "Ngultrum")]
         Ngultrum,
-        //@SerializedName("INR")
+
+        [EnumMember(Value = "INR")]
         [DrxEnumExtendedInformation("INR", "Indian Rupee")]
-        Indian_Rupee,
-        //@SerializedName("BOB")
+        IndianRupee,
+
+        [EnumMember(Value = "BOB")]
         [DrxEnumExtendedInformation("BOB", "Boliviano")]
         Boliviano,
-        //@SerializedName("BOV")
+
+        [EnumMember(Value = "BOV")]
         [DrxEnumExtendedInformation("BOV", "Mvdol")]
         Mvdol,
-        //@SerializedName("BAM")
+
+        [EnumMember(Value = "BAM")]
         [DrxEnumExtendedInformation("BAM", "Convertible Mark")]
-        Convertible_Mark,
-        //@SerializedName("BWP")
+        ConvertibleMark,
+
+        [EnumMember(Value = "BWP")]
         [DrxEnumExtendedInformation("BWP", "Pula")]
         Pula,
-        //@SerializedName("NOK")
+
+        [EnumMember(Value = "NOK")]
         [DrxEnumExtendedInformation("NOK", "Norwegian Krone")]
-        Norwegian_Krone,
-        //@SerializedName("BRL")
+        NorwegianKrone,
+
+        [EnumMember(Value = "BRL")]
         [DrxEnumExtendedInformation("BRL", "Brazilian Real")]
-        Brazilian_Real,
-        //@SerializedName("BND")
+        BrazilianReal,
+
+        [EnumMember(Value = "BND")]
         [DrxEnumExtendedInformation("BND", "Brunei Dollar")]
-        Brunei_Dollar,
-        //@SerializedName("BGN")
+        BruneiDollar,
+
+        [EnumMember(Value = "BGN")]
         [DrxEnumExtendedInformation("BGN", "Bulgarian Lev")]
-        Bulgarian_Lev,
-        //@SerializedName("BIF")
+        BulgarianLev,
+
+        [EnumMember(Value = "BIF")]
         [DrxEnumExtendedInformation("BIF", "Burundi Franc")]
-        Burundi_Franc,
-        //@SerializedName("CVE")
+        BurundiFranc,
+
+        [EnumMember(Value = "CVE")]
         [DrxEnumExtendedInformation("CVE", "Cabo Verde Escudo")]
-        Cabo_Verde_Escudo,
-        //@SerializedName("KHR")
+        CaboVerdeEscudo,
+
+        [EnumMember(Value = "KHR")]
         [DrxEnumExtendedInformation("KHR", "Riel")]
         Riel,
-        //@SerializedName("XAF")
+
+        [EnumMember(Value = "XAF")]
         [DrxEnumExtendedInformation("XAF", "CFA Franc BEAC")]
-        CFA_Franc_BEAC,
-        //@SerializedName("CAD")
+        CfaFrancBeac,
+
+        [EnumMember(Value = "CAD")]
         [DrxEnumExtendedInformation("CAD", "Canadian Dollar")]
-        Canadian_Dollar,
-        //@SerializedName("KYD")
+        CanadianDollar,
+
+        [EnumMember(Value = "KYD")]
         [DrxEnumExtendedInformation("KYD", "Cayman Islands Dollar")]
-        Cayman_Islands_Dollar,
-        //@SerializedName("CLF")
+        CaymanIslandsDollar,
+
+        [EnumMember(Value = "CLF")]
         [DrxEnumExtendedInformation("CLF", "Unidad de Fomento")]
-        Unidad_de_Fomento,
-        //@SerializedName("CLP")
+        UnidadDeFomento,
+
+        [EnumMember(Value = "CLP")]
         [DrxEnumExtendedInformation("CLP", "Chilean Peso")]
-        Chilean_Peso,
-        //@SerializedName("CNY")
+        ChileanPeso,
+
+        [EnumMember(Value = "CNY")]
         [DrxEnumExtendedInformation("CNY", "Yuan Renminbi")]
-        Yuan_Renminbi,
-        //@SerializedName("COP")
+        YuanRenminbi,
+
+        [EnumMember(Value = "COP")]
         [DrxEnumExtendedInformation("COP", "Colombian Peso")]
-        Colombian_Peso,
-        //@SerializedName("COU")
+        ColombianPeso,
+
+        [EnumMember(Value = "COU")]
         [DrxEnumExtendedInformation("COU", "Unidad de Valor Real")]
-        Unidad_de_Valor_Real,
-        //@SerializedName("KMF")
+        UnidadDeValorReal,
+
+        [EnumMember(Value = "KMF")]
         [DrxEnumExtendedInformation("KMF", "Comoro Franc")]
-        Comoro_Franc,
-        //@SerializedName("CDF")
+        ComoroFranc,
+
+        [EnumMember(Value = "CDF")]
         [DrxEnumExtendedInformation("CDF", "Congolese Franc")]
-        Congolese_Franc,
-        //@SerializedName("NZD")
+        CongoleseFranc,
+
+        [EnumMember(Value = "NZD")]
         [DrxEnumExtendedInformation("NZD", "New Zealand Dollar")]
-        New_Zealand_Dollar,
-        //@SerializedName("CRC")
+        NewZealandDollar,
+
+        [EnumMember(Value = "CRC")]
         [DrxEnumExtendedInformation("CRC", "Costa Rican Colon")]
-        Costa_Rican_Colon,
-        //@SerializedName("HRK")
+        CostaRicanColon,
+
+        [EnumMember(Value = "HRK")]
         [DrxEnumExtendedInformation("HRK", "Kuna")]
         Kuna,
-        //@SerializedName("CUC")
+
+        [EnumMember(Value = "CUC")]
         [DrxEnumExtendedInformation("CUC", "Peso Convertible")]
-        Peso_Convertible,
-        //@SerializedName("CUP")
+        PesoConvertible,
+
+        [EnumMember(Value = "CUP")]
         [DrxEnumExtendedInformation("CUP", "Cuban Peso")]
-        Cuban_Peso,
-        //@SerializedName("ANG")
+        CubanPeso,
+
+        [EnumMember(Value = "ANG")]
         [DrxEnumExtendedInformation("ANG", "Netherlands Antillean Guilder")]
-        Netherlands_Antillean_Guilder,
-        //@SerializedName("CZK")
+        NetherlandsAntilleanGuilder,
+
+        [EnumMember(Value = "CZK")]
         [DrxEnumExtendedInformation("CZK", "Czech Koruna")]
-        Czech_Koruna,
-        //@SerializedName("DKK")
+        CzechKoruna,
+
+        [EnumMember(Value = "DKK")]
         [DrxEnumExtendedInformation("DKK", "Danish Krone")]
-        Danish_Krone,
-        //@SerializedName("DJF")
+        DanishKrone,
+
+        [EnumMember(Value = "DJF")]
         [DrxEnumExtendedInformation("DJF", "Djibouti Franc")]
-        Djibouti_Franc,
-        //@SerializedName("DOP")
+        DjiboutiFranc,
+
+        [EnumMember(Value = "DOP")]
         [DrxEnumExtendedInformation("DOP", "Dominican Peso")]
-        Dominican_Peso,
-        //@SerializedName("EGP")
+        DominicanPeso,
+
+        [EnumMember(Value = "EGP")]
         [DrxEnumExtendedInformation("EGP", "Egyptian Pound")]
-        Egyptian_Pound,
-        //@SerializedName("SVC")
+        EgyptianPound,
+
+        [EnumMember(Value = "SVC")]
         [DrxEnumExtendedInformation("SVC", "El Salvador Colon")]
-        El_Salvador_Colon,
-        //@SerializedName("ERN")
+        ElSalvadorColon,
+
+        [EnumMember(Value = "ERN")]
         [DrxEnumExtendedInformation("ERN", "Nakfa")]
         Nakfa,
-        //@SerializedName("ETB")
+
+        [EnumMember(Value = "ETB")]
         [DrxEnumExtendedInformation("ETB", "Ethiopian Birr")]
-        Ethiopian_Birr,
-        //@SerializedName("FKP")
+        EthiopianBirr,
+
+        [EnumMember(Value = "FKP")]
         [DrxEnumExtendedInformation("FKP", "Falkland Islands Pound")]
-        Falkland_Islands_Pound,
-        //@SerializedName("FJD")
+        FalklandIslandsPound,
+
+        [EnumMember(Value = "FJD")]
         [DrxEnumExtendedInformation("FJD", "Fiji Dollar")]
-        Fiji_Dollar,
-        //@SerializedName("XPF")
+        FijiDollar,
+
+        [EnumMember(Value = "XPF")]
         [DrxEnumExtendedInformation("XPF", "CFP Franc")]
-        CFP_Franc,
-        //@SerializedName("GMD")
+        CfpFranc,
+
+        [EnumMember(Value = "GMD")]
         [DrxEnumExtendedInformation("GMD", "Dalasi")]
         Dalasi,
-        //@SerializedName("GEL")
+
+        [EnumMember(Value = "GEL")]
         [DrxEnumExtendedInformation("GEL", "Lari")]
         Lari,
-        //@SerializedName("GHS")
+
+        [EnumMember(Value = "GHS")]
         [DrxEnumExtendedInformation("GHS", "Ghana Cedi")]
-        Ghana_Cedi,
-        //@SerializedName("GIP")
+        GhanaCedi,
+
+        [EnumMember(Value = "GIP")]
         [DrxEnumExtendedInformation("GIP", "Gibraltar Pound")]
-        Gibraltar_Pound,
-        //@SerializedName("GTQ")
+        GibraltarPound,
+
+        [EnumMember(Value = "GTQ")]
         [DrxEnumExtendedInformation("GTQ", "Quetzal")]
         Quetzal,
-        //@SerializedName("GBP")
+
+        [EnumMember(Value = "GBP")]
         [DrxEnumExtendedInformation("GBP", "British Sterling(Pound)")]
-        British_Sterling,
-        //@SerializedName("GNF")
+        BritishSterling,
+
+        [EnumMember(Value = "GNF")]
         [DrxEnumExtendedInformation("GNF", "Guinea Franc")]
-        Guinea_Franc,
-        //@SerializedName("GYD")
+        GuineaFranc,
+
+        [EnumMember(Value = "GYD")]
         [DrxEnumExtendedInformation("GYD", "Guyana Dollar")]
-        Guyana_Dollar,
-        //@SerializedName("HTG")
+        GuyanaDollar,
+
+        [EnumMember(Value = "HTG")]
         [DrxEnumExtendedInformation("HTG", "Gourde")]
         Gourde,
-        //@SerializedName("HNL")
+
+        [EnumMember(Value = "HNL")]
         [DrxEnumExtendedInformation("HNL", "Lempira")]
         Lempira,
-        //@SerializedName("HKD")
+
+        [EnumMember(Value = "HKD")]
         [DrxEnumExtendedInformation("HKD", "Hong Kong Dollar")]
-        Hong_Kong_Dollar,
-        //@SerializedName("HUF")
+        HongKongDollar,
+
+        [EnumMember(Value = "HUF")]
         [DrxEnumExtendedInformation("HUF", "Forint")]
         Forint,
-        //@SerializedName("ISK")
+
+        [EnumMember(Value = "ISK")]
         [DrxEnumExtendedInformation("ISK", "Iceland Krona")]
-        Iceland_Krona,
-        //@SerializedName("IDR")
+        IcelandKrona,
+
+        [EnumMember(Value = "IDR")]
         [DrxEnumExtendedInformation("IDR", "Rupiah")]
         Rupiah,
-        //@SerializedName("IRR")
+
+        [EnumMember(Value = "IRR")]
         [DrxEnumExtendedInformation("IRR", "Iranian Rial")]
-        Iranian_Rial,
-        //@SerializedName("IQD")
+        IranianRial,
+
+        [EnumMember(Value = "IQD")]
         [DrxEnumExtendedInformation("IQD", "Iraqi Dinar")]
-        Iraqi_Dinar,
-        //@SerializedName("ILS")
+        IraqiDinar,
+
+        [EnumMember(Value = "ILS")]
         [DrxEnumExtendedInformation("ILS", "New Israeli Sheqel")]
-        New_Israeli_Sheqel,
-        //@SerializedName("JMD")
+        NewIsraeliSheqel,
+
+        [EnumMember(Value = "JMD")]
         [DrxEnumExtendedInformation("JMD", "Jamaican Dollar")]
-        Jamaican_Dollar,
-        //@SerializedName("JPY")
+        JamaicanDollar,
+
+        [EnumMember(Value = "JPY")]
         [DrxEnumExtendedInformation("JPY", "Yen")]
         Yen,
-        //@SerializedName("JOD")
+
+        [EnumMember(Value = "JOD")]
         [DrxEnumExtendedInformation("JOD", "Jordanian Dinar")]
-        Jordanian_Dinar,
-        //@SerializedName("KZT")
+        JordanianDinar,
+
+        [EnumMember(Value = "KZT")]
         [DrxEnumExtendedInformation("KZT", "Tenge")]
         Tenge,
-        //@SerializedName("KES")
+
+        [EnumMember(Value = "KES")]
         [DrxEnumExtendedInformation("KES", "Kenyan Shilling")]
-        Kenyan_Shilling,
-        //@SerializedName("KPW")
+        KenyanShilling,
+
+        [EnumMember(Value = "KPW")]
         [DrxEnumExtendedInformation("KPW", "North Korean Won")]
-        North_Korean_Won,
-        //@SerializedName("KRW")
+        NorthKoreanWon,
+
+        [EnumMember(Value = "KRW")]
         [DrxEnumExtendedInformation("KRW", "Won")]
         Won,
-        //@SerializedName("KWD")
+
+        [EnumMember(Value = "KWD")]
         [DrxEnumExtendedInformation("KWD", "Kuwaiti Dinar")]
-        Kuwaiti_Dinar,
-        //@SerializedName("KGS")
+        KuwaitiDinar,
+
+        [EnumMember(Value = "KGS")]
         [DrxEnumExtendedInformation("KGS", "Som")]
         Som,
-        //@SerializedName("LAK")
+
+        [EnumMember(Value = "LAK")]
         [DrxEnumExtendedInformation("LAK", "Kip")]
         Kip,
-        //@SerializedName("LBP")
+
+        [EnumMember(Value = "LBP")]
         [DrxEnumExtendedInformation("LBP", "Lebanese Pound")]
-        Lebanese_Pound,
-        //@SerializedName("LSL")
+        LebanesePound,
+
+        [EnumMember(Value = "LSL")]
         [DrxEnumExtendedInformation("LSL", "Loti")]
         Loti,
-        //@SerializedName("ZAR")
+
+        [EnumMember(Value = "ZAR")]
         [DrxEnumExtendedInformation("ZAR", "Rand")]
         Rand,
-        //@SerializedName("LRD")
+
+        [EnumMember(Value = "LRD")]
         [DrxEnumExtendedInformation("LRD", "Liberian Dollar")]
-        Liberian_Dollar,
-        //@SerializedName("LYD")
+        LiberianDollar,
+
+        [EnumMember(Value = "LYD")]
         [DrxEnumExtendedInformation("LYD", "Libyan Dinar")]
-        Libyan_Dinar,
-        //@SerializedName("CHF")
+        LibyanDinar,
+
+        [EnumMember(Value = "CHF")]
         [DrxEnumExtendedInformation("CHF", "Swiss Franc")]
-        Swiss_Franc,
-        //@SerializedName("MOP")
+        SwissFranc,
+
+        [EnumMember(Value = "MOP")]
         [DrxEnumExtendedInformation("MOP", "Pataca")]
         Pataca,
-        //@SerializedName("MKD")
+
+        [EnumMember(Value = "MKD")]
         [DrxEnumExtendedInformation("MKD", "Denar")]
         Denar,
-        //@SerializedName("MGA")
+
+        [EnumMember(Value = "MGA")]
         [DrxEnumExtendedInformation("MGA", "Malagasy Ariary")]
-        Malagasy_Ariary,
-        //@SerializedName("MWK")
+        MalagasyAriary,
+
+        [EnumMember(Value = "MWK")]
         [DrxEnumExtendedInformation("MWK", "Kwacha")]
         Kwacha,
-        //@SerializedName("MYR")
+
+        [EnumMember(Value = "MYR")]
         [DrxEnumExtendedInformation("MYR", "Malaysian Ringgit")]
-        Malaysian_Ringgit,
-        //@SerializedName("MVR")
+        MalaysianRinggit,
+
+        [EnumMember(Value = "MVR")]
         [DrxEnumExtendedInformation("MVR", "Rufiyaa")]
         Rufiyaa,
-        //@SerializedName("MRO")
+
+        [EnumMember(Value = "MRO")]
         [DrxEnumExtendedInformation("MRO", "Ouguiya")]
         Ouguiya,
-        //@SerializedName("MUR")
+
+        [EnumMember(Value = "MUR")]
         [DrxEnumExtendedInformation("MUR", "Mauritius Rupee")]
-        Mauritius_Rupee,
-        //@SerializedName("XUA")
+        MauritiusRupee,
+
+        [EnumMember(Value = "XUA")]
         [DrxEnumExtendedInformation("XUA", "ADB Unit of Account")]
-        ADB_Unit_of_Account,
-        //@SerializedName("MXN")
+        AdbUnitOfAccount,
+
+        [EnumMember(Value = "MXN")]
         [DrxEnumExtendedInformation("MXN", "Mexican Peso")]
-        Mexican_Peso,
-        //@SerializedName("MDL")
+        MexicanPeso,
+
+        [EnumMember(Value = "MDL")]
         [DrxEnumExtendedInformation("MDL", "Moldovan Leu")]
-        Moldovan_Leu,
-        //@SerializedName("MNT")
+        MoldovanLeu,
+
+        [EnumMember(Value = "MNT")]
         [DrxEnumExtendedInformation("MNT", "Tugrik")]
         Tugrik,
-        //@SerializedName("MAD")
+
+        [EnumMember(Value = "MAD")]
         [DrxEnumExtendedInformation("MAD", "Moroccan Dirham")]
-        Moroccan_Dirham,
-        //@SerializedName("MZN")
+        MoroccanDirham,
+
+        [EnumMember(Value = "MZN")]
         [DrxEnumExtendedInformation("MZN", "Mozambique Metical")]
-        Mozambique_Metical,
-        //@SerializedName("MMK")
+        MozambiqueMetical,
+
+        [EnumMember(Value = "MMK")]
         [DrxEnumExtendedInformation("MMK", "Kyat")]
         Kyat,
-        //@SerializedName("NAD")
+
+        [EnumMember(Value = "NAD")]
         [DrxEnumExtendedInformation("NAD", "Namibia Dollar")]
-        Namibia_Dollar,
-        //@SerializedName("NPR")
+        NamibiaDollar,
+
+        [EnumMember(Value = "NPR")]
         [DrxEnumExtendedInformation("NPR", "Nepalese Rupee")]
-        Nepalese_Rupee,
-        //@SerializedName("NIO")
+        NepaleseRupee,
+
+        [EnumMember(Value = "NIO")]
         [DrxEnumExtendedInformation("NIO", "Cordoba Oro")]
-        Cordoba_Oro,
-        //@SerializedName("NGN")
+        CordobaOro,
+
+        [EnumMember(Value = "NGN")]
         [DrxEnumExtendedInformation("NGN", "Naira")]
         Naira,
-        //@SerializedName("OMR")
+
+        [EnumMember(Value = "OMR")]
         [DrxEnumExtendedInformation("OMR", "Rial Omani")]
-        Rial_Omani,
-        //@SerializedName("PKR")
+        RialOmani,
+
+        [EnumMember(Value = "PKR")]
         [DrxEnumExtendedInformation("PKR", "Pakistan Rupee")]
-        Pakistan_Rupee,
-        //@SerializedName("PAB")
+        PakistanRupee,
+
+        [EnumMember(Value = "PAB")]
         [DrxEnumExtendedInformation("PAB", "Balboa")]
         Balboa,
-        //@SerializedName("PGK")
+
+        [EnumMember(Value = "PGK")]
         [DrxEnumExtendedInformation("PGK", "Kina")]
         Kina,
-        //@SerializedName("PYG")
+
+        [EnumMember(Value = "PYG")]
         [DrxEnumExtendedInformation("PYG", "Guarani")]
         Guarani,
-        //@SerializedName("PEN")
+
+        [EnumMember(Value = "PEN")]
         [DrxEnumExtendedInformation("PEN", "Nuevo Sol")]
-        Nuevo_Sol,
-        //@SerializedName("PHP")
+        NuevoSol,
+
+        [EnumMember(Value = "PHP")]
         [DrxEnumExtendedInformation("PHP", "Philippine Peso")]
-        Philippine_Peso,
-        //@SerializedName("PLN")
+        PhilippinePeso,
+
+        [EnumMember(Value = "PLN")]
         [DrxEnumExtendedInformation("PLN", "Zloty")]
         Zloty,
-        //@SerializedName("QAR")
+
+        [EnumMember(Value = "QAR")]
         [DrxEnumExtendedInformation("QAR", "Qatari Rial")]
-        Qatari_Rial,
-        //@SerializedName("RON")
+        QatariRial,
+
+        [EnumMember(Value = "RON")]
         [DrxEnumExtendedInformation("RON", "Romanian Leu")]
-        Romanian_Leu,
-        //@SerializedName("RUB")
+        RomanianLeu,
+
+        [EnumMember(Value = "RUB")]
         [DrxEnumExtendedInformation("RUB", "Russian Ruble")]
-        Russian_Ruble,
-        //@SerializedName("RWF")
+        RussianRuble,
+
+        [EnumMember(Value = "RWF")]
         [DrxEnumExtendedInformation("RWF", "Rwanda Franc")]
-        Rwanda_Franc,
-        //@SerializedName("SHP")
+        RwandaFranc,
+
+        [EnumMember(Value = "SHP")]
         [DrxEnumExtendedInformation("SHP", "Saint Helena Pound")]
-        Saint_Helena_Pound,
-        //@SerializedName("WST")
+        SaintHelenaPound,
+
+        [EnumMember(Value = "WST")]
         [DrxEnumExtendedInformation("WST", "Tala")]
         Tala,
-        //@SerializedName("STD")
+
+        [EnumMember(Value = "STD")]
         [DrxEnumExtendedInformation("STD", "Dobra")]
         Dobra,
-        //@SerializedName("SAR")
+
+        [EnumMember(Value = "SAR")]
         [DrxEnumExtendedInformation("SAR", "Saudi Riyal")]
-        Saudi_Riyal,
-        //@SerializedName("RSD")
+        SaudiRiyal,
+
+        [EnumMember(Value = "RSD")]
         [DrxEnumExtendedInformation("RSD", "Serbian Dinar")]
-        Serbian_Dinar,
-        //@SerializedName("SCR")
+        SerbianDinar,
+
+        [EnumMember(Value = "SCR")]
         [DrxEnumExtendedInformation("SCR", "Seychelles Rupee")]
-        Seychelles_Rupee,
-        //@SerializedName("SLL")
+        SeychellesRupee,
+
+        [EnumMember(Value = "SLL")]
         [DrxEnumExtendedInformation("SLL", "Leone")]
         Leone,
-        //@SerializedName("SGD")
+
+        [EnumMember(Value = "SGD")]
         [DrxEnumExtendedInformation("SGD", "Singapore Dollar")]
-        Singapore_Dollar,
-        //@SerializedName("XSU")
+        SingaporeDollar,
+
+        [EnumMember(Value = "XSU")]
         [DrxEnumExtendedInformation("XSU", "Sucre")]
         Sucre,
-        //@SerializedName("SBD")
+
+        [EnumMember(Value = "SBD")]
         [DrxEnumExtendedInformation("SBD", "Solomon Islands Dollar")]
-        Solomon_Islands_Dollar,
-        //@SerializedName("SOS")
+        SolomonIslandsDollar,
+
+        [EnumMember(Value = "SOS")]
         [DrxEnumExtendedInformation("SOS", "Somali Shilling")]
-        Somali_Shilling,
-        //@SerializedName("SSP")
+        SomaliShilling,
+
+        [EnumMember(Value = "SSP")]
         [DrxEnumExtendedInformation("SSP", "South Sudanese Pound")]
-        South_Sudanese_Pound,
-        //@SerializedName("LKR")
+        SouthSudanesePound,
+
+        [EnumMember(Value = "LKR")]
         [DrxEnumExtendedInformation("LKR", "Sri Lanka Rupee")]
-        Sri_Lanka_Rupee,
-        //@SerializedName("SDG")
+        SriLankaRupee,
+
+        [EnumMember(Value = "SDG")]
         [DrxEnumExtendedInformation("SDG", "Sudanese Pound")]
-        Sudanese_Pound,
-        //@SerializedName("SRD")
+        SudanesePound,
+
+        [EnumMember(Value = "SRD")]
         [DrxEnumExtendedInformation("SRD", "Surinam Dollar")]
-        Surinam_Dollar,
-        //@SerializedName("SZL")
+        SurinamDollar,
+
+        [EnumMember(Value = "SZL")]
         [DrxEnumExtendedInformation("SZL", "Lilangeni")]
         Lilangeni,
-        //@SerializedName("SEK")
+
+        [EnumMember(Value = "SEK")]
         [DrxEnumExtendedInformation("SEK", "Swedish Krona")]
-        Swedish_Krona,
-        //@SerializedName("CHE")
+        SwedishKrona,
+
+        [EnumMember(Value = "CHE")]
         [DrxEnumExtendedInformation("CHE", "WIR Euro")]
-        WIR_Euro,
-        //@SerializedName("CHW")
+        WirEuro,
+
+        [EnumMember(Value = "CHW")]
         [DrxEnumExtendedInformation("CHW", "WIR Franc")]
-        WIR_Franc,
-        //@SerializedName("SYP")
+        WirFranc,
+
+        [EnumMember(Value = "SYP")]
         [DrxEnumExtendedInformation("SYP", "Syrian Pound")]
-        Syrian_Pound,
-        //@SerializedName("TWD")
+        SyrianPound,
+
+        [EnumMember(Value = "TWD")]
         [DrxEnumExtendedInformation("TWD", "New Taiwan Dollar")]
-        New_Taiwan_Dollar,
-        //@SerializedName("TJS")
+        NewTaiwanDollar,
+
+        [EnumMember(Value = "TJS")]
         [DrxEnumExtendedInformation("TJS", "Somoni")]
         Somoni,
-        //@SerializedName("TZS")
+
+        [EnumMember(Value = "TZS")]
         [DrxEnumExtendedInformation("TZS", "Tanzanian Shilling")]
-        Tanzanian_Shilling,
-        //@SerializedName("THB")
+        TanzanianShilling,
+
+        [EnumMember(Value = "THB")]
         [DrxEnumExtendedInformation("THB", "Baht")]
         Baht,
-        //@SerializedName("TOP")
+
+        [EnumMember(Value = "TOP")]
         [DrxEnumExtendedInformation("TOP", "Pa’anga")]
         Paanga,
-        //@SerializedName("TTD")
+
+        [EnumMember(Value = "TTD")]
         [DrxEnumExtendedInformation("TTD", "Trinidad and Tobago Dollar")]
-        Trinidad_and_Tobago_Dollar,
-        //@SerializedName("TND")
+        TrinidadAndTobagoDollar,
+
+        [EnumMember(Value = "TND")]
         [DrxEnumExtendedInformation("TND", "Tunisian Dinar")]
-        Tunisian_Dinar,
-        //@SerializedName("TRY")
+        TunisianDinar,
+
+        [EnumMember(Value = "TRY")]
         [DrxEnumExtendedInformation("TRY", "Turkish Lira")]
-        Turkish_Lira,
-        //@SerializedName("TMT")
+        TurkishLira,
+
+        [EnumMember(Value = "TMT")]
         [DrxEnumExtendedInformation("TMT", "Turkmenistan New Manat")]
-        Turkmenistan_New_Manat,
-        //@SerializedName("UGX")
+        TurkmenistanNewManat,
+
+        [EnumMember(Value = "UGX")]
         [DrxEnumExtendedInformation("UGX", "Uganda Shilling")]
-        Uganda_Shilling,
-        //@SerializedName("UAH")
+        UgandaShilling,
+
+        [EnumMember(Value = "UAH")]
         [DrxEnumExtendedInformation("UAH", "Hryvnia")]
         Hryvnia,
-        //@SerializedName("AED")
+
+        [EnumMember(Value = "AED")]
         [DrxEnumExtendedInformation("AED", "UAE Dirham")]
-        UAE_Dirham,
-        //@SerializedName("UYU")
+        UaeDirham,
+
+        [EnumMember(Value = "UYU")]
         [DrxEnumExtendedInformation("UYU", "Peso Uruguayo")]
-        Peso_Uruguayo,
-        //@SerializedName("UZS")
+        PesoUruguayo,
+
+        [EnumMember(Value = "UZS")]
         [DrxEnumExtendedInformation("UZS", "Uzbekistan Sum")]
-        Uzbekistan_Sum,
-        //@SerializedName("VUV")
+        UzbekistanSum,
+
+        [EnumMember(Value = "VUV")]
         [DrxEnumExtendedInformation("VUV", "Vatu")]
         Vatu,
-        //@SerializedName("VEF")
+
+        [EnumMember(Value = "VEF")]
         [DrxEnumExtendedInformation("VEF", "Bolivar")]
         Bolivar,
-        //@SerializedName("VND")
+
+        [EnumMember(Value = "VND")]
         [DrxEnumExtendedInformation("VND", "Dong")]
         Dong,
-        //@SerializedName("YER")
+
+        [EnumMember(Value = "YER")]
         [DrxEnumExtendedInformation("YER", "Yemeni Rial")]
-        Yemeni_Rial,
-        //@SerializedName("ZMW")
+        YemeniRial,
+
+        [EnumMember(Value = "ZMW")]
         [DrxEnumExtendedInformation("ZMW", "Zambian Kwacha")]
-        Zambian_Kwacha,
-        //@SerializedName("ZWL")
+        ZambianKwacha,
+
+        [EnumMember(Value = "ZWL")]
         [DrxEnumExtendedInformation("ZWL", "Zimbabwe Dollar")]
-        Zimbabwe_Dollar
+        ZimbabweDollar
     }
 }
