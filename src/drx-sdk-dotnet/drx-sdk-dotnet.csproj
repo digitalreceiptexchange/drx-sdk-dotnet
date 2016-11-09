@@ -130,6 +130,7 @@
     <Compile Include="Receipt\LineItem\TradeItemDescriptionInformation.cs" />
     <Compile Include="Receipt\LineItem\TradeItemIdentification.cs" />
     <Compile Include="Receipt\LineItem\TransactionalTradeItemType.cs" />
+    <Compile Include="Receipt\LineItem\TransactionTradeItem.cs" />
     <Compile Include="Receipt\LineItem\Travel\Accommodation.cs" />
     <Compile Include="Receipt\LineItem\Travel\AccommodationType.cs" />
     <Compile Include="Receipt\LineItem\Travel\Flight.cs" />

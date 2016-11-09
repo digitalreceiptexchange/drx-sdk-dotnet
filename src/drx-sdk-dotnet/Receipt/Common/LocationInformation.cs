@@ -16,15 +16,13 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Receipt.Common
 {
+    [DataContract]
     public class LocationInformation
     {
-        //@SerializedName("address")
-        //@SerializedName("contact")
-        private List<Contact> _contacts = null;
-
         public LocationInformation()
         {
         }
@@ -52,11 +50,11 @@ namespace Net.Dreceiptx.Receipt.Common
 
         public void AddContact(Contact contact)
         {
-            if (_contacts == null)
+            if (Contacts == null)
             {
-                _contacts = new List<Contact>();
+                Contacts = new List<Contact>();
             }
-            _contacts.Add(contact);
+            Contacts.Add(contact);
         }
 
         public GeographicalCoordinates GeographicalCoordinates
@@ -75,13 +73,16 @@ namespace Net.Dreceiptx.Receipt.Common
             }
         }
 
+        [DataMember]
         public Address Address { get; set; }
 
-        public List<Contact> Contacts => _contacts;
+        [DataMember]
+        public List<Contact> Contacts { get; set; }
 
+        //TODO: Remove
         public bool gsonValidator()
         {
-            return Address != null || (_contacts != null && _contacts.Count!= 0);
+            return Address != null || (Contacts != null && Contacts.Count!= 0);
 
         }
     }

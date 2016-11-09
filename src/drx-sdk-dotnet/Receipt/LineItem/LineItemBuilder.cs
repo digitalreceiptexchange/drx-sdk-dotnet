@@ -17,6 +17,7 @@
 
 using System;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
+using Net.Dreceiptx.Receipt.Invoice;
 
 namespace Net.Dreceiptx.Receipt.LineItem
 {
@@ -78,7 +79,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public LineItemBuilder BillingCostCentre(string billingCostCentre)
         {
-            _lineItem.BillingCostCentre = billingCostCentre;
+            _lineItem.BillingCostCentre = new Identification(billingCostCentre);
             return this;
         }
 

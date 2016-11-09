@@ -14,13 +14,16 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Runtime.Serialization;
+
 namespace Net.Dreceiptx.Receipt.Common
 {
     public class Contact
     {
-        //@SerializedName("communicationChannelCode")
+        [DataMember(Name = "CommunicationChannelCode")]
         public ContactType Type { get; set; }
-        //@SerializedName("communicationValue")
+        [DataMember(Name = "CommunicationValue")]
         public string ContactValue { get; set; }
         
         protected Contact()

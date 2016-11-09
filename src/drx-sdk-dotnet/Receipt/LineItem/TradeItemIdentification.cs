@@ -16,18 +16,36 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Extensions;
 
 namespace Net.Dreceiptx.Receipt.LineItem
 {
-    public class TradeItemIdentification
+    public class TradeItemIdentification : Collection<TradeItemIdentificationInformation>
     {
-        private Dictionary<string, string> _additionalTradeItemIdentification = new Dictionary<string, string>();
+        Dictionary<string, TradeItemIdentificationInformation> _dictionary = new Dictionary<string, TradeItemIdentificationInformation>();
+        protected override void InsertItem(int index, TradeItemIdentificationInformation item)
+        {
+            TradeItemIdentificationInformation existing = null;
+            if (_dictionary.TryGetValue(item.AdditionalTradeItemIdentificationType, out existing))
+            {
+                Remove(existing);
+            }
+            _dictionary.Add(item.AdditionalTradeItemIdentificationType, item);
+            base.InsertItem(index, item);
+        }
+
+        protected override void RemoveItem(int index)
+        {
+            _dictionary.Remove(this[index].AdditionalTradeItemIdentificationType);
+            base.RemoveItem(index);
+        }
 
         public void Add(string code, string value)
         {
-            _additionalTradeItemIdentification.Add(code, value);
+            Add(new TradeItemIdentificationInformation(code, value));
         }
 
         public string Get(string code)
@@ -37,15 +55,28 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public string Get(string code, string defaultValue)
         {
-            return _additionalTradeItemIdentification.GetOrDefault(code, defaultValue);
+            return _dictionary.GetOrDefault(code, new TradeItemIdentificationInformation("Code", defaultValue)).AdditionalTradeItemIdentificationValue;
         }
 
         public bool Contains(string code)
         {
-            return _additionalTradeItemIdentification.ContainsKey(code);
+            return _dictionary.ContainsKey(code);
+        }
+    }
+
+    [DataContract]
+    public class TradeItemIdentificationInformation
+    {
+        public TradeItemIdentificationInformation(string type, string value)
+        {
+            AdditionalTradeItemIdentificationType = type;
+            AdditionalTradeItemIdentificationValue = value;
         }
 
-        public List<KeyValuePair<string, string>> KeyValuePairs => _additionalTradeItemIdentification.ToList();
+        [DataMember]
+        public string AdditionalTradeItemIdentificationType { get; set; }
+        [DataMember]
+        public string AdditionalTradeItemIdentificationValue { get; set; }
     }
 
 }

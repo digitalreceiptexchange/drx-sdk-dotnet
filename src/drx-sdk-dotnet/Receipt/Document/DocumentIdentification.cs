@@ -25,7 +25,6 @@ namespace Net.Dreceiptx.Receipt.Document
     {
         // TODO: Why do we send this if always set to GS1 and if we send then lets
         // validate the value so it can only be GS1
-        //@SerializedName("standard")
         /// <summary>
         /// Gets and sets the Standard. The name of the document standard contained in the payload
         /// The value of the element Standard MUST be set to the value 'GS1'

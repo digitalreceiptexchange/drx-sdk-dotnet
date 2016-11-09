@@ -46,6 +46,19 @@ namespace Net.Dreceiptx.Receipt.Document
             Receiver.Add(user);
         }
 
+        [DataMember]
+        public List<DocumentOwner> Receiver { get; set; }
+
+        [DataMember]
+        public List<DocumentOwner> Sender { get; set; }
+
+        public void AddReceiver(DocumentOwner receiver)
+        {
+            Receiver.Add(receiver);
+        }
+
+        [DataMember]
+        public DocumentIdentification DocumentIdentification { get; set; }
 
         public string MerchantGLN
         {
@@ -77,21 +90,6 @@ namespace Net.Dreceiptx.Receipt.Document
         {
             Receiver[1].AddDocumentOwnerContact(contact);
         }
-
-        [DataMember]
-        public List<DocumentOwner> Receiver { get ; set ; }
-
-        [DataMember]
-        public List<DocumentOwner> Sender { get ; set ; }
-
-        public void AddReceiver(DocumentOwner receiver)
-        {
-            Receiver.Add(receiver);
-        }
-
-        //@SerializedName("documentIdentification")
-        [DataMember]
-        public DocumentIdentification DocumentIdentification { get; set; }
 
         public ReceiptValidation Validate(ReceiptValidation receiptValidation)
         {

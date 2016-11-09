@@ -14,8 +14,12 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Runtime.Serialization;
+
 namespace Net.Dreceiptx.Receipt.LineItem
 {
+    [DataContract]
     public class StandardLineItem : LineItem
     {
         public static readonly string LineItemTypeValue = "STANDARD";

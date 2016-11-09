@@ -16,49 +16,47 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Receipt.Common
 {
+    [DataContract]
     public class DespatchInformation
     {
-        //@SerializedName("estimatedDeliveryDateTime")
-        private DateTime _deliveryDate;
-        //@SerializedName("despatchDateTime")
-        private DateTime _despatchDate;
-        //@SerializedName("deliveryInstructions")
-
         public DespatchInformation()
         {
         }
 
         public DespatchInformation(DateTime deliveryDate)
+            : this(deliveryDate, null)
         {
-            _deliveryDate = deliveryDate;
         }
 
-        public DespatchInformation(DateTime deliveryDate, string instructions)
+        public DespatchInformation(DateTime deliveryDate, string instructions) :
+            this(deliveryDate, instructions, DateTime.MinValue)
         {
-            _deliveryDate = deliveryDate;
+        }
+
+        public DespatchInformation(DateTime deliveryDate, string instructions, DateTime despatchDate)
+        {
+            DeliveryDate = deliveryDate;
+            DespatchDate = despatchDate;
             DeliveryInstructions = instructions;
         }
 
-        public DespatchInformation(DateTime deliveryDate, DateTime despatchDate, string instructions)
-        {
-            _deliveryDate = deliveryDate;
-            _despatchDate = despatchDate;
-            DeliveryInstructions = instructions;
-        }
-
+        [DataMember(Name = "EstimatedDeliveryDateTime")]
         public DateTime DeliveryDate { get; set; }
 
+        [DataMember]
         public DateTime DespatchDate { get; set; }
 
+        [DataMember]
         public string DeliveryInstructions { get; set; }
 
         //TODO: Remove this
         public bool gsonValidator()
         {
-            return DeliveryInstructions != null || _despatchDate != null || _deliveryDate != null;
+            return DeliveryInstructions != null || DespatchDate != null || DeliveryDate != null;
 
         }
     }

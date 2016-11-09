@@ -29,11 +29,12 @@ namespace Net.Dreceiptx.Receipt.Serialization.Json
             Invoice = new Invoice.Invoice();
         }
 
+        // DC: Done
         [DataMember]
-        public StandardBusinessDocumentHeader StandardBusinessDocumentHeader { get; private set; }
+        public StandardBusinessDocumentHeader StandardBusinessDocumentHeader { get; set; }
         [DataMember]
-        public Invoice.Invoice Invoice { get; private set; }
+        public Invoice.Invoice Invoice { get; set; }
         [DataMember]
-        public List<PaymentReceipt> PaymentReceipts { get; private set; }
+        public List<PaymentReceipt> PaymentReceipts { get; set; }
     }
 }

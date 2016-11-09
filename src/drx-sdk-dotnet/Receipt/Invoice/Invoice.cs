@@ -29,6 +29,7 @@ using Net.Dreceiptx.Receipt.Validation;
 
 namespace Net.Dreceiptx.Receipt.Invoice
 {
+    [DataContract]
     public class Invoice
     {
         private static int _lineItemId = 1;
@@ -53,7 +54,7 @@ namespace Net.Dreceiptx.Receipt.Invoice
         public string DocumentStatusCode { get; set; } = "ORIGINAL";
 
         [DataMember]
-        private string InvoiceType { get; set; } = "TAX_INVOICE";
+        public string InvoiceType { get; set; } = "TAX_INVOICE";
 
         //TODO: This does not appear to be serialized on the java side of thigns?
         public string MerchantName { get; set; }
@@ -160,9 +161,9 @@ namespace Net.Dreceiptx.Receipt.Invoice
 
         public int AddLineItem(LineItem.LineItem lineItem)
         {
-            lineItem.LineItemId = Interlocked.Add(ref _lineItemId, 1);
+            lineItem.LineItemNumber = Interlocked.Add(ref _lineItemId, 1);
             InvoiceLineItems.Add(lineItem);
-            return lineItem.LineItemId;
+            return lineItem.LineItemNumber;
         }
 
         public void RemoveLineItem(int lineItemId)
@@ -170,7 +171,7 @@ namespace Net.Dreceiptx.Receipt.Invoice
             LineItem.LineItem item = null;
             foreach (LineItem.LineItem lineItem in InvoiceLineItems)
             {
-                if (lineItem.LineItemId == lineItemId)
+                if (lineItem.LineItemNumber == lineItemId)
                 {
                     item = lineItem;
                     break;

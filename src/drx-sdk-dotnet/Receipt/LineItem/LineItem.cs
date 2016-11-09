@@ -18,13 +18,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Ecom;
+using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.Tax;
 
 namespace Net.Dreceiptx.Receipt.LineItem
 {
+    [DataContract]
     public abstract class LineItem
     {
         //transient
@@ -43,42 +46,50 @@ namespace Net.Dreceiptx.Receipt.LineItem
         {
         }
 
-        public LineItem(string brand, string name, string description, int quantity, decimal price)
+        protected LineItem(string brand, string name, string description, int quantity, decimal price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
-            ItemDescriptionInformation = new TradeItemDescriptionInformation(brand, name, description);
+            TransactionalTradeItem = new TransactionalTradeItem();
+            TransactionalTradeItem.TradeItemDescriptionInformation = new TradeItemDescriptionInformation(brand, name, description);
             Quantity = quantity;
             Price = price;
         }
 
-        public LineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price)
+        protected LineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
-            ItemDescriptionInformation = tradeItemDescriptionInformation;
+            TransactionalTradeItem = new TransactionalTradeItem();
+            TransactionalTradeItem.TradeItemDescriptionInformation = tradeItemDescriptionInformation;
             Quantity = quantity;
             Price = price;
         }
 
-        public LineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode,
+        protected LineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode,
             int quantity, decimal price)
         {
             _transactionalTradeItemType = transactionalTradeItemType;
             _transactionalTradeItemCode = transactionalTradeItemCode;
+            TransactionalTradeItem = new TransactionalTradeItem();
+            if (TransTradeItemType == TransactionalTradeItemType.GTIN)
+            {
+                TransactionalTradeItem.TradeItemDescriptionInformation.Gtin = _transactionalTradeItemCode;
+            }
             Quantity = quantity;
             Price = price;
         }
 
-        public string BrandName => ItemDescriptionInformation.BrandName;
+        public string BrandName => TransactionalTradeItem.TradeItemDescriptionInformation.BrandName;
 
-        public string Name => ItemDescriptionInformation.DescriptionShort;
+        public string Name => TransactionalTradeItem.TradeItemDescriptionInformation.DescriptionShort;
 
-        public string Description => ItemDescriptionInformation.TradeItemDescription;
+        public string Description => TransactionalTradeItem.TradeItemDescriptionInformation.TradeItemDescription;
 
-        //transient
-        public int LineItemId { get; set; }
+        [DataMember]
+        public int LineItemNumber { get; set; }
 
         //TODO: boolean does not seem right here. Eat in or take away? Yes.
         //transient
+        [DataMember(Name = "CreditLineIndicator")]
         public bool ReturnOrExchange { get; set; } = false;
 
         public void AddReceiptAllowanceCharges(ReceiptAllowanceCharge receiptAllowanceCharge)
@@ -88,28 +99,32 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public void SetTradeItemDescriptionInformation(string brand, string name, string description)
         {
-            if (ItemDescriptionInformation != null)
+
+            if (TransactionalTradeItem.TradeItemDescriptionInformation != null)
             {
-                ItemDescriptionInformation.BrandName = brand;
-                ItemDescriptionInformation.DescriptionShort = name;
-                ItemDescriptionInformation.TradeItemDescription = description;
+                TransactionalTradeItem.TradeItemDescriptionInformation.BrandName = brand;
+                TransactionalTradeItem.TradeItemDescriptionInformation.DescriptionShort = name;
+                TransactionalTradeItem.TradeItemDescriptionInformation.TradeItemDescription = description;
             }
             else
             {
-                ItemDescriptionInformation = new TradeItemDescriptionInformation(brand, name, description);
+                TransactionalTradeItem.TradeItemDescriptionInformation = new TradeItemDescriptionInformation(brand, name, description);
             }
         }
 
-        //transient
-        public TradeItemDescriptionInformation ItemDescriptionInformation { get; set; } = null;
+        //[DataMember]
+        //public TradeItemDescriptionInformation TradeItemDescriptionInformation { get; set; } = null;
+
+        [DataMember]
+        public TransactionalTradeItem TransactionalTradeItem { get; set; }
 
         protected string TradeItemGroupIdentificationCode
         {
-            get { return ItemDescriptionInformation?.TradeItemGroupIdentificationCode; }
+            get { return TransactionalTradeItem.TradeItemDescriptionInformation?.TradeItemGroupIdentificationCode; }
             set {
-                if (ItemDescriptionInformation != null)
+                if (TransactionalTradeItem.TradeItemDescriptionInformation != null)
                 {
-                    ItemDescriptionInformation.TradeItemGroupIdentificationCode = value;
+                    TransactionalTradeItem.TradeItemDescriptionInformation.TradeItemGroupIdentificationCode = value;
                 }
             }
             
@@ -155,24 +170,23 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public string TransTradeItemCode => _transactionalTradeItemCode;
 
-        //transient
-        public TradeItemIdentification ItemIdentification { get; set; } = new TradeItemIdentification();
+
 
         public void AddTradeItemIdentification(string code, string value)
         {
-            ItemIdentification.Add(code, value);
+            TransactionalTradeItem.TradeItemDescriptionInformation.ItemIdentification.Add(code, value);
         }
 
         public bool HasTradeItemIdentificationValue(string code)
         {
-            return ItemIdentification.Contains(code);
+            return TransactionalTradeItem.TradeItemDescriptionInformation.ItemIdentification.Contains(code);
         }
 
         public string getTradeItemIdentificationValue(string code)
         {
-            if (ItemIdentification.Contains(code))
+            if (TransactionalTradeItem.TradeItemDescriptionInformation.ItemIdentification.Contains(code))
             {
-                return ItemIdentification.Get(code);
+                return TransactionalTradeItem.TradeItemDescriptionInformation.ItemIdentification.Get(code);
             }
 
             return null;
@@ -185,12 +199,19 @@ namespace Net.Dreceiptx.Receipt.LineItem
             _AVPList.Add(avp);
         }
 
-        //transient
-        public string SerialNumber { get; set; } = null;
-        //transient
-        public string BatchNumber { get; set; } = null;
-        //transient
-        public string BillingCostCentre { get; set; } = null;
+        public string SerialNumber
+        {
+            get { return TransactionalTradeItem?.TransactionItemData?.SerialNumber; }
+            set { TransactionalTradeItem.TransactionItemData.SerialNumber = value; }
+        }
+
+        public string BatchNumber
+        {
+            get { return TransactionalTradeItem?.TransactionItemData?.BatchNumber; }
+            set { TransactionalTradeItem.TransactionItemData.BatchNumber = value; }
+        } 
+        [DataMember]
+        public Identification BillingCostCentre { get; set; } = null;
 
         public DateTime DespatchDate
         {
@@ -218,7 +239,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         //transient 
         public LocationInformation Destination { get; set; } = new LocationInformation();
 
-
+        [DataMember(Name = "AmountExclusiveAllowancesCharges")]
         public decimal SubTotal
         {
             get
@@ -226,8 +247,13 @@ namespace Net.Dreceiptx.Receipt.LineItem
                 decimal total = Price*Quantity;
                 return total;
             }
+            set
+            {
+                // Do nothing. Calculated value?
+            }
         }
 
+        [DataMember(Name = "AmountInclusiveAllowancesCharges")]
         public decimal NetTotal
         {
             get
@@ -235,6 +261,11 @@ namespace Net.Dreceiptx.Receipt.LineItem
                 decimal total = Price*Quantity;
                 total += _receiptAllowanceCharges.Sum(x => x.NetTotal);
                 return total;
+            }
+            set
+            { 
+                // Calculated value
+                //do nothing
             }
         }
 
@@ -287,9 +318,9 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public List<Tax.Tax> Taxes => _taxes;
 
-        //transient
+        [DataMember(Name = "InvoicedQuantity")]
         public int Quantity { get; set; }
-        //transient
+        [DataMember(Name = "ItemPriceExclusiveAllowancesCharges")]
         public decimal Price { get; set; }
 
         public bool HasTaxes => _taxes.Any();

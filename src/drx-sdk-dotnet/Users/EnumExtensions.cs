@@ -78,7 +78,7 @@ public static class EnumExtensions
             }
         }
         Net.Dreceiptx.Receipt.Common.Currency result;
-        if (!_currencyDictionary.TryGetValue(currencyCode, out result))
+        if (currencyCode == null || !_currencyDictionary.TryGetValue(currencyCode, out result))
         {
             throw new InvalidOperationException($"CurrencyCode {currencyCode} is invalid");
         }

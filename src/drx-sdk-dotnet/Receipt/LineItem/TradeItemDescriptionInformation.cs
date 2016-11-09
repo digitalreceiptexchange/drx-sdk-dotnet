@@ -14,8 +14,12 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Runtime.Serialization;
+
 namespace Net.Dreceiptx.Receipt.LineItem
 {
+    [DataContract]
     public class TradeItemDescriptionInformation
     {
         protected TradeItemDescriptionInformation()
@@ -29,22 +33,28 @@ namespace Net.Dreceiptx.Receipt.LineItem
             TradeItemDescription = tradeItemDescription;
         }
 
-        //@SerializedName("descriptionShort")
-        public string DescriptionShort { get; set; }
-
-        //@SerializedName("isTradeItemAService")
-        public bool IsTradeItemAService { get; set; } = false;
-
-        //@SerializedName("isTradeItemReconditioned")
-        public bool IsTradeItemReconditioned { get; set; } = false;
-
-        //@SerializedName("brandName")
+        [DataMember]
         public string BrandName { get; set; }
 
-        //@SerializedName("tradeItemDescription")
+        [DataMember]
+        public string DescriptionShort { get; set; }
+
+        [DataMember]
         public string TradeItemDescription { get; set; }
 
-        //@SerializedName("tradeItemGroupIdentificationCode")
+        [DataMember]
+        public bool IsTradeItemAService { get; set; } = false;
+
+        [DataMember]
+        public bool IsTradeItemReconditioned { get; set; } = false;
+
+        [DataMember]
         public string TradeItemGroupIdentificationCode { get; set; }
+
+        [DataMember]
+        public string Gtin { get; set; }
+
+        [DataMember(Name = "AdditionalTradeItemIdentification")]
+        public TradeItemIdentification ItemIdentification { get; set; } = new TradeItemIdentification();
     }
 }

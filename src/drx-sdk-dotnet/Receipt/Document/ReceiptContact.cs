@@ -37,7 +37,6 @@ namespace Net.Dreceiptx.Receipt.Document
             Contact = contactName;
         }
 
-        //@SerializedName("contactTypeCode")
         /// <summary>
         /// Gets and sets the ContactTypeIdentifier. Role of the identifier.
         /// Example: EDI co-ordinator
@@ -46,14 +45,12 @@ namespace Net.Dreceiptx.Receipt.Document
         public ReceiptContactType ReceiptContactType { get; set; }
 
         //TODO: Why not just make if PersonName?
-        //@SerializedName("personName")
         /// <summary>
         /// Gets and sets the the Name of contact person or department.
         /// </summary>
         [DataMember(Name = "PersonName")]
         public string Contact { get; set; }
 
-        //@SerializedName("communicationChannelCode")
         [DataMember(Name = "CommunicationChannelCode")]
         public List<Contact> Contacts { get; set; }
 
