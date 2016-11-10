@@ -15,64 +15,35 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.Tax
 {
-    public enum TaxCode {
-        //@SerializedName("AAD")
+    public enum TaxCode
+    {
         [DrxEnumExtendedInformation("AAD", "Tobacco tax")]
+        [EnumMember(Value = "AAD")]
         TobaccoTax,
-        //@SerializedName("AAF")
+
         [DrxEnumExtendedInformation("AAF", "Coffee tax")]
+        [EnumMember(Value = "AAF")]
         CoffeeTax,
-        //@SerializedName("AAJ")
+
         [DrxEnumExtendedInformation("AAJ", "Tax on replacement part")]
+        [EnumMember(Value = "AAJ")]
         ReplacementPartTax,
-        //@SerializedName("GST")
+
         [DrxEnumExtendedInformation("GST", "Good and services tax")]
+        [EnumMember(Value = "GST")]
         GoodsAndServicesTax,
-        //@SerializedName("ENV")
+
         [DrxEnumExtendedInformation("ENV", "Environmental tax")]
+        [EnumMember(Value = "ENV")]
         EnvironmentalTax,
-        //@SerializedName("OTH")
+
         [DrxEnumExtendedInformation("OTH", "Other taxes")]
+        [EnumMember(Value = "OTH")]
         OtherTaxes
-
-    //private string _value;
-    
-    //private string _displayName;
-    
-    //private static Dictionary<string, TaxCode> enums = new Dictionary<string, TaxCode>();
-
-    //static {
-    //    for (TaxCode TaxCodeEnum : TaxCode.values()) {
-    //        enums.put(TaxCodeEnum._value, TaxCodeEnum);
-    //    }
-    //}
-
-    //TaxCode(string value, string name) {
-    //    _value = value;
-    //    _displayName = name;
-    //}
-
-    //public string getValue() {
-    //    return _value;
-    //}
-
-    //public string getDisplayName() {
-    //    return _displayName;
-    //}
-
-    //@Override
-    //public string toString() {
-    //    return _displayName;
-    //}
-    
-    //TaxCode(final string taxCode) { _value = taxCode; }
-
-    //public static TaxCode codeOf(string taxCode) {
-    //    return enums.get(taxCode);
-    //}
     }
 }

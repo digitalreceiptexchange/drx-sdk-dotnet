@@ -248,13 +248,13 @@ namespace Net.Dreceiptx.Receipt
             {
                 decimal netPrice = price * (1 - taxRate);
                 decimal total = quantity * netPrice;
-                Tax.Tax tax = new Tax.Tax(_defaultTaxCategory, _defaultTaxCode, total, taxRate);
+                Tax.Tax tax = new Tax.Tax(total, taxRate, _defaultTaxCategory, _defaultTaxCode);
                 lineItem = new StandardLineItem(brand, name, description, quantity, price);
                 lineItem.AddTax(tax);
             } else {
                 decimal netPrice = price;
                 decimal total = quantity * netPrice;
-                Tax.Tax tax = new Tax.Tax(_defaultTaxCategory, _defaultTaxCode, total, taxRate);
+                Tax.Tax tax = new Tax.Tax(total, taxRate, _defaultTaxCategory, _defaultTaxCode);
                 lineItem = new StandardLineItem(brand, name, description, quantity, price);
                 lineItem.AddTax(tax);
             }

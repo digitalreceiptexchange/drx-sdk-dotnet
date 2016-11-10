@@ -17,7 +17,6 @@
 
 using System;
 using Net.Dreceiptx.Receipt.Ecom;
-using System.Linq;
 
 namespace Net.Dreceiptx.Receipt.LineItem.Travel
 {
@@ -55,7 +54,7 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 
         public string PassengerName
         {
-            get { return _AVPList.GetAVPValue(AVPType.PASSENGER_NAME.Value()); }
+            get { return _AVPList.GetValue(AVPType.PASSENGER_NAME.Value()); }
             set { _AVPList.Add(AVPType.PASSENGER_NAME.Value(), value); }
         }
 

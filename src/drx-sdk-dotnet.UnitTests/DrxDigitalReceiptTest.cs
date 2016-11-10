@@ -14,18 +14,7 @@
 // limitations under the License.
 // 
 #endregion
-using System;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using Net.Dreceiptx.GS1.SDBH;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+
 using NUnit.Framework;
 
 namespace Net.Dreceiptx.UnitTests

@@ -14,11 +14,15 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Runtime.Serialization;
+
 namespace Net.Dreceiptx.Users
 {
     public enum UserConfigOptionType
     {
         [DrxEnumExtendedInformation("ENDPOINTID", "Assign a users to a specific endpoint")]
+        [EnumMember(Value = "ENDPOINTID")]
         EndPointId
     }
 }

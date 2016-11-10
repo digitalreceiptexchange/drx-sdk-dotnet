@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Net.Dreceiptx.Receipt.Common;
+﻿using Net.Dreceiptx.Receipt.Common;
 
 namespace Net.Dreceiptx.Receipt.Invoice
 {

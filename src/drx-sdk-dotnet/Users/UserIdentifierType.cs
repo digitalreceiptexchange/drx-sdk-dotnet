@@ -14,16 +14,24 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Runtime.Serialization;
+
 namespace Net.Dreceiptx.Users
 {
     public enum UserIdentifierType
     {
         [DrxEnumExtendedInformation("GUID", "Users Global Unique Identifier")]
+        [EnumMember(Value = "GUID")]
         Guid,
+
         [DrxEnumExtendedInformation("EMAIL", "Users primary email")]
+        [EnumMember(Value = "EMAIL")]
         Email,
+
         //TODO: Mobile number is not part of the User object
         [DrxEnumExtendedInformation("MOBILE", "Users mobile number with country code without the +")]
+        [EnumMember(Value = "MOBILE")]
         Mobile
     }
 }

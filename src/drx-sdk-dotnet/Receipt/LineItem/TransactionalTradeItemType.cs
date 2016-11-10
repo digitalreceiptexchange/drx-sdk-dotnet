@@ -15,6 +15,7 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.LineItem
@@ -22,8 +23,10 @@ namespace Net.Dreceiptx.Receipt.LineItem
     public enum TransactionalTradeItemType
     {
         [DrxEnumExtendedInformation("MANUAL", "Manual Trade Information")]
+        [EnumMember(Value = "MANUAL")]
         MANUAL,
         [DrxEnumExtendedInformation("GTIN", "Global Trade Item Information")]
+        [EnumMember(Value = "GTIN")]
         GTIN
     }
 }

@@ -15,6 +15,7 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.LineItem.Travel
@@ -22,10 +23,15 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
     public enum FlightType
     {
         [DrxEnumExtendedInformation("FLT0000", "Flight")]
+        [EnumMember(Value = "FLT0000")]
         DEFAULT,
+
         [DrxEnumExtendedInformation("FLT0001", "Commercial")]
+        [EnumMember(Value = "FLT0001")]
         COMMERCIAL,
+
         [DrxEnumExtendedInformation("FLT0002", "Private")]
+        [EnumMember(Value = "FLT0002")]
         PRIVATE
     }
 }

@@ -15,31 +15,15 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.Tax
 {
     public enum TaxCategory
     {
-        //@SerializedName("APPLICABLE")
         [DrxEnumExtendedInformation("APPLICABLE", "APPLICABLE")]
+        [EnumMember(Value = "APPLICABLE")]
         APPLICABLE
-
-        //private static Dictionary<string, TaxCategory> enums = new Dictionary<string, TaxCategory>();
-
-        //static {
-        //    for (TaxCategory TaxCategoryEnum : TaxCategory.values()) {
-        //        enums.put(TaxCategoryEnum._value, TaxCategoryEnum);
-        //    }
-        //}
-
-        //TaxCategory(string value, string name) {
-        //    _value = value;
-        //    _displayName = name;
-        //}
-
-        //public static TaxCategory codeOf(string taxCategoryCode) {
-        //    return enums.get(taxCategoryCode);
-        //}
     }
 }

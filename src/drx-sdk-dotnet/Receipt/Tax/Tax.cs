@@ -15,39 +15,46 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
+
 namespace Net.Dreceiptx.Receipt.Tax
 {
+    [DataContract]
     public class Tax
     {
+        public Tax()
+        { }
+
         public Tax(decimal taxableAmount, decimal totalTax)
         {
             TaxableAmount = taxableAmount;
             TaxTotal = totalTax;
-            TaxRate = (TaxTotal/TaxableAmount)*100;
+            if (TaxableAmount != 0)
+            {
+                TaxRate = (TaxTotal/TaxableAmount)*100;
+            }
         }
 
-        public Tax(TaxCategory category, TaxCode code, decimal taxableAmount, decimal totalTax)
+        public Tax(decimal taxableAmount, decimal totalTax, TaxCategory category, TaxCode code) 
+            : this(taxableAmount, totalTax)
         {
             TaxCategory = category;
             TaxCode = code;
-            TaxableAmount = taxableAmount;
-            TaxTotal = totalTax;
-            TaxRate = (TaxTotal/TaxableAmount)*100;
         }
 
-        //@SerializedName("dutyFeeTaxCategoryCode")
+        [DataMember(Name = "DutyFeeTaxCategoryCode")]
         public TaxCategory? TaxCategory { get; set; } = null;
 
-        //@SerializedName("dutyFeeTaxTypeCode")
+        [DataMember(Name = "DutyFeeTaxTypeCode")]
         public TaxCode? TaxCode { get; set; } = null;
 
-        //@SerializedName("dutyFeeTaxPercentage")
+        [DataMember(Name = "DutyFeeTaxPercentage")]
         public decimal TaxRate { get; set; }
 
-        //@SerializedName("dutyFeeTaxBasisAmount")
+        [DataMember(Name = "DutyFeeTaxBasisAmount")]
         public decimal TaxableAmount { get; }
 
-        //@SerializedName("dutyFeeTaxAmount")
+        [DataMember(Name = "DutyFeeTaxAmount")]
         public decimal TaxTotal { get; set; }
 
         public bool IsTaxCode(TaxCode taxCode)

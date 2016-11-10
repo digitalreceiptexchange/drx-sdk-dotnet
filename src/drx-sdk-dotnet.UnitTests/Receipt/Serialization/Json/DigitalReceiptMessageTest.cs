@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Document;
+using Net.Dreceiptx.Receipt.Ecom;
 using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.LineItem;
 using Net.Dreceiptx.Receipt.Serialization.Json;
+using Net.Dreceiptx.Receipt.Tax;
 using Net.Dreceiptx.UnitTests.Receipt.Document;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -51,7 +50,13 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
             invoice.DespatchInformation.DeliveryInstructions = "Under the Christmas tree";
             invoice.DespatchInformation.DespatchDate = new DateTime(2016, 12, 25);
             invoice.AddLineItem(new StandardLineItem("Google", "Google Cast Chrome", "TV THing", 1, 10.00m));
-            invoice.AddLineItem(new StandardLineItem("Samsung", "Samsung Note 7", "Flame Thrower", 1, 1349.00m));
+            invoice.AddLineItem(new StandardLineItem("Samsung", "Samsung Note 7", "Flame Thrower", 1, 1349.00m)
+            { BatchNumber = "Batch1234", SerialNumber = "SerialNumber1234"});
+            invoice.InvoiceLineItems[0].AddEcomAVP(new AVP("AVP_Name", "AVP_Value"));
+            invoice.InvoiceLineItems[0].AddReceiptAllowanceCharges(ReceiptAllowanceCharge.Tip(1, "Good Service Tip", new Tax(10, 1, TaxCategory.APPLICABLE, TaxCode.GoodsAndServicesTax)));
+            invoice.InvoiceLineItems[0].AddReceiptAllowanceCharges(ReceiptAllowanceCharge.FreightFee(10, "Freight Fee", new Tax(10, 1, TaxCategory.APPLICABLE, TaxCode.GoodsAndServicesTax)));
+            invoice.InvoiceLineItems[0].AddTax(new Tax(1000, 3, TaxCategory.APPLICABLE, TaxCode.EnvironmentalTax));
+
 
 
             JsonSerializerSettings settings = new JsonSerializerSettings
@@ -60,6 +65,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
                 //DateTimeZoneHandling = DateTimeZoneHandling.Utc,
                 DateFormatString = "yyyy-MM-ddTHH:mm:ss%K",
                 Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore
                 //TypeNameHandling =  TypeNameHandling.Objects
             };
             settings.Converters.Add(new StringEnumConverter());

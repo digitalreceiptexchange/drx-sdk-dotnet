@@ -15,7 +15,6 @@
 // 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Net.Dreceiptx.Receipt.LineItem.General;
 using Net.Dreceiptx.Receipt.LineItem.Travel;

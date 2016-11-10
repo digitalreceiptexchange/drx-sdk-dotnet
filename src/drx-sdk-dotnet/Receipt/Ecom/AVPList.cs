@@ -16,27 +16,54 @@
 #endregion
 
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
+using Net.Dreceiptx.Extensions;
 
 namespace Net.Dreceiptx.Receipt.Ecom
 {
-    public class AVPList
+    public class AVPList : Collection<AVP>
     {
-        private Dictionary<string, AVP> _avpList = new Dictionary<string, AVP>();
-
-        public void Add(string code, AVP avp)
+        Dictionary<string, AVP> _dictionary = new Dictionary<string, AVP>();
+        protected override void InsertItem(int index, AVP item)
         {
-            _avpList.Add(code, avp);
+            AVP existing = null;
+            if (_dictionary.TryGetValue(item.AttributeName, out existing))
+            {
+                Remove(existing);
+            }
+            _dictionary.Add(item.AttributeName, item);
+            base.InsertItem(index, item);
         }
 
-        public void Add(AVP avp)
+        protected override void RemoveItem(int index)
         {
-            _avpList.Add(avp.AttributeName, avp);
+            _dictionary.Remove(this[index].AttributeName);
+            base.RemoveItem(index);
+        }
+
+        public void Add(string code, AVP value)
+        {
+            _dictionary.Add(code, value);
         }
 
         public void Add(string code, string value)
         {
-            _avpList.Add(code, new AVP(code, value));
+            Add(code, new AVP(code, value));
+        }
+
+        public string GetValue(string code)
+        {
+            return GetValue(code, null);
+        }
+
+        public string GetValue(string code, string defaultValue)
+        {
+            return GetAVP(code, new AVP(code, defaultValue)).Value;
+        }
+
+        public bool Contains(string code)
+        {
+            return _dictionary.ContainsKey(code);
         }
 
         public AVP GetAVP(string code)
@@ -46,34 +73,8 @@ namespace Net.Dreceiptx.Receipt.Ecom
 
         public AVP GetAVP(string code, AVP defaultValue)
         {
-            AVP value;
-            if (!_avpList.TryGetValue(code, out value))
-            {
-                value = defaultValue;
-            }
-            return value;
+            return _dictionary.GetOrDefault(code, defaultValue);
         }
 
-        public string GetAVPValue(string code)
-        {
-            return GetAVPValue(code, null);
-        }
-
-        public string GetAVPValue(string code, string defaultValue)
-        {
-            AVP value;
-            if (!_avpList.TryGetValue(code, out value))
-            {
-                return defaultValue;
-            }
-            return value.Value;
-        }
-
-        public bool Contains(string code)
-        {
-            return _avpList.ContainsKey(code);
-        }
-
-        public List<KeyValuePair<string, AVP>> KeyValuePairs => _avpList.ToList();
     }
 }

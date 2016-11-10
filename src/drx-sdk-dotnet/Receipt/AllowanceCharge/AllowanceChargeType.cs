@@ -15,17 +15,19 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.AllowanceCharge
 { 
     public enum AllowanceChargeType
     {
-        //@SerializedName("CREDIT_CUSTOMER_ACCOUNT")
         [DrxEnumExtendedInformation("CREDIT_CUSTOMER_ACCOUNT", "CREDIT CUSTOMERACCOUNT")]
+        [EnumMember(Value = "CREDIT_CUSTOMER_ACCOUNT")]
         CREDIT_CUSTOMER_ACCOUNT,
-        //@SerializedName("CHARGE_TO_BE_PAID_BY_CUSTOMER")
+
         [DrxEnumExtendedInformation("CHARGE_TO_BE_PAID_BY_CUSTOMER", "CHARGE TO BE PAID BY CUSTOMER")]
+        [EnumMember(Value = "CHARGE_TO_BE_PAID_BY_CUSTOMER")]
         CHARGE_TO_BE_PAID_BY_CUSTOMER
     }
 }

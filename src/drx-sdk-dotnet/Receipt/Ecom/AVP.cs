@@ -14,29 +14,37 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Runtime.Serialization;
+
 namespace Net.Dreceiptx.Receipt.Ecom
 {
+    [DataContract]
     public class AVP
     {
+        public AVP()
+        {
+        }
+
         public AVP(string name, string value)
         {
             AttributeName = name;
             Value = value;
         }
 
-        //@SerializedName("attributeName")
+        [DataMember]
         public string AttributeName { get; set; }
 
-        //@SerializedName("qualifierCodeList")
+        [DataMember(Name = "QualifierCodeList")]
         public string CodeList { get; set; } = null;
 
-        //@SerializedName("qualifierCodeListVersion")
+        [DataMember(Name = "QualifierCodeListVersion")]
         public string CodeListVersion { get; set; } = null;
 
-        //@SerializedName("qualifierCodeName")
+        [DataMember(Name = "QualifierCodeName")]
         public string CodeName { get; set; } = null;
 
-        //@SerializedName("value")
+        [DataMember]
         public string Value { get; set; } = null;
     }
 

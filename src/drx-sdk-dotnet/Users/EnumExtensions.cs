@@ -16,8 +16,6 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using Net.Dreceiptx.Iso;
-using Net.Dreceiptx.Receipt.Tax;
 using Net.Dreceiptx.Users;
 
 public static class EnumExtensions

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace drx_sdk_dotnet.IntegrationTests
+﻿namespace drx_sdk_dotnet.IntegrationTests
 {
     public class Class1
     {

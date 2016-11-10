@@ -15,33 +15,41 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.AllowanceCharge
 {
     public enum SettlementType {
-        //@SerializedName("ADZ")
+        [EnumMember(Value = "ADZ")]
         [DrxEnumExtendedInformation("ADZ", "Delivery fee")]
         DeliveryFee,
-        //@SerializedName("FC")
+
+        [EnumMember(Value = "FC")]
         [DrxEnumExtendedInformation("FC", "Freight fee")]
         FreightFee,
-        //@SerializedName("TIP")
+
+        [EnumMember(Value = "TIP")]
         [DrxEnumExtendedInformation("TIP", "Tip or Gratuity fee")]
         TIP,
-        //@SerializedName("PC")
+
+        [EnumMember(Value = "PC")]
         [DrxEnumExtendedInformation("PC", "Packaging fee")]
         PackagingFee,
-        //@SerializedName("DI")
+
+        [EnumMember(Value = "DI")]
         [DrxEnumExtendedInformation("DI", "General discount")]
         GeneralDiscount,
-        //@SerializedName("MB")
+
+        [EnumMember(Value = "MB")]
         [DrxEnumExtendedInformation("MB", "Multi-buy discount")]
         MultiBuyDiscount,
-        //@SerializedName("FI")
+
+        [EnumMember(Value = "FI")]
         [DrxEnumExtendedInformation("FI", "Admin or processing fee")]
         ProcessingFee,
-        //@SerializedName("BOK")
+
+        [EnumMember(Value = "BOK")]
         [DrxEnumExtendedInformation("BOK", "Booking fee")]
         BookingFee
     }

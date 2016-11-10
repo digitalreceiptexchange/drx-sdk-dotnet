@@ -30,15 +30,9 @@ namespace Net.Dreceiptx.Receipt.LineItem
     [DataContract]
     public abstract class LineItem
     {
-        //transient
-        protected readonly List<Tax.Tax> _taxes = new List<Tax.Tax>();
-        //transient
-        protected readonly List<ReceiptAllowanceCharge> _receiptAllowanceCharges = new List<ReceiptAllowanceCharge>();
-        //transient
+        protected List<Tax.Tax> _taxes = new List<Tax.Tax>();
         protected AVPList _AVPList = new AVPList();
-        //transient
         protected TransactionalTradeItemType? _transactionalTradeItemType = null;
-        //transient
         protected string _transactionalTradeItemCode = null;
         public static readonly string LineItemTypeIdentifier = "DRX_LINEITEM_TYPE";
 
@@ -94,7 +88,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public void AddReceiptAllowanceCharges(ReceiptAllowanceCharge receiptAllowanceCharge)
         {
-            _receiptAllowanceCharges.Add(receiptAllowanceCharge);
+            ReceiptAllowanceCharges.Add(receiptAllowanceCharge);
         }
 
         public void SetTradeItemDescriptionInformation(string brand, string name, string description)
@@ -192,7 +186,12 @@ namespace Net.Dreceiptx.Receipt.LineItem
             return null;
         }
 
-        public AVPList EcomAVPList => _AVPList;
+        [DataMember(Name = "AvpList")]
+        public AVPList EcomAVPList
+        {
+            get { return _AVPList; }
+            set { _AVPList = value; }
+        }
 
         public void AddEcomAVP(AVP avp)
         {
@@ -202,42 +201,66 @@ namespace Net.Dreceiptx.Receipt.LineItem
         public string SerialNumber
         {
             get { return TransactionalTradeItem?.TransactionItemData?.SerialNumber; }
-            set { TransactionalTradeItem.TransactionItemData.SerialNumber = value; }
+            set
+            {
+                if (TransactionalTradeItem == null)
+                {
+                    TransactionalTradeItem = new TransactionalTradeItem();
+                }
+                if (TransactionalTradeItem.TransactionItemData == null)
+                {
+                    TransactionalTradeItem.TransactionItemData = new TransactionalItemData();
+                }
+                TransactionalTradeItem.TransactionItemData.SerialNumber = value;
+            }
         }
 
         public string BatchNumber
         {
             get { return TransactionalTradeItem?.TransactionItemData?.BatchNumber; }
-            set { TransactionalTradeItem.TransactionItemData.BatchNumber = value; }
+            set
+            {
+                if (TransactionalTradeItem == null)
+                {
+                    TransactionalTradeItem = new TransactionalTradeItem();
+                }
+                if (TransactionalTradeItem.TransactionItemData == null)
+                {
+                    TransactionalTradeItem.TransactionItemData = new TransactionalItemData();
+                }
+                TransactionalTradeItem.TransactionItemData.BatchNumber = value;
+            }
         } 
         [DataMember]
         public Identification BillingCostCentre { get; set; } = null;
 
         public DateTime DespatchDate
         {
-            get { return _information.DespatchDate; }
-            set { _information.DespatchDate = value; }
+            get { return DespatchInformation.DespatchDate; }
+            set { DespatchInformation.DespatchDate = value; }
         }
 
 
         public DateTime DeliveryDate
         {
-            get { return _information.DeliveryDate; }
-            set { _information.DeliveryDate = value; }
+            get { return DespatchInformation.DeliveryDate; }
+            set { DespatchInformation.DeliveryDate = value; }
         }
 
         public string DeliveryInstructions
         {
-            get { return _information.DeliveryInstructions; }
-            set { _information.DeliveryInstructions = value; }
+            get { return DespatchInformation.DeliveryInstructions; }
+            set { DespatchInformation.DeliveryInstructions = value; }
         }
 
-        //transient
-        private DespatchInformation _information  = new DespatchInformation();
-        //transient
-        public LocationInformation Origin { get; set; } = new LocationInformation();
-        //transient 
-        public LocationInformation Destination { get; set; } = new LocationInformation();
+        [DataMember(Name = "ShipFrom")]
+        public LocationInformation OriginInformation { get; set; } = new LocationInformation();
+
+        [DataMember(Name = "ShipTo")]
+        public LocationInformation DestinationInformation { get; set; } = new LocationInformation();
+
+        [DataMember]
+        public DespatchInformation DespatchInformation { get; set; } = new DespatchInformation();
 
         [DataMember(Name = "AmountExclusiveAllowancesCharges")]
         public decimal SubTotal
@@ -259,7 +282,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             get
             {
                 decimal total = Price*Quantity;
-                total += _receiptAllowanceCharges.Sum(x => x.NetTotal);
+                total += ReceiptAllowanceCharges.Sum(x => x.NetTotal);
                 return total;
             }
             set
@@ -275,7 +298,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             {
                 decimal total = Price*Quantity;
                 total += _taxes.Sum(x => x.TaxTotal);
-                total += _receiptAllowanceCharges.Sum(x => x.Total);
+                total += ReceiptAllowanceCharges.Sum(x => x.Total);
                 return total;
             }
         }
@@ -286,7 +309,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             {
                 decimal total = 0;
                 total += _taxes.Sum(x => x.TaxTotal);
-                total += _receiptAllowanceCharges.Sum(x => x.TaxesTotal);
+                total += ReceiptAllowanceCharges.Sum(x => x.TaxesTotal);
                 return total;
             }
         }
@@ -295,7 +318,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         {
             decimal total = 0;
             total += _taxes.Where(x => x.TaxCode == taxCode).Sum(x => x.TaxTotal);
-            total += _receiptAllowanceCharges.Sum(x => x.TaxesTotal);
+            total += ReceiptAllowanceCharges.Sum(x => x.TaxesTotal);
             return total;
         }
 
@@ -304,19 +327,25 @@ namespace Net.Dreceiptx.Receipt.LineItem
             get
             {
                 decimal total = 0;
-                total += _receiptAllowanceCharges.Sum(x => x.NetTotal);
+                total += ReceiptAllowanceCharges.Sum(x => x.NetTotal);
                 return total;
             }
         }
 
-        public List<ReceiptAllowanceCharge> ReceiptAllowanceCharges => _receiptAllowanceCharges;
+        [DataMember(Name = "InvoiceAllowanceCharge")]
+        public List<ReceiptAllowanceCharge> ReceiptAllowanceCharges { get; set; } = new List<ReceiptAllowanceCharge>();
 
         public void AddTax(Tax.Tax tax)
         {
             _taxes.Add(tax);
         }
 
-        public List<Tax.Tax> Taxes => _taxes;
+        [DataMember(Name = "InvoiceLineTaxInformation")]
+        public List<Tax.Tax> Taxes
+        {
+            get { return _taxes; }
+            set { _taxes = value; }
+        }
 
         [DataMember(Name = "InvoicedQuantity")]
         public int Quantity { get; set; }

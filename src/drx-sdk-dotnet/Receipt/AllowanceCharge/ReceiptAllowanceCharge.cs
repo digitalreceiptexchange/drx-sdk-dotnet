@@ -15,37 +15,39 @@
 // 
 #endregion
 
-using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Receipt.Tax;
 
 namespace Net.Dreceiptx.Receipt.AllowanceCharge
 {
+    [DataContract]
     public class ReceiptAllowanceCharge
     {
         //TODO: ID should not be serialized
+        
         private int _id;
-        //@SerializedName("allowanceOrChargeType")
-        public AllowanceOrChargeType AllowanceOrChargeType { get; set; }
-        //@SerializedName("allowanceChargeType")
-        public AllowanceChargeType AllowanceChargeType { get; set; }
-        //@SerializedName("settlementType")
-        private SettlementType _settlementType;
-        //@SerializedName("baseAmount")
-        public decimal BaseAmount { get; set; }
-        //@SerializedName("allowanceChargeDescription")
-        private string _description;
-        //@SerializedName("leviedDutyFeeTax")
-        private List<Tax.Tax> _taxes = new List<Tax.Tax>();
-
-        //TODO: If we keep it this should not be a decimal
+        //TODO: If we keep it this should not be a double
         public double Id => _id;
 
-        public SettlementType SettlementType => _settlementType;
+        [DataMember]
+        public AllowanceOrChargeType AllowanceOrChargeType { get; set; }
+        [DataMember]
+        public AllowanceChargeType AllowanceChargeType { get; set; }
+
+        [DataMember]
+        public decimal BaseAmount { get; set; }
+
+        [DataMember(Name = "LeviedDutyFeeTax")]
+        private List<Tax.Tax> _taxes = new List<Tax.Tax>();
+
+        [DataMember]
+        public SettlementType SettlementType { get; set; }
 
         public decimal SubTotal => BaseAmount;
 
-        public string Description => _description;
+        [DataMember]
+        public string Description { get; set; }
 
         public decimal Total => BaseAmount + TaxesTotal;
 
@@ -94,10 +96,10 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
         {
             ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
             receiptAllowanceCharge.BaseAmount = amount;
-            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.Description = description;
             receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
             receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-            receiptAllowanceCharge._settlementType = SettlementType.TIP;
+            receiptAllowanceCharge.SettlementType = SettlementType.TIP;
             return receiptAllowanceCharge;
         }
 
@@ -112,10 +114,10 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
         {
             ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
             receiptAllowanceCharge.BaseAmount = amount;
-            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.Description = description;
             receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
             receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-            receiptAllowanceCharge._settlementType = SettlementType.DeliveryFee;
+            receiptAllowanceCharge.SettlementType = SettlementType.DeliveryFee;
             return receiptAllowanceCharge;
         }
 
@@ -130,10 +132,10 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
         {
             ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
             receiptAllowanceCharge.BaseAmount = amount;
-            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.Description = description;
             receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
             receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-            receiptAllowanceCharge._settlementType = SettlementType.FreightFee;
+            receiptAllowanceCharge.SettlementType = SettlementType.FreightFee;
             return receiptAllowanceCharge;
         }
 
@@ -148,10 +150,10 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
         {
             ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
             receiptAllowanceCharge.BaseAmount = amount;
-            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.Description = description;
             receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
             receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-            receiptAllowanceCharge._settlementType = SettlementType.PackagingFee;
+            receiptAllowanceCharge.SettlementType = SettlementType.PackagingFee;
             return receiptAllowanceCharge;
         }
 
@@ -166,10 +168,10 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
         {
             ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
             receiptAllowanceCharge.BaseAmount = amount;
-            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.Description = description;
             receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
             receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-            receiptAllowanceCharge._settlementType = SettlementType.PackagingFee;
+            receiptAllowanceCharge.SettlementType = SettlementType.PackagingFee;
             return receiptAllowanceCharge;
         }
 
@@ -184,10 +186,10 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
         {
             ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
             receiptAllowanceCharge.BaseAmount = amount;
-            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.Description = description;
             receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
             receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
-            receiptAllowanceCharge._settlementType = SettlementType.BookingFee;
+            receiptAllowanceCharge.SettlementType = SettlementType.BookingFee;
             return receiptAllowanceCharge;
         }
 
@@ -202,10 +204,10 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
         {
             ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
             receiptAllowanceCharge.BaseAmount = amount;
-            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.Description = description;
             receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.ALLOWANCE;
             receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CREDIT_CUSTOMER_ACCOUNT;
-            receiptAllowanceCharge._settlementType = SettlementType.GeneralDiscount;
+            receiptAllowanceCharge.SettlementType = SettlementType.GeneralDiscount;
             return receiptAllowanceCharge;
         }
 
@@ -220,10 +222,10 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
         {
             ReceiptAllowanceCharge receiptAllowanceCharge = new ReceiptAllowanceCharge();
             receiptAllowanceCharge.BaseAmount = amount;
-            receiptAllowanceCharge._description = description;
+            receiptAllowanceCharge.Description = description;
             receiptAllowanceCharge.AllowanceOrChargeType = AllowanceOrChargeType.ALLOWANCE;
             receiptAllowanceCharge.AllowanceChargeType = AllowanceChargeType.CREDIT_CUSTOMER_ACCOUNT;
-            receiptAllowanceCharge._settlementType = SettlementType.MultiBuyDiscount;
+            receiptAllowanceCharge.SettlementType = SettlementType.MultiBuyDiscount;
             return receiptAllowanceCharge;
         }
 

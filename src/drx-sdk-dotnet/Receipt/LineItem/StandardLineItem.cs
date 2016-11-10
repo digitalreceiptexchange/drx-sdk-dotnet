@@ -33,13 +33,13 @@ namespace Net.Dreceiptx.Receipt.LineItem
         public StandardLineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price) 
             : base(tradeItemDescriptionInformation, quantity, price)
         {
-            AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
+            AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
         }
 
         public StandardLineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode,
             int quantity, decimal price) : base(transactionalTradeItemType, transactionalTradeItemCode, quantity, price)
         {
-            AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
+            AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
         }
     }
 }

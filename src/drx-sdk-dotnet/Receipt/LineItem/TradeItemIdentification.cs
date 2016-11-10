@@ -17,7 +17,6 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Runtime.Serialization;
 using Net.Dreceiptx.Extensions;
 
@@ -55,7 +54,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public string Get(string code, string defaultValue)
         {
-            return _dictionary.GetOrDefault(code, new TradeItemIdentificationInformation("Code", defaultValue)).AdditionalTradeItemIdentificationValue;
+            return _dictionary.GetOrDefault(code, new TradeItemIdentificationInformation(code, defaultValue)).AdditionalTradeItemIdentificationValue;
         }
 
         public bool Contains(string code)

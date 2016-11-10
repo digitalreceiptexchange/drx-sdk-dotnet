@@ -59,19 +59,19 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 
         public string PassengerName
         {
-            get { return _AVPList.GetAVPValue(AVPType.PASSENGER_NAME.Value()); }
+            get { return _AVPList.GetValue(AVPType.PASSENGER_NAME.Value()); }
             set { _AVPList.Add(AVPType.PASSENGER_NAME.Value(), value); }
         }
 
         public string DriveName
         {
-            get { return _AVPList.GetAVPValue(AVPType.DRIVER_NAME.Value()); }
+            get { return _AVPList.GetValue(AVPType.DRIVER_NAME.Value()); }
             set { _AVPList.Add(AVPType.DRIVER_NAME.Value(), value); }
         }
 
         public string VehicleIdentifier
         {
-            get { return _AVPList.GetAVPValue(AVPType.VEHICLE_IDENTIFIER.Value()); }
+            get { return _AVPList.GetValue(AVPType.VEHICLE_IDENTIFIER.Value()); }
             set { _AVPList.Add(AVPType.VEHICLE_IDENTIFIER.Value(), value); }
         }
 
@@ -82,7 +82,7 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
             {
                 if (_AVPList.Contains(AVPType.TRIP_DISTANCE.Value()))
                 {
-                    return decimal.Parse(_AVPList.GetAVPValue(AVPType.TRIP_DISTANCE.Value()));
+                    return decimal.Parse(_AVPList.GetValue(AVPType.TRIP_DISTANCE.Value()));
                 }
 
                 return null;
@@ -110,14 +110,14 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 
         public GeographicalCoordinates DepartureGeoLocation
         {
-            get { return Origin.GeographicalCoordinates; }
-            set { Origin.GeographicalCoordinates = value; }
+            get { return OriginInformation.GeographicalCoordinates; }
+            set { OriginInformation.GeographicalCoordinates = value; }
         }
 
         public GeographicalCoordinates ArrivalGeoLocation
         {
-            get { return Destination.GeographicalCoordinates; }
-            set { Destination.GeographicalCoordinates = value; }
+            get { return DestinationInformation.GeographicalCoordinates; }
+            set { DestinationInformation.GeographicalCoordinates = value; }
         }
 
         public void SetDepartureDetails(DateTime departureDate, GeographicalCoordinates geographicalCoordinates)

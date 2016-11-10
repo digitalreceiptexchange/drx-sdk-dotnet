@@ -15,6 +15,7 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.LineItem.Travel
@@ -22,18 +23,31 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
     public enum AccommodationType
     {
         [DrxEnumExtendedInformation("ACC0000", "Accommodation")]
+        [EnumMember(Value = "ACC0000")]
         DEFAULT,
+
         [DrxEnumExtendedInformation("ACC0001", "Hotel")]
+        [EnumMember(Value = "ACC0001")]
         HOTEL,
+
         [DrxEnumExtendedInformation("ACC0002", "Hostel")]
+        [EnumMember(Value = "ACC0002")]
         HOSTEL,
+
         [DrxEnumExtendedInformation("ACC0003", "Motel")]
+        [EnumMember(Value = "ACC0003")]
         MOTEL,
+
         [DrxEnumExtendedInformation("ACC0004", "Bed and Breakfast")]
+        [EnumMember(Value = "ACC0004")]
         BED_AND_BREAKFAST,
+
         [DrxEnumExtendedInformation("ACC0005", "Rental")]
+        [EnumMember(Value = "ACC0005")]
         RENTAL,
+
         [DrxEnumExtendedInformation("ACC0006", "Private Rental")]
+        [EnumMember(Value = "ACC0006")]
         PRIVATE_RENTAL
     }
 }

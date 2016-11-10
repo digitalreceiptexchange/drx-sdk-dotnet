@@ -15,16 +15,17 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.Common
 {
     public enum ContactType
     {
-        //@SerializedName("EMAIL")
+        [EnumMember(Value = "EMAIL")]
         [DrxEnumExtendedInformation("EMAIL", "Contact primary email address")]
         EMAIL,
-        //@SerializedName("TELEPHONE")
+        [EnumMember(Value = "TELEPHONE")]
         [DrxEnumExtendedInformation("TELEPHONE", "Contact primary telephone address")]
         TELEPHONE
     }

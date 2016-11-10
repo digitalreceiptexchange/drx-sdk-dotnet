@@ -15,6 +15,7 @@
 // 
 #endregion
 
+using System.Runtime.Serialization;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.Ecom
@@ -22,12 +23,19 @@ namespace Net.Dreceiptx.Receipt.Ecom
     public enum AVPType
     {
         [DrxEnumExtendedInformation("DRIVER_NAME", null)]
+        [EnumMember(Value = "DRIVER_NAME")]
         DRIVER_NAME,
+
         [DrxEnumExtendedInformation("PASSENGER_NAME", null)]
+        [EnumMember(Value = "PASSENGER_NAME")]
         PASSENGER_NAME,
+
         [DrxEnumExtendedInformation("TRIP_DISTANCE", null)]
+        [EnumMember(Value = "TRIP_DISTANCE")]
         TRIP_DISTANCE,
+
         [DrxEnumExtendedInformation("VEHICLE_IDENTIFIER", null)]
+        [EnumMember(Value = "VEHICLE_IDENTIFIER")]
         VEHICLE_IDENTIFIER
     }
 }
