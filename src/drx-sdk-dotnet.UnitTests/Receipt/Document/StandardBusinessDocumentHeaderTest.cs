@@ -17,6 +17,7 @@
 
 using System;
 using Net.Dreceiptx.Receipt.Document;
+using Net.Dreceiptx.Users;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -33,7 +34,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Document
             StandardBusinessDocumentHeaderBuilder builder = new StandardBusinessDocumentHeaderBuilder();
             StandardBusinessDocumentHeader header = builder.MerchangeGLN("anz_concierge")
                 .DrxFLN("AUS_ALPHA_EXPENSEMANAGER")
-                .UserIdentifier("UATANZALPHAUSR14660443061787969")
+                .UserIdentifier(UserIdentifierType.Guid, "UATANZALPHAUSR14660443061787969")
                 .AddMerchantContact(new ReceiptContact(ReceiptContactType.SALES_ADMINISTRATION, "Sabre Online"))
                 .AddRMSContact(new ReceiptContact(ReceiptContactType.PURCHASING_CONTACT, "Grignell Michelle"))
                 .AddRMSContact(new ReceiptContact(ReceiptContactType.RECIPIENT_CONTACT, "Clarke Emma MS"))
@@ -83,9 +84,9 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Document
             return this;
         }
 
-        public StandardBusinessDocumentHeaderBuilder UserIdentifier(string userIdentifier)
+        public StandardBusinessDocumentHeaderBuilder UserIdentifier(UserIdentifierType userIdentifierType, string userIdentifier)
         {
-            _header.UserIdentifier = userIdentifier;
+            _header.UserIdentifier = $"{userIdentifierType.Value()}:{userIdentifier}";
             return this;
         }
 

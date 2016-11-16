@@ -10,6 +10,9 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         [DataMember]
         public TransactionalItemData TransactionItemData { get; set; }
+
+        [DataMember(Name = "AdditionalTradeItemIdentification")]
+        public TradeItemIdentification ItemIdentification { get; set; } = new TradeItemIdentification();
     }
 
     [DataContract]

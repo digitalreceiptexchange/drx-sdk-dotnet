@@ -8,6 +8,7 @@ using Net.Dreceiptx.Receipt.LineItem;
 using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Receipt.Tax;
 using Net.Dreceiptx.UnitTests.Receipt.Document;
+using Net.Dreceiptx.Users;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -24,7 +25,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
             StandardBusinessDocumentHeaderBuilder builder = new StandardBusinessDocumentHeaderBuilder();
             StandardBusinessDocumentHeader header = builder.MerchangeGLN("anz_concierge")
                 .DrxFLN("AUS_ALPHA_EXPENSEMANAGER")
-                .UserIdentifier("UATANZALPHAUSR14660443061787969")
+                .UserIdentifier(UserIdentifierType.Guid, "UATANZALPHAUSR14660443061787969")
                 .AddMerchantContact(new ReceiptContact(ReceiptContactType.SALES_ADMINISTRATION, "Sabre Online"))
                 .AddRMSContact(new ReceiptContact(ReceiptContactType.PURCHASING_CONTACT, "Grignell Michelle"))
                 .AddRMSContact(new ReceiptContact(ReceiptContactType.RECIPIENT_CONTACT, "Clarke Emma MS"))
@@ -48,7 +49,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
             invoice.DestinationInformation.Address = new Address("1000 Sydney Road", "Sydney", "2000", "NSW", "AUS");
             invoice.DespatchInformation.DeliveryDate = new DateTime(2016,12,25);
             invoice.DespatchInformation.DeliveryInstructions = "Under the Christmas tree";
-            invoice.DespatchInformation.DespatchDate = new DateTime(2016, 12, 25);
+            invoice.DespatchInformation.DespatchDateTime = new DateTime(2016, 12, 25);
             invoice.AddLineItem(new StandardLineItem("Google", "Google Cast Chrome", "TV THing", 1, 10.00m));
             invoice.AddLineItem(new StandardLineItem("Samsung", "Samsung Note 7", "Flame Thrower", 1, 1349.00m)
             { BatchNumber = "Batch1234", SerialNumber = "SerialNumber1234"});
@@ -66,13 +67,20 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
                 DateFormatString = "yyyy-MM-ddTHH:mm:ss%K",
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore
-                //TypeNameHandling =  TypeNameHandling.Objects
+                //TypeNameHandling =  TypeNameHandling.Objects,
+                
             };
             settings.Converters.Add(new StringEnumConverter());
-            string result = JsonConvert.SerializeObject(digitalReceiptMessage, settings);
+            string result1 = JsonConvert.SerializeObject(digitalReceiptMessage, settings);
+            Console.WriteLine($"Result1: {result1}");
 
+            var receipt = JsonConvert.DeserializeObject<DigitalReceiptMessage>(result1, settings);
+            string result2 = JsonConvert.SerializeObject(receipt, settings);
+            Console.WriteLine($"Result2: {result2}");
+
+            Assert.AreEqual(result1, result2);
             //string result = new { dRxDigitalReceipt = receipt}.SerializeToJson();}
-            Console.WriteLine(result);
+
         }
     }
 }

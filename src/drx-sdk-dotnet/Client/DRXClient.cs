@@ -27,8 +27,10 @@ using Net.Dreceiptx.Extensions;
 using Net.Dreceiptx.Receipt;
 using Net.Dreceiptx.Receipt.Config;
 using Net.Dreceiptx.Receipt.Merchant;
+using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Users;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace Net.Dreceiptx.Client
@@ -111,7 +113,7 @@ namespace Net.Dreceiptx.Client
         {
             try
             {
-                using (HttpClient client = CreateConnection("/user/" + encodedIdentifier, _userVersion, uriParameters))
+                using (HttpClient client = CreateDirectoryConnection("/user/" + encodedIdentifier, _userVersion, uriParameters))
                 {
                     var response = client.GetAsync("");
                     var statusCode = response.Result.StatusCode;
@@ -174,11 +176,21 @@ namespace Net.Dreceiptx.Client
             }
         }
 
-        private HttpClient CreateConnection(string uri, string requestVersion, UriParameters uriParameters)
+        private HttpClient CreateDirectoryConnection(string uri, string requestVersion, UriParameters uriParameters)
+        {
+            return CreateConnection(_directoryProtocol, _directoryHostname, uri, requestVersion, uriParameters);
+        }
+        private HttpClient CreateExchangeConnection(string uri, string requestVersion, UriParameters uriParameters)
+        {
+            return CreateConnection(_exchangeProtocol, _exchangeHostname, uri, requestVersion, uriParameters);
+        }
+
+        private HttpClient CreateConnection(string protocol, string hostname, string uri, 
+            string requestVersion, UriParameters uriParameters)
         {
             var client = new HttpClient();
-            
-            var url = new Uri($"{_directoryProtocol}://{_directoryHostname}{uri}");
+
+            var url = new Uri($"{protocol}://{hostname}{uri}");
             uriParameters?.GetKeyValuePairs().ForEach(x => url = url.AddQuery(x.Key, x.Value));
             client.BaseAddress = url;
 
@@ -191,53 +203,8 @@ namespace Net.Dreceiptx.Client
             client.DefaultRequestHeaders.Add("User-Agent", USER_AGENT);
             string auth = "DRX " + CreateAuthKey(timestamp);
             client.DefaultRequestHeaders.Add("Authorization", auth);
-            //HttpRequestMessage message = new HttpRequestMessage();
-            //Receipt.DigitalReceipt receipt = null;
-            //message.Content = new StringContent(JsonConvert.SerializeObject(receipt, Formatting.Indented, new JsonSerializerSettings
-            //{
-            //    ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            //    DateTimeZoneHandling = DateTimeZoneHandling.Utc
-            //}), Encoding.UTF8, "application/json");
-
             client.Timeout = new TimeSpan(0, 0, 0, 30);
             return client;
-                
-            ////Console.WriteLine(message.Content);
-
-
-            //try
-            //{
-            //    JsonMediaTypeFormatter jsonFormatter = new JsonMediaTypeFormatter();
-            //    jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            //    var response = client.PostAsync("receipt?XDEBUG_SESSION_START=netbeans-xdebug", new { dRxDigitalReceipt = receipt }, jsonFormatter).Result;
-
-            //    string contentResult = response.Content.ReadAsStringAsync().Result;
-            //    Console.WriteLine($"StatusCode={response.StatusCode}");
-            //    Console.WriteLine($"ResponseData={contentResult}");
-            //    ExchangeResponseResult exchangeResponse = JsonConvert.DeserializeObject<ExchangeResponseResult>(contentResult, new JsonSerializerSettings
-            //    {
-            //        ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            //        DateTimeZoneHandling = DateTimeZoneHandling.Utc
-            //    });
-            //    if (exchangeResponse.ExchangeResponse.Success)
-            //    {
-            //        Console.WriteLine($"Success!, RecieptId={exchangeResponse.ExchangeResponse.ResponseData.ReceiptId}, Reference={exchangeResponse.ExchangeResponse.ResponseData.Reference}");
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine($"FAILURE,{exchangeResponse.ExchangeResponse.ExceptionMessage}");
-            //    }
-
-            //    //return exchangeResponse.ExchangeResponse;
-            //    return client;
-            //}
-            //catch (HttpRequestException e)
-            //{
-            //    Console.WriteLine(e);
-            //    throw;
-            //}
-
-            
         }
 
 
@@ -259,7 +226,7 @@ namespace Net.Dreceiptx.Client
             uriParameters.Add("identifiers", userIdentifiersParam.ToString());
             try
             {
-                using (HttpClient client = CreateConnection("/user", _userVersion, uriParameters))
+                using (HttpClient client = CreateDirectoryConnection("/user", _userVersion, uriParameters))
                 {
                     var response = client.GetAsync("");
                     var statusCode = response.Result.StatusCode;
@@ -327,47 +294,71 @@ namespace Net.Dreceiptx.Client
 
         }
 
-        public string SendReceipt(DigitalReceiptGenerator receipt)
+        public string SendReceipt(DigitalReceiptMessage receipt)
         {
-            //try {
-            //    HttpURLConnection connection = createConnection(_exchangeProtocol, _exchangeHostname, "/receipt?XDEBUG_SESSION_START=drx-xdebug", CONTENT_TYPE_JSON,
-            //            "POST", _receiptVersion);
-            //    OutputStream os = connection.getOutputStream();
-            //    os.write(receipt.encodeJson().getBytes());
-            //    os.flush();
-            //    connection.connect();
-            //    int responseCode = connection.getResponseCode();
-            //    if (responseCode == HttpCodes.HTTP_201_CREATED) {
-            //        JsonObject exchangeResponse = getResponseJsonObject(connection);
-            //        if (exchangeResponse.get("success").getAsbool()) {
-            //            JsonObject responseData = exchangeResponse.get("responseData").getAsJsonObject();
-            //            return responseData.get("receiptId").getAsstring();
-            //        } else {
-            //            throw new ExchangeClientException(exchangeResponse.get("code").getAsInt(), exchangeResponse.get("exceptionMessage").getAsstring());
-            //        }
+            try
+            { 
+                using (HttpClient client = CreateExchangeConnection("/receipt", _receiptVersion, null))
+                {
+                    JsonSerializerSettings settings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        //DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                        DateFormatString = "yyyy-MM-ddTHH:mm:ss%K",
+                        Formatting = Formatting.Indented,
+                        NullValueHandling = NullValueHandling.Ignore,
+                        
+                        //TypeNameHandling =  TypeNameHandling.Objects
+                    };
+                    settings.Converters.Add(new StringEnumConverter());
+                    string result = JsonConvert.SerializeObject(new DigitalReceiptMessageWrapper {DRxDigitalReceipt = receipt}, settings);
 
-            //    } else if (responseCode == HttpCodes.HTTP_400_BAD_REQUEST || responseCode == HttpCodes.HTTP_401_UNAUTHORIZED) {
-            //        loadErrorResponseJsonObject(connection);
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(_responseErrorCode, _responseErrorMessage);
-            //    } else if (responseCode == HttpCodes.HTTP_404_NOTFOUND) {
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(404, "The exchange host could not be found or is currently unavailable, please check ConfigManager setting and ensure they are correct.");
-            //    }else {
-            //        string errorMessage = connection.getResponseMessage();
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(responseCode, errorMessage);
-            //    }
-            //}catch(ConnectException ce){
-            //    throw new ExchangeClientException(500, "There was a connection exception, please ensure internet connectivity and exchange host settings", ce);
-            //}catch (SocketTimeoutException te){
-            //    throw new ExchangeClientException(500, "The connection to the exchange timed out and did not receive a response", te);
-            //}catch (ExchangeClientException dRxE) {
-            //    throw dRxE;
-            //}catch (Exception e) {
-            //    throw new ExchangeClientException(500, e.tostring(), e);
-            //}
-            return null;
+                    StringContent content = new StringContent(result, Encoding.UTF8, "application/json");
+                    var response = client.PostAsync("", content);
+                    var statusCode = response.Result.StatusCode;
+                    if (response.Result.StatusCode == HttpStatusCode.Created || response.Result.StatusCode == HttpStatusCode.BadRequest)
+                    {
+                        string contentResult = response.Result.Content.ReadAsStringAsync().Result;
+                        ExchangeResponseResult exchangeResponse = JsonConvert.DeserializeObject<ExchangeResponseResult>(contentResult, _jsonSerializerSettings);
+                        if (exchangeResponse.ExchangeResponse.Success)
+                        {
+                            return exchangeResponse.ExchangeResponse?.ResponseData?.ReceiptId;
+                        }
+                        else
+                        {
+                            throw new ExchangeClientException(exchangeResponse.ExchangeResponse.Code.Value,
+                                exchangeResponse.ExchangeResponse.ExceptionMessage);
+                        }
+                    }
+                    else if (response.Result.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        throw new ExchangeClientException(404,
+                            "The exchange host could not be found or is currently unavailable, please check ConfigManager setting and ensure they are correct.");
+                    }
+                    else if (response.Result.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        string contentResult = response.Result.Content.ReadAsStringAsync().Result;
+                        ExchangeResponseResult exchangeResponse =
+                            JsonConvert.DeserializeObject<ExchangeResponseResult>(contentResult, _jsonSerializerSettings);
+                        throw new ExchangeClientException(exchangeResponse.ExchangeResponse.Code.Value,
+                            exchangeResponse.ExchangeResponse.ExceptionMessage);
+                    }
+                    else
+                    {
+                        //TODO: Not sure if errorMessage is correc here
+                        string errorMessage = response.Result.Content.ToString();
+                        throw new ExchangeClientException((int)statusCode, errorMessage);
+                    }
+                }
+            }
+            catch (ExchangeClientException dRxE)
+            {
+                throw dRxE;
+            }
+            catch (Exception e)
+            {
+                throw new ExchangeClientException(500, e.ToString(), e);
+            }
         }
 
         public DigitalReceipt LookupReceipt(string receiptId)

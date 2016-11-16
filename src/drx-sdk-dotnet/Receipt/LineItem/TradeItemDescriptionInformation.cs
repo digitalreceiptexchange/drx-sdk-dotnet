@@ -54,7 +54,6 @@ namespace Net.Dreceiptx.Receipt.LineItem
         [DataMember]
         public string Gtin { get; set; }
 
-        [DataMember(Name = "AdditionalTradeItemIdentification")]
-        public TradeItemIdentification ItemIdentification { get; set; } = new TradeItemIdentification();
+
     }
 }

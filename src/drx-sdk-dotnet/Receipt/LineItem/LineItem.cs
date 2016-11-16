@@ -28,7 +28,7 @@ using Net.Dreceiptx.Receipt.Tax;
 namespace Net.Dreceiptx.Receipt.LineItem
 {
     [DataContract]
-    public abstract class LineItem
+    public  class LineItem
     {
         protected List<Tax.Tax> _taxes = new List<Tax.Tax>();
         protected AVPList _AVPList = new AVPList();
@@ -168,19 +168,19 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public void AddTradeItemIdentification(string code, string value)
         {
-            TransactionalTradeItem.TradeItemDescriptionInformation.ItemIdentification.Add(code, value);
+            TransactionalTradeItem.ItemIdentification.Add(code, value);
         }
 
         public bool HasTradeItemIdentificationValue(string code)
         {
-            return TransactionalTradeItem.TradeItemDescriptionInformation.ItemIdentification.Contains(code);
+            return TransactionalTradeItem.ItemIdentification.Contains(code);
         }
 
         public string getTradeItemIdentificationValue(string code)
         {
-            if (TransactionalTradeItem.TradeItemDescriptionInformation.ItemIdentification.Contains(code))
+            if (TransactionalTradeItem.ItemIdentification.Contains(code))
             {
-                return TransactionalTradeItem.TradeItemDescriptionInformation.ItemIdentification.Get(code);
+                return TransactionalTradeItem.ItemIdentification.Get(code);
             }
 
             return null;
@@ -236,8 +236,8 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public DateTime DespatchDate
         {
-            get { return DespatchInformation.DespatchDate; }
-            set { DespatchInformation.DespatchDate = value; }
+            get { return DespatchInformation.DespatchDateTime; }
+            set { DespatchInformation.DespatchDateTime = value; }
         }
 
 
@@ -254,10 +254,15 @@ namespace Net.Dreceiptx.Receipt.LineItem
         }
 
         [DataMember(Name = "ShipFrom")]
-        public LocationInformation OriginInformation { get; set; } = new LocationInformation();
+        public LocationInformation OriginInformation { get; set; }
+
+        //public bool ShouldSerializeOriginInformation()
+        //{
+        //    OriginInformation != null && OriginInformation.
+        //}
 
         [DataMember(Name = "ShipTo")]
-        public LocationInformation DestinationInformation { get; set; } = new LocationInformation();
+        public LocationInformation DestinationInformation { get; set; }
 
         [DataMember]
         public DespatchInformation DespatchInformation { get; set; } = new DespatchInformation();

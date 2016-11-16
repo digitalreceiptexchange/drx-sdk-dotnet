@@ -25,6 +25,8 @@ namespace Net.Dreceiptx.Receipt.Document
     [DataContract]
     public class ReceiptContact
     {
+        public ReceiptContact()
+        { }
         public ReceiptContact(ReceiptContactType receiptContactType)
         {
             Contacts = new List<Contact>();

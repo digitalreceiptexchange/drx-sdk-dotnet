@@ -110,14 +110,28 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 
         public GeographicalCoordinates DepartureGeoLocation
         {
-            get { return OriginInformation.GeographicalCoordinates; }
-            set { OriginInformation.GeographicalCoordinates = value; }
+            get { return OriginInformation?.GeographicalCoordinates; }
+            set
+            {
+                if (OriginInformation == null)
+                {
+                    OriginInformation = new LocationInformation();
+                }
+                OriginInformation.GeographicalCoordinates = value;
+            }
         }
 
         public GeographicalCoordinates ArrivalGeoLocation
         {
-            get { return DestinationInformation.GeographicalCoordinates; }
-            set { DestinationInformation.GeographicalCoordinates = value; }
+            get { return DestinationInformation?.GeographicalCoordinates; }
+            set
+            {
+                if (DestinationInformation == null)
+                {
+                    DestinationInformation = new LocationInformation();
+                }
+                DestinationInformation.GeographicalCoordinates = value;
+            }
         }
 
         public void SetDepartureDetails(DateTime departureDate, GeographicalCoordinates geographicalCoordinates)

@@ -17,6 +17,7 @@
 using System.Collections.Generic;
 using Net.Dreceiptx.Receipt;
 using Net.Dreceiptx.Receipt.Merchant;
+using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Client
@@ -44,7 +45,7 @@ namespace Net.Dreceiptx.Client
          * @return newReceiptGUID
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        string SendReceipt(DigitalReceiptGenerator receipt);
+        string SendReceipt(DigitalReceiptMessage receipt);
 
     
         /**

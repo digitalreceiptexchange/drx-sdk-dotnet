@@ -37,4 +37,11 @@ namespace Net.Dreceiptx.Receipt.Serialization.Json
         [DataMember]
         public List<PaymentReceipt> PaymentReceipts { get; set; }
     }
+
+    [DataContract]
+    public class DigitalReceiptMessageWrapper
+    {
+        [DataMember]
+        public DigitalReceiptMessage DRxDigitalReceipt { get; set; }
+    }
 }

@@ -40,7 +40,7 @@ namespace Net.Dreceiptx.Receipt.Common
         public DespatchInformation(DateTime deliveryDate, string instructions, DateTime despatchDate)
         {
             DeliveryDate = deliveryDate;
-            DespatchDate = despatchDate;
+            DespatchDateTime = despatchDate;
             DeliveryInstructions = instructions;
         }
 
@@ -48,7 +48,7 @@ namespace Net.Dreceiptx.Receipt.Common
         public DateTime DeliveryDate { get; set; }
 
         [DataMember]
-        public DateTime DespatchDate { get; set; }
+        public DateTime DespatchDateTime { get; set; }
 
         [DataMember]
         public string DeliveryInstructions { get; set; }
@@ -56,7 +56,7 @@ namespace Net.Dreceiptx.Receipt.Common
         //TODO: Remove this
         public bool gsonValidator()
         {
-            return DeliveryInstructions != null || DespatchDate != null || DeliveryDate != null;
+            return DeliveryInstructions != null || DespatchDateTime != null || DeliveryDate != null;
 
         }
     }

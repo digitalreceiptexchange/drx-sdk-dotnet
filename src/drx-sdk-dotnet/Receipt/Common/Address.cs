@@ -14,17 +14,21 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Runtime.Serialization;
+
 namespace Net.Dreceiptx.Receipt.Common
 {
+    [DataContract]
     public class Address
     {
         //@SerializedName("name")
         public string Name { get; set; }
-        //@SerializedName("streetAddressOne")
+        [DataMember(Name = "StreetAddressOne")]
         public string StreetAddress1 { get; set; }
-        //@SerializedName("streetAddressTwo")
+        [DataMember(Name = "StreetAddressTwo")]
         public string StreetAddress2 { get; set; }
-        //@SerializedName("streetAddressThree")
+        [DataMember(Name = "StreetAddressThree")]
         public string StreetAddress3 { get; set; }
         //@SerializedName("city")
         public string City { get; set; }

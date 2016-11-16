@@ -52,6 +52,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\drx-sdk-dotnet.UnitTests\drx-sdk-dotnet.UnitTests.csproj">
+      <Project>{24CB8637-E49E-4BD0-ADE5-DE04F8A6CA6E}</Project>
+      <Name>drx-sdk-dotnet.UnitTests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\drx-sdk-dotnet\drx-sdk-dotnet.csproj">
       <Project>{FB717DF1-D423-4553-A285-323D23711338}</Project>
       <Name>drx-sdk-dotnet</Name>

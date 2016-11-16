@@ -89,7 +89,7 @@ namespace Net.Dreceiptx.Receipt.Common
 
         public DeliveryInformation DespatchDate(DateTime despatchDate)
         {
-            _despatchInformation.DespatchDate = despatchDate;
+            _despatchInformation.DespatchDateTime = despatchDate;
             return this;
         }
 

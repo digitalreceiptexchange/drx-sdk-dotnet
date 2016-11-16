@@ -46,7 +46,7 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
 
         public decimal SubTotal => BaseAmount;
 
-        [DataMember]
+        [DataMember(Name = "AllowanceChargeDescription")]
         public string Description { get; set; }
 
         public decimal Total => BaseAmount + TaxesTotal;
