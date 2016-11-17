@@ -58,11 +58,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\DRXClient.cs" />
+    <Compile Include="Client\DrxCredentials.cs" />
     <Compile Include="Client\Exceptions\ExchangeClientException.cs" />
-    <Compile Include="Client\IExchangeClient.cs" />
     <Compile Include="Client\ExchangeResponse.cs" />
+    <Compile Include="Client\ExchangeResponseResult.cs" />
+    <Compile Include="Client\IExchangeClient.cs" />
+    <Compile Include="Client\ResponseData.cs" />
     <Compile Include="Client\UriParameters.cs" />
-    <Compile Include="DrxService.cs" />
+    <Compile Include="Client\UserReponseResponseData.cs" />
+    <Compile Include="Client\UserReponseExchangeResponse.cs" />
+    <Compile Include="Client\UsersResponse.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\MiscExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

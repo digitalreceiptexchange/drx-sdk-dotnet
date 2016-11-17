@@ -1,11 +1,10 @@
 namespace Net.Dreceiptx.Client
 {
-    public class ExchangeResponse
+    public class UserReponseExchangeResponse
     {
         public bool Success { get; set; }
         public int? Code { get; set; }
         public string ExceptionMessage { get; set; }
-        public ResponseData ResponseData { get; set; }
-        
+        public UserReponseResponseData ResponseData { get; set; }
     }
 }
