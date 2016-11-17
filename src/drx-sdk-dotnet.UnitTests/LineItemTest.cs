@@ -14,6 +14,8 @@
 // limitations under the License.
 // 
 #endregion
+
+using Net.Dreceiptx.Receipt.LineItem;
 using NUnit.Framework;
 
 namespace Net.Dreceiptx.UnitTests
@@ -45,7 +47,7 @@ namespace Net.Dreceiptx.UnitTests
         //[Test]
         //public void TestAllowancesTotalReturnsCorrectResultWhenAddingGeneralDiscounts()
         //{
-        //    LineItem lineItem = new LineItem(10, 2.2m, 3);
+        //    LineItem lineItem = new LineItem("Brand", "Name", "Description", 10, 2.2m);
         //    lineItem.AddGeneralDiscount(5m, "Test General Discount", null);
         //    Assert.AreEqual(5, lineItem.AllowancesTotal);
 
