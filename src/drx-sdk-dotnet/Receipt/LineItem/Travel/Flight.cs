@@ -44,14 +44,14 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 
         public string ItineraryDescription => Description;
 
-    //public FlightType getFlightType()
-    //{
-    //    return (FlightType) this.getLineItemType(FlightType.class,
+    //    public FlightType getFlightType()
+    //    {
+    //        return (FlightType)this.getLineItemType(FlightType.class,
     //    FlightType.DEFAULT)
     //    ;
     //}
 
-        public string PassengerName
+    public string PassengerName
         {
             get { return _AVPList.GetValue(AVPType.PASSENGER_NAME.Value()); }
             set { _AVPList.Add(AVPType.PASSENGER_NAME.Value(), value); }
@@ -73,6 +73,31 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
         {
             get {  return SerialNumber; }
             set { SerialNumber = value; }
+        }
+
+        public FlightDestinationType? FlightDestinationType
+        {
+            get
+            {
+                string flightType = _AVPList.GetAVP(AVPType.FLIGHT_DESTINATION_TYPE.Value())?.Value;
+                if (!string.IsNullOrWhiteSpace(flightType))
+                {
+                    return EnumExtensions.FlightDestinationType(flightType);
+                }
+                return null;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    _AVPList.Add(AVPType.FLIGHT_DESTINATION_TYPE.Value(), value.Value());
+                }
+                else
+                {
+                    _AVPList.Remove(AVPType.FLIGHT_DESTINATION_TYPE.Value());
+                }
+            }
+            
         }
     }
 }

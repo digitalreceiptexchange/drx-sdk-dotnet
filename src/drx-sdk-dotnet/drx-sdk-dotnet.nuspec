@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>domc,pmr</authors>
+    <owners>Paul Russell</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/digitalreceiptexchange/drx-sdk-dotnet</projectUrl>
+    <iconUrl>https://cdn.dreceiptx.net/assets/images/brand_logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial Alpha dotnet release</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>DRX DigitalReceiptExchange</tags>
+  </metadata>
+</package>

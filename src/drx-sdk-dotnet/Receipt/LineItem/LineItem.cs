@@ -303,7 +303,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             {
                 decimal total = Price*Quantity;
                 total += _taxes.Sum(x => x.TaxTotal);
-                total += ReceiptAllowanceCharges.Sum(x => x.Total);
+                total += ReceiptAllowanceCharges.Sum(x => x.SubTotal);
                 return total;
             }
         }

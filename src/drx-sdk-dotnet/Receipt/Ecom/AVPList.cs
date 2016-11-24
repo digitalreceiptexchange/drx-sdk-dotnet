@@ -43,12 +43,28 @@ namespace Net.Dreceiptx.Receipt.Ecom
 
         public void Add(string code, AVP value)
         {
+            AVP existing = null;
+            if (_dictionary.TryGetValue(code, out existing))
+            {
+                Remove(existing);
+            }
             _dictionary.Add(code, value);
+            base.InsertItem(0, value);
         }
 
         public void Add(string code, string value)
         {
             Add(code, new AVP(code, value));
+            
+        }
+
+        public void Remove(string code)
+        {
+            AVP existing = null;
+            if (_dictionary.TryGetValue(code, out existing))
+            {
+                Remove(existing);
+            }
         }
 
         public string GetValue(string code)

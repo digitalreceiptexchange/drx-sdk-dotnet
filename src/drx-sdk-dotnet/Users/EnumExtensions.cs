@@ -16,6 +16,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using Net.Dreceiptx.Receipt.LineItem.Travel;
 using Net.Dreceiptx.Users;
 
 public static class EnumExtensions
@@ -79,6 +80,26 @@ public static class EnumExtensions
         if (currencyCode == null || !_currencyDictionary.TryGetValue(currencyCode, out result))
         {
             throw new InvalidOperationException($"CurrencyCode {currencyCode} is invalid");
+        }
+        return result;
+    }
+
+    private static Dictionary<string, FlightDestinationType> _flightDestinationTypes;
+
+    public static FlightDestinationType FlightDestinationType(string flightDestinationType)
+    {
+        if (_flightDestinationTypes == null)
+        {
+            _flightDestinationTypes = new Dictionary<string, FlightDestinationType>();
+            foreach (FlightDestinationType flightDestination in Enum.GetValues(typeof(FlightDestinationType)))
+            {
+                _flightDestinationTypes.Add(flightDestination.Value(), flightDestination);
+            }
+        }
+        FlightDestinationType result;
+        if (flightDestinationType == null || !_flightDestinationTypes.TryGetValue(flightDestinationType, out result))
+        {
+            throw new InvalidOperationException($"FlightDestinationType {flightDestinationType} is invalid");
         }
         return result;
     }

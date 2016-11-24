@@ -40,6 +40,11 @@ namespace Net.Dreceiptx.Receipt.Ecom
 
         [DrxEnumExtendedInformation("VEHICLE_IDENTIFIER", null)]
         [EnumMember(Value = "VEHICLE_IDENTIFIER")]
-        VEHICLE_IDENTIFIER
+        VEHICLE_IDENTIFIER,
+
+        [DrxEnumExtendedInformation("FLIGHT_DESTINATION_TYPE", null)]
+        [EnumMember(Value = "FLIGHT_DESTINATION_TYPE")]
+        FLIGHT_DESTINATION_TYPE
+
     }
 }

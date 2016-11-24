@@ -1,4 +1,4 @@
-#region copyright
+﻿#region copyright
 // Copyright 2016 Digital Receipt Exchange Limited
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +15,18 @@
 // 
 #endregion
 
-namespace Net.Dreceiptx
+using System.Runtime.Serialization;
+using Net.Dreceiptx.Users;
+
+namespace Net.Dreceiptx.Receipt.LineItem.Travel
 {
-    public class SDK
+    public enum FlightDestinationType
     {
-        public static string VERSION = "1.7.0";
-        public static string RECEIPT_VERSION_COMPATIBILITY = "1.2.0-1.3.0";
-        public static bool DEBUG = false;
+        [DrxEnumExtendedInformation("DOM", "Domestic")]
+        [EnumMember(Value = "DOM")]
+        DOMESTIC,
+        [DrxEnumExtendedInformation("INT", "International")]
+        [EnumMember(Value = "INT")]
+        INTERNATIONAL
     }
 }

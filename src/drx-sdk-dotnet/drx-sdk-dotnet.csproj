@@ -116,6 +116,7 @@
     <Compile Include="Receipt\LineItem\Travel\Accommodation.cs" />
     <Compile Include="Receipt\LineItem\Travel\AccommodationType.cs" />
     <Compile Include="Receipt\LineItem\Travel\Flight.cs" />
+    <Compile Include="Receipt\LineItem\Travel\FlightDestinationType.cs" />
     <Compile Include="Receipt\LineItem\Travel\FlightType.cs" />
     <Compile Include="Receipt\LineItem\Travel\GroundTransport.cs" />
     <Compile Include="Receipt\LineItem\Travel\GroundTransportType.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="XmlSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="drx-sdk-dotnet.nuspec" />
     <None Include="drx_wrapper.cd" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -159,6 +161,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>$(ProjectDir)..\.nuget\NuGet.exe pack $(ProjectPath) -Prop COnfiguration=$(ConfigurationName)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
