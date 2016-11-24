@@ -18,9 +18,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Instrumentation;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Document;
+using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.Settlement;
 using Net.Dreceiptx.Receipt.Tax;
 
@@ -156,6 +158,19 @@ namespace Net.Dreceiptx.Receipt
     
         public decimal GetTaxTotal(TaxCode taxCode) {
             return _invoice.TaxesTotalByTaxCode(taxCode);
+        }
+
+        public string SalesOrderReference
+        {
+            get { return _invoice.SalesOrderReference?.EntityIdentification; }
+            set
+            {
+                if (_invoice.SalesOrderReference == null)
+                {
+                    _invoice.SalesOrderReference = new Identification();
+                }
+                _invoice.SalesOrderReference.EntityIdentification = value;
+            }
         }
     }
 }

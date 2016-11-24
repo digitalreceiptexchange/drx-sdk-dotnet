@@ -118,6 +118,10 @@ namespace Net.Dreceiptx.Receipt.Invoice
             set { /* do nothing */ }
         }
 
+
+        [DataMember(Name = "SalesOrder")]
+        public Identification SalesOrderReference { get; set; }
+
         public decimal Total => SubTotal + TaxesTotal + SubTotalAllowances - SubTotalCharges;
 
         public decimal TaxPercentage

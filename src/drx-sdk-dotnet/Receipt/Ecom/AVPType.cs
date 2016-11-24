@@ -30,6 +30,10 @@ namespace Net.Dreceiptx.Receipt.Ecom
         [EnumMember(Value = "PASSENGER_NAME")]
         PASSENGER_NAME,
 
+        [DrxEnumExtendedInformation("PNR", null)]
+        [EnumMember(Value = "PNR")]
+        PASSENGER_NAME_RECORD,
+
         [DrxEnumExtendedInformation("TRIP_DISTANCE", null)]
         [EnumMember(Value = "TRIP_DISTANCE")]
         TRIP_DISTANCE,

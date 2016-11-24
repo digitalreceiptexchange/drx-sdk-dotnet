@@ -57,6 +57,12 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
             set { _AVPList.Add(AVPType.PASSENGER_NAME.Value(), value); }
         }
 
+        public string PassengerNameRecord
+        {
+            get { return _AVPList.GetValue(AVPType.PASSENGER_NAME_RECORD.Value()); }
+            set { _AVPList.Add(AVPType.PASSENGER_NAME_RECORD.Value(), value); }
+        }
+
         public DateTime DepartureDate
         {
             get { return DespatchDate; }
