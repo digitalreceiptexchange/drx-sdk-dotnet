@@ -1,5 +1,8 @@
+using System.Runtime.Serialization;
+
 namespace Net.Dreceiptx.Client
 {
+    [DataContract]
     public class ResponseData
     {
         public string ReceiptId { get; set; }

@@ -15,16 +15,32 @@
 // 
 #endregion
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Users
 {
+    [DataContract]
+    public class NewUserRegistrationRequest
+    {
+        [DataMember]
+        public List<NewUser> Users { get; set; }
+
+        [DataMember]
+        public int UsersToRegister
+        {
+            get { return Users.Count; }
+            set { ; }
+        }
+    }
+    [DataContract]
     public class NewUser
     {
         private readonly bool _addAsIdentifier;
         private string _email; 
-        private readonly Dictionary<UserIdentifierType, string> _identifiers = new Dictionary<UserIdentifierType, string>();
+        private  List<Identifier> _identifiers = new List<Identifier>();
         private bool _addEmailAsIdentifier = true;
-    
+        private List<UserConfigurationOption> _config = new List<UserConfigurationOption>();
+
         public NewUser()
         {
         }
@@ -34,9 +50,9 @@ namespace Net.Dreceiptx.Users
             Email = email;
         }
 
-        public NewUser(string email, bool addAsIdentifier)
+        public NewUser(string email, bool addEmailAsIdentifier)
         {
-            _addAsIdentifier = addAsIdentifier;
+            _addAsIdentifier = addEmailAsIdentifier;
             _addEmailAsIdentifier = _addAsIdentifier;
             Email = email;
         }
@@ -47,6 +63,7 @@ namespace Net.Dreceiptx.Users
             Email = email;
         }
 
+        [DataMember(Name = "UserEmail")]
         public string Email
         {
             get { return _email;}
@@ -55,26 +72,54 @@ namespace Net.Dreceiptx.Users
                 _email = value;
                 if (_addEmailAsIdentifier)
                 {
-                    _identifiers.Add(UserIdentifierType.Email, _email);
+                    _identifiers.Add(new Identifier { Type = UserIdentifierType.Email, Value = value });
                 }
             }
         }
 
         public void AddIdentifier( UserIdentifierType identifierType, string identifier)
         {
-            _identifiers.Add(identifierType, identifier);
+            _identifiers.Add(new Identifier {Type = identifierType, Value = identifier});
         }
-    
-        public Dictionary<UserIdentifierType, string> Identifiers
+
+        [DataMember]
+        public List<Identifier> Identifiers
         {
             get { return _identifiers;}
+            set { _identifiers = value; }
         }
     
         public void AddConfigOption( UserConfigOptionType configOptionType, string optionValue)
         {
-            Config.Add(configOptionType, optionValue);
+            Config.Add(new UserConfigurationOption(configOptionType, optionValue));
         }
-    
-        public Dictionary<UserConfigOptionType, string> Config { get; } = new Dictionary<UserConfigOptionType, string>();
+
+        [DataMember]
+        public List<UserConfigurationOption> Config
+        {
+            get { return _config; }
+            set { _config = value; }
+        }
+    }
+
+    public class Identifier
+    {
+        public UserIdentifierType Type { get; set; }
+        public string Value { get; set; }
+    }
+
+    public class UserConfigurationOption
+    {
+        public UserConfigurationOption()
+        {
+        }
+
+        public UserConfigurationOption(UserConfigOptionType option, string value)
+        {
+            Option = option;
+            Value = value;
+        }
+        public UserConfigOptionType Option { get; set; }
+        public string Value { get; set; }
     }
 }

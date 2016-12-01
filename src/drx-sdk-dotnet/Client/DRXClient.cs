@@ -468,77 +468,60 @@ namespace Net.Dreceiptx.Client
             return false;
         }
     
-        public NewUserRegistrationResult RegisterNewUser(NewUser newUser)
+        public NewUserRegistrationExchangeResponse RegisterNewUser(NewUser newUser)
         {
             List<NewUser> _newUserCollection = new List<NewUser>();
             _newUserCollection.Add(newUser);
-            //Dictionary<string, NewUserRegistrationResult> _newUserRegistrationResponse = this.registerNewUser(_newUserCollection);
-            //return _newUserRegistrationResponse.get(newUser.getEmail());
-
-            return null;
+            return RegisterNewUser(_newUserCollection);
         }
     
-        public Dictionary<string, NewUserRegistrationResult> RegisterNewUser(List<NewUser> newUsers)
+        public NewUserRegistrationExchangeResponse RegisterNewUser(List<NewUser> newUsers)
         {
-            //Dictionary<string, NewUserRegistrationResult> _newUserRegistrationResponse = new Dictionary<>();
-            //try {
-            //    Gson gson = new GsonBuilder()
-            //        .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-            //        .registerTypeAdapter(newUsers.getClass(), new NewUsersSerializer())
-            //        .create();
-            //    string newUserRegistrationJson = gson.toJson(newUsers);
+            Dictionary<string, NewUserRegistrationResult> _newUserRegistrationResponse = new Dictionary<string, NewUserRegistrationResult>();
+            using (HttpClient client = CreateExchangeConnection("/user", _userVersion, null))
+            {
+                JsonSerializerSettings settings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    //DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                    DateFormatString = "yyyy-MM-ddTHH:mm:ss%K",
+                    Formatting = Formatting.Indented,
+                    NullValueHandling = NullValueHandling.Ignore,
+                };
+                settings.Converters.Add(new StringEnumConverter());
+                string result =
+                    JsonConvert.SerializeObject(new NewUserRegistrationRequest() {Users = newUsers},
+                        settings);
+                StringContent content = new StringContent(result, Encoding.UTF8, "application/json");
+                var response = client.PostAsync("", content);
+                var statusCode = response.Result.StatusCode;
+                if (response.Result.StatusCode == HttpStatusCode.Created ||
+                    response.Result.StatusCode == HttpStatusCode.BadRequest)
+                {
 
-            //    HttpURLConnection connection = createConnection(_exchangeProtocol, _exchangeHostname, "/user?XDEBUG_SESSION_START=drx-xdebug", CONTENT_TYPE_JSON, "POST", _userVersion);
-            //    OutputStream os = connection.getOutputStream();
-            //    os.write(newUserRegistrationJson.getBytes());
-            //    os.flush();
-            //    connection.connect();
-            //    int responseCode = connection.getResponseCode();
-            //    if (responseCode == HttpCodes.HTTP_201_CREATED || responseCode == HttpCodes.HTTP_400_BAD_REQUEST) {
-            //        JsonObject exchangeResponse = getResponseJsonObject(connection);
-            //        if (exchangeResponse.get("success").getAsbool()) {
-            //            JsonObject responseData = exchangeResponse.get("responseData").getAsJsonObject();
-            //            JsonObject usersObject = responseData.get("users").getAsJsonObject();
-            //            for (Dictionary.Entry<string, JsonElement> entry : usersObject.entrySet()) {
-            //                NewUserRegistrationResult newUserRegistrationResult = new NewUserRegistrationResult();
-            //                if(!entry.getValue().isJsonNull()){
-            //                    JsonObject userRegistrationObject = usersObject.getAsJsonObject(entry.getKey());
-            //                    if(userRegistrationObject.get("success").getAsbool()){
-            //                        newUserRegistrationResult.setUserGUID(userRegistrationObject.get("guid").getAsstring());
-            //                    }else{
-            //                        newUserRegistrationResult.setException(userRegistrationObject.get("code").getAsInt(),userRegistrationObject.get("exception").getAsstring());
-            //                    }
-            //                }
-            //                _newUserRegistrationResponse.put(entry.getKey(), newUserRegistrationResult);
-            //            }
-            //        } else {
-            //            throw new ExchangeClientException(exchangeResponse.get("code").getAsInt(), exchangeResponse.get("exceptionMessage").getAsstring());
-            //        }
-            //    } else if (responseCode == HttpCodes.HTTP_401_UNAUTHORIZED) {
-            //        loadErrorResponseJsonObject(connection);
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(_responseErrorCode, _responseErrorMessage);
-            //    } else if (responseCode == HttpCodes.HTTP_404_NOTFOUND) {
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(_responseErrorCode, "Exchange could not be found, ensure internet connection or valid URL");
-            //    }else {
-            //        string errorMessage = connection.getResponseMessage();
-            //        connection.disconnect();
-            //        throw new ExchangeClientException(responseCode, errorMessage);
-            //    }
-            //}catch(ConnectException ce){
-            //    throw new ExchangeClientException(500, "There was a connection exception, please ensure internet connectivity and exchange host settings", ce);
-            //}catch (SocketTimeoutException te){
-            //    throw new ExchangeClientException(500, "The connection to the exchange timed out and did not receive a response", te);
-            //}catch (ExchangeClientException dRxE) {
-            //    throw dRxE;
-            //}catch (Exception e) {
-            //    throw new ExchangeClientException(500, e.tostring(), e);
-            //}
-        
-            //return _newUserRegistrationResponse;
-
-            return null;
+                    string contentResult = response.Result.Content.ReadAsStringAsync().Result;
+                    NewUserRegistrationExchangeResponse exchangeResponse = JsonConvert.DeserializeObject<NewUserRegistrationExchangeResponse>(contentResult,
+                            _jsonSerializerSettings);
+                    return exchangeResponse;
+                        
+                }
+                if (response.Result.StatusCode == HttpStatusCode.NotFound)
+                {
+                    throw new ExchangeClientException(404,
+                        "The exchange host could not be found or is currently unavailable, please check ConfigManager setting and ensure they are correct.");
+                }
+                if (response.Result.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    string contentResult = response.Result.Content.ReadAsStringAsync().Result;
+                    ExchangeResponseResult exchangeResponse =
+                        JsonConvert.DeserializeObject<ExchangeResponseResult>(contentResult, _jsonSerializerSettings);
+                    throw new ExchangeClientException(exchangeResponse.ExchangeResponse.Code.Value,
+                        exchangeResponse.ExchangeResponse.ExceptionMessage);
+                }
+                //TODO: Not sure if errorMessage is correc here
+                string errorMessage = response.Result.Content.ToString();
+                throw new ExchangeClientException((int)statusCode, errorMessage);
+            }
         }
 
         public Merchant LookupMerchant(string Id)

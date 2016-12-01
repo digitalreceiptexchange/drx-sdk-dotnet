@@ -33,6 +33,10 @@ namespace Net.Dreceiptx.Receipt.Config
 
         public void SetConfigValue(string key, string value)
         {
+            if (_config.ContainsKey(key))
+            {
+                _config.Remove(key);
+            }
             _config.Add(key, value);
         }
 

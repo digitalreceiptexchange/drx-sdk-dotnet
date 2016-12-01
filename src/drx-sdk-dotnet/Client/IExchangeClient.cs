@@ -47,20 +47,20 @@ namespace Net.Dreceiptx.Client
          */
         string SendReceipt(DigitalReceiptMessage receipt);
 
-    
+
         /**
          * @param newUser
          * @return newUserGUID
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        NewUserRegistrationResult RegisterNewUser(NewUser newUser);
-    
+        NewUserRegistrationExchangeResponse RegisterNewUser(NewUser newUser);
+
         /**
          * @param List<NewUser>
          * @return Dictionary<string, NewUserRegistrationResult>
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        Dictionary<string, NewUserRegistrationResult> RegisterNewUser(List<NewUser> newUsers);
+        NewUserRegistrationExchangeResponse RegisterNewUser(List<NewUser> newUsers);
     
         /**
          * @param receiptId

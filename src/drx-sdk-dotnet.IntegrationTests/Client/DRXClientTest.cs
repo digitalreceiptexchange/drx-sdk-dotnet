@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using Net.Dreceiptx.Client;
+using Net.Dreceiptx.Client.Exceptions;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Config;
@@ -43,15 +44,22 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             _configManager = new DictionaryConfigManager();
             _configManager.SetConfigValue("exchange.hostname", "aus-beta-api.dreceiptx.net");
             _configManager.SetConfigValue("directory.hostname", "aus-beta-directory.dreceiptx.net");
-            _configManager.SetConfigValue("api.requesterId", "UAT_AUS_CONCIERGE_TRAVEL_GROUP-1");
+            //_configManager.SetConfigValue("api.requesterId", "UAT_AUS_CONCIERGE_TRAVEL_GROUP-1");
+            _configManager.SetConfigValue("api.requesterId", "SYSTEM_TEST-1");
             _configManager.SetConfigValue("receipt.version", "1.3.0");
             _configManager.SetConfigValue("user.version", "1.1.0");
             _configManager.SetConfigValue("download.directory", "");
             _configManager.SetConfigValue("exchange.protocol", "https");
             _configManager.SetConfigValue("directory.protocol", "https");
             _configManager.SetConfigValue("environment.type", "UAT");
-            _configManager.SetConfigValue("api.secret", "HPmlotenxFgnT19hXHAkAsmeKxDTiU2lmrGv1tkqta");
-            _configManager.SetConfigValue("api.key", "otuwmVfSFZhfpSy6gcCh");
+            //_configManager.SetConfigValue("api.secret", "HPmlotenxFgnT19hXHAkAsmeKxDTiU2lmrGv1tkqta");
+            _configManager.SetConfigValue("api.secret", "M26BNoprX2UdJ2EsEjzGa3NmfvIhP7dHrymlHdOqAW");
+            //_configManager.SetConfigValue("api.key", "otuwmVfSFZhfpSy6gcCh");
+            _configManager.SetConfigValue("api.key", "9mf8u3EuUQfvTA16aYua");
+
+            //            SYSTEM_TEST-1
+            //key: 9mf8u3EuUQfvTA16aYua
+            //secret: M26BNoprX2UdJ2EsEjzGa3NmfvIhP7dHrymlHdOqAW
         }
 
         [Test]
@@ -83,6 +91,61 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             });
             Assert.IsNotNull(user);
             Assert.AreEqual(3, user.Count);
+        }
+
+        [Test]
+        public void TestNewUserRegistration()
+        {
+            NewUser newUser = new NewUser($"dominic.catherin{DateTime.Now.Ticks}@digitalreceiptexchange.com", true);
+            newUser.Config = new List<UserConfigurationOption>();
+            newUser.AddIdentifier(UserIdentifierType.Mobile, "0401858293");
+            newUser.AddConfigOption(UserConfigOptionType.EndPointId, "ENDPOINTID1");
+            DRXClient client = new DRXClient(_configManager);
+            client.RegisterNewUser(newUser);
+        }
+
+        [Test]
+        public void TestNewUserRegistrationMultipleUsers()
+        {
+            NewUser newUser = new NewUser($"dominic.catherin{DateTime.Now.Ticks}@digitalreceiptexchange.com", true);
+            newUser.Config = new List<UserConfigurationOption>();
+            newUser.AddIdentifier(UserIdentifierType.Mobile, "0401858293");
+            newUser.AddConfigOption(UserConfigOptionType.EndPointId, "ENDPOINTID1");
+            NewUser newUser2 = new NewUser($"dominic.catherin_{DateTime.Now.Ticks}@digitalreceiptexchange.com", true);
+            newUser2.Config = new List<UserConfigurationOption>();
+            newUser2.AddIdentifier(UserIdentifierType.Mobile, "0401858293");
+            newUser2.AddConfigOption(UserConfigOptionType.EndPointId, "ENDPOINTID1");
+            DRXClient client = new DRXClient(_configManager);
+            var result = client.RegisterNewUser(new List<NewUser> {newUser, newUser2});
+        }
+
+        [Test]
+        public void TestNewUserRegistrationWithFailedAuth()
+        {
+            NewUser newUser = new NewUser("dominic.catherin4@digitalreceiptexchange.com", true);
+            newUser.Config = new List<UserConfigurationOption>();
+            newUser.AddIdentifier(UserIdentifierType.Mobile, "0401858293");
+            newUser.AddConfigOption(UserConfigOptionType.EndPointId, "ENDPOINTID1");
+            _configManager.SetConfigValue("api.key", "SUMMY_VALUE");
+            DRXClient client = new DRXClient(_configManager);
+            Assert.Throws<ExchangeClientException>(() =>
+            {
+                // call it twice to cause duplicate erro
+                client.RegisterNewUser(newUser);
+                client.RegisterNewUser(newUser);
+            });
+
+        }
+
+        [Test]
+        public void TestNewUserRegistrationWhenInvalidData()
+        {
+            string email = "dominic.catherin4@digitalreceiptexchange.com";
+            NewUser newUser = new NewUser(email, true);
+            DRXClient client = new DRXClient(_configManager);
+            var result = client.RegisterNewUser(newUser);
+            Assert.IsFalse(result.ExchangeResponse.ResponseData.Users[email].Success);
+            Assert.IsNotEmpty(result.ExchangeResponse.ResponseData.Users[email].Exception);
         }
 
         [Test]
