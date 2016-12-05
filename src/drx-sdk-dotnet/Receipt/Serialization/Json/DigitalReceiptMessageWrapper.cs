@@ -14,27 +14,24 @@
  * limitations under the License.
  */
 
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Net.Dreceiptx.Receipt.Document;
-using Net.Dreceiptx.Receipt.Settlement;
 
 namespace Net.Dreceiptx.Receipt.Serialization.Json
 {
     [DataContract]
-    public class DigitalReceiptMessage
+    public class DigitalReceiptMessageWrapper
     {
-        public DigitalReceiptMessage()
+        [DataMember]
+        public DigitalReceiptMessage DRxDigitalReceipt { get; set; }
+
+        public string Serialize()
         {
-            Invoice = new Invoice.Invoice();
+            return JsonSerializer.SerializeToString(this);
         }
 
-        // DC: Done
-        [DataMember]
-        public StandardBusinessDocumentHeader StandardBusinessDocumentHeader { get; set; }
-        [DataMember]
-        public Invoice.Invoice Invoice { get; set; }
-        [DataMember]
-        public List<PaymentReceipt> PaymentReceipts { get; set; }
+        public static DigitalReceiptMessageWrapper Deserialize(string json)
+        {
+            return JsonSerializer.Deserialize<DigitalReceiptMessageWrapper>(json);
+        }
     }
 }

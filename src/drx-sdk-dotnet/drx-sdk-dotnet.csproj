@@ -70,6 +70,7 @@
     <Compile Include="Client\UsersResponse.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\MiscExtensions.cs" />
+    <Compile Include="JsonSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReceiptValidation.cs" />
     <Compile Include="Receipt\AllowanceCharge\AllowanceChargeType.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Receipt\Merchant\MerchantAddress.cs" />
     <Compile Include="Receipt\Merchant\MerchantContact.cs" />
     <Compile Include="Receipt\Serialization\Json\DigitalReceiptMessage.cs" />
+    <Compile Include="Receipt\Serialization\Json\DigitalReceiptMessageWrapper.cs" />
     <Compile Include="Receipt\Settlement\PaymentAuthorisation.cs" />
     <Compile Include="Receipt\Settlement\PaymentMethodType.cs" />
     <Compile Include="Receipt\Settlement\PaymentReceipt.cs" />

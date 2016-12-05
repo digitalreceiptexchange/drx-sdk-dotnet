@@ -74,19 +74,19 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Document
 
         public StandardBusinessDocumentHeaderBuilder MerchangeGLN(string merchantGLN)
         {
-            _header.MerchantGLN = merchantGLN;
+            _header.MerchantGLN.Value = merchantGLN;
             return this;
         }
 
         public StandardBusinessDocumentHeaderBuilder DrxFLN(string DdxFLN)
         {
-            _header.DrxFLN = DdxFLN;
+            _header.DrxFLN.Value = DdxFLN;
             return this;
         }
 
         public StandardBusinessDocumentHeaderBuilder UserIdentifier(UserIdentifierType userIdentifierType, string userIdentifier)
         {
-            _header.UserIdentifier = $"{userIdentifierType.Value()}:{userIdentifier}";
+            _header.UserIdentifier.Value = $"{userIdentifierType.Value()}:{userIdentifier}";
             return this;
         }
 

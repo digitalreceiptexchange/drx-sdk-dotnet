@@ -64,8 +64,8 @@ namespace Net.Dreceiptx.Receipt
             //_defaultTaxCode = Enum.valueOf(TaxCode.class, validateConfigOption("default.taxCode"));
 
             _standardBusinessDocumentHeader = new StandardBusinessDocumentHeader();
-            _standardBusinessDocumentHeader.DrxFLN = ValidateConfigOption("drx.gln");
-            _standardBusinessDocumentHeader.MerchantGLN = ValidateConfigOption("merchant.gln");
+            _standardBusinessDocumentHeader.DrxFLN.Value = ValidateConfigOption("drx.gln");
+            _standardBusinessDocumentHeader.MerchantGLN.Value = ValidateConfigOption("merchant.gln");
             _standardBusinessDocumentHeader.DocumentIdentification.TypeVersion = ValidateConfigOption("receipt.version");
             _standardBusinessDocumentHeader.DocumentIdentification.CreationDateAndTime = DateTime.Now;
 
@@ -75,13 +75,13 @@ namespace Net.Dreceiptx.Receipt
     
         public void SetMerchantGLN(string merchantGLN)
         {
-            _standardBusinessDocumentHeader.MerchantGLN = merchantGLN;
+            _standardBusinessDocumentHeader.MerchantGLN.Value = merchantGLN;
         }
     
         public void SetUserGUID(UserIdentifierType userIdentifierType, string userIdentifierValue)
         {
             _userGUID = $"{userIdentifierType.Value()}:{userIdentifierValue}";
-            _standardBusinessDocumentHeader.UserIdentifier = _userGUID;
+            _standardBusinessDocumentHeader.UserIdentifier.Value = _userGUID;
         }
     
         public void SetMerchantReference(string merchantReference)

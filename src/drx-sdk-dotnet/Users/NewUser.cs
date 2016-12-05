@@ -31,7 +31,18 @@ namespace Net.Dreceiptx.Users
             get { return Users.Count; }
             set { ; }
         }
+
+        public string Serialize()
+        {
+            return JsonSerializer.SerializeToString(this);
+        }
+
+        public static NewUserRegistrationRequest Deserialize(string json)
+        {
+            return JsonSerializer.Deserialize<NewUserRegistrationRequest>(json);
+        }
     }
+
     [DataContract]
     public class NewUser
     {

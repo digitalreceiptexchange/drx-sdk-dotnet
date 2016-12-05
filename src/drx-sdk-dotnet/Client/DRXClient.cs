@@ -311,7 +311,7 @@ namespace Net.Dreceiptx.Client
                         //TypeNameHandling =  TypeNameHandling.Objects
                     };
                     settings.Converters.Add(new StringEnumConverter());
-                    string result = JsonConvert.SerializeObject(new DigitalReceiptMessageWrapper {DRxDigitalReceipt = receipt}, settings);
+                    string result = new DigitalReceiptMessageWrapper {DRxDigitalReceipt = receipt}.Serialize();
 
                     StringContent content = new StringContent(result, Encoding.UTF8, "application/json");
                     var response = client.PostAsync("", content);
@@ -489,9 +489,8 @@ namespace Net.Dreceiptx.Client
                     NullValueHandling = NullValueHandling.Ignore,
                 };
                 settings.Converters.Add(new StringEnumConverter());
-                string result =
-                    JsonConvert.SerializeObject(new NewUserRegistrationRequest() {Users = newUsers},
-                        settings);
+                string result = new NewUserRegistrationRequest() {Users = newUsers}.Serialize();
+                    
                 StringContent content = new StringContent(result, Encoding.UTF8, "application/json");
                 var response = client.PostAsync("", content);
                 var statusCode = response.Result.StatusCode;

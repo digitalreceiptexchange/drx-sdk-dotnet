@@ -30,20 +30,20 @@ namespace Net.Dreceiptx.Receipt.Document
             Receiver = new List<DocumentOwner>();
             DocumentIdentification = new DocumentIdentification();
 
-            DocumentOwner merchant = new DocumentOwner();
-            merchant.Identifier.Authority = "GS1";
-            merchant.Identifier.Value = null;
-            Sender.Add(merchant);
+            //DocumentOwner merchant = new DocumentOwner();
+            //merchant.Identifier.Authority = "GS1";
+            //merchant.Identifier.Value = null;
+            //Sender.Add(merchant);
 
-            DocumentOwner dRx = new DocumentOwner();
-            dRx.Identifier.Authority = "GS1";
-            dRx.Identifier.Value = null;
-            Receiver.Add(dRx);
+            //DocumentOwner dRx = new DocumentOwner();
+            //dRx.Identifier.Authority = "GS1";
+            //dRx.Identifier.Value = null;
+            //Receiver.Add(dRx);
 
-            DocumentOwner user = new DocumentOwner();
-            user.Identifier.Authority = "dRx";
-            user.Identifier.Value = null;
-            Receiver.Add(user);
+            //DocumentOwner user = new DocumentOwner();
+            //user.Identifier.Authority = "dRx";
+            //user.Identifier.Value = null;
+            //Receiver.Add(user);
         }
 
         [DataMember]
@@ -60,22 +60,50 @@ namespace Net.Dreceiptx.Receipt.Document
         [DataMember]
         public DocumentIdentification DocumentIdentification { get; set; }
 
-        public string MerchantGLN
+        public DocumentOwner MerchantGLN
         {
-            get { return Sender[0].Value; }
-            set { Sender[0].Value = value ; }
+            get
+            {
+                var merchant = Sender.Find(x => x.Identifier.Authority == "GS1");
+                if (merchant == null)
+                {
+                    merchant = new DocumentOwner();
+                    merchant.Identifier.Authority = "GS1";
+                    Sender.Add(merchant);
+                }
+                return merchant;
+            }
         }
 
-        public string DrxFLN
+
+        public DocumentOwner DrxFLN
         {
-            get { return Receiver[0].Value; }
-            set { Receiver[0].Value = value; }
+            get
+            {
+                var dRx = Receiver.Find(x => x.Identifier.Authority == "GS1");
+                if (dRx == null)
+                {
+                    dRx = new DocumentOwner();
+                    dRx.Identifier.Authority = "GS1";
+                    Receiver.Add(dRx);
+                }
+                return dRx;
+            }
         }
 
-        public string UserIdentifier
+        public DocumentOwner UserIdentifier
         {
-            get { return Receiver[1].Value; }
-            set { Receiver[1].Value = value; }
+            get
+            {
+                var user = Receiver.Find(x => x.Identifier.Authority == "dRx");
+                if (user == null)
+                {
+                    user = new DocumentOwner();
+                    user.Identifier.Authority = "dRx";
+                    Receiver.Add(user);
+                }
+                return user;
+            }
         }
 
 
@@ -100,5 +128,6 @@ namespace Net.Dreceiptx.Receipt.Document
 
             return receiptValidation;
         }
+
     }
 }

@@ -62,7 +62,7 @@ namespace Net.Dreceiptx.Receipt
             //}
         }
     
-        public string UserGUID => _standardBusinessDocumentHeader.UserIdentifier;
+        public string UserGUID => _standardBusinessDocumentHeader.UserIdentifier.Value;
 
         public string MerchantName => _invoice.MerchantName;
     
@@ -71,7 +71,7 @@ namespace Net.Dreceiptx.Receipt
             return _invoice.GetCompanyTaxNumber(taxCode);
         }
     
-        public string MerchantLocationReference => _standardBusinessDocumentHeader.MerchantGLN;
+        public string MerchantLocationReference => _standardBusinessDocumentHeader.MerchantGLN.Value;
     
         public DateTime? ReceiptDate => _invoice.CreationDateTime;
     

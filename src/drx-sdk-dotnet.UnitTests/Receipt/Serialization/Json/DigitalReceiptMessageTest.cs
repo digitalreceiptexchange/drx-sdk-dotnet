@@ -35,7 +35,10 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
                 .Builder()
                 .Build();
 
+            DigitalReceiptMessageWrapper wrapper = new DigitalReceiptMessageWrapper();
+            
             DigitalReceiptMessage digitalReceiptMessage = new DigitalReceiptMessage();
+            wrapper.DRxDigitalReceipt = digitalReceiptMessage;
             digitalReceiptMessage.StandardBusinessDocumentHeader = header;
             Invoice invoice = new Invoice();
             digitalReceiptMessage.Invoice = invoice;
@@ -60,22 +63,11 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
 
 
 
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                //DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-                DateFormatString = "yyyy-MM-ddTHH:mm:ss%K",
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
-                //TypeNameHandling =  TypeNameHandling.Objects,
-                
-            };
-            settings.Converters.Add(new StringEnumConverter());
-            string result1 = JsonConvert.SerializeObject(digitalReceiptMessage, settings);
+            string result1 = wrapper.Serialize();
             Console.WriteLine($"Result1: {result1}");
 
-            var receipt = JsonConvert.DeserializeObject<DigitalReceiptMessage>(result1, settings);
-            string result2 = JsonConvert.SerializeObject(receipt, settings);
+            var receipt = DigitalReceiptMessageWrapper.Deserialize(result1);
+            string result2 = receipt.Serialize();
             Console.WriteLine($"Result2: {result2}");
 
             Assert.AreEqual(result1, result2);

@@ -52,7 +52,7 @@ namespace Net.Dreceiptx.Receipt.Tax
         public decimal TaxRate { get; set; }
 
         [DataMember(Name = "DutyFeeTaxBasisAmount")]
-        public decimal TaxableAmount { get; }
+        public decimal TaxableAmount { get; set; }
 
         [DataMember(Name = "DutyFeeTaxAmount")]
         public decimal TaxTotal { get; set; }
