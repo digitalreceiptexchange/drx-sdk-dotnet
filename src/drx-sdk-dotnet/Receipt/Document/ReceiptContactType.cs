@@ -20,24 +20,33 @@ using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.Document
 {
+    /// <summary>
+    /// ReceiptContactType. 
+    /// </summary>
     [DataContract]
-    public enum ReceiptContactType {
+    public enum ReceiptContactType
+    {
+        /// <summary> SalesAdministration </summary>
         [DrxEnumExtendedInformation("SA", "Sales administration")]
         [EnumMember(Value= "SA")]
         SALES_ADMINISTRATION,
 
+        /// <summary> DeliveyContact </summary>
         [DrxEnumExtendedInformation("DL", "Delivery contact")]
         [EnumMember(Value = "DL")]
         DELIVERY_CONTACT,
 
+        /// <summary> CustomerRelations </summary>
         [DrxEnumExtendedInformation("CR", "Customer relations")]
         [EnumMember(Value = "CR")]
         CUSTOMER_RELATIONS,
 
+        /// <summary> PurchasingContact </summary>
         [DrxEnumExtendedInformation("PD", "Purchasing Contact")]
         [EnumMember(Value = "PD")]
         PURCHASING_CONTACT,
 
+        /// <summary> ReceipientContact </summary>
         [DrxEnumExtendedInformation("GR", "Recipient contact")]
         [EnumMember(Value = "GR")]
         RECIPIENT_CONTACT

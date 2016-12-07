@@ -77,6 +77,7 @@
     <Compile Include="Receipt\AllowanceCharge\AllowanceOrChargeType.cs" />
     <Compile Include="Receipt\AllowanceCharge\ReceiptAllowanceCharge.cs" />
     <Compile Include="Receipt\AllowanceCharge\SettlementType.cs" />
+    <Compile Include="Receipt\Builders\StandardBusinessDocumentHeaderBuilder.cs" />
     <Compile Include="Receipt\Common\Address.cs" />
     <Compile Include="Receipt\Common\Amount.cs" />
     <Compile Include="Receipt\Common\Contact.cs" />

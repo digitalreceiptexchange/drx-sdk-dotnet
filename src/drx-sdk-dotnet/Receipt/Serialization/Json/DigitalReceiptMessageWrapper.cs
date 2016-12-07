@@ -18,18 +18,34 @@ using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Receipt.Serialization.Json
 {
+    /// <summary>
+    /// Just a wrapper class for the DigitalReceiptMessage. This represents top level class that
+    /// will ultimately be serialized and sent to the Exchange
+    /// </summary>
     [DataContract]
     public class DigitalReceiptMessageWrapper
     {
+        /// <summary>
+        /// Gets and sets the DigitalReceiptMessage
+        /// </summary>
         [DataMember]
-        public DigitalReceiptMessage DRxDigitalReceipt { get; set; }
+        public DigitalReceipt DRxDigitalReceipt { get; set; }
 
-        public string Serialize()
+        /// <summary>
+        /// Serializes the message to a JSON format
+        /// </summary>
+        /// <returns>JSON message as a string</returns>
+        public string SerializeToJson()
         {
             return JsonSerializer.SerializeToString(this);
         }
 
-        public static DigitalReceiptMessageWrapper Deserialize(string json)
+        /// <summary>
+        /// Deserializes the given JSON string to a DigitalReceiptMessageWrapper instance
+        /// </summary>
+        /// <param name="json">The JSON to be deserialized</param>
+        /// <returns></returns>
+        public static DigitalReceiptMessageWrapper DeserializeFromJson(string json)
         {
             return JsonSerializer.Deserialize<DigitalReceiptMessageWrapper>(json);
         }

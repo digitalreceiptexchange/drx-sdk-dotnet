@@ -21,9 +21,15 @@ using Net.Dreceiptx.Receipt.Validation;
 
 namespace Net.Dreceiptx.Receipt.Document
 {
+    /// <summary>
+    /// Class representing the header information that must be sent with a
+    /// DigitalReceipt. It includes information about the sender of the receipt,
+    /// Merchant information etc
+    /// </summary>
     [DataContract]
     public class StandardBusinessDocumentHeader
     {
+        /// <summary> Construtor </summary>
         public StandardBusinessDocumentHeader()
         {
             Sender = new List<DocumentOwner>();
@@ -46,9 +52,15 @@ namespace Net.Dreceiptx.Receipt.Document
             //Receiver.Add(user);
         }
 
+        /// <summary>
+        /// Gets and sets the Receiver(s) of the Digital Receipt
+        /// </summary>
         [DataMember]
         public List<DocumentOwner> Receiver { get; set; }
 
+        /// <summary>
+        /// Gets and sets the Sender of the DigitalReceipt
+        /// </summary>
         [DataMember]
         public List<DocumentOwner> Sender { get; set; }
 
@@ -128,6 +140,5 @@ namespace Net.Dreceiptx.Receipt.Document
 
             return receiptValidation;
         }
-
     }
 }

@@ -19,6 +19,7 @@ using Net.Dreceiptx.Receipt;
 using Net.Dreceiptx.Receipt.Merchant;
 using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Users;
+using DigitalReceipt = Net.Dreceiptx.Receipt.Serialization.Json.DigitalReceipt;
 
 namespace Net.Dreceiptx.Client
 {
@@ -45,7 +46,7 @@ namespace Net.Dreceiptx.Client
          * @return newReceiptGUID
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        string SendReceipt(DigitalReceiptMessage receipt);
+        string SendReceipt(DigitalReceipt receipt);
 
 
         /**
@@ -67,7 +68,7 @@ namespace Net.Dreceiptx.Client
          * @return
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        DigitalReceipt LookupReceipt(string receiptId);
+        Receipt.DigitalReceiptRemoveMe LookupReceipt(string receiptId);
 
         /**
          * @param receiptId

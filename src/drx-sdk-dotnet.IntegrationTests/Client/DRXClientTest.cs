@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using Net.Dreceiptx.Client;
 using Net.Dreceiptx.Client.Exceptions;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
+using Net.Dreceiptx.Receipt.Builders;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Config;
 using Net.Dreceiptx.Receipt.Document;
@@ -43,6 +44,7 @@ namespace Net.Dreceiptx.IntegrationTests.Client
         {
             _configManager = new DictionaryConfigManager();
             _configManager.SetConfigValue("exchange.hostname", "aus-beta-api.dreceiptx.net");
+            //_configManager.SetConfigValue("exchange.hostname", "144.132.230.201:56150");
             _configManager.SetConfigValue("directory.hostname", "aus-beta-directory.dreceiptx.net");
             //_configManager.SetConfigValue("api.requesterId", "UAT_AUS_CONCIERGE_TRAVEL_GROUP-1");
             _configManager.SetConfigValue("api.requesterId", "SYSTEM_TEST-1");
@@ -164,7 +166,7 @@ namespace Net.Dreceiptx.IntegrationTests.Client
                 .Builder()
                 .Build();
 
-            DigitalReceiptMessage digitalReceiptMessage = new DigitalReceiptMessage();
+            DigitalReceipt digitalReceiptMessage = new DigitalReceipt();
             digitalReceiptMessage.StandardBusinessDocumentHeader = header;
             Invoice invoice = new Invoice();
             digitalReceiptMessage.Invoice = invoice;

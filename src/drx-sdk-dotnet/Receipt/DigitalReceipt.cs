@@ -29,7 +29,7 @@ using Net.Dreceiptx.Receipt.Tax;
 namespace Net.Dreceiptx.Receipt
 {
 
-    public class DigitalReceipt
+    public class DigitalReceiptRemoveMe
     {
         //@SerializedName("standardBusinessDocumentHeader")
         private StandardBusinessDocumentHeader _standardBusinessDocumentHeader;
@@ -38,7 +38,7 @@ namespace Net.Dreceiptx.Receipt
         //@SerializedName("paymentReceipts")
         private List<PaymentReceipt> _paymentReceipts;
 
-        public DigitalReceipt(string digitalReceiptJson)
+        public DigitalReceiptRemoveMe(string digitalReceiptJson)
         {
             //JsonParser parser = new JsonParser();
             //JsonObject digitalReceiptObject = parser.parse(digitalReceiptJson).getAsJsonObject().getAsJsonObject("dRxDigitalReceipt");

@@ -1,0 +1,280 @@
+2016-12-07 23:52:53,106 [19] DEBUG Net.Dreceiptx.WebApi.Controllers.DrxController - Receive Receipt: {
+  "dRxDigitalReceipt": {
+    "standardBusinessDocumentHeader": {
+      "receiver": [
+        {
+          "identifier": {
+            "authority": "GS1",
+            "value": "AUS_ALPHA_EXPENSEMANAGER"
+          }
+        },
+        {
+          "identifier": {
+            "authority": "dRx",
+            "value": "GUID:UATANZALPHAUSR14660443061787969"
+          }
+        }
+      ],
+      "sender": [
+        {
+          "identifier": {
+            "authority": "GS1",
+            "value": "anz_concierge"
+          }
+        }
+      ],
+      "documentIdentification": {
+        "standard": "GS1",
+        "typeVersion": "1.2.0",
+        "type": "DIGITALRECEIPT",
+        "instanceIdentifier": "UATANZALPHADR0000000014679796096749582",
+        "multipleType": "true",
+        "creationDateAndTime": "2016-11-02T12:00:00+11:00"
+      }
+    },
+    "invoice": {
+      "documentStatusCode": "ORIGINAL",
+      "invoiceType": "TAX_INVOICE",
+      "purchaseOrder": {
+        "entityIdentification": "PUchaseOrder1234"
+      },
+      "customerReference": {
+        "entityIdentification": "CustomerReference1234"
+      },
+      "invoiceIdentification": {
+        "entityIdentification": "206716"
+      },
+      "creationDateTime": "2016-12-07T23:52:50+11:00",
+      "invoiceCurrencyCode": "AUD",
+      "countryOfSupplyOfGoods": "AUS",
+      "invoiceLineItem": [
+        {
+          "lineItemNumber": 2,
+          "creditLineIndicator": false,
+          "transactionalTradeItem": {
+            "tradeItemDescriptionInformation": {
+              "brandName": "Google",
+              "descriptionShort": "Google Cast Chrome",
+              "tradeItemDescription": "TV THing",
+              "isTradeItemAService": false,
+              "isTradeItemReconditioned": false
+            },
+            "additionalTradeItemIdentification": [
+              {
+                "additionalTradeItemIdentificationType": "DRX_LINEITEM_TYPE",
+                "additionalTradeItemIdentificationValue": "STANDARD"
+              }
+            ]
+          },
+          "avpList": [
+            {
+              "attributeName": "AVP_Name",
+              "value": "AVP_Value"
+            }
+          ],
+          "despatchInformation": {
+            "estimatedDeliveryDateTime": "0001-01-01T00:00:00",
+            "despatchDateTime": "0001-01-01T00:00:00"
+          },
+          "amountExclusiveAllowancesCharges": 10.00,
+          "amountInclusiveAllowancesCharges": 21.00,
+          "invoiceAllowanceCharge": [
+            {
+              "leviedDutyFeeTax": [
+                {
+                  "dutyFeeTaxCategoryCode": "APPLICABLE",
+                  "dutyFeeTaxTypeCode": "GST",
+                  "dutyFeeTaxPercentage": 10.0,
+                  "dutyFeeTaxBasisAmount": 10.0,
+                  "dutyFeeTaxAmount": 1.0
+                }
+              ],
+              "allowanceOrChargeType": "CHARGE",
+              "allowanceChargeType": "CHARGE_TO_BE_PAID_BY_CUSTOMER",
+              "baseAmount": 1.0,
+              "settlementType": "TIP",
+              "allowanceChargeDescription": "Good Service Tip"
+            },
+            {
+              "leviedDutyFeeTax": [
+                {
+                  "dutyFeeTaxCategoryCode": "APPLICABLE",
+                  "dutyFeeTaxTypeCode": "GST",
+                  "dutyFeeTaxPercentage": 10.0,
+                  "dutyFeeTaxBasisAmount": 10.0,
+                  "dutyFeeTaxAmount": 1.0
+                }
+              ],
+              "allowanceOrChargeType": "CHARGE",
+              "allowanceChargeType": "CHARGE_TO_BE_PAID_BY_CUSTOMER",
+              "baseAmount": 10.0,
+              "settlementType": "FC",
+              "allowanceChargeDescription": "Freight Fee"
+            }
+          ],
+          "invoiceLineTaxInformation": [
+            {
+              "dutyFeeTaxCategoryCode": "APPLICABLE",
+              "dutyFeeTaxTypeCode": "ENV",
+              "dutyFeeTaxPercentage": 0.300,
+              "dutyFeeTaxBasisAmount": 1000.0,
+              "dutyFeeTaxAmount": 3.0
+            }
+          ],
+          "invoicedQuantity": 1,
+          "itemPriceExclusiveAllowancesCharges": 10.00
+        },
+        {
+          "lineItemNumber": 3,
+          "creditLineIndicator": false,
+          "transactionalTradeItem": {
+            "tradeItemDescriptionInformation": {
+              "brandName": "Samsung",
+              "descriptionShort": "Samsung Note 7",
+              "tradeItemDescription": "Flame Thrower",
+              "isTradeItemAService": false,
+              "isTradeItemReconditioned": false
+            },
+            "transactionItemData": {
+              "serialNumber": "SerialNumber1234",
+              "batchNumber": "Batch1234"
+            },
+            "additionalTradeItemIdentification": [
+              {
+                "additionalTradeItemIdentificationType": "DRX_LINEITEM_TYPE",
+                "additionalTradeItemIdentificationValue": "STANDARD"
+              }
+            ]
+          },
+          "avpList": [],
+          "despatchInformation": {
+            "estimatedDeliveryDateTime": "0001-01-01T00:00:00",
+            "despatchDateTime": "0001-01-01T00:00:00"
+          },
+          "amountExclusiveAllowancesCharges": 1349.00,
+          "amountInclusiveAllowancesCharges": 1349.00,
+          "invoiceAllowanceCharge": [],
+          "invoiceLineTaxInformation": [],
+          "invoicedQuantity": 1,
+          "itemPriceExclusiveAllowancesCharges": 1349.00
+        }
+      ],
+      "invoiceAllowanceCharge": [],
+      "shipFrom": {
+        "address": {
+          "streetAddressOne": "1 Sydney Road"
+        }
+      },
+      "shipTo": {
+        "address": {
+          "streetAddressOne": "1000 Sydney Road"
+        }
+      },
+      "despatchInformation": {
+        "estimatedDeliveryDateTime": "2016-12-25T00:00:00",
+        "despatchDateTime": "2016-12-25T00:00:00",
+        "deliveryInstructions": "Under the Christmas tree"
+      },
+      "invoiceTotals": {
+        "totalInvoiceAmount": {
+          "currencyCode": "AUD",
+          "value": 1373.00
+        },
+        "totalLineAmountInclusiveAllowanceesCharges": {
+          "currencyCode": "AUD",
+          "value": 1378.00
+        },
+        "totalTaxAmount": {
+          "currencyCode": "AUD",
+          "value": 5.0
+        }
+      }
+    }
+  }
+}
+2016-12-07 23:54:03,295 [21] DEBUG Net.Dreceiptx.WebApi.Controllers.DrxController - Receive Receipt: {
+  "dRxDigitalReceipt": {
+    "standardBusinessDocumentHeader": {
+      "receiver": [
+        {
+          "identifier": {
+            "authority": "GS1",
+            "value": "9377778071234"
+          }
+        },
+        {
+          "identifier": {
+            "authority": "dRx",
+            "value": "GUID:UATAUSBETAUSR14757188985451189"
+          }
+        }
+      ],
+      "sender": [
+        {
+          "identifier": {
+            "authority": "GS1",
+            "value": "aus_concierge"
+          }
+        }
+      ],
+      "documentIdentification": {
+        "standard": "GS1",
+        "typeVersion": "1.3.0",
+        "type": "DIGITALRECEIPT",
+        "instanceIdentifier": "247526",
+        "multipleType": "true",
+        "creationDateAndTime": "2016-11-15T10:46:08+11:00"
+      }
+    },
+    "invoice": {
+      "documentStatusCode": "ORIGINAL",
+      "invoiceType": "TAX_INVOICE",
+      "invoiceIdentification": {
+        "entityIdentification": "247526"
+      },
+      "creationDateTime": "2016-11-01T10:20:13+11:00",
+      "invoiceCurrencyCode": "AUD",
+      "countryOfSupplyOfGoods": "AUS",
+      "invoiceLineItem": [],
+      "invoiceAllowanceCharge": [
+        {
+          "leviedDutyFeeTax": [
+            {
+              "dutyFeeTaxCategoryCode": "APPLICABLE",
+              "dutyFeeTaxTypeCode": "GST",
+              "dutyFeeTaxPercentage": 10.00,
+              "dutyFeeTaxBasisAmount": 25.0,
+              "dutyFeeTaxAmount": 2.5
+            }
+          ],
+          "allowanceOrChargeType": "CHARGE",
+          "allowanceChargeType": "CHARGE_TO_BE_PAID_BY_CUSTOMER",
+          "baseAmount": 25.0,
+          "settlementType": "ADZ",
+          "allowanceChargeDescription": "Service Fee"
+        }
+      ],
+      "shipFrom": {},
+      "shipTo": {},
+      "despatchInformation": {
+        "estimatedDeliveryDateTime": "0001-01-01T00:00:00",
+        "despatchDateTime": "0001-01-01T00:00:00"
+      },
+      "invoiceTotals": {
+        "totalInvoiceAmount": {
+          "currencyCode": "AUD",
+          "value": 0.0
+        },
+        "totalLineAmountInclusiveAllowanceesCharges": {
+          "currencyCode": "AUD",
+          "value": -22.5
+        },
+        "totalTaxAmount": {
+          "currencyCode": "AUD",
+          "value": 2.5
+        }
+      }
+    },
+    "paymentReceipts": []
+  }
+}

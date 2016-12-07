@@ -21,19 +21,33 @@ using Net.Dreceiptx.Receipt.Settlement;
 
 namespace Net.Dreceiptx.Receipt.Serialization.Json
 {
+    /// <summary>
+    /// Class representing a full DigitalReceipt. It containts the header information about the
+    /// receipt along with the invoice and payment details.
+    /// </summary>
     [DataContract]
-    public class DigitalReceiptMessage
+    public class DigitalReceipt
     {
-        public DigitalReceiptMessage()
+        public DigitalReceipt()
         {
             Invoice = new Invoice.Invoice();
         }
 
-        // DC: Done
+        /// <summary>
+        /// Gets and sets the StandardBusinessDocumentHeader.
+        /// </summary>
         [DataMember]
         public StandardBusinessDocumentHeader StandardBusinessDocumentHeader { get; set; }
+
+        /// <summary>
+        /// Gets and sets the receipt Invoice details
+        /// </summary>
         [DataMember]
         public Invoice.Invoice Invoice { get; set; }
+
+        /// <summary>
+        /// Gets and sets the receipt PaymentReceipts
+        /// </summary>
         [DataMember]
         public List<PaymentReceipt> PaymentReceipts { get; set; }
     }

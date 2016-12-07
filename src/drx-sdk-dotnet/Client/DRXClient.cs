@@ -32,6 +32,7 @@ using Net.Dreceiptx.Users;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using DigitalReceipt = Net.Dreceiptx.Receipt.Serialization.Json.DigitalReceipt;
 
 namespace Net.Dreceiptx.Client
 {
@@ -294,7 +295,7 @@ namespace Net.Dreceiptx.Client
 
         }
 
-        public string SendReceipt(DigitalReceiptMessage receipt)
+        public string SendReceipt(DigitalReceipt receipt)
         {
             try
             { 
@@ -311,7 +312,7 @@ namespace Net.Dreceiptx.Client
                         //TypeNameHandling =  TypeNameHandling.Objects
                     };
                     settings.Converters.Add(new StringEnumConverter());
-                    string result = new DigitalReceiptMessageWrapper {DRxDigitalReceipt = receipt}.Serialize();
+                    string result = new DigitalReceiptMessageWrapper {DRxDigitalReceipt = receipt}.SerializeToJson();
 
                     StringContent content = new StringContent(result, Encoding.UTF8, "application/json");
                     var response = client.PostAsync("", content);
@@ -361,7 +362,7 @@ namespace Net.Dreceiptx.Client
             }
         }
 
-        public DigitalReceipt LookupReceipt(string receiptId)
+        public Receipt.DigitalReceiptRemoveMe LookupReceipt(string receiptId)
         {
 //            try {
 //                using (HttpClient client = CreateConnection("/receipt/" + receiptId, _receiptVersion, null))

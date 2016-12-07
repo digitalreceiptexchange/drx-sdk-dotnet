@@ -1,5 +1,6 @@
 ﻿using System;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
+using Net.Dreceiptx.Receipt.Builders;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Document;
 using Net.Dreceiptx.Receipt.Ecom;
@@ -37,7 +38,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
 
             DigitalReceiptMessageWrapper wrapper = new DigitalReceiptMessageWrapper();
             
-            DigitalReceiptMessage digitalReceiptMessage = new DigitalReceiptMessage();
+            DigitalReceipt digitalReceiptMessage = new DigitalReceipt();
             wrapper.DRxDigitalReceipt = digitalReceiptMessage;
             digitalReceiptMessage.StandardBusinessDocumentHeader = header;
             Invoice invoice = new Invoice();
@@ -63,12 +64,16 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
 
 
 
-            string result1 = wrapper.Serialize();
-            Console.WriteLine($"Result1: {result1}");
+            string result1 = wrapper.SerializeToJson();
+            //Console.WriteLine($"Result1: {result1}");
 
-            var receipt = DigitalReceiptMessageWrapper.Deserialize(result1);
-            string result2 = receipt.Serialize();
-            Console.WriteLine($"Result2: {result2}");
+            var message = DigitalReceiptMessageWrapper.DeserializeFromJson(result1);
+            string result2 = message.SerializeToJson();
+            //Console.WriteLine($"Result2: {result2}");
+            //foreach (var lineItem in message.DRxDigitalReceipt.Invoice.InvoiceLineItems)
+            //{
+            //    lineItem.
+            //}
 
             Assert.AreEqual(result1, result2);
             //string result = new { dRxDigitalReceipt = receipt}.SerializeToJson();}
