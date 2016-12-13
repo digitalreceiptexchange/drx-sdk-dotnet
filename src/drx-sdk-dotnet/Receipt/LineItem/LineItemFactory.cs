@@ -16,6 +16,7 @@
 #endregion
 
 using System.Collections.Generic;
+using Net.Dreceiptx.Receipt.LineItem.Construction;
 using Net.Dreceiptx.Receipt.LineItem.General;
 using Net.Dreceiptx.Receipt.LineItem.Travel;
 
@@ -43,6 +44,8 @@ namespace Net.Dreceiptx.Receipt.LineItem
         public static readonly string TRAVEL0001  = Add(Accommodation.LineItemTypeValue,    (desc, qty, price) => new Accommodation(desc, qty, price));
         public static readonly string TRAVEL0002  = Add(Flight.LineItemTypeValue,           (desc, qty, price) => new Flight(desc, qty, price));
         public static readonly string TRAVEL0003  = Add(GroundTransport.LineItemTypeValue,  (desc, qty, price) => new GroundTransport(desc, qty, price));
+        public static readonly string CONSTRUCTION001 = Add(GenericProduct.LineItemTypeValue, (desc, qty, price) => new GenericProduct(desc, qty, price));
+
 
         private static string Add(string id, LineItemFunc lineItemFunc)
         {

@@ -21,6 +21,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
+using Net.Dreceiptx.Receipt.Common.Measurements;
 using Net.Dreceiptx.Receipt.Ecom;
 using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.Tax;
@@ -93,7 +94,6 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public void SetTradeItemDescriptionInformation(string brand, string name, string description)
         {
-
             if (TransactionalTradeItem.TradeItemDescriptionInformation != null)
             {
                 TransactionalTradeItem.TradeItemDescriptionInformation.BrandName = brand;
@@ -104,6 +104,35 @@ namespace Net.Dreceiptx.Receipt.LineItem
             {
                 TransactionalTradeItem.TradeItemDescriptionInformation = new TradeItemDescriptionInformation(brand, name, description);
             }
+        }
+
+        public void SetNetContent(double netContent, MeasurementType measurementType)
+        {
+            if (TransactionalTradeItem.TradeItemMeasurements != null)
+            {
+                if (TransactionalTradeItem.TradeItemMeasurements.NetContent != null)
+                {
+                    TransactionalTradeItem.TradeItemMeasurements.NetContent.Value = netContent;
+                    TransactionalTradeItem.TradeItemMeasurements.NetContent.MeasurementType = measurementType;
+                }
+                else
+                {
+                    TransactionalTradeItem.TradeItemMeasurements.NetContent = new Measurement(netContent, measurementType);
+                }
+            }
+            else
+            {
+                TransactionalTradeItem.TradeItemMeasurements = new TradeItemMeasurements(netContent, measurementType);
+            }
+        }
+
+        public void SetMeasurements(double height, double width, double depth, MeasurementType measurementType)
+        {
+            if (TransactionalTradeItem.TradeItemMeasurements == null)
+            {
+                TransactionalTradeItem.TradeItemMeasurements = new TradeItemMeasurements();
+            }
+            TransactionalTradeItem.TradeItemMeasurements.SetMeasurements(height, width, depth, measurementType);
         }
 
         //[DataMember]

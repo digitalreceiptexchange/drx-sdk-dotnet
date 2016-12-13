@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using Net.Dreceiptx.Receipt.Common.Measurements;
 
 namespace Net.Dreceiptx.Receipt.LineItem
 {
@@ -13,6 +14,9 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         [DataMember(Name = "AdditionalTradeItemIdentification")]
         public TradeItemIdentification ItemIdentification { get; set; } = new TradeItemIdentification();
+
+        [DataMember]
+        public TradeItemMeasurements TradeItemMeasurements { get; set; }
     }
 
     [DataContract]
