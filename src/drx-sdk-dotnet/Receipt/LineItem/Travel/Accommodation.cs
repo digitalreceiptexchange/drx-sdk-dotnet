@@ -58,13 +58,13 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
             set { _AVPList.Add(AVPType.PASSENGER_NAME.Value(), value); }
         }
 
-        public DateTime DepartureDate
+        public DateTime? DepartureDate
         {
             get { return DespatchDate; }
             set { DespatchDate = value; }
         }
 
-        public DateTime ArrivalDate
+        public DateTime? ArrivalDate
         {
             get { return DeliveryDate; }
             set { DeliveryDate = value; }

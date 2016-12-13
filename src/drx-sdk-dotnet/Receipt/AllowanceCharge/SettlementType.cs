@@ -51,7 +51,22 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
 
         [EnumMember(Value = "BOK")]
         [DrxEnumExtendedInformation("BOK", "Booking fee")]
-        BookingFee
+        BookingFee,
+        [EnumMember(Value = "SER")]
+        [DrxEnumExtendedInformation("SER", "Service Fee")]
+        ServiceFee,
+        [EnumMember(Value = "AEM")]
+        [DrxEnumExtendedInformation("AEM", "Administrative services fee")]
+        AdminFee,
+        [EnumMember(Value = "AJ")]
+        [DrxEnumExtendedInformation("AJ", "Adjustment/Amendment fee")]
+        AmendmentFee,
+        [EnumMember(Value = "HD")]
+        [DrxEnumExtendedInformation("HD", "Handling fee")]
+        HandlingFee,
+        [EnumMember(Value = "AAB")]
+        [DrxEnumExtendedInformation("AAB", "Returned goods or cancellation fee")]
+        ReturnOrCancellationFee
     }
 
 }

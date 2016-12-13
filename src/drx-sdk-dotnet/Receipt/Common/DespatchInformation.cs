@@ -45,10 +45,10 @@ namespace Net.Dreceiptx.Receipt.Common
         }
 
         [DataMember(Name = "EstimatedDeliveryDateTime")]
-        public DateTime DeliveryDate { get; set; }
+        public DateTime? DeliveryDate { get; set; }
 
         [DataMember]
-        public DateTime DespatchDateTime { get; set; }
+        public DateTime? DespatchDateTime { get; set; }
 
         [DataMember]
         public string DeliveryInstructions { get; set; }

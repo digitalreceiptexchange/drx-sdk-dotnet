@@ -89,14 +89,14 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
             }
         }
 
-        public DateTime DepartureDate
+        public DateTime? DepartureDate
         {
             get { return DespatchDate; }
             set { DespatchDate = value; }
         }
 
 
-        public DateTime ArrivalDate
+        public DateTime? ArrivalDate
         {
             get { return DeliveryDate; }
             set { DeliveryDate = value; }

@@ -263,14 +263,14 @@ namespace Net.Dreceiptx.Receipt.LineItem
         [DataMember]
         public Identification BillingCostCentre { get; set; } = null;
 
-        public DateTime DespatchDate
+        public DateTime? DespatchDate
         {
             get { return DespatchInformation.DespatchDateTime; }
             set { DespatchInformation.DespatchDateTime = value; }
         }
 
 
-        public DateTime DeliveryDate
+        public DateTime? DeliveryDate
         {
             get { return DespatchInformation.DeliveryDate; }
             set { DespatchInformation.DeliveryDate = value; }

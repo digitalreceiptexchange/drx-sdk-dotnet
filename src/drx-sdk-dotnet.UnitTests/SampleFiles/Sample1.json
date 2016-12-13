@@ -1,0 +1,84 @@
+﻿{
+   "dRxDigitalReceipt":{
+      "standardBusinessDocumentHeader":{
+         "sender":[
+            {
+              "identifier": {
+                "authority": "GS1",
+                "value": "aus_concierge"
+              }
+            }
+         ],
+         "receiver":[
+            {
+               "identifier":{
+                  "authority":"GS1",
+                  "value":"9377778071234"
+               }
+            },
+            {
+               "identifier":{
+                  "authority":"dRx",
+                  "value":"GUID:UATAUSBETAUSR14757188985451189"
+               }
+            }
+         ],
+         "documentIdentification":{
+            "standard":"GS1",
+            "typeVersion":"1.3.0",
+            "type":"DIGITALRECEIPT",
+            "instanceIdentifier":"247526",
+            "multipleType":"true",
+            "creationDateAndTime":"2016-11-15T10:46:08+1100"
+         }
+      },
+      "invoice":{
+         "documentStatusCode":"ORIGINAL",
+         "invoiceType":"TAX_INVOICE",
+         "invoiceCurrencyCode":"AUD",
+         "countryOfSupplyOfGoods":"AUS",
+         "creationDateTime":"2016-11-01T10:20:13+1100",
+         "invoiceIdentification":{
+            "entityIdentification":"247526"
+         },
+         "invoiceTotals":{
+            "totalInvoiceAmount":{
+               "currencyCode":"AUD",
+               "value":0.0
+            },
+            "totalLineAmountInclusiveAllowancesCharges":{
+               "currencyCode":"AUD",
+               "value":-25.0
+            },
+            "totalTaxAmount":{
+               "currencyCode":"AUD",
+               "value":0.0
+            }
+         },
+         "invoiceLineItem":[
+
+         ],
+         "invoiceAllowanceCharge":[
+            {
+               "allowanceOrChargeType":"CHARGE",
+               "allowanceChargeType":"CHARGE_TO_BE_PAID_BY_CUSTOMER",
+               "settlementType":"SER",
+               "baseAmount":25.0,
+               "allowanceChargeDescription":"Service Fee",
+               "leviedDutyFeeTax":[
+                  {
+                     "dutyFeeTaxCategoryCode":"APPLICABLE",
+                     "dutyFeeTaxTypeCode":"GST",
+                     "dutyFeeTaxBasisAmount":25.0,
+                     "dutyFeeTaxPercentage":10.00,
+                     "dutyFeeTaxAmount":2.5
+                  }
+               ]
+            }
+         ]
+      },
+      "paymentReceipts":[
+
+      ]
+   }
+}

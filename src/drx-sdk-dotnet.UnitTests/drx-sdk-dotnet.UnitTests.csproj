@@ -59,6 +59,7 @@
     <Compile Include="Client\NewUserRegistrationExchangeResponseTest.cs" />
     <Compile Include="DigitalReceiptTest.cs" />
     <Compile Include="DrxDigitalReceiptTest.cs" />
+    <Compile Include="JsonSerializerTest.cs" />
     <Compile Include="LineItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Receipt\Common\CurrencyTest.cs" />
@@ -76,6 +77,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <Content Include="SampleFiles\Sample1.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\drx-sdk-dotnet\drx-sdk-dotnet.csproj">

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Builders;
 using Net.Dreceiptx.Receipt.Common;
@@ -77,6 +78,14 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
 
             Assert.AreEqual(result1, result2);
             //string result = new { dRxDigitalReceipt = receipt}.SerializeToJson();}
+
+        }
+
+        [Test]
+        public void TestSample1()
+        {
+            string json = File.ReadAllText(".\\SampleFiles\\Sample1.json");
+            var message = DigitalReceiptMessageWrapper.DeserializeFromJson(json);
 
         }
     }
