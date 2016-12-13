@@ -88,5 +88,16 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
             var message = DigitalReceiptMessageWrapper.DeserializeFromJson(json);
 
         }
+
+        [Test]
+        public void TestSample2()
+        {
+            string json = File.ReadAllText(".\\SampleFiles\\Sample2.json");
+            var message = DigitalReceiptMessageWrapper.DeserializeFromJson(json);
+
+            Assert.AreEqual("anz_concierge", message.DRxDigitalReceipt.StandardBusinessDocumentHeader.Sender[0].Identifier.Value);
+            Assert.AreEqual("GS1", message.DRxDigitalReceipt.StandardBusinessDocumentHeader.Sender[0].Identifier.Authority);
+
+        }
     }
 }

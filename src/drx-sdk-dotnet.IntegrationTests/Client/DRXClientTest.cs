@@ -47,8 +47,9 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             //_configManager.SetConfigValue("exchange.hostname", "144.132.230.201:56150");
             _configManager.SetConfigValue("directory.hostname", "aus-beta-directory.dreceiptx.net");
             //_configManager.SetConfigValue("api.requesterId", "UAT_AUS_CONCIERGE_TRAVEL_GROUP-1");
-            _configManager.SetConfigValue("api.requesterId", "SYSTEM_TEST-1");
-            _configManager.SetConfigValue("receipt.version", "1.3.0");
+            //_configManager.SetConfigValue("api.requesterId", "SYSTEM_TEST-1");
+            _configManager.SetConfigValue("api.requesterId", "SYSTEM_TEST-MER");
+            _configManager.SetConfigValue("receipt.version", "1.4.0");
             _configManager.SetConfigValue("user.version", "1.1.0");
             _configManager.SetConfigValue("download.directory", "");
             _configManager.SetConfigValue("exchange.protocol", "https");
@@ -58,6 +59,7 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             _configManager.SetConfigValue("api.secret", "M26BNoprX2UdJ2EsEjzGa3NmfvIhP7dHrymlHdOqAW");
             //_configManager.SetConfigValue("api.key", "otuwmVfSFZhfpSy6gcCh");
             _configManager.SetConfigValue("api.key", "9mf8u3EuUQfvTA16aYua");
+            
 
             //            SYSTEM_TEST-1
             //key: 9mf8u3EuUQfvTA16aYua
@@ -103,7 +105,12 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             newUser.AddIdentifier(UserIdentifierType.Mobile, "0401858293");
             newUser.AddConfigOption(UserConfigOptionType.EndPointId, "ENDPOINTID1");
             DRXClient client = new DRXClient(_configManager);
-            client.RegisterNewUser(newUser);
+            var result = client.RegisterNewUser(newUser);
+            var users = result.ExchangeResponse.ResponseData.Users;
+            foreach (var user in users)
+            {
+                Console.WriteLine($"{user.Key}:{user.Value.Email},{user.Value.Guid}");
+            }
         }
 
         [Test]
@@ -156,11 +163,11 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             StandardBusinessDocumentHeaderBuilder builder = new StandardBusinessDocumentHeaderBuilder();
             StandardBusinessDocumentHeader header = builder.MerchangeGLN("anz_concierge")
                 .DrxFLN("AUS_ALPHA_EXPENSEMANAGER")
-                .UserIdentifier(UserIdentifierType.Guid, "UATANZALPHAUSR14660443061787969")
+                .UserIdentifier(UserIdentifierType.Guid, "UATANZALPHAUSR14816368024009877")
                 //.AddMerchantContact(new ReceiptContact(ReceiptContactType.SALES_ADMINISTRATION, "Sabre Online"))
                 //.AddRMSContact(new ReceiptContact(ReceiptContactType.PURCHASING_CONTACT, "Grignell Michelle"))
                 //.AddRMSContact(new ReceiptContact(ReceiptContactType.RECIPIENT_CONTACT, "Clarke Emma MS"))
-                .DocumentInformation().InstanceIdentifier("UATANZALPHADR0000000014679796096749582")
+                .DocumentInformation().InstanceIdentifier("UATANZALPHAUSR14816368024009877")
                 .TypeVersion("1.2.0")
                 .CreationDateAndTime(new DateTime(2016, 11, 2, 12, 0, 0, DateTimeKind.Local))
                 .Builder()

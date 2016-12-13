@@ -265,21 +265,42 @@ namespace Net.Dreceiptx.Receipt.LineItem
 
         public DateTime? DespatchDate
         {
-            get { return DespatchInformation.DespatchDateTime; }
-            set { DespatchInformation.DespatchDateTime = value; }
+            get { return DespatchInformation?.DespatchDateTime; }
+            set
+            {
+                if (DespatchInformation == null)
+                {
+                    DespatchInformation = new DespatchInformation();
+                }
+                DespatchInformation.DespatchDateTime = value;
+            }
         }
 
 
         public DateTime? DeliveryDate
         {
             get { return DespatchInformation.DeliveryDate; }
-            set { DespatchInformation.DeliveryDate = value; }
+            set
+            {
+                if (DespatchInformation == null)
+                {
+                    DespatchInformation = new DespatchInformation();
+                }
+                DespatchInformation.DeliveryDate = value;
+            }
         }
 
         public string DeliveryInstructions
         {
             get { return DespatchInformation.DeliveryInstructions; }
-            set { DespatchInformation.DeliveryInstructions = value; }
+            set
+            {
+                if (DespatchInformation == null)
+                {
+                    DespatchInformation = new DespatchInformation();
+                }
+                DespatchInformation.DeliveryInstructions = value;
+            }
         }
 
         [DataMember(Name = "ShipFrom")]
@@ -294,7 +315,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         public LocationInformation DestinationInformation { get; set; }
 
         [DataMember]
-        public DespatchInformation DespatchInformation { get; set; } = new DespatchInformation();
+        public DespatchInformation DespatchInformation { get; set; }
 
         [DataMember(Name = "AmountExclusiveAllowancesCharges")]
         public decimal SubTotal

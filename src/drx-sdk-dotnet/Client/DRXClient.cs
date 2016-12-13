@@ -315,6 +315,7 @@ namespace Net.Dreceiptx.Client
                     string result = new DigitalReceiptMessageWrapper {DRxDigitalReceipt = receipt}.SerializeToJson();
 
                     StringContent content = new StringContent(result, Encoding.UTF8, "application/json");
+                    Console.WriteLine($"About to send {result}");
                     var response = client.PostAsync("", content);
                     var statusCode = response.Result.StatusCode;
                     if (response.Result.StatusCode == HttpStatusCode.Created || response.Result.StatusCode == HttpStatusCode.BadRequest)

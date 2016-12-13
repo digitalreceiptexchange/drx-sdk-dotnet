@@ -1,0 +1,131 @@
+﻿{
+  "dRxDigitalReceipt": {
+    "standardBusinessDocumentHeader": {
+      "sender": [
+        {
+          "identifier": {
+            "authority": "GS1",
+            "value": "anz_concierge"
+          },
+          "contactInformation": [
+            {
+              "contactTypeCode": "SA",
+              "personName": "Sabre Online"
+            }
+          ]
+        }
+      ],
+      "receiver": [
+        {
+          "identifier": {
+            "authority": "GS1",
+            "value": "AUS_ALPHA_EXPENSEMANAGER"
+          }
+        },
+        {
+          "identifier": {
+            "authority": "dRx",
+            "value": "UATANZALPHAUSR14660443061787969"
+          },
+          "contactInformation": [
+            {
+              "contactTypeCode": "PD",
+              "personName": "Brignell/Michelle"
+            },
+            {
+              "contactTypeCode": "GR",
+              "personName": "Clarke/Emma MS"
+            }
+          ]
+        }
+      ],
+      "documentIdentification": {
+        "standard": "GS1",
+        "typeVersion": "1.2.0",
+        "type": "DIGITALRECEIPT",
+        "instanceIdentifier": "UATANZALPHADR0000000014679796096749582",
+        "multipleType": "true",
+        "creationDateAndTime": "2016-07-01T02:00:07+1000"
+      }
+    },
+    "invoice": {
+      "documentStatusCode": "ORIGINAL",
+      "invoiceType": "TAX_INVOICE",
+      "invoiceCurrencyCode": "AUD",
+      "countryOfSupplyOfGoods": "AUS",
+      "creationDateTime": "2016-01-18T01:32:52+1100",
+      "invoiceIdentification": {
+        "entityIdentification": "206716"
+      },
+      "invoiceTotals": {
+        "totalInvoiceAmount": {
+          "currencyCode": "AUD",
+          "value": 197.4
+        },
+        "totalLineAmountInclusiveAllowancesCharges": {
+          "currencyCode": "AUD",
+          "value": 206.8
+        },
+        "totalTaxAmount": {
+          "currencyCode": "AUD",
+          "value": 9.4
+        }
+      },
+      "invoiceLineItem": [
+        {
+          "lineItemNumber": 1,
+          "creditLineIndicator": false,
+          "invoicedQuantity": 1,
+          "itemPriceExclusiveAllowancesCharges": 225.9,
+          "amountInclusiveAllowancesCharges": 225.9,
+          "amountExclusiveAllowancesCharges": 225.9,
+          "transactionalTradeItem": {
+            "tradeItemDescriptionInformation": {
+              "brandName": "Ironwood",
+              "descriptionShort": "Hardwood Beam",
+              "tradeItemDescription": "Reinforced hardwood beam for window header",
+              "isTradeItemAService": false,
+              "isTradeItemReconditioned": false
+            },
+            "tradeItemMeasurements": {
+              "depth": {
+                "measurementUnitCode": "MMT",
+                "value": 100.0
+              },
+              "height": {
+                "measurementUnitCode": "MMT",
+                "value": 6000.0
+              },
+              "width": {
+                "measurementUnitCode": "MMT",
+                "value": 500.0
+              },
+              "netContent": {
+                "measurementUnitCode": "MGM",
+                "value": 20.0
+              }
+            },
+            "additionalTradeItemIdentification": [
+              {
+                "additionalTradeItemIdentificationType": "DRX_LINEITEM_TYPE",
+                "additionalTradeItemIdentificationValue": "CON0001"
+              }
+            ]
+          },
+          "invoiceAllowanceCharge": []
+        }
+      ],
+      "invoiceAllowanceCharge": [],
+      "seller": {
+        "organisationDetails": {
+          "organisationName": "Concierge Travel Group Pty Limited"
+        },
+        "dutyFeeTaxRegistration": {
+          "dutyFeeTaxTypeCode": "GST",
+          "dutyFeeTaxRegistrationID": "92 002 144 130"
+        }
+      }
+    },
+    "paymentReceipts": []
+  }
+}

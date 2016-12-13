@@ -80,6 +80,9 @@
     <Content Include="SampleFiles\Sample1.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="SampleFiles\Sample2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\drx-sdk-dotnet\drx-sdk-dotnet.csproj">
