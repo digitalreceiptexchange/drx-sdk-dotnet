@@ -19,8 +19,11 @@ using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Receipt.Common
 {
+    [DataContract]
     public class Amount
     {
+        public Amount()
+        { }
         public Amount(Currency currency, decimal amount)
         {
             Value = amount;

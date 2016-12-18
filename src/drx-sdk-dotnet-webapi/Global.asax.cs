@@ -10,6 +10,7 @@ namespace Net.Dreceiptx.WebApi
         protected void Application_Start()
         {
             HttpConfiguration config = GlobalConfiguration.Configuration;
+            // Configure serialization settings as per DRX
             config.Formatters.JsonFormatter.SerializerSettings = JsonSerializer.JsonSettings;
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);

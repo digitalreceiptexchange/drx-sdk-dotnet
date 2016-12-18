@@ -56,8 +56,44 @@ namespace Net.Dreceiptx.Receipt.Invoice
         [DataMember]
         public string InvoiceType { get; set; } = "TAX_INVOICE";
 
-        //TODO: This does not appear to be serialized on the java side of thigns?
-        public string MerchantName { get; set; }
+        public string MerchantName
+        {
+            get { return Seller?.OrganisationDetails?.OrganisationName; }
+            set
+            {
+                if (Seller == null)
+                {
+                    Seller = new SellerInformation();
+                }
+                if (Seller.OrganisationDetails == null)
+                {
+                    Seller.OrganisationDetails = new Organisation();
+                }
+                Seller.OrganisationDetails.OrganisationName = value;
+            }
+        }
+
+        public string CompanyTaxNumber
+        {
+            get { return Seller?.DutyFeeTaxRegistration?.DutyFeeTaxRegistationID; }
+            set
+            {
+                if (Seller == null)
+                {
+                    Seller = new SellerInformation();
+                }
+                if (Seller.DutyFeeTaxRegistration == null)
+                {
+                    Seller.DutyFeeTaxRegistration = new TaxRegistration();
+                    Seller.DutyFeeTaxRegistration.DutyFeeTaxRegistationID = value;
+                    Seller.DutyFeeTaxRegistration.DutyFeeTaxTypeCode = "GST";
+                }
+
+            }
+        }
+
+        [DataMember]
+        public SellerInformation Seller { get; set; }
 
         public string GetCompanyTaxNumber(TaxCode taxCode)
         {

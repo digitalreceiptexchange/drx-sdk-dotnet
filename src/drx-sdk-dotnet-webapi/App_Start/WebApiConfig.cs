@@ -1,4 +1,7 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
+using System.Web.Http;
 using Net.Dreceiptx.WebApi.Controllers;
 
 namespace Net.Dreceiptx.WebApi
@@ -19,6 +22,12 @@ namespace Net.Dreceiptx.WebApi
             );
 
             config.MessageHandlers.Add(new LogRequestAndResponseHandler());
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.MediaTypeMappings
+                    .Add(new RequestHeaderMapping("Accept",
+                              "text/html",
+                              StringComparison.InvariantCultureIgnoreCase,
+                              true,
+                              "application/json"));
         }
     }
 }

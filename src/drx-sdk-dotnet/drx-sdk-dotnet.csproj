@@ -108,6 +108,7 @@
     <Compile Include="Receipt\Invoice\Invoice.cs" />
     <Compile Include="Receipt\Invoice\Identification.cs" />
     <Compile Include="Receipt\Invoice\InvoiceTotals.cs" />
+    <Compile Include="Receipt\Invoice\SellerInformation.cs" />
     <Compile Include="Receipt\LineItem\Construction\GenericProduct.cs" />
     <Compile Include="Receipt\LineItem\General\Book.cs" />
     <Compile Include="Receipt\LineItem\LineItem.cs" />

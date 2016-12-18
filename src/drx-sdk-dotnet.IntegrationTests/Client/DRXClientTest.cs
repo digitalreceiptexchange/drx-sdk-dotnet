@@ -181,7 +181,7 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             invoice.CountryOfSupplyOfGoods = "AUS";
             invoice.CreationDateTime = DateTime.Now;
             invoice.InvoiceIdentification = new Identification("206716");
-            invoice.CustomerReference = new Identification("CustomerReference1234");
+            invoice.CustomerReference = new Identification($"CustomerReference{DateTime.Now.Ticks}");
             invoice.PurchaseOrder = new Identification("PUchaseOrder1234");
             invoice.OriginInformation.Address = new Address("1 Sydney Road", "Sydney", "2000", "NSW", "AUS");
             invoice.DestinationInformation.Address = new Address("1000 Sydney Road", "Sydney", "2000", "NSW", "AUS");

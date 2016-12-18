@@ -318,9 +318,11 @@ namespace Net.Dreceiptx.Client
                     Console.WriteLine($"About to send {result}");
                     var response = client.PostAsync("", content);
                     var statusCode = response.Result.StatusCode;
+                    
                     if (response.Result.StatusCode == HttpStatusCode.Created || response.Result.StatusCode == HttpStatusCode.BadRequest)
                     {
                         string contentResult = response.Result.Content.ReadAsStringAsync().Result;
+                        Console.WriteLine($"Response {contentResult}");
                         ExchangeResponseResult exchangeResponse = JsonConvert.DeserializeObject<ExchangeResponseResult>(contentResult, _jsonSerializerSettings);
                         if (exchangeResponse.ExchangeResponse.Success)
                         {
@@ -355,7 +357,7 @@ namespace Net.Dreceiptx.Client
             }
             catch (ExchangeClientException dRxE)
             {
-                throw dRxE;
+                throw;
             }
             catch (Exception e)
             {

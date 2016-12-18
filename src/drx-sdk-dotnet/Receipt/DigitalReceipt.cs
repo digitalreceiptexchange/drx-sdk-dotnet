@@ -64,7 +64,7 @@ namespace Net.Dreceiptx.Receipt
     
         public string UserGUID => _standardBusinessDocumentHeader.UserIdentifier.Value;
 
-        public string MerchantName => _invoice.MerchantName;
+        //public string MerchantName => _invoice.MerchantName;
     
         public string GetCompanyTaxNumber(TaxCode taxCode)
         {
