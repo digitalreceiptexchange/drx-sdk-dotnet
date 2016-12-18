@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,11 +30,12 @@ namespace Net.Dreceiptx.WebApi.Controllers
 
 
         [HttpPost]
-        public void Post(DigitalReceiptMessageWrapper receipt)
+        public HttpResponseMessage Post(DigitalReceiptMessageWrapper receipt)
         {
             Log.DebugFormat("Receive Receipt: {0}", receipt.SerializeToJson());
             _receipts.Add(receipt);
             Log.DebugFormat("Total receipts {0}", _receipts.Count);
+            return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
         //private static List<DrxDigitalReceipt> CreateSampleData()

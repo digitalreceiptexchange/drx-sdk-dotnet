@@ -90,6 +90,8 @@
     <Compile Include="Receipt\Common\Measurements\Measurement.cs" />
     <Compile Include="Receipt\Common\Measurements\MeasurementType.cs" />
     <Compile Include="Receipt\Common\Measurements\TradeItemMeasurements.cs" />
+    <Compile Include="Receipt\Common\DutyFeeTaxRegistration.cs" />
+    <Compile Include="Receipt\Common\TransactionalParty.cs" />
     <Compile Include="Receipt\Config\IConfigManager.cs" />
     <Compile Include="Receipt\Config\DatabaseConfigManager.cs" />
     <Compile Include="Receipt\Config\DictionaryConfigManager.cs" />
@@ -108,7 +110,7 @@
     <Compile Include="Receipt\Invoice\Invoice.cs" />
     <Compile Include="Receipt\Invoice\Identification.cs" />
     <Compile Include="Receipt\Invoice\InvoiceTotals.cs" />
-    <Compile Include="Receipt\Invoice\SellerInformation.cs" />
+    <Compile Include="Receipt\Common\SellerInformation.cs" />
     <Compile Include="Receipt\LineItem\Construction\GenericProduct.cs" />
     <Compile Include="Receipt\LineItem\General\Book.cs" />
     <Compile Include="Receipt\LineItem\LineItem.cs" />

@@ -63,7 +63,7 @@ namespace Net.Dreceiptx.Receipt.Invoice
             {
                 if (Seller == null)
                 {
-                    Seller = new SellerInformation();
+                    Seller = new TransactionalParty();
                 }
                 if (Seller.OrganisationDetails == null)
                 {
@@ -80,20 +80,25 @@ namespace Net.Dreceiptx.Receipt.Invoice
             {
                 if (Seller == null)
                 {
-                    Seller = new SellerInformation();
+                    Seller = new TransactionalParty();
                 }
                 if (Seller.DutyFeeTaxRegistration == null)
                 {
-                    Seller.DutyFeeTaxRegistration = new TaxRegistration();
+                    Seller.DutyFeeTaxRegistration = new DutyFeeTaxRegistration();
                     Seller.DutyFeeTaxRegistration.DutyFeeTaxRegistationID = value;
-                    Seller.DutyFeeTaxRegistration.DutyFeeTaxTypeCode = "GST";
+                    Seller.DutyFeeTaxRegistration.DutyFeeTaxTypeCode = TaxCode.GoodsAndServicesTax;
                 }
 
             }
         }
 
         [DataMember]
-        public SellerInformation Seller { get; set; }
+        public TransactionalParty Seller { get; set; }
+
+        [DataMember(Name = "BillTo")]
+        public TransactionalParty BillingInformation { get; set; }
+
+        public string BillingOrganisationName => BillingInformation?.OrganisationDetails?.OrganisationName;
 
         public string GetCompanyTaxNumber(TaxCode taxCode)
         {
