@@ -14,35 +14,37 @@
 // limitations under the License.
 // 
 #endregion
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Net.Dreceiptx.Client
+namespace Net.Dreceiptx.Users
 {
     [DataContract]
-    public class ResponseData
+    public class NewUserRegistrationRequest
     {
-        /// <summary>
-        /// Gets and sets the ReceiptId
-        /// </summary>
         [DataMember]
-        public string ReceiptId { get; set; }
+        public List<NewUser> Users { get; set; }
 
-        /// <summary>
-        /// Gets and sets the response Reference
-        /// </summary>
         [DataMember]
-        public string Reference { get; set; }
+        public int UsersToRegister
+        {
+            get { return Users.Count; }
+            set { ; }
+        }
 
-        /// <summary>
-        /// Gets and sets the Guid
-        /// </summary>
-        [DataMember]
-        public string Guid { get; set; }
+        public string Serialize()
+        {
+            return JsonSerializer.SerializeToString(this);
+        }
 
-        /// <summary>
-        /// Gets and set the RMS
-        /// </summary>
-        [DataMember]
-        public string Rms { get; set; }
+        public static NewUserRegistrationRequest Deserialize(string json)
+        {
+            return JsonSerializer.Deserialize<NewUserRegistrationRequest>(json);
+        }
+
+        public string SerializeToJsonString()
+        {
+            return JsonSerializer.SerializeToString(this);
+        }
     }
 }

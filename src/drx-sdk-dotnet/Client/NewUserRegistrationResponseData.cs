@@ -1,4 +1,4 @@
-#region copyright
+﻿#region copyright
 // Copyright 2016 Digital Receipt Exchange Limited
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,35 +14,25 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Client
 {
     [DataContract]
-    public class ResponseData
+    public class NewUserRegistrationResponseData
     {
         /// <summary>
-        /// Gets and sets the ReceiptId
+        /// Gets and sets the number of UsersRegistered
         /// </summary>
         [DataMember]
-        public string ReceiptId { get; set; }
-
+        public int? UsersRegistered { get; set; }
+        
         /// <summary>
-        /// Gets and sets the response Reference
+        /// Gets the users registered. You shoul check it user has been successfully registered
         /// </summary>
         [DataMember]
-        public string Reference { get; set; }
-
-        /// <summary>
-        /// Gets and sets the Guid
-        /// </summary>
-        [DataMember]
-        public string Guid { get; set; }
-
-        /// <summary>
-        /// Gets and set the RMS
-        /// </summary>
-        [DataMember]
-        public string Rms { get; set; }
+        public Dictionary<string, UserResponsData> Users { get; set; }
     }
 }

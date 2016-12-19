@@ -18,18 +18,32 @@ using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Client
 {
-    /// <summary>
-    /// Class representing a response from the Exchange when creating a 
-    /// receipt or user
-    /// </summary>
     [DataContract]
-    public class ExchangeResponseResult
+    public class NewUserRegistrationResponse
     {
         /// <summary>
-        /// Gets and sets the ExchangeResponse
+        /// Gets and sets Success. When Success is true it does 
+        /// not mean that all the Users have been registered. It is possible
+        /// one or more users may fail to register. Could should check the 
+        /// ResponseData property to ensure each user has been created successfully.
         /// </summary>
         [DataMember]
-        public ExchangeResponse ExchangeResponse { get; set; }
+        public bool Success { get; set; }
+
+        /// <summary>
+        /// Gets and sets the Code
+        /// </summary>
+        [DataMember]
+        public int? Code { get; set; }
+
+        /// <summary>
+        /// Gets and sets the ExceptionMessage if there was an error on the server.
+        /// </summary>
+        [DataMember]
+        public string ExceptionMessage { get; set; }
+
+        [DataMember]
+        public NewUserRegistrationResponseData ResponseData { get; set; }
 
         /// <summary>
         /// Serializes the message to a JSON format
@@ -41,13 +55,13 @@ namespace Net.Dreceiptx.Client
         }
 
         /// <summary>
-        /// Deserializes the given JSON string to a DigitalReceiptMessageWrapper instance
+        /// Deserializes the given JSON string to a NewUserRegistrationResponse instance
         /// </summary>
         /// <param name="json">The JSON to be deserialized</param>
         /// <returns></returns>
-        public static ExchangeResponseResult DeserializeFromJson(string json)
+        public static NewUserRegistrationResponse DeserializeFromJson(string json)
         {
-            return JsonSerializer.Deserialize<ExchangeResponseResult>(json);
+            return JsonSerializer.Deserialize<NewUserRegistrationResponse>(json);
         }
     }
 }

@@ -6,9 +6,9 @@ namespace Net.Dreceiptx
 {
     public class JsonSerializer
     {
-        private static readonly JsonSerializerSettings Settings;
+        public static readonly JsonSerializerSettings Settings;
 
-        static  JsonSerializer()
+        static JsonSerializer()
         {
             Settings = new JsonSerializerSettings
             {

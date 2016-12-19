@@ -14,13 +14,33 @@
 // limitations under the License.
 // 
 #endregion
+
+using Net.Dreceiptx.Users;
+
 namespace Net.Dreceiptx.Receipt.Config
 {
+    /// <summary>
+    /// Interface representing a basic mechanic for getting required configuration
+    /// settings using a key value pair.
+    /// </summary>
     public interface IConfigManager
     {
+        /// <summary>
+        /// Gets the ConfigValue for the matching key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         string GetConfigValue(string key);
         void SetConfigValue(string key, string value);
         void SetConfigValue(string key, string value, bool commit);
         bool Exists(string key);
+    }
+
+    public enum HttpProtocol
+    {
+        [DrxEnumExtendedInformation("http", "http")]
+        Http,
+        [DrxEnumExtendedInformation("https", "https")]
+        Https
     }
 }

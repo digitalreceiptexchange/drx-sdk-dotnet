@@ -14,12 +14,20 @@
 // limitations under the License.
 // 
 #endregion
-namespace Net.Dreceiptx.Client
+namespace Net.Dreceiptx.Users
 {
-    public class DrxCredentials
+    public class UserConfigurationOption
     {
-        public string ApiKey { get; set; }
-        public string Secret { get; set; }
-        public string RequesterId { get; set; }
+        public UserConfigurationOption()
+        {
+        }
+
+        public UserConfigurationOption(UserConfigOptionType option, string value)
+        {
+            Option = option;
+            Value = value;
+        }
+        public UserConfigOptionType Option { get; set; }
+        public string Value { get; set; }
     }
 }

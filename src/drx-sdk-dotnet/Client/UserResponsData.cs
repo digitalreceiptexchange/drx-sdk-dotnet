@@ -1,4 +1,4 @@
-#region copyright
+﻿#region copyright
 // Copyright 2016 Digital Receipt Exchange Limited
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,35 +14,43 @@
 // limitations under the License.
 // 
 #endregion
+
 using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Client
 {
     [DataContract]
-    public class ResponseData
+    public class UserResponsData
     {
         /// <summary>
-        /// Gets and sets the ReceiptId
+        /// Gets and sets Success. When true the user was successfully created
+        /// when false the user failed to register and you should check the
+        /// Exception property.
         /// </summary>
         [DataMember]
-        public string ReceiptId { get; set; }
+        public bool Success { get; set; }
 
         /// <summary>
-        /// Gets and sets the response Reference
+        /// Gets and sets the Code
         /// </summary>
         [DataMember]
-        public string Reference { get; set; }
-
+        public int? Code { get; set; }
+        
         /// <summary>
-        /// Gets and sets the Guid
+        /// Gets and sets the Email that was attempted to or was registered
+        /// </summary>
+        [DataMember]
+        public string Email { get; set; }
+        /// <summary>
+        /// Gets and sets the Guid of the registered user if they were successfully regitered.
         /// </summary>
         [DataMember]
         public string Guid { get; set; }
 
         /// <summary>
-        /// Gets and set the RMS
+        /// Gets and sets the Exception message if the user failed to be registered.
         /// </summary>
         [DataMember]
-        public string Rms { get; set; }
+        public string Exception { get; set; }
     }
 }

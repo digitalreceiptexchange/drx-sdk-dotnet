@@ -18,18 +18,11 @@ using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Client
 {
-    /// <summary>
-    /// Class representing a response from the Exchange when creating a 
-    /// receipt or user
-    /// </summary>
     [DataContract]
-    public class ExchangeResponseResult
+    public class NewUserRegistrationExchangeResponse
     {
-        /// <summary>
-        /// Gets and sets the ExchangeResponse
-        /// </summary>
         [DataMember]
-        public ExchangeResponse ExchangeResponse { get; set; }
+        public NewUserRegistrationResponse ExchangeResponse { get; set; }
 
         /// <summary>
         /// Serializes the message to a JSON format
@@ -41,13 +34,13 @@ namespace Net.Dreceiptx.Client
         }
 
         /// <summary>
-        /// Deserializes the given JSON string to a DigitalReceiptMessageWrapper instance
+        /// Deserializes the given JSON string to a NewUserRegistrationResponse instance
         /// </summary>
         /// <param name="json">The JSON to be deserialized</param>
         /// <returns></returns>
-        public static ExchangeResponseResult DeserializeFromJson(string json)
+        public static NewUserRegistrationExchangeResponse DeserializeFromJson(string json)
         {
-            return JsonSerializer.Deserialize<ExchangeResponseResult>(json);
+            return JsonSerializer.Deserialize<NewUserRegistrationExchangeResponse>(json);
         }
     }
 }

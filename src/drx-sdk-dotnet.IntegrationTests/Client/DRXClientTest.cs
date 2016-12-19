@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Net.Dreceiptx.Client;
 using Net.Dreceiptx.Client.Exceptions;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
@@ -29,7 +30,6 @@ using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.LineItem;
 using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Receipt.Tax;
-using Net.Dreceiptx.UnitTests.Receipt.Document;
 using Net.Dreceiptx.Users;
 using NUnit.Framework;
 
@@ -47,8 +47,8 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             //_configManager.SetConfigValue("exchange.hostname", "144.132.230.201:56150");
             _configManager.SetConfigValue("directory.hostname", "aus-beta-directory.dreceiptx.net");
             //_configManager.SetConfigValue("api.requesterId", "UAT_AUS_CONCIERGE_TRAVEL_GROUP-1");
-            //_configManager.SetConfigValue("api.requesterId", "SYSTEM_TEST-1");
-            _configManager.SetConfigValue("api.requesterId", "SYSTEM_TEST-MER");
+            _configManager.SetConfigValue("api.requesterId", "SYSTEM_TEST-1");
+            //_configManager.SetConfigValue("api.requesterId", "SYSTEM_TEST-MER");
             _configManager.SetConfigValue("receipt.version", "1.4.0");
             _configManager.SetConfigValue("user.version", "1.1.0");
             _configManager.SetConfigValue("download.directory", "");
@@ -106,6 +106,7 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             newUser.AddConfigOption(UserConfigOptionType.EndPointId, "ENDPOINTID1");
             DRXClient client = new DRXClient(_configManager);
             var result = client.RegisterNewUser(newUser);
+            Assert.IsTrue(result.ExchangeResponse.Success);
             var users = result.ExchangeResponse.ResponseData.Users;
             foreach (var user in users)
             {
@@ -124,8 +125,35 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             newUser2.Config = new List<UserConfigurationOption>();
             newUser2.AddIdentifier(UserIdentifierType.Mobile, "0401858293");
             newUser2.AddConfigOption(UserConfigOptionType.EndPointId, "ENDPOINTID1");
+
             DRXClient client = new DRXClient(_configManager);
             var result = client.RegisterNewUser(new List<NewUser> {newUser, newUser2});
+
+
+            Assert.IsTrue(result.ExchangeResponse.Success);
+            Assert.AreEqual(2, result.ExchangeResponse.ResponseData.UsersRegistered);
+            Assert.AreEqual(2, result.ExchangeResponse.ResponseData.Users.Values.Count(x => x.Success));
+        }
+
+        [Test]
+        public void TestNewUserRegistrationDuplicateUser()
+        {
+            NewUser newUser = new NewUser($"dominic.catherin{DateTime.Now.Ticks}@digitalreceiptexchange.com", true);
+            newUser.Config = new List<UserConfigurationOption>();
+            newUser.AddIdentifier(UserIdentifierType.Mobile, "0401858293");
+            newUser.AddConfigOption(UserConfigOptionType.EndPointId, "ENDPOINTID1");
+            NewUser newUser2 = new NewUser(newUser.Email, true);
+            newUser2.Config = new List<UserConfigurationOption>();
+            newUser2.AddIdentifier(UserIdentifierType.Mobile, "0401858293");
+            newUser2.AddConfigOption(UserConfigOptionType.EndPointId, "ENDPOINTID1");
+
+            DRXClient client = new DRXClient(_configManager);
+            var result = client.RegisterNewUser(new List<NewUser> { newUser, newUser2 });
+
+
+            Assert.IsTrue(result.ExchangeResponse.Success);
+            Assert.AreEqual(1, result.ExchangeResponse.ResponseData.UsersRegistered);
+            Assert.AreEqual(1, result.ExchangeResponse.ResponseData.Users.Values.Count(x => x.Success));
         }
 
         [Test]

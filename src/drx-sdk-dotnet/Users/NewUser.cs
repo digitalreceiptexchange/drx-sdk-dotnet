@@ -20,37 +20,11 @@ using System.Runtime.Serialization;
 namespace Net.Dreceiptx.Users
 {
     [DataContract]
-    public class NewUserRegistrationRequest
-    {
-        [DataMember]
-        public List<NewUser> Users { get; set; }
-
-        [DataMember]
-        public int UsersToRegister
-        {
-            get { return Users.Count; }
-            set { ; }
-        }
-
-        public string Serialize()
-        {
-            return JsonSerializer.SerializeToString(this);
-        }
-
-        public static NewUserRegistrationRequest Deserialize(string json)
-        {
-            return JsonSerializer.Deserialize<NewUserRegistrationRequest>(json);
-        }
-    }
-
-    [DataContract]
     public class NewUser
     {
         private readonly bool _addAsIdentifier;
-        private string _email; 
-        private  List<Identifier> _identifiers = new List<Identifier>();
+        private string _email;
         private bool _addEmailAsIdentifier = true;
-        private List<UserConfigurationOption> _config = new List<UserConfigurationOption>();
 
         public NewUser()
         {
@@ -74,6 +48,9 @@ namespace Net.Dreceiptx.Users
             Email = email;
         }
 
+        /// <summary>
+        /// Gets and sets the user Email address
+        /// </summary>
         [DataMember(Name = "UserEmail")]
         public string Email
         {
@@ -83,54 +60,28 @@ namespace Net.Dreceiptx.Users
                 _email = value;
                 if (_addEmailAsIdentifier)
                 {
-                    _identifiers.Add(new Identifier { Type = UserIdentifierType.Email, Value = value });
+                    Identifiers.Add(new Identifier { Type = UserIdentifierType.Email, Value = value });
                 }
             }
         }
 
         public void AddIdentifier( UserIdentifierType identifierType, string identifier)
         {
-            _identifiers.Add(new Identifier {Type = identifierType, Value = identifier});
+            Identifiers.Add(new Identifier {Type = identifierType, Value = identifier});
         }
 
         [DataMember]
-        public List<Identifier> Identifiers
-        {
-            get { return _identifiers;}
-            set { _identifiers = value; }
-        }
-    
+        public List<Identifier> Identifiers { get; set; } = new List<Identifier>();
+
         public void AddConfigOption( UserConfigOptionType configOptionType, string optionValue)
         {
             Config.Add(new UserConfigurationOption(configOptionType, optionValue));
         }
 
-        [DataMember]
-        public List<UserConfigurationOption> Config
-        {
-            get { return _config; }
-            set { _config = value; }
-        }
-    }
-
-    public class Identifier
-    {
-        public UserIdentifierType Type { get; set; }
-        public string Value { get; set; }
-    }
-
-    public class UserConfigurationOption
-    {
-        public UserConfigurationOption()
-        {
-        }
-
-        public UserConfigurationOption(UserConfigOptionType option, string value)
-        {
-            Option = option;
-            Value = value;
-        }
-        public UserConfigOptionType Option { get; set; }
-        public string Value { get; set; }
+        /// <summary>
+        /// Gets and sets the 
+        /// </summary>
+        [DataMember(Name = "Config")]
+        public List<UserConfigurationOption> Config { get; set; } = new List<UserConfigurationOption>();
     }
 }

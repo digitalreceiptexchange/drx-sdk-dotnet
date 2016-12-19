@@ -17,7 +17,6 @@
 
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Client
 {
@@ -28,30 +27,5 @@ namespace Net.Dreceiptx.Client
         public int? UsersRegistered { get; set; }
         [DataMember]
         public Dictionary<string, ResponseData> UserIdentifiers { get; set; }
-    }
-
-    [DataContract]
-    public class NewUserRegistrationResponseData
-    {
-        [DataMember]
-        public int? UsersRegistered { get; set; }
-        [DataMember]
-        public Dictionary<string, UserResponsData> Users { get; set; }
-    }
-
-    [DataContract]
-    public class UserResponsData
-    {
-        [DataMember]
-        public bool Success { get; set; }
-        [DataMember]
-        public int? Code { get; set; }
-        [DataMember]
-        public string Email { get; set; }
-        [DataMember]
-        public string Guid { get; set; }
-
-        [DataMember]
-        public string Exception { get; set; }
     }
 }

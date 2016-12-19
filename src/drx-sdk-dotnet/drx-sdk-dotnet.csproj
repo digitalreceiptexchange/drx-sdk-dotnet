@@ -37,6 +37,10 @@
     </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -63,10 +67,14 @@
     <Compile Include="Client\ExchangeResponse.cs" />
     <Compile Include="Client\ExchangeResponseResult.cs" />
     <Compile Include="Client\IExchangeClient.cs" />
+    <Compile Include="Client\NewUserRegistrationExchangeResponse.cs" />
+    <Compile Include="Client\NewUserRegistrationResponse.cs" />
+    <Compile Include="Client\NewUserRegistrationResponseData.cs" />
     <Compile Include="Client\ResponseData.cs" />
     <Compile Include="Client\UriParameters.cs" />
     <Compile Include="Client\UserReponseResponseData.cs" />
     <Compile Include="Client\UserReponseExchangeResponse.cs" />
+    <Compile Include="Client\UserResponsData.cs" />
     <Compile Include="Client\UsersResponse.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\MiscExtensions.cs" />
@@ -96,6 +104,7 @@
     <Compile Include="Receipt\Config\DatabaseConfigManager.cs" />
     <Compile Include="Receipt\Config\DictionaryConfigManager.cs" />
     <Compile Include="Receipt\Config\PropertiesConfigManager.cs" />
+    <Compile Include="Receipt\Config\StronlyTypedConfigManager.cs" />
     <Compile Include="Receipt\DigitalReceipt.cs" />
     <Compile Include="Receipt\DigitalReceiptGenerator.cs" />
     <Compile Include="Receipt\Document\DocumentIdentification.cs" />
@@ -148,11 +157,14 @@
     <Compile Include="SDK.cs" />
     <Compile Include="Users\DrxEnumExtendedInformationAttribute.cs" />
     <Compile Include="Users\EnumExtensions.cs" />
+    <Compile Include="Users\Identifier.cs" />
     <Compile Include="Users\NewUser.cs" />
     <Compile Include="Users\NewUserBuilder.cs" />
+    <Compile Include="Users\NewUserRegistrationRequest.cs" />
     <Compile Include="Users\NewUserRegistrationResult.cs" />
     <Compile Include="Users\User.cs" />
     <Compile Include="Users\UserConfigOptionType.cs" />
+    <Compile Include="Users\UserConfigurationOption.cs" />
     <Compile Include="Users\UserIdentifierType.cs" />
     <Compile Include="Users\Users.cs" />
     <Compile Include="XmlSerializer.cs" />
@@ -160,7 +172,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="drx-sdk-dotnet.nuspec" />
-    <None Include="drx_wrapper.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

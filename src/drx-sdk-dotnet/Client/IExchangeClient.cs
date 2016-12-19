@@ -15,45 +15,45 @@
 // 
 #endregion
 using System.Collections.Generic;
-using Net.Dreceiptx.Receipt;
-using Net.Dreceiptx.Receipt.Merchant;
-using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Users;
 using DigitalReceipt = Net.Dreceiptx.Receipt.Serialization.Json.DigitalReceipt;
 
 namespace Net.Dreceiptx.Client
 {
-    public interface IExchangeClient {
-
-        /**
-         * @param identifierType
-         * @param identifier
-         * @return The matching users will be returned if it is found otherwise null
-         * @throws ExchangeClientException will be thrown if problem calling the service.
-         */
+    public interface IExchangeClient
+    {
+        /// <summary>
+        /// Searches for a user matching the given UserIdentifierType and identifier
+        /// </summary>
+        /// <param name="identifierType">The UserIdentifierType to be searched</param>
+        /// <param name="identifier">The identifier of the identifierType</param>
+        /// <returns>A User will be returned if one can be found matching the given identifierType and
+        /// identifier. If no User can be found matching then null will be returned</returns>
         User SearchUser(UserIdentifierType identifierType, string identifier); 
 
-        /**
-         * @param identifierType
-         * @param userIdentifiers
-         * @return The matching users will be returned if it is found otherwise null
-         * @throws ExchangeClientException will be thrown if problem calling the service.
-         */
+        /// <summary>
+        /// Searches for a list of of users matching the given identifierType.
+        /// </summary>
+        /// <param name="identifierType">The UserIdentifierType of the users being searched</param>
+        /// <param name="userIdentifiers">The list of user identifiers to be searched</param>
+        /// <returns>A List of User instances will be returned for each found in the exchange</returns>
         List<User> SearchUsers(UserIdentifierType identifierType, List<string> userIdentifiers);
     
-        /**
-         * @param receipt
-         * @return newReceiptGUID
-         * @throws ExchangeClientException will be thrown if problem calling the service.
-         */
+        /// <summary>
+        /// Sends the receipt to the exchange. 
+        /// </summary>
+        /// <param name="receipt">The receipt to be sent to the exchange</param>
+        /// <returns>The receipt identifier will be returned</returns>
         string SendReceipt(DigitalReceipt receipt);
 
 
-        /**
-         * @param newUser
-         * @return newUserGUID
-         * @throws ExchangeClientException will be thrown if problem calling the service.
-         */
+        /// <summary>
+        /// Registers the give NewUser instance in the exchange.
+        /// </summary>
+        /// <param name="newUser">The user to be created</param>
+        /// <returns>The returned NewUserRegistrationExchangeResponse message indicates success or failure.
+        /// You must inspect the object to determine if your request was successful or not.
+        /// </returns>
         NewUserRegistrationExchangeResponse RegisterNewUser(NewUser newUser);
 
         /**
@@ -62,28 +62,5 @@ namespace Net.Dreceiptx.Client
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
         NewUserRegistrationExchangeResponse RegisterNewUser(List<NewUser> newUsers);
-    
-        /**
-         * @param receiptId
-         * @return
-         * @throws ExchangeClientException will be thrown if problem calling the service.
-         */
-        Receipt.DigitalReceiptRemoveMe LookupReceipt(string receiptId);
-
-        /**
-         * @param receiptId
-         * @return
-         * @throws ExchangeClientException will be thrown if problem calling the service.
-         */
-        bool DownloadReceiptPDF(string receiptId);
-
-
-        /**
-         * @param Id
-         * @return
-         * @throws ExchangeClientException will be thrown if problem calling the service.
-         */
-        Merchant LookupMerchant(string Id);
-
     }
 }
