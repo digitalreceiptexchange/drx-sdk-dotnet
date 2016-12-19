@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>$version$</version>
+    <version>$version$-alpha</version>
     <title>$title$</title>
     <authors>domc,pmr</authors>
     <owners>Paul Russell</owners>
@@ -15,4 +15,8 @@
     <copyright>Copyright 2016</copyright>
     <tags>DRX DigitalReceiptExchange</tags>
   </metadata>
+  <files>
+    <file src="bin\$Configuration$\drx-sdk-dotnet.XML" target="lib\net45"/>
+    <file src="bin\$Configuration$\drx-sdk-dotnet.pdb" target="lib\net45"/>
+  </files>
 </package>
