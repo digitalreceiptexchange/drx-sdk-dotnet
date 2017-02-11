@@ -15,15 +15,15 @@ namespace Net.Dreceiptx.Receipt.Builders
 
         }
 
-        public StandardBusinessDocumentHeaderBuilder MerchangeGLN(string merchantGLN)
+        public StandardBusinessDocumentHeaderBuilder MerchantGLN(string merchantGLN)
         {
             _header.MerchantGLN.Value = merchantGLN;
             return this;
         }
 
-        public StandardBusinessDocumentHeaderBuilder DrxFLN(string DdxFLN)
+        public StandardBusinessDocumentHeaderBuilder DRxGLN(string DRxGLN)
         {
-            _header.DrxFLN.Value = DdxFLN;
+            _header.DRxGLN.Value = DRxGLN;
             return this;
         }
 

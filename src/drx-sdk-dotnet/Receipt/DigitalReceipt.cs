@@ -23,63 +23,42 @@ using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Document;
 using Net.Dreceiptx.Receipt.Invoice;
+using Net.Dreceiptx.Receipt.Serialization;
+using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Receipt.Settlement;
 using Net.Dreceiptx.Receipt.Tax;
 
 namespace Net.Dreceiptx.Receipt
 {
 
-    public class DigitalReceiptRemoveMe
+    public class DigitalReceipt
     {
-        //@SerializedName("standardBusinessDocumentHeader")
-        private StandardBusinessDocumentHeader _standardBusinessDocumentHeader;
-        //@SerializedName("invoice")
-        private Invoice.Invoice _invoice;
-        //@SerializedName("paymentReceipts")
-        private List<PaymentReceipt> _paymentReceipts;
+        private DRxDigitalReceipt _digitalReceipt;
 
-        public DigitalReceiptRemoveMe(string digitalReceiptJson)
+        public DigitalReceipt(string digitalReceiptJson)
         {
-            //JsonParser parser = new JsonParser();
-            //JsonObject digitalReceiptObject = parser.parse(digitalReceiptJson).getAsJsonObject().getAsJsonObject("dRxDigitalReceipt");
-
-            //Gson gson = new GsonBuilder()
-            //        .registerTypeAdapter(Invoice.class, new InvoiceDeserializer())
-            //        .registerTypeHierarchyAdapter(LineItem.class, new LineItemDeserializer())
-            //        .registerTypeAdapter(new TypeToken<List<PaymentReceipt>>() {
-            //        }.getType(), new PaymentReceiptDeserializer())
-            //        .create();
-
-            //this._standardBusinessDocumentHeader = gson.fromJson(digitalReceiptObject.get("standardBusinessDocumentHeader").toString(), StandardBusinessDocumentHeader.class);
-            //this._invoice = gson.fromJson(digitalReceiptObject.get("invoice").toString(), Invoice.class);
-            //this._paymentReceipts = gson.fromJson(digitalReceiptObject.get("paymentReceipts").toString(), new TypeToken<List<PaymentReceipt>>() {
-            //}.getType());
-
-            //if( _invoice == null
-            //        || this._standardBusinessDocumentHeader.equals(null)
-            //        || this._paymentReceipts.equals(null)){
-            //    throw new ReceiptDeserializationException("Failed to deserialize Digital Receipt data from source");
-            //}
+            DigitalReceiptMessage _digitalReceiptMessage = JsonSerializer.Deserialize<DigitalReceiptMessage>(digitalReceiptJson);
+            _digitalReceipt = _digitalReceiptMessage.DRxDigitalReceipt;
         }
     
-        public string UserGUID => _standardBusinessDocumentHeader.UserIdentifier.Value;
+        public string UserGUID => _digitalReceipt.StandardBusinessDocumentHeader.UserIdentifier.Value;
 
         //public string MerchantName => _invoice.MerchantName;
     
         public string GetCompanyTaxNumber(TaxCode taxCode)
         {
-            return _invoice.GetCompanyTaxNumber(taxCode);
+            return _digitalReceipt.Invoice.GetCompanyTaxNumber(taxCode);
         }
     
-        public string MerchantLocationReference => _standardBusinessDocumentHeader.MerchantGLN.Value;
+        public string MerchantLocationReference => _digitalReceipt.StandardBusinessDocumentHeader.MerchantGLN.Value;
     
-        public DateTime? ReceiptDate => _invoice.CreationDateTime;
+        public DateTime? ReceiptDate => _digitalReceipt.Invoice.CreationDateTime;
     
-        public string ReceiptReference =>_invoice.InvoiceIdentification?.EntityIdentification;
+        public string ReceiptReference => _digitalReceipt.Invoice.InvoiceIdentification?.EntityIdentification;
     
-        public string PurchaseOrderNumber => _invoice.PurchaseOrder?.EntityIdentification;
+        public string PurchaseOrderNumber => _digitalReceipt.Invoice.PurchaseOrder?.EntityIdentification;
 
-        public string CustomerReferenceNumber => _invoice.CustomerReference?.EntityIdentification;
+        public string CustomerReferenceNumber => _digitalReceipt.Invoice.CustomerReference?.EntityIdentification;
     
         public List<ReceiptContact> MerchantCustomerRelations => GetMerchantContact(ReceiptContactType.CUSTOMER_RELATIONS);
     
@@ -90,7 +69,7 @@ namespace Net.Dreceiptx.Receipt
         private List<ReceiptContact> GetMerchantContact(ReceiptContactType receiptContactType)
         {
             List<ReceiptContact> contacts = new List<ReceiptContact>();
-            foreach (DocumentOwner sender in _standardBusinessDocumentHeader.Sender)
+            foreach (DocumentOwner sender in _digitalReceipt.StandardBusinessDocumentHeader.Sender)
             {
                 if(sender.Identifier.Authority == "GS1")
                 {
@@ -113,7 +92,7 @@ namespace Net.Dreceiptx.Receipt
         private List<ReceiptContact> GetRMSContact(ReceiptContactType contactType)
         {
             List<ReceiptContact> contacts = new List<ReceiptContact>();
-            foreach (DocumentOwner receiver in _standardBusinessDocumentHeader.Receiver)
+            foreach (DocumentOwner receiver in _digitalReceipt.StandardBusinessDocumentHeader.Receiver)
             {
                 if(receiver.Identifier.Authority == "dRx")
                 {
@@ -134,43 +113,52 @@ namespace Net.Dreceiptx.Receipt
             return contacts;
         }
 
-        public Net.Dreceiptx.Receipt.Common.Address DeliveryAddress => _invoice.DestinationInformation.Address;
+        public Net.Dreceiptx.Receipt.Common.Address DeliveryAddress => _digitalReceipt.Invoice.DestinationInformation.Address;
 
-        public List<Contact> CustomerDeliveryContactDetails => _invoice.DestinationInformation.Contacts;
+        public List<Contact> CustomerDeliveryContactDetails => _digitalReceipt.Invoice.DestinationInformation.Contacts;
 
-        public Net.Dreceiptx.Receipt.Common.Address OriginAddress => _invoice.OriginInformation.Address;
+        public Net.Dreceiptx.Receipt.Common.Address OriginAddress => _digitalReceipt.Invoice.OriginInformation.Address;
 
-        public List<Contact> OriginContact => _invoice.OriginInformation.Contacts;
+        public List<Contact> OriginContact => _digitalReceipt.Invoice.OriginInformation.Contacts;
 
-        public GeographicalCoordinates OriginCoordinates => _invoice.OriginInformation.Address.GeographicalCoordinates;
+        public GeographicalCoordinates OriginCoordinates => _digitalReceipt.Invoice.OriginInformation.Address.GeographicalCoordinates;
     
-        public GeographicalCoordinates DestinationCoordinates => _invoice.DestinationInformation.Address.GeographicalCoordinates;
+        public GeographicalCoordinates DestinationCoordinates => _digitalReceipt.Invoice.DestinationInformation.Address.GeographicalCoordinates;
     
-        public List<LineItem.LineItem> LineItems => _invoice.InvoiceLineItems;
+        public List<LineItem.LineItem> LineItems => _digitalReceipt.Invoice.InvoiceLineItems;
     
-        public List<ReceiptAllowanceCharge> Charges => _invoice.AllowanceOrCharges.Where(x => x.IsCharge).ToList();
+        public List<ReceiptAllowanceCharge> Charges => _digitalReceipt.Invoice.AllowanceOrCharges.Where(x => x.IsCharge).ToList();
 
-        public List<ReceiptAllowanceCharge> Allowances => _invoice.AllowanceOrCharges.Where(x => x.IsAllowance).ToList();
+        public List<ReceiptAllowanceCharge> Allowances => _digitalReceipt.Invoice.AllowanceOrCharges.Where(x => x.IsAllowance).ToList();
+
+        public Currency Currency => CurrencyManager.GetCurrency(_digitalReceipt.Invoice.InvoiceCurrencyCode);
+
+        public decimal Total => _digitalReceipt.Invoice.Total;
     
-        public decimal Total => _invoice.Total;
-    
-        public decimal SubTotal => _invoice.SubTotal;
+        public decimal SubTotal => _digitalReceipt.Invoice.SubTotal;
     
         public decimal GetTaxTotal(TaxCode taxCode) {
-            return _invoice.TaxesTotalByTaxCode(taxCode);
+            return _digitalReceipt.Invoice.TaxesTotalByTaxCode(taxCode);
         }
 
         public string SalesOrderReference
         {
-            get { return _invoice.SalesOrderReference?.EntityIdentification; }
+            get { return _digitalReceipt.Invoice.SalesOrderReference?.EntityIdentification; }
             set
             {
-                if (_invoice.SalesOrderReference == null)
+                if (_digitalReceipt.Invoice.SalesOrderReference == null)
                 {
-                    _invoice.SalesOrderReference = new Identification();
+                    _digitalReceipt.Invoice.SalesOrderReference = new Identification();
                 }
-                _invoice.SalesOrderReference.EntityIdentification = value;
+                _digitalReceipt.Invoice.SalesOrderReference.EntityIdentification = value;
             }
+        }
+
+        public string toJson()
+        {
+            DigitalReceiptMessage message = new DigitalReceiptMessage();
+            message.DRxDigitalReceipt = this._digitalReceipt;
+            return JsonSerializer.SerializeToString(message);
         }
     }
 }

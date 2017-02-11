@@ -15,23 +15,11 @@
 // 
 #endregion
 
-using System.Runtime.Serialization;
-using Net.Dreceiptx.Users;
-
-namespace Net.Dreceiptx.Receipt.Tax
+namespace Net.Dreceiptx.Receipt.Serialization
 {
-    public enum TaxCategory
+    public enum SerializationType
     {
-        [DrxEnumExtendedInformation("APPLICABLE", "APPLICABLE")]
-        [EnumMember(Value = "APPLICABLE")]
-        APPLICABLE
-    }
-
-    public class TaxCategoryManager
-    {
-        public static TaxCategory GetTaxCategory(string code)
-        {
-            return Net.Dreceiptx.Receipt.Serialization.Json.JsonSerializer.Deserialize<TaxCategory>("\"" + code + "\"");
-        }
+        JSON,
+        XML
     }
 }

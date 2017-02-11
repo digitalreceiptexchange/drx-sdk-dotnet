@@ -26,19 +26,17 @@ using Net.Dreceiptx.Receipt.Config;
 using Net.Dreceiptx.Receipt.Document;
 using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.LineItem;
+using Net.Dreceiptx.Receipt.Serialization;
 using Net.Dreceiptx.Receipt.Settlement;
+using Net.Dreceiptx.Receipt.Tax;
+using Net.Dreceiptx.Receipt.Validation;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt
 {
     public class DigitalReceiptGenerator
     {
-        //@SerializedName("standardBusinessDocumentHeader")
-        private StandardBusinessDocumentHeader _standardBusinessDocumentHeader;
-        //@SerializedName("invoice")
-        private Invoice.Invoice _invoice;
-        //@SerializedName("paymentReceipts")
-        private List<PaymentReceipt> _paymentReceipts;
+        private DigitalReceiptMessage _digitalReceiptMessage;
 
         private static int _paymentReceiptId = 1;
         private readonly IConfigManager _configManager;
@@ -46,8 +44,8 @@ namespace Net.Dreceiptx.Receipt
         private string _dRxGLN;
         private string _merchantGLN;
         private string _userGUID;
-        private Net.Dreceiptx.Receipt.Tax.TaxCategory _defaultTaxCategory;
-        private Net.Dreceiptx.Receipt.Tax.TaxCode _defaultTaxCode;
+        private TaxCategory _defaultTaxCategory;
+        private TaxCode _defaultTaxCode;
         private Currency _defaultCurrency;
         private string _defaultLanguage;
         private string _defaultTimeZone;
@@ -56,40 +54,52 @@ namespace Net.Dreceiptx.Receipt
         public DigitalReceiptGenerator(IConfigManager configManager)
         {
             _configManager = configManager;
-            //_defaultCountry = validateConfigOption("default.country");
-            //_defaultLanguage =  validateConfigOption("default.language");
-            //_defaultTimeZone = validateConfigOption("default.timezone");
-            //_defaultCurrency = net.dreceiptx.receipt.common.Currency.codeOf(validateConfigOption("default.currency"));
-            //_defaultTaxCategory = Enum.valueOf(TaxCategory.class, validateConfigOption("default.taxCategory"));
-            //_defaultTaxCode = Enum.valueOf(TaxCode.class, validateConfigOption("default.taxCode"));
+            //Create data elements
+            _digitalReceiptMessage = new DigitalReceiptMessage();
+            _digitalReceiptMessage.DRxDigitalReceipt = new DRxDigitalReceipt();
+            _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader = new StandardBusinessDocumentHeader();
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice = new Invoice.Invoice(_configManager);
+            _digitalReceiptMessage.DRxDigitalReceipt.PaymentReceipts = new List<PaymentReceipt>();
 
-            _standardBusinessDocumentHeader = new StandardBusinessDocumentHeader();
-            _standardBusinessDocumentHeader.DrxFLN.Value = ValidateConfigOption("drx.gln");
-            _standardBusinessDocumentHeader.MerchantGLN.Value = ValidateConfigOption("merchant.gln");
-            _standardBusinessDocumentHeader.DocumentIdentification.TypeVersion = ValidateConfigOption("receipt.version");
-            _standardBusinessDocumentHeader.DocumentIdentification.CreationDateAndTime = DateTime.Now;
-
-            _paymentReceipts = new List<PaymentReceipt>();
-            _invoice = new Invoice.Invoice(_configManager);
+            //Configure default values
+            try
+            {
+                _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.DRxGLN.Value = ValidateConfigOption("drx.gln");
+                _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.MerchantGLN.Value = ValidateConfigOption("merchant.gln");
+                _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.DocumentIdentification.TypeVersion = ValidateConfigOption("receipt.version");
+                _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.DocumentIdentification.CreationDateAndTime = DateTime.Now;
+                _defaultCurrency = CurrencyManager.GetCurrency(SetConfigOption("default.currency", "AUD"));
+                _digitalReceiptMessage.DRxDigitalReceipt.Invoice.InvoiceCurrencyCode = _defaultCurrency.Value();
+                _defaultCountry = SetConfigOption("default.country", "AUS");
+                _digitalReceiptMessage.DRxDigitalReceipt.Invoice.CountryOfSupplyOfGoods = _defaultCountry;
+                _defaultLanguage = SetConfigOption("default.language", "ENG");
+                _defaultTimeZone = SetConfigOption("default.timezone", "AEDT");
+                _defaultTaxCategory = TaxCategoryManager.GetTaxCategory(SetConfigOption("default.taxCategory", TaxCategory.APPLICABLE.Value()));
+                _defaultTaxCode = TaxCodeManager.GetTaxCode(SetConfigOption("default.taxCode", TaxCode.GoodsAndServicesTax.Value()));
+            }
+            catch (Exception e)
+            {
+                throw new DRXRuntimeException("Failed to create DigitalReceiptGenerator due to configuration issue", e);
+            }
         }
     
         public void SetMerchantGLN(string merchantGLN)
         {
-            _standardBusinessDocumentHeader.MerchantGLN.Value = merchantGLN;
+            _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.MerchantGLN.Value = merchantGLN;
         }
     
         public void SetUserGUID(UserIdentifierType userIdentifierType, string userIdentifierValue)
         {
             _userGUID = $"{userIdentifierType.Value()}:{userIdentifierValue}";
-            _standardBusinessDocumentHeader.UserIdentifier.Value = _userGUID;
+            _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.UserIdentifier.Value = _userGUID;
         }
     
         public void SetMerchantReference(string merchantReference)
         {
-            _standardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier = merchantReference;
+            _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier = merchantReference;
         
-            if(_invoice.InvoiceIdentification == null){
-                _invoice.InvoiceIdentification = new Identification(merchantReference);
+            if(_digitalReceiptMessage.DRxDigitalReceipt.Invoice.InvoiceIdentification == null){
+                _digitalReceiptMessage.DRxDigitalReceipt.Invoice.InvoiceIdentification = new Identification(merchantReference);
             }
         }
 
@@ -105,17 +115,17 @@ namespace Net.Dreceiptx.Receipt
     
         public void SetReceiptDateTime(DateTime invoiceDate)
         {
-            _invoice.CreationDateTime = invoiceDate;
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.CreationDateTime = invoiceDate;
         }
     
         public void SetPurchaseOrderNumber(string purchaseOrder)
         {
-            _invoice.PurchaseOrder = new Identification(purchaseOrder);
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.PurchaseOrder = new Identification(purchaseOrder);
         }
 
         public void SetCustomerReferenceNumber(string customerReference)
         {
-            _invoice.CustomerReference = new Identification(customerReference);
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.CustomerReference = new Identification(customerReference);
         }
     
         public void AddClientRecipientContact(string name, string email, string phone)
@@ -158,7 +168,7 @@ namespace Net.Dreceiptx.Receipt
             {
                 rmsContact.AddTelephoneNumber(phone);
             }
-            _standardBusinessDocumentHeader.AddRMSContact(rmsContact);
+            _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.AddRMSContact(rmsContact);
         }
     
         public void AddMerchantCustomerRelationsContact(string name, string email, string phone){
@@ -201,47 +211,47 @@ namespace Net.Dreceiptx.Receipt
             ReceiptContact merchantContact = new ReceiptContact(type, name);
             if(email != null){merchantContact.AddEmailAddress(email);}
             if(phone != null){merchantContact.AddTelephoneNumber(phone);}
-            _standardBusinessDocumentHeader.AddMerchantContact(merchantContact);
+            _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.AddMerchantContact(merchantContact);
         }
     
         public void SetReceiptNumber(string receiptNumber){
-            _invoice.InvoiceIdentification = new Identification(receiptNumber);
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.InvoiceIdentification = new Identification(receiptNumber);
         
-            if(_standardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier == null){
-                _standardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier = receiptNumber;
+            if(_digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier == null){
+                _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.DocumentIdentification.InstanceIdentifier = receiptNumber;
             }
         }
 
-        public int addLineItem(LineItem.LineItem lineItem) {
+        public int AddLineItem(LineItem.LineItem lineItem) {
             foreach (Tax.Tax lineItemTax in lineItem.Taxes) {
                 ConfigureTax(lineItemTax);
             }
-            return _invoice.AddLineItem(lineItem);
+            return _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddLineItem(lineItem);
         }
     
-        public int addLineItem(string brand, string name, int quantity, decimal price) {
+        public int AddLineItem(string brand, string name, int quantity, decimal price) {
             LineItem.LineItem lineItem = new StandardLineItem(brand, name, "", quantity, price);
-            return _invoice.AddLineItem(lineItem);
+            return _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddLineItem(lineItem);
         }
     
-        public int addLineItem(string brand, string name, int quantity, decimal price, Tax.Tax tax) {
+        public int AddLineItem(string brand, string name, int quantity, decimal price, Tax.Tax tax) {
             LineItem.LineItem lineItem = new StandardLineItem(brand, name, "", quantity, price);
             lineItem.AddTax(ConfigureTax(tax));
-            return _invoice.AddLineItem(lineItem);
+            return _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddLineItem(lineItem);
         }
 
-        public int addLineItem(string brand, string name, string description, int quantity, decimal price) {
+        public int AddLineItem(string brand, string name, string description, int quantity, decimal price) {
             LineItem.LineItem lineItem = new StandardLineItem(brand, name, description, quantity, price);
-            return _invoice.AddLineItem(lineItem);
+            return _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddLineItem(lineItem);
         }
 
-        public int addLineItem(string brand, string name, string description, int quantity, decimal price, Tax.Tax tax) {
+        public int AddLineItem(string brand, string name, string description, int quantity, decimal price, Tax.Tax tax) {
             LineItem.LineItem lineItem = new StandardLineItem(brand, name, description, quantity, price);
             lineItem.AddTax(ConfigureTax(tax)); 
-            return _invoice.AddLineItem(lineItem);
+            return _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddLineItem(lineItem);
         }
 
-        public int addLineItem(string brand, string name, string description, int quantity, decimal price, decimal taxRate, bool taxInclusive) {
+        public int AddLineItem(string brand, string name, string description, int quantity, decimal price, decimal taxRate, bool taxInclusive) {
             LineItem.LineItem lineItem;
 
             if (taxInclusive)
@@ -259,27 +269,27 @@ namespace Net.Dreceiptx.Receipt
                 lineItem.AddTax(tax);
             }
 
-            return _invoice.AddLineItem(lineItem);
+            return _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddLineItem(lineItem);
         }
 
-        public int addPaymentReceipt(PaymentMethodType paymentMethodCode, decimal paymentAmount) {
+        public int AddPaymentReceipt(PaymentMethodType paymentMethodCode, decimal paymentAmount) {
             PaymentReceipt paymentReceipt = new PaymentReceipt(paymentMethodCode, paymentAmount);
             paymentReceipt.SettlementCurrency = _defaultCurrency;
             paymentReceipt.Id = Interlocked.Add(ref _paymentReceiptId, 1);
-            _paymentReceipts.Add(paymentReceipt);
+            _digitalReceiptMessage.DRxDigitalReceipt.PaymentReceipts.Add(paymentReceipt);
             return paymentReceipt.Id;
         }
 
-        public int addPaymentReceipt(PaymentReceipt paymentReceipt) {
+        public int AddPaymentReceipt(PaymentReceipt paymentReceipt) {
             paymentReceipt.Id = Interlocked.Add(ref _paymentReceiptId, 1);
             paymentReceipt.SettlementCurrency = _defaultCurrency;
-            _paymentReceipts.Add(paymentReceipt);
+            _digitalReceiptMessage.DRxDigitalReceipt.PaymentReceipts.Add(paymentReceipt);
             return paymentReceipt.Id;
         }
 
-        public void removePaymentReceipt(int paymentId) {
+        public void RemovePaymentReceipt(int paymentId) {
             PaymentReceipt item = null;
-            foreach (PaymentReceipt paymentReceipt in _paymentReceipts)
+            foreach (PaymentReceipt paymentReceipt in _digitalReceiptMessage.DRxDigitalReceipt.PaymentReceipts)
             {
                 if (paymentReceipt.Id == paymentId) {
                     item = paymentReceipt;
@@ -288,106 +298,106 @@ namespace Net.Dreceiptx.Receipt
             }
             if (item != null)
             {
-                _paymentReceipts.Remove(item);
+                _digitalReceiptMessage.DRxDigitalReceipt.PaymentReceipts.Remove(item);
             }
         }
 
         public void AddGeneralDiscount(decimal amount, string description) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.GeneralDiscount(amount, description));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.GeneralDiscount(amount, description));
         }
     
         public void AddGeneralDiscount(decimal amount, string description, Tax.Tax tax) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.GeneralDiscount(amount, description, ConfigureTax(tax)));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.GeneralDiscount(amount, description, ConfigureTax(tax)));
         }
 
         public void AddTip(decimal amount, string description) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.Tip(amount, description));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.Tip(amount, description));
         }
     
         public void AddTip(decimal amount, string description, Tax.Tax tax) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.Tip(amount, description, ConfigureTax(tax)));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.Tip(amount, description, ConfigureTax(tax)));
         }
 
         public void AddPackagingFee(decimal amount, string description) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.PackagingFee(amount, description));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.PackagingFee(amount, description));
         }
     
         public void AddPackagingFee(decimal amount, string description, Tax.Tax tax) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.PackagingFee(amount, description, ConfigureTax(tax)));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.PackagingFee(amount, description, ConfigureTax(tax)));
         }
 
         public void AddDeliveryFee(decimal amount, string description) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.DeliveryFee(amount, description));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.DeliveryFee(amount, description));
         }
     
         public void AddDeliveryFee(decimal amount, string description, Tax.Tax tax) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.DeliveryFee(amount, description, ConfigureTax(tax)));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.DeliveryFee(amount, description, ConfigureTax(tax)));
         }
 
         public void AddFrieghtFee(decimal amount, string description) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.FreightFee(amount, description));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.FreightFee(amount, description));
         }
     
         public void AddFrieghtFee(decimal amount, string description, Tax.Tax tax) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.FreightFee(amount, description, ConfigureTax(tax)));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.FreightFee(amount, description, ConfigureTax(tax)));
         }
 
         public void AddProcessingFee(decimal amount, string description) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.ProcessingFee(amount, description));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.ProcessingFee(amount, description));
         }
     
         public void AddProcessingFee(decimal amount, string description, Tax.Tax tax) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.ProcessingFee(amount, description, ConfigureTax(tax)));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.ProcessingFee(amount, description, ConfigureTax(tax)));
         }
     
         public void AddBookingFee(decimal amount, string description) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.BookingFee(amount, description));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.BookingFee(amount, description));
         }
     
         public void AddBookingFee(decimal amount, string description, Tax.Tax tax) {
-            _invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.BookingFee(amount, description, ConfigureTax(tax)));
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(ReceiptAllowanceCharge.BookingFee(amount, description, ConfigureTax(tax)));
         }
 
         public void SetDeliveryInformation(DeliveryInformation deliveryInformation) {
-            _invoice.DestinationInformation = deliveryInformation.LocationInformation;
-            _invoice.AllowanceOrCharges.AddRange(deliveryInformation.DeliveryFees);
-            _invoice.DespatchInformation = deliveryInformation.DespatchInformation;
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.DestinationInformation = deliveryInformation.LocationInformation;
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AllowanceOrCharges.AddRange(deliveryInformation.DeliveryFees);
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.DespatchInformation = deliveryInformation.DespatchInformation;
         }
 
         public void SetDeliveryAddress(Address address) {
-            _invoice.DestinationInformation.Address = address;
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.DestinationInformation.Address = address;
         }
 
         public void SetDeliveryAddress(Address address, Contact contact) {
-            _invoice.DestinationInformation.Address = address;
-            _invoice.DestinationInformation.AddContact(contact);
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.DestinationInformation.Address = address;
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.DestinationInformation.AddContact(contact);
         }
 
         public void SetDestinationCoordinates(GeographicalCoordinates geographicalCoordinates) {
-            _invoice.DestinationInformation.GeographicalCoordinates = geographicalCoordinates;
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.DestinationInformation.GeographicalCoordinates = geographicalCoordinates;
         }
 
         public void SetDeliveryDate(DateTime deliverDate) {
-            _invoice.DespatchInformation.DeliveryDate = deliverDate;
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.DespatchInformation.DeliveryDate = deliverDate;
         }
 
         public void SetOriginAddress(Address address) {
-            _invoice.OriginInformation.Address = address;
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.OriginInformation.Address = address;
         }
 
         public void SetOriginAddress(Address address, Contact contact) {
-            _invoice.OriginInformation.Address = address;
-            _invoice.OriginInformation.AddContact(contact);
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.OriginInformation.Address = address;
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.OriginInformation.AddContact(contact);
         }
 
         public void SetOriginCoordinates(GeographicalCoordinates geographicalCoordinates) {
-            _invoice.OriginInformation.GeographicalCoordinates = geographicalCoordinates;
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.OriginInformation.GeographicalCoordinates = geographicalCoordinates;
         }
 
         public void Validate() {
             ReceiptValidation receiptValidation = new ReceiptValidation();
-            _standardBusinessDocumentHeader.Validate(receiptValidation);
-            _invoice.Validate(receiptValidation);
+            _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.Validate(receiptValidation);
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.Validate(receiptValidation);
         }
     
         private Tax.Tax ConfigureTax(Tax.Tax tax){
@@ -401,20 +411,8 @@ namespace Net.Dreceiptx.Receipt
             return tax;
         }
 
-        public string encodeJson() {
-            //    DigitalReceiptSerializer digitalReceiptMapper = new DigitalReceiptSerializer();
-            //    digitalReceiptMapper.setInvoice(_invoice);
-            //    digitalReceiptMapper.setStandardBusinessDocumentHeader(_standardBusinessDocumentHeader);
-            //    digitalReceiptMapper.setPaymentReceipts(_paymentReceipts);
-            //    Gson gson = new GsonBuilder()
-            //            .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-            //            .registerTypeAdapter(Invoice.class, new InvoiceSerializer(_defaultCurrency))
-            //            .registerTypeHierarchyAdapter(LineItem.class, new LineItemSerializer(_defaultCurrency))
-            //            .registerTypeAdapter(new TypeToken<List<PaymentReceipt>>().getType(), new PaymentReceiptsSerializer(_dRxGLN, _merchantGLN, _userGUID))
-            //            .create();
-            //    string digitalReceiptJson = gson.toJson(digitalReceiptMapper);
-            //    return digitalReceiptJson;
-            return null;
+        public DigitalReceiptMessage GetDigitalReceiptMessage() {
+            return _digitalReceiptMessage;
         }
 
         private string ValidateConfigOption(string configParameter)
@@ -423,6 +421,18 @@ namespace Net.Dreceiptx.Receipt
                 return _configManager.GetConfigValue(configParameter);
             }else{
                 throw new ExchangeClientException(101, "Required config parameter "+configParameter+" not supplied");
+            }
+        }
+
+        private string SetConfigOption(string configParameter, string defaultValue)
+        {
+            if (_configManager.Exists(configParameter))
+            {
+                return _configManager.GetConfigValue(configParameter);
+            }
+            else
+            {
+                return defaultValue;
             }
         }
     }

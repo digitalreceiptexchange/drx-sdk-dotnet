@@ -16,6 +16,8 @@
 #endregion
 
 using System.Runtime.Serialization;
+using Net.Dreceiptx.Receipt.Serialization.Json;
+using Newtonsoft.Json;
 
 namespace Net.Dreceiptx.Receipt.LineItem
 {

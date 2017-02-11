@@ -17,18 +17,51 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Net.Dreceiptx.Receipt.Document;
+using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Receipt.Settlement;
 
-namespace Net.Dreceiptx.Receipt.Serialization.Json
+namespace Net.Dreceiptx.Receipt.Serialization
 {
+    /// <summary>
+    /// Just a wrapper class for the DigitalReceiptMessage. This represents top level class that
+    /// will ultimately be serialized and sent to the Exchange
+    /// </summary>
+    [DataContract]
+    public class DigitalReceiptMessage
+    {
+        /// <summary>
+        /// Gets and sets the DigitalReceiptMessage
+        /// </summary>
+        [DataMember]
+        public DRxDigitalReceipt DRxDigitalReceipt { get; set; }
+
+        /// <summary>
+        /// Serializes the message to a JSON format
+        /// </summary>
+        /// <returns>JSON message as a string</returns>
+        public string SerializeToJson()
+        {
+            return JsonSerializer.SerializeToString(this);
+        }
+
+        /// <summary>
+        /// Deserializes the given JSON string to a DigitalReceiptMessageWrapper instance
+        /// </summary>
+        /// <param name="json">The JSON to be deserialized</param>
+        /// <returns></returns>
+        public static DigitalReceiptMessage DeserializeFromJson(string json)
+        {
+            return JsonSerializer.Deserialize<DigitalReceiptMessage>(json);
+        }
+    }
     /// <summary>
     /// Class representing a full DigitalReceipt. It containts the header information about the
     /// receipt along with the invoice and payment details.
     /// </summary>
     [DataContract]
-    public class DigitalReceipt
+    public class DRxDigitalReceipt
     {
-        public DigitalReceipt()
+        public DRxDigitalReceipt()
         {
             Invoice = new Invoice.Invoice();
         }

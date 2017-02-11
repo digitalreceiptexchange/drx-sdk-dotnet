@@ -15,6 +15,7 @@
 // 
 #endregion
 using System.Runtime.Serialization;
+using Net.Dreceiptx.Receipt.Serialization.Json;
 
 namespace Net.Dreceiptx.Client
 {

@@ -24,12 +24,15 @@ using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Common.Measurements;
 using Net.Dreceiptx.Receipt.Ecom;
 using Net.Dreceiptx.Receipt.Invoice;
+using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Receipt.Tax;
+using Newtonsoft.Json;
 
 namespace Net.Dreceiptx.Receipt.LineItem
 {
     [DataContract]
-    public  class LineItem
+    [JsonConverter(typeof(LineItemConverter))]
+    public abstract class LineItem
     {
         protected List<Tax.Tax> _taxes = new List<Tax.Tax>();
         protected AVPList _AVPList = new AVPList();
@@ -92,7 +95,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             ReceiptAllowanceCharges.Add(receiptAllowanceCharge);
         }
 
-        public void SetTradeItemDescriptionInformation(string brand, string name, string description)
+        protected void SetTradeItemDescriptionInformation(string brand, string name, string description)
         {
             if (TransactionalTradeItem.TradeItemDescriptionInformation != null)
             {
@@ -126,6 +129,56 @@ namespace Net.Dreceiptx.Receipt.LineItem
             }
         }
 
+        public bool IsMeasurementSet => TransactionalTradeItem.TradeItemMeasurements != null;
+
+        public Measurement MeasurementHeight
+        {
+            get
+            {
+                if (IsMeasurementSet)
+                {
+                    return TransactionalTradeItem.TradeItemMeasurements.Height;
+                }
+                return null;
+            }
+        }
+
+        public Measurement MeasurementWidth
+        {
+            get
+            {
+                if (IsMeasurementSet)
+                {
+                    return TransactionalTradeItem.TradeItemMeasurements.Width;
+                }
+                return null;
+            }
+        }
+
+        public Measurement MeasurementDepth
+        {
+            get
+            {
+                if (IsMeasurementSet)
+                {
+                    return TransactionalTradeItem.TradeItemMeasurements.Depth;
+                }
+                return null;
+            }
+        }
+
+        public Measurement MeasurementDiameter
+        {
+            get
+            {
+                if (IsMeasurementSet)
+                {
+                    return TransactionalTradeItem.TradeItemMeasurements.Diameter;
+                }
+                return null;
+            }
+        }
+
         public void SetMeasurements(double height, double width, double depth, MeasurementType measurementType)
         {
             if (TransactionalTradeItem.TradeItemMeasurements == null)
@@ -139,7 +192,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         //public TradeItemDescriptionInformation TradeItemDescriptionInformation { get; set; } = null;
 
         [DataMember]
-        public TransactionalTradeItem TransactionalTradeItem { get; set; }
+        protected TransactionalTradeItem TransactionalTradeItem { get; set; }
 
         protected string TradeItemGroupIdentificationCode
         {
@@ -153,59 +206,31 @@ namespace Net.Dreceiptx.Receipt.LineItem
             
         }
 
-        //protected <
-        //T extends
-        //Enum<T>
-        //&
-        //LineItemTypeDescription
-        //>
-
-        //LineItemTypeDescription getLineItemType(Class<T> lineItemTypeDescription, LineItemTypeDescription defaultValue)
-        //{
-        //    if (_tradeItemDescriptionInformation != null)
-        //    {
-        //        for (T lineItemTypeDescriptionEnum :
-        //        lineItemTypeDescription.getEnumConstants())
-        //        {
-        //            if (
-        //                lineItemTypeDescriptionEnum.code()
-        //                    .equals(_tradeItemDescriptionInformation.getTradeItemGroupIdentificationCode()))
-        //            {
-        //                return lineItemTypeDescriptionEnum;
-        //            }
-        //        }
-        //    }
-
-        //    return defaultValue;
-        //}
-
-
-
         //TODO: why does this take two parameters and not just a simple getter/setter?
-        public void SetTransactionalTradeItemType(TransactionalTradeItemType transactionalTradeItemType,
+        protected void SetTransactionalTradeItemType(TransactionalTradeItemType transactionalTradeItemType,
             string transactionalTradeItemCode)
         {
             _transactionalTradeItemType = transactionalTradeItemType;
             _transactionalTradeItemCode = transactionalTradeItemCode;
         }
 
-        public TransactionalTradeItemType? TransTradeItemType => _transactionalTradeItemType;
+        protected TransactionalTradeItemType? TransTradeItemType => _transactionalTradeItemType;
 
-        public string TransTradeItemCode => _transactionalTradeItemCode;
+        protected string TransTradeItemCode => _transactionalTradeItemCode;
 
 
 
-        public void AddTradeItemIdentification(string code, string value)
+        protected void AddTradeItemIdentification(string code, string value)
         {
             TransactionalTradeItem.ItemIdentification.Add(code, value);
         }
 
-        public bool HasTradeItemIdentificationValue(string code)
+        protected bool HasTradeItemIdentificationValue(string code)
         {
             return TransactionalTradeItem.ItemIdentification.Contains(code);
         }
 
-        public string getTradeItemIdentificationValue(string code)
+        protected string getTradeItemIdentificationValue(string code)
         {
             if (TransactionalTradeItem.ItemIdentification.Contains(code))
             {
@@ -216,13 +241,13 @@ namespace Net.Dreceiptx.Receipt.LineItem
         }
 
         [DataMember(Name = "AvpList")]
-        public AVPList EcomAVPList
+        protected AVPList EcomAVPList
         {
             get { return _AVPList; }
             set { _AVPList = value; }
         }
 
-        public void AddEcomAVP(AVP avp)
+        protected void AddEcomAVP(AVP avp)
         {
             _AVPList.Add(avp);
         }

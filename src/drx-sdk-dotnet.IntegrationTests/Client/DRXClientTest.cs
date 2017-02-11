@@ -28,6 +28,7 @@ using Net.Dreceiptx.Receipt.Document;
 using Net.Dreceiptx.Receipt.Ecom;
 using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.LineItem;
+using Net.Dreceiptx.Receipt.Serialization;
 using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Receipt.Tax;
 using Net.Dreceiptx.Users;
@@ -188,9 +189,9 @@ namespace Net.Dreceiptx.IntegrationTests.Client
         [Test]
         public void TestSendReceipt()
         {
-            StandardBusinessDocumentHeaderBuilder builder = new StandardBusinessDocumentHeaderBuilder();
-            StandardBusinessDocumentHeader header = builder.MerchangeGLN("anz_concierge")
-                .DrxFLN("AUS_ALPHA_EXPENSEMANAGER")
+            /*StandardBusinessDocumentHeaderBuilder builder = new StandardBusinessDocumentHeaderBuilder();
+            StandardBusinessDocumentHeader header = builder.MerchantGLN("anz_concierge")
+                .DRxGLN("AUS_ALPHA_EXPENSEMANAGER")
                 .UserIdentifier(UserIdentifierType.Guid, "UATANZALPHAUSR14816368024009877")
                 //.AddMerchantContact(new ReceiptContact(ReceiptContactType.SALES_ADMINISTRATION, "Sabre Online"))
                 //.AddRMSContact(new ReceiptContact(ReceiptContactType.PURCHASING_CONTACT, "Grignell Michelle"))
@@ -224,7 +225,7 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             invoice.InvoiceLineItems[0].AddReceiptAllowanceCharges(ReceiptAllowanceCharge.FreightFee(10, "Freight Fee", new Tax(10, 1, TaxCategory.APPLICABLE, TaxCode.GoodsAndServicesTax)));
             invoice.InvoiceLineItems[0].AddTax(new Tax(1000, 3, TaxCategory.APPLICABLE, TaxCode.EnvironmentalTax));
             DRXClient client = new DRXClient(_configManager);
-            client.SendReceipt(digitalReceiptMessage);
+            client.SendReceipt(digitalReceiptMessage);*/
 
         }
     }

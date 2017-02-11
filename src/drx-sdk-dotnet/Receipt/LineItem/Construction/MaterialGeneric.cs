@@ -20,18 +20,18 @@ using System.Runtime.Serialization;
 namespace Net.Dreceiptx.Receipt.LineItem.Construction
 {
     [DataContract]
-    public class GenericProduct : LineItem
+    public class MaterialGeneric : LineItem
     {
         public static readonly string LineItemTypeValue = "CON0001";
 
-        public GenericProduct(string brandName, string productName, string productDescription,
+        public MaterialGeneric(string brandName, string productName, string productDescription,
             int quantity, decimal price) 
             : base(brandName, productName, productDescription, quantity, price)
         {
             AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, LineItemTypeValue);
         }
 
-        public GenericProduct(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity,
+        public MaterialGeneric(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity,
             decimal price) : base(tradeItemDescriptionInformation, quantity, price)
         {
             AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, LineItemTypeValue);

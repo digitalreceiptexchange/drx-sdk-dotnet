@@ -1,0 +1,207 @@
+﻿
+{
+  "dRxDigitalReceipt": {
+    "standardBusinessDocumentHeader": {
+      "receiver": [
+        {
+          "identifier": {
+            "authority": "GS1",
+            "value": "9377778071234"
+          }
+        },
+        {
+          "identifier": {
+            "authority": "dRx",
+            "value": "GUID:GUID12345678910"
+          }
+        }
+      ],
+      "sender": [
+        {
+          "identifier": {
+            "authority": "GS1",
+            "value": "anz_concierge"
+          }
+        }
+      ],
+      "documentIdentification": {
+        "standard": "GS1",
+        "typeVersion": "1.3.0",
+        "type": "DIGITALRECEIPT",
+        "instanceIdentifier": "1234567",
+        "multipleType": "true",
+        "creationDateAndTime": "2017-02-11T11:16:45+11:00"
+      }
+    },
+    "invoice": {
+      "documentStatusCode": "ORIGINAL",
+      "invoiceType": "TAX_INVOICE",
+      "purchaseOrder": {
+        "entityIdentification": "123456789"
+      },
+      "invoiceIdentification": {
+        "entityIdentification": "1234567"
+      },
+      "creationDateTime": "0001-01-01T00:00:00",
+      "invoiceCurrencyCode": "AUD",
+      "countryOfSupplyOfGoods": "AUS",
+      "invoiceLineItem": [
+        {
+          "lineItemNumber": 1,
+          "creditLineIndicator": false,
+          "transactionalTradeItem": {
+            "tradeItemDescriptionInformation": {
+              "brandName": "Test Brand",
+              "descriptionShort": "Test Name",
+              "tradeItemDescription": "Test Description",
+              "isTradeItemAService": false,
+              "isTradeItemReconditioned": false
+            },
+            "additionalTradeItemIdentification": [
+              {
+                "additionalTradeItemIdentificationType": "DRX_LINEITEM_TYPE",
+                "additionalTradeItemIdentificationValue": "STANDARD"
+              }
+            ]
+          },
+          "avpList": [],
+          "amountExclusiveAllowancesCharges": 2.30,
+          "amountInclusiveAllowancesCharges": 2.30,
+          "invoiceAllowanceCharge": [],
+          "invoiceLineTaxInformation": [],
+          "invoicedQuantity": 1,
+          "itemPriceExclusiveAllowancesCharges": 2.30
+        },
+        {
+          "lineItemNumber": 2,
+          "creditLineIndicator": false,
+          "transactionalTradeItem": {
+            "tradeItemDescriptionInformation": {
+              "brandName": "Test MaterialGeneric",
+              "descriptionShort": "Test MaterialGeneric",
+              "tradeItemDescription": "Test MaterialGeneric Description",
+              "isTradeItemAService": false,
+              "isTradeItemReconditioned": false
+            },
+            "additionalTradeItemIdentification": [
+              {
+                "additionalTradeItemIdentificationType": "DRX_LINEITEM_TYPE",
+                "additionalTradeItemIdentificationValue": "CON0001"
+              }
+            ],
+            "tradeItemMeasurements": {
+              "depth": {
+                "measurementUnitCode": "MMT",
+                "value": 1000.0
+              },
+              "height": {
+                "measurementUnitCode": "MMT",
+                "value": 1200.0
+              },
+              "width": {
+                "measurementUnitCode": "MMT",
+                "value": 1100.0
+              }
+            }
+          },
+          "avpList": [],
+          "amountExclusiveAllowancesCharges": 2.30,
+          "amountInclusiveAllowancesCharges": 2.30,
+          "invoiceAllowanceCharge": [],
+          "invoiceLineTaxInformation": [],
+          "invoicedQuantity": 1,
+          "itemPriceExclusiveAllowancesCharges": 2.30
+        },
+        {
+          "lineItemNumber": 3,
+          "creditLineIndicator": false,
+          "transactionalTradeItem": {
+            "tradeItemDescriptionInformation": {
+              "brandName": "Test StandardLineItem",
+              "descriptionShort": "Test StandardLineItem",
+              "tradeItemDescription": "Test StandardLineItem Description",
+              "isTradeItemAService": false,
+              "isTradeItemReconditioned": false
+            },
+            "additionalTradeItemIdentification": [
+              {
+                "additionalTradeItemIdentificationType": "DRX_LINEITEM_TYPE",
+                "additionalTradeItemIdentificationValue": "STANDARD"
+              }
+            ]
+          },
+          "avpList": [],
+          "amountExclusiveAllowancesCharges": 30.00,
+          "amountInclusiveAllowancesCharges": 30.00,
+          "invoiceAllowanceCharge": [],
+          "invoiceLineTaxInformation": [],
+          "invoicedQuantity": 1,
+          "itemPriceExclusiveAllowancesCharges": 30.00
+        },
+        {
+          "lineItemNumber": 4,
+          "creditLineIndicator": false,
+          "transactionalTradeItem": {
+            "tradeItemDescriptionInformation": {
+              "brandName": "GroundTransport Provider",
+              "descriptionShort": "Test GroundTransport",
+              "tradeItemDescription": "Test GroundTransport Description",
+              "isTradeItemAService": false,
+              "isTradeItemReconditioned": false,
+              "tradeItemGroupIdentificationCode": "GTP0001"
+            },
+            "additionalTradeItemIdentification": [
+              {
+                "additionalTradeItemIdentificationType": "DRX_LINEITEM_TYPE",
+                "additionalTradeItemIdentificationValue": "TRAVEL0003"
+              }
+            ]
+          },
+          "avpList": [],
+          "amountExclusiveAllowancesCharges": 14.30,
+          "amountInclusiveAllowancesCharges": 14.30,
+          "invoiceAllowanceCharge": [],
+          "invoiceLineTaxInformation": [
+            {
+              "dutyFeeTaxCategoryCode": "APPLICABLE",
+              "dutyFeeTaxTypeCode": "GST",
+              "dutyFeeTaxPercentage": 10.0,
+              "dutyFeeTaxBasisAmount": 30.00,
+              "dutyFeeTaxAmount": 3.00
+            }
+          ],
+          "invoicedQuantity": 1,
+          "itemPriceExclusiveAllowancesCharges": 14.30
+        }
+      ],
+      "invoiceAllowanceCharge": [],
+      "shipFrom": {},
+      "shipTo": {},
+      "despatchInformation": {},
+      "invoiceTotals": {
+        "totalInvoiceAmount": {
+          "currencyCode": "AUD",
+          "value": 51.90
+        },
+        "totalLineAmountInclusiveAllowanceesCharges": {
+          "currencyCode": "AUD",
+          "value": 54.90
+        },
+        "totalTaxAmount": {
+          "currencyCode": "AUD",
+          "value": 3.00
+        }
+      }
+    },
+    "paymentReceipts": [ ],
+    "seller": {
+        "organisationDetails": {
+          "organisationName": "Hardware Store"
+        },
+        "dutyFeeTaxRegistration": {
+          "dutyFeeTaxTypeCode": "GST",
+          "dutyFeeTaxRegistrationID": "11 222 333 444"
+        }
+      }
+	}
+}

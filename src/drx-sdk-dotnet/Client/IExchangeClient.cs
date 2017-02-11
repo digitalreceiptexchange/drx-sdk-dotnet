@@ -15,8 +15,9 @@
 // 
 #endregion
 using System.Collections.Generic;
+using Net.Dreceiptx.Receipt.Serialization;
 using Net.Dreceiptx.Users;
-using DigitalReceipt = Net.Dreceiptx.Receipt.Serialization.Json.DigitalReceipt;
+using DigitalReceipt = Net.Dreceiptx.Receipt.DigitalReceipt;
 
 namespace Net.Dreceiptx.Client
 {
@@ -44,7 +45,7 @@ namespace Net.Dreceiptx.Client
         /// </summary>
         /// <param name="receipt">The receipt to be sent to the exchange</param>
         /// <returns>The receipt identifier will be returned</returns>
-        string SendReceipt(DigitalReceipt receipt);
+        string SendReceipt(DigitalReceiptMessage receipt);
 
 
         /// <summary>

@@ -14,38 +14,26 @@
 // limitations under the License.
 // 
 #endregion
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using Net.Dreceiptx.Receipt.Serialization.Json;
 
-namespace Net.Dreceiptx.Users
+using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
+using System.Runtime.Serialization;
+using Net.Dreceiptx.Receipt.Document;
+using Net.Dreceiptx.Receipt.Ecom;
+using Net.Dreceiptx.Receipt.LineItem;
+using Newtonsoft.Json;
+
+namespace Net.Dreceiptx.Receipt.Serialization.Json
 {
     [DataContract]
-    public class NewUserRegistrationRequest
+    [JsonConverter(typeof(LineItemObjectConverter))]
+    internal class LineItemObject : LineItem.LineItem
     {
-        [DataMember]
-        public List<NewUser> Users { get; set; }
+        public LineItemObject(){}
 
-        [DataMember]
-        public int UsersToRegister
+        internal string GetLineItemTypeCode()
         {
-            get { return Users.Count; }
-            set { ; }
-        }
-
-        public string Serialize()
-        {
-            return JsonSerializer.SerializeToString(this);
-        }
-
-        public static NewUserRegistrationRequest Deserialize(string json)
-        {
-            return JsonSerializer.Deserialize<NewUserRegistrationRequest>(json);
-        }
-
-        public string SerializeToJsonString()
-        {
-            return JsonSerializer.SerializeToString(this);
+            return this.getTradeItemIdentificationValue(LineItem.LineItem.LineItemTypeIdentifier);
         }
     }
 }

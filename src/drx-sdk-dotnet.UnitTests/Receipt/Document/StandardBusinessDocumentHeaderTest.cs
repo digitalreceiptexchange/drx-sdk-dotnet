@@ -33,8 +33,8 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Document
         public void TestSeralization()
         {
             StandardBusinessDocumentHeaderBuilder builder = new StandardBusinessDocumentHeaderBuilder();
-            StandardBusinessDocumentHeader header = builder.MerchangeGLN("anz_concierge")
-                .DrxFLN("AUS_ALPHA_EXPENSEMANAGER")
+            StandardBusinessDocumentHeader header = builder.MerchantGLN("anz_concierge")
+                .DRxGLN("AUS_ALPHA_EXPENSEMANAGER")
                 .UserIdentifier(UserIdentifierType.Guid, "UATANZALPHAUSR14660443061787969")
                 .AddMerchantContact(new ReceiptContact(ReceiptContactType.SALES_ADMINISTRATION, "Sabre Online"))
                 .AddRMSContact(new ReceiptContact(ReceiptContactType.PURCHASING_CONTACT, "Grignell Michelle"))

@@ -24,12 +24,15 @@ namespace Net.Dreceiptx.Receipt.LineItem
 {
     public class LineItemFactory
     {
+        public LineItemFactory(){
+        }
+
         private static readonly Dictionary<string, LineItemFunc> LineItems = new Dictionary<string, LineItemFunc>();
 
         private delegate LineItem LineItemFunc(
             TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price);
 
-        public LineItem CreateLineItem(string lineItemCode, TradeItemDescriptionInformation tradeItemDescriptionInformation, 
+        public static LineItem CreateLineItem(string lineItemCode, TradeItemDescriptionInformation tradeItemDescriptionInformation, 
             int quantity, decimal price)
         {
             if (!LineItems.ContainsKey(lineItemCode))
@@ -44,7 +47,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         public static readonly string TRAVEL0001  = Add(Accommodation.LineItemTypeValue,    (desc, qty, price) => new Accommodation(desc, qty, price));
         public static readonly string TRAVEL0002  = Add(Flight.LineItemTypeValue,           (desc, qty, price) => new Flight(desc, qty, price));
         public static readonly string TRAVEL0003  = Add(GroundTransport.LineItemTypeValue,  (desc, qty, price) => new GroundTransport(desc, qty, price));
-        public static readonly string CONSTRUCTION001 = Add(GenericProduct.LineItemTypeValue, (desc, qty, price) => new GenericProduct(desc, qty, price));
+        public static readonly string CON0001 = Add(MaterialGeneric.LineItemTypeValue, (desc, qty, price) => new MaterialGeneric(desc, qty, price));
 
 
         private static string Add(string id, LineItemFunc lineItemFunc)

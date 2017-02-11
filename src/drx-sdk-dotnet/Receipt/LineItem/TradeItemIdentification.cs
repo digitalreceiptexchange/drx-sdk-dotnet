@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using Net.Dreceiptx.Extensions;
 
@@ -30,10 +31,16 @@ namespace Net.Dreceiptx.Receipt.LineItem
             TradeItemIdentificationInformation existing = null;
             if (_dictionary.TryGetValue(item.AdditionalTradeItemIdentificationType, out existing))
             {
-                Remove(existing);
+                int existingIndex = base.IndexOf(existing);
+                RemoveItem(existingIndex);
+                base.InsertItem(existingIndex, item);
+                _dictionary.Add(item.AdditionalTradeItemIdentificationType, item);
             }
-            _dictionary.Add(item.AdditionalTradeItemIdentificationType, item);
-            base.InsertItem(index, item);
+            else{
+                _dictionary.Add(item.AdditionalTradeItemIdentificationType, item);
+                base.InsertItem(index, item);
+            }
+            
         }
 
         protected override void RemoveItem(int index)

@@ -14,10 +14,11 @@
 // limitations under the License.
 // 
 #endregion
+
 using System.IO;
 using System.Xml.Serialization;
 
-namespace Net.Dreceiptx
+namespace Net.Dreceiptx.Receipt.Serialization.XML
 {
     /// <summary>
     /// Provides generic methods to save and load a serializable object to and from XML 

@@ -46,4 +46,12 @@ namespace Net.Dreceiptx.Receipt.Tax
         [EnumMember(Value = "OTH")]
         OtherTaxes
     }
+
+    public class TaxCodeManager
+    {
+        public static TaxCode GetTaxCode(string code)
+        {
+            return Net.Dreceiptx.Receipt.Serialization.Json.JsonSerializer.Deserialize<TaxCode>("\"" + code + "\"");
+        }
+    }
 }

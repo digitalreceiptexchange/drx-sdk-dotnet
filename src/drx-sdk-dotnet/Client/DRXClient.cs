@@ -26,11 +26,12 @@ using log4net;
 using Net.Dreceiptx.Client.Exceptions;
 using Net.Dreceiptx.Extensions;
 using Net.Dreceiptx.Receipt.Config;
+using Net.Dreceiptx.Receipt.Serialization;
 using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Users;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using DigitalReceipt = Net.Dreceiptx.Receipt.Serialization.Json.DigitalReceipt;
+using DigitalReceipt = Net.Dreceiptx.Receipt.DigitalReceipt;
 
 namespace Net.Dreceiptx.Client
 {
@@ -261,14 +262,14 @@ namespace Net.Dreceiptx.Client
 
         }
 
-        public string SendReceipt(DigitalReceipt receipt)
+        public string SendReceipt(DigitalReceiptMessage receipt)
         {
             Log.DebugFormat("SendReceipt Entering...");
             try
             {
                 using (HttpClient client = CreateExchangeConnection("/receipt", _receiptVersion, null))
                 {
-                    string request = new DigitalReceiptMessageWrapper {DRxDigitalReceipt = receipt}.SerializeToJson();
+                    string request = receipt.SerializeToJson();
 
                     StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
                     Log.DebugFormat("Sending {0}", request);

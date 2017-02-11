@@ -32,7 +32,7 @@ namespace Net.Dreceiptx.Receipt.Invoice
     [DataContract]
     public class Invoice
     {
-        private static int _lineItemId = 1;
+        private static int _lineItemId = 0;
         private static int _allowanceOrChargeId = 1;
         private List<ReceiptAllowanceCharge> _allowanceOrCharges = new List<ReceiptAllowanceCharge>();
         private Dictionary<string, string> _companyTaxNumbers = new Dictionary<string, string>();

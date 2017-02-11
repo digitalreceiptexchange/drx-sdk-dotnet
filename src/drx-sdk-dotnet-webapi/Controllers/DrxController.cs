@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using log4net;
+using Net.Dreceiptx.Receipt.Serialization;
 using Net.Dreceiptx.Receipt.Serialization.Json;
 
 namespace Net.Dreceiptx.WebApi.Controllers
@@ -14,7 +15,7 @@ namespace Net.Dreceiptx.WebApi.Controllers
     public class DrxController : ApiController
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(DrxController));
-        private static List<DigitalReceiptMessageWrapper> _receipts = new List<DigitalReceiptMessageWrapper>();
+        private static List<DigitalReceiptMessage> _receipts = new List<DigitalReceiptMessage>();
 
         static DrxController()
         {
@@ -22,7 +23,7 @@ namespace Net.Dreceiptx.WebApi.Controllers
         }
 
         [HttpGet]
-        public List<DigitalReceiptMessageWrapper> GetAllReciepts()
+        public List<DigitalReceiptMessage> GetAllReciepts()
         {
             Log.DebugFormat("Returning {0} receipts", _receipts.Count);
             return _receipts;
@@ -30,7 +31,7 @@ namespace Net.Dreceiptx.WebApi.Controllers
 
 
         [HttpPost]
-        public HttpResponseMessage Post(DigitalReceiptMessageWrapper receipt)
+        public HttpResponseMessage Post(DigitalReceiptMessage receipt)
         {
             Log.DebugFormat("Receive Receipt: {0}", receipt.SerializeToJson());
             _receipts.Add(receipt);

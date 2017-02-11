@@ -35,21 +35,6 @@ namespace Net.Dreceiptx.Receipt.Document
             Sender = new List<DocumentOwner>();
             Receiver = new List<DocumentOwner>();
             DocumentIdentification = new DocumentIdentification();
-
-            //DocumentOwner merchant = new DocumentOwner();
-            //merchant.Identifier.Authority = "GS1";
-            //merchant.Identifier.Value = null;
-            //Sender.Add(merchant);
-
-            //DocumentOwner dRx = new DocumentOwner();
-            //dRx.Identifier.Authority = "GS1";
-            //dRx.Identifier.Value = null;
-            //Receiver.Add(dRx);
-
-            //DocumentOwner user = new DocumentOwner();
-            //user.Identifier.Authority = "dRx";
-            //user.Identifier.Value = null;
-            //Receiver.Add(user);
         }
 
         /// <summary>
@@ -88,7 +73,7 @@ namespace Net.Dreceiptx.Receipt.Document
         }
 
 
-        public DocumentOwner DrxFLN
+        public DocumentOwner DRxGLN
         {
             get
             {

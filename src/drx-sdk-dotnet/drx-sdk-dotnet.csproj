@@ -76,7 +76,9 @@
     <Compile Include="Client\UsersResponse.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\MiscExtensions.cs" />
-    <Compile Include="JsonSerializer.cs" />
+    <Compile Include="Receipt\Serialization\Json\LineItemObject.cs" />
+    <Compile Include="Receipt\Serialization\Json\LineItemConverter.cs" />
+    <Compile Include="Receipt\Serialization\Json\JsonSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReceiptValidation.cs" />
     <Compile Include="Receipt\AllowanceCharge\AllowanceChargeType.cs" />
@@ -118,7 +120,7 @@
     <Compile Include="Receipt\Invoice\Identification.cs" />
     <Compile Include="Receipt\Invoice\InvoiceTotals.cs" />
     <Compile Include="Receipt\Common\SellerInformation.cs" />
-    <Compile Include="Receipt\LineItem\Construction\GenericProduct.cs" />
+    <Compile Include="Receipt\LineItem\Construction\MaterialGeneric.cs" />
     <Compile Include="Receipt\LineItem\General\Book.cs" />
     <Compile Include="Receipt\LineItem\LineItem.cs" />
     <Compile Include="Receipt\LineItem\LineItemBuilder.cs" />
@@ -139,8 +141,8 @@
     <Compile Include="Receipt\Merchant\Merchant.cs" />
     <Compile Include="Receipt\Merchant\MerchantAddress.cs" />
     <Compile Include="Receipt\Merchant\MerchantContact.cs" />
-    <Compile Include="Receipt\Serialization\Json\DigitalReceiptMessage.cs" />
-    <Compile Include="Receipt\Serialization\Json\DigitalReceiptMessageWrapper.cs" />
+    <Compile Include="Receipt\Serialization\DigitalReceiptMessage.cs" />
+    <Compile Include="Receipt\Serialization\SerializationType.cs" />
     <Compile Include="Receipt\Settlement\PaymentAuthorisation.cs" />
     <Compile Include="Receipt\Settlement\PaymentMethodType.cs" />
     <Compile Include="Receipt\Settlement\PaymentReceipt.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Receipt\Tax\TaxCategory.cs" />
     <Compile Include="Receipt\Tax\TaxCode.cs" />
     <Compile Include="Receipt\Tax\TaxInfo.cs" />
+    <Compile Include="Receipt\Validation\DRXRuntimeException.cs" />
     <Compile Include="Receipt\Validation\ReceiptDeserializationException.cs" />
     <Compile Include="Receipt\Validation\ReceiptValidation.cs" />
     <Compile Include="Receipt\Validation\ValidationErrors.cs" />
@@ -165,7 +168,7 @@
     <Compile Include="Users\UserConfigurationOption.cs" />
     <Compile Include="Users\UserIdentifierType.cs" />
     <Compile Include="Users\Users.cs" />
-    <Compile Include="XmlSerializer.cs" />
+    <Compile Include="Receipt\Serialization\XML\XmlSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
