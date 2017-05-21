@@ -15,12 +15,7 @@
 // 
 #endregion
 
-using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 using System.Runtime.Serialization;
-using Net.Dreceiptx.Receipt.Document;
-using Net.Dreceiptx.Receipt.Ecom;
-using Net.Dreceiptx.Receipt.LineItem;
 using Newtonsoft.Json;
 
 namespace Net.Dreceiptx.Receipt.Serialization.Json
@@ -33,7 +28,7 @@ namespace Net.Dreceiptx.Receipt.Serialization.Json
 
         internal string GetLineItemTypeCode()
         {
-            return this.getTradeItemIdentificationValue(LineItem.LineItem.LineItemTypeIdentifier);
+            return GetTradeItemIdentificationValue(LineItemTypeIdentifier);
         }
     }
 }

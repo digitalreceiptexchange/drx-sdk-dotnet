@@ -1,7 +1,21 @@
-﻿using System;
-using System.Reflection;
+﻿#region copyright
+// Copyright 2016 Digital Receipt Exchange Limited
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+#endregion
+using System;
 using Net.Dreceiptx.Receipt.LineItem;
-using Net.Dreceiptx.Receipt.LineItem.Construction;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -20,9 +34,6 @@ namespace Net.Dreceiptx.Receipt.Serialization.Json
 
     public class LineItemConverter : JsonConverter
     {
-        private bool canRead = true;
-        private bool canWrite = false;
-
         public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
         {
             serializer.Serialize(writer, value);
@@ -55,19 +66,9 @@ namespace Net.Dreceiptx.Receipt.Serialization.Json
             return result;
         }
 
-        public override bool CanRead
-        {
-            get {
-                return canRead;
-            }
-        }
+        public override bool CanRead { get; } = true;
 
-        public override bool CanWrite {
-            get
-            {
-                return canWrite;
-            }
-        }
+        public override bool CanWrite { get; } = false;
 
         public override bool CanConvert(Type objectType)
         {
@@ -90,13 +91,7 @@ namespace Net.Dreceiptx.Receipt.Serialization.Json
             return serializer.Deserialize<LineItemObject>(reader);
         }
 
-        public override bool CanRead
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanRead => false;
 
         public override bool CanConvert(Type objectType)
         {

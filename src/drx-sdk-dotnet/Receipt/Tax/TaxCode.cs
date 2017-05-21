@@ -16,6 +16,7 @@
 #endregion
 
 using System.Runtime.Serialization;
+using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.Tax
@@ -49,9 +50,10 @@ namespace Net.Dreceiptx.Receipt.Tax
 
     public class TaxCodeManager
     {
+        private static readonly EnumExtensions.DrxEnumExtendedInformationHelper<TaxCode> Converter = new EnumExtensions.DrxEnumExtendedInformationHelper<TaxCode>();
         public static TaxCode GetTaxCode(string code)
         {
-            return Net.Dreceiptx.Receipt.Serialization.Json.JsonSerializer.Deserialize<TaxCode>("\"" + code + "\"");
+            return Converter.GetByValue(code);
         }
     }
 }

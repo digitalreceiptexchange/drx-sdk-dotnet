@@ -16,26 +16,12 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.LineItem.Travel;
 using Net.Dreceiptx.Users;
 
 public static class EnumExtensions
 {
-    //private static Dictionary<UserConfigOptionType, DrxEnumExtendedInformationAttribute> userConfigTypeDictionary;
-
-    //public static DrxEnumExtendedInformationAttribute ExtendedInformation(this UserConfigOptionType userConfigOptionType)
-    //{
-    //    if (userConfigTypeDictionary == null)
-    //    {
-    //        userConfigTypeDictionary = new Dictionary<UserConfigOptionType, DrxEnumExtendedInformationAttribute>();
-    //        foreach (UserConfigOptionType instance in Enum.GetValues(typeof(UserConfigOptionType)))
-    //        {
-    //            userConfigTypeDictionary.Add(instance, instance.GetCustomAttribute<DrxEnumExtendedInformationAttribute, UserConfigOptionType>());
-    //        }
-    //    }
-    //    return userConfigTypeDictionary[userConfigOptionType];
-    //}
-
     public static DrxEnumExtendedInformationAttribute ExtendedInformation(this Enum enumValue)
     {
         return enumValue.GetCustomAttribute<DrxEnumExtendedInformationAttribute>();
@@ -66,22 +52,39 @@ public static class EnumExtensions
 
     private static Dictionary<string, Net.Dreceiptx.Receipt.Common.Currency> _currencyDictionary;
 
+    private static DrxEnumExtendedInformationHelper<Currency> _currencyConverted = new DrxEnumExtendedInformationHelper<Currency>();
     public static Net.Dreceiptx.Receipt.Common.Currency Currency(string currencyCode)
     {
-        if (_currencyDictionary == null)
+        return _currencyConverted.GetByValue(currencyCode);
+    }
+
+    public class DrxEnumExtendedInformationHelper<T> where T: struct
+    {
+        private static Dictionary<string, T> _enumDictionary;
+
+        static DrxEnumExtendedInformationHelper()
         {
-            _currencyDictionary = new Dictionary<string, Net.Dreceiptx.Receipt.Common.Currency>();
-            foreach (Net.Dreceiptx.Receipt.Common.Currency currency in Enum.GetValues(typeof(Net.Dreceiptx.Receipt.Common.Currency)))
+            _enumDictionary = new Dictionary<string, T>();
+            foreach (T enumValue in Enum.GetValues(typeof(T)))
             {
-                _currencyDictionary.Add(currency.Value(), currency);
+                var type = enumValue.GetType();
+                var memInfo = type.GetMember(enumValue.ToString());
+                var attributes = memInfo[0].GetCustomAttributes(typeof(DrxEnumExtendedInformationAttribute), false);
+                var result = (attributes.Length > 0) ? (DrxEnumExtendedInformationAttribute)attributes[0] : null;
+                _enumDictionary.Add(result?.Value, enumValue);
             }
         }
-        Net.Dreceiptx.Receipt.Common.Currency result;
-        if (currencyCode == null || !_currencyDictionary.TryGetValue(currencyCode, out result))
+
+        public T GetByValue(string value)
         {
-            throw new InvalidOperationException($"CurrencyCode {currencyCode} is invalid");
+            T result;
+            if (value == null || !_enumDictionary.TryGetValue(value, out result))
+            {
+                throw new InvalidOperationException($"{typeof(T).Name} {value} is invalid");
+            }
+            return result;
         }
-        return result;
+
     }
 
     private static Dictionary<string, FlightDestinationType> _flightDestinationTypes;

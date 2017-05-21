@@ -129,55 +129,13 @@ namespace Net.Dreceiptx.Receipt.LineItem
             }
         }
 
-        public bool IsMeasurementSet => TransactionalTradeItem.TradeItemMeasurements != null;
+        public Measurement MeasurementHeight => TransactionalTradeItem.TradeItemMeasurements?.Height;
 
-        public Measurement MeasurementHeight
-        {
-            get
-            {
-                if (IsMeasurementSet)
-                {
-                    return TransactionalTradeItem.TradeItemMeasurements.Height;
-                }
-                return null;
-            }
-        }
+        public Measurement MeasurementWidth => TransactionalTradeItem.TradeItemMeasurements?.Width;
 
-        public Measurement MeasurementWidth
-        {
-            get
-            {
-                if (IsMeasurementSet)
-                {
-                    return TransactionalTradeItem.TradeItemMeasurements.Width;
-                }
-                return null;
-            }
-        }
+        public Measurement MeasurementDepth => TransactionalTradeItem.TradeItemMeasurements?.Depth;
 
-        public Measurement MeasurementDepth
-        {
-            get
-            {
-                if (IsMeasurementSet)
-                {
-                    return TransactionalTradeItem.TradeItemMeasurements.Depth;
-                }
-                return null;
-            }
-        }
-
-        public Measurement MeasurementDiameter
-        {
-            get
-            {
-                if (IsMeasurementSet)
-                {
-                    return TransactionalTradeItem.TradeItemMeasurements.Diameter;
-                }
-                return null;
-            }
-        }
+        public Measurement MeasurementDiameter => TransactionalTradeItem.TradeItemMeasurements?.Diameter;
 
         public void SetMeasurements(double height, double width, double depth, MeasurementType measurementType)
         {
@@ -230,7 +188,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             return TransactionalTradeItem.ItemIdentification.Contains(code);
         }
 
-        protected string getTradeItemIdentificationValue(string code)
+        protected string GetTradeItemIdentificationValue(string code)
         {
             if (TransactionalTradeItem.ItemIdentification.Contains(code))
             {

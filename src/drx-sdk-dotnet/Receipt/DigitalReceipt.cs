@@ -35,6 +35,11 @@ namespace Net.Dreceiptx.Receipt
     {
         private DRxDigitalReceipt _digitalReceipt;
 
+        public DigitalReceipt()
+        {
+            _digitalReceipt = new DRxDigitalReceipt();
+        }
+
         public DigitalReceipt(string digitalReceiptJson)
         {
             DigitalReceiptMessage _digitalReceiptMessage = JsonSerializer.Deserialize<DigitalReceiptMessage>(digitalReceiptJson);
@@ -143,7 +148,7 @@ namespace Net.Dreceiptx.Receipt
 
         public string SalesOrderReference
         {
-            get { return _digitalReceipt.Invoice.SalesOrderReference?.EntityIdentification; }
+            get => _digitalReceipt.Invoice.SalesOrderReference?.EntityIdentification;
             set
             {
                 if (_digitalReceipt.Invoice.SalesOrderReference == null)
@@ -154,10 +159,10 @@ namespace Net.Dreceiptx.Receipt
             }
         }
 
-        public string toJson()
+        public string ToJson()
         {
             DigitalReceiptMessage message = new DigitalReceiptMessage();
-            message.DRxDigitalReceipt = this._digitalReceipt;
+            message.DRxDigitalReceipt = _digitalReceipt;
             return JsonSerializer.SerializeToString(message);
         }
     }

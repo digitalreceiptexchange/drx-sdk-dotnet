@@ -16,25 +16,24 @@
 #endregion
 
 using System;
+using System.Dynamic;
 
 namespace Net.Dreceiptx.Receipt.Validation
 {
     public class DRXRuntimeException : Exception
     {
-        private readonly int _errorCode;
-
         public DRXRuntimeException() :base ()
         {
         }
 
         public DRXRuntimeException(int errorCode, string message) : base (message)
         {
-            _errorCode = errorCode;
+            ErrorCode = errorCode;
         }
 
         public DRXRuntimeException(int errorCode, string message, Exception innerException) : base(message, innerException)
         {
-            _errorCode = errorCode;
+            ErrorCode = errorCode;
         }
 
         public DRXRuntimeException(string cause) : base (cause)
@@ -45,9 +44,6 @@ namespace Net.Dreceiptx.Receipt.Validation
         {
         }
 
-        public int getErrorCode()
-        {
-            return _errorCode;
-        }
+        public int ErrorCode { get; }
     }
 }

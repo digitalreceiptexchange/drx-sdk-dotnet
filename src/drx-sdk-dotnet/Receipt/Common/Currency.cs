@@ -352,12 +352,4 @@ namespace Net.Dreceiptx.Receipt.Common
 
         [EnumMember(Value = "ZWL")] [DrxEnumExtendedInformation("ZWL", "Zimbabwe Dollar")] ZimbabweDollar
     }
-
-    public class CurrencyManager
-    {
-        public static Currency GetCurrency(string code)
-        {
-            return Net.Dreceiptx.Receipt.Serialization.Json.JsonSerializer.Deserialize<Currency>("\""+code+"\"");
-        }
-    }
 }

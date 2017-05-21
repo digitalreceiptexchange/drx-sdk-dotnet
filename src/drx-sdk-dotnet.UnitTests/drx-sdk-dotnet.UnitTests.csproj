@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="dotMemory.Unit, Version=103.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.dotMemoryUnit.2.3.20160517.113140\lib\dotMemory.Unit.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -66,6 +69,7 @@
     <Compile Include="JsonSerializerTest.cs" />
     <Compile Include="LineItemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Receipt\Common\CurrencyManagerTest.cs" />
     <Compile Include="Receipt\Common\CurrencyTest.cs" />
     <Compile Include="Receipt\Document\StandardBusinessDocumentHeaderTest.cs" />
     <Compile Include="Receipt\LineItem\Travel\ClientTest.cs" />

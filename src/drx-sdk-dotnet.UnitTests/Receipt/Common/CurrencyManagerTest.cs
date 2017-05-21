@@ -1,4 +1,4 @@
-#region copyright
+﻿#region copyright
 // Copyright 2016 Digital Receipt Exchange Limited
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,24 +15,20 @@
 // 
 #endregion
 
-using System.Runtime.Serialization;
-using Net.Dreceiptx.Users;
+using Net.Dreceiptx.Receipt.Common;
+using NUnit.Framework;
 
-namespace Net.Dreceiptx.Receipt.Tax
+namespace Net.Dreceiptx.UnitTests.Receipt.Common
 {
-    public enum TaxCategory
+    [TestFixture]
+    public class CurrencyManagerTest
     {
-        [DrxEnumExtendedInformation("APPLICABLE", "APPLICABLE")]
-        [EnumMember(Value = "APPLICABLE")]
-        APPLICABLE
-    }
-
-    public class TaxCategoryManager
-    {
-        private static readonly EnumExtensions.DrxEnumExtendedInformationHelper<TaxCategory> Converter = new EnumExtensions.DrxEnumExtendedInformationHelper<TaxCategory>();
-        public static TaxCategory GetTaxCategory(string code)
+        [Test]
+        [TestCase("AUD", Result = Currency.AustralianDollar)]
+        [TestCase("GBP", Result = Currency.BritishSterling)]
+        public Currency TestGetCurrencyReturnsCorrectResult(string currencyCode)
         {
-            return Converter.GetByValue(code);
+            return CurrencyManager.GetCurrency(currencyCode);
         }
     }
 }

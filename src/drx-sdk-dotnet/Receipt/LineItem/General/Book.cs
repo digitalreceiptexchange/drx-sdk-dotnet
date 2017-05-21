@@ -36,6 +36,6 @@ namespace Net.Dreceiptx.Receipt.LineItem.General
             Price = price;
         }
 
-        public string IBSNNumber => getTradeItemIdentificationValue(_tradeItemIdentificationISBN);
+        public string IBSNNumber => GetTradeItemIdentificationValue(_tradeItemIdentificationISBN);
     }
 }

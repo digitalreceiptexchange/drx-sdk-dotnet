@@ -76,6 +76,7 @@
     <Compile Include="Client\UsersResponse.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\MiscExtensions.cs" />
+    <Compile Include="Receipt\Common\CurrencyManager.cs" />
     <Compile Include="Receipt\Serialization\Json\LineItemObject.cs" />
     <Compile Include="Receipt\Serialization\Json\LineItemConverter.cs" />
     <Compile Include="Receipt\Serialization\Json\JsonSerializer.cs" />
