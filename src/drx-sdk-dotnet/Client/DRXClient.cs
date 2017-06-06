@@ -272,7 +272,7 @@ namespace Net.Dreceiptx.Client
                     string request = receipt.SerializeToJson();
 
                     StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
-                    Log.DebugFormat("Sending {0}", request);
+                    Log.DebugFormat("SendReceipt Request {0}", request);
 
                     var response = client.PostAsync("", content);
                     var statusCode = response.Result.StatusCode;

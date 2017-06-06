@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Net.Dreceiptx.Client;
 using Net.Dreceiptx.Client.Exceptions;
+using Net.Dreceiptx.Receipt;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Builders;
 using Net.Dreceiptx.Receipt.Common;
@@ -28,6 +29,7 @@ using Net.Dreceiptx.Receipt.Document;
 using Net.Dreceiptx.Receipt.Ecom;
 using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.LineItem;
+using Net.Dreceiptx.Receipt.Serialization;
 using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Receipt.Tax;
 using Net.Dreceiptx.Users;
@@ -189,8 +191,8 @@ namespace drx_sdk_dotnet.TestNuget
         public void TestSendReceipt()
         {
             StandardBusinessDocumentHeaderBuilder builder = new StandardBusinessDocumentHeaderBuilder();
-            StandardBusinessDocumentHeader header = builder.MerchangeGLN("anz_concierge")
-                .DrxFLN("AUS_ALPHA_EXPENSEMANAGER")
+            StandardBusinessDocumentHeader header = builder.MerchantGLN("anz_concierge")
+                .DRxGLN("AUS_ALPHA_EXPENSEMANAGER")
                 .UserIdentifier(UserIdentifierType.Guid, "UATANZALPHAUSR14816368024009877")
                 //.AddMerchantContact(new ReceiptContact(ReceiptContactType.SALES_ADMINISTRATION, "Sabre Online"))
                 //.AddRMSContact(new ReceiptContact(ReceiptContactType.PURCHASING_CONTACT, "Grignell Michelle"))
@@ -201,10 +203,10 @@ namespace drx_sdk_dotnet.TestNuget
                 .Builder()
                 .Build();
 
-            DigitalReceipt digitalReceiptMessage = new DigitalReceipt();
-            digitalReceiptMessage.StandardBusinessDocumentHeader = header;
+            DigitalReceiptMessage digitalReceiptMessage = new DigitalReceiptMessage();
+            digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader = header;
             Invoice invoice = new Invoice();
-            digitalReceiptMessage.Invoice = invoice;
+            digitalReceiptMessage.DRxDigitalReceipt.Invoice = invoice;
             invoice.InvoiceCurrencyCode = Currency.AustralianDollar.Value();
             invoice.CountryOfSupplyOfGoods = "AUS";
             invoice.CreationDateTime = DateTime.Now;
@@ -219,7 +221,6 @@ namespace drx_sdk_dotnet.TestNuget
             invoice.AddLineItem(new StandardLineItem("Google", "Google Cast Chrome", "TV THing", 1, 10.00m));
             invoice.AddLineItem(new StandardLineItem("Samsung", "Samsung Note 7", "Flame Thrower", 1, 1349.00m)
             { BatchNumber = "Batch1234", SerialNumber = "SerialNumber1234" });
-            invoice.InvoiceLineItems[0].AddEcomAVP(new AVP("AVP_Name", "AVP_Value"));
             invoice.InvoiceLineItems[0].AddReceiptAllowanceCharges(ReceiptAllowanceCharge.Tip(1, "Good Service Tip", new Tax(10, 1, TaxCategory.APPLICABLE, TaxCode.GoodsAndServicesTax)));
             invoice.InvoiceLineItems[0].AddReceiptAllowanceCharges(ReceiptAllowanceCharge.FreightFee(10, "Freight Fee", new Tax(10, 1, TaxCategory.APPLICABLE, TaxCode.GoodsAndServicesTax)));
             invoice.InvoiceLineItems[0].AddTax(new Tax(1000, 3, TaxCategory.APPLICABLE, TaxCode.EnvironmentalTax));

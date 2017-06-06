@@ -240,7 +240,7 @@
   <ItemGroup>
     <ProjectReference Include="..\drx-sdk-dotnet\drx-sdk-dotnet.csproj">
       <Project>{fb717df1-d423-4553-a285-323d23711338}</Project>
-      <Name>drx-wrapper</Name>
+      <Name>drx-sdk-dotnet</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

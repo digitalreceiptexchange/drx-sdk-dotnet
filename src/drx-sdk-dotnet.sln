@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "drx-sdk-dotnet", "drx-sdk-dotnet\drx-sdk-dotnet.csproj", "{FB717DF1-D423-4553-A285-323D23711338}"
 EndProject
@@ -19,6 +19,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "drx-sdk-dotnet-webapi", "drx-sdk-dotnet-webapi\drx-sdk-dotnet-webapi.csproj", "{7F12D927-E5DE-446A-B5C7-A01C94070E29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "drx-sdk-dotnet.TestNuget", "drx-sdk-dotnet.TestNuget\drx-sdk-dotnet.TestNuget.csproj", "{20A5E76C-71B2-4855-B015-C1CC356391F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{0785115D-11EE-40CB-8E1E-A981C60C3B64}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\build.cake = ..\build.cake
+		..\build.ps1 = ..\build.ps1
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
