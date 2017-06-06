@@ -48,9 +48,8 @@ namespace Net.Dreceiptx.Receipt.Serialization.Json
         /// <param name="item">The item to be serialized</param>
         public static string SerializeToString<T>(T item)
         {
-            var settings = CreateDefaultSettings();
+            JsonSerializerSettings settings = CreateDefaultSettings();
             settings.Converters.Add(new StringEnumConverter());
-            //Settings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             return JsonConvert.SerializeObject(item, JsonSettings);
         }
 

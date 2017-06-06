@@ -31,9 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="drx-sdk-dotnet, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\drx-sdk-dotnet.0.1.0-alpha\lib\net45\drx-sdk-dotnet.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="drx-sdk-dotnet, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\drx-sdk-dotnet.0.1.2-alpha\lib\net45\drx-sdk-dotnet.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
