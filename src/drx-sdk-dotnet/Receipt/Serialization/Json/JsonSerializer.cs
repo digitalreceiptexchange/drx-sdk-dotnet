@@ -50,7 +50,7 @@ namespace Net.Dreceiptx.Receipt.Serialization.Json
         {
             JsonSerializerSettings settings = CreateDefaultSettings();
             settings.Converters.Add(new StringEnumConverter());
-            return JsonConvert.SerializeObject(item, JsonSettings);
+            return JsonConvert.SerializeObject(item, settings);
         }
 
         /// <summary>
