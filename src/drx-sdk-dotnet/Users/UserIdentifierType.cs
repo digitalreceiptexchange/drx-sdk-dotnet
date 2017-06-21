@@ -32,6 +32,9 @@ namespace Net.Dreceiptx.Users
         //TODO: Mobile number is not part of the User object
         [DrxEnumExtendedInformation("MOBILE", "Users mobile number with country code without the +")]
         [EnumMember(Value = "MOBILE")]
-        Mobile
+        Mobile,
+        [DrxEnumExtendedInformation("ACCOR_LECLUB", "Accor Hotels Le Club Membership Number")]
+        [EnumMember(Value = "ACCOR_LECLUB")]
+        AccorLeclub
     }
 }
