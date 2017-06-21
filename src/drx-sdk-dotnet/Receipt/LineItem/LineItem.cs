@@ -44,7 +44,12 @@ namespace Net.Dreceiptx.Receipt.LineItem
         {
         }
 
-        protected LineItem(string brand, string name, string description, int quantity, decimal price)
+        protected LineItem(string brand, string name, string description, int quantity, decimal price) 
+            : this(brand, name, description, (decimal)quantity, price)
+        {
+        }
+
+        protected LineItem(string brand, string name, string description, decimal quantity, decimal price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
             TransactionalTradeItem = new TransactionalTradeItem();
@@ -53,7 +58,12 @@ namespace Net.Dreceiptx.Receipt.LineItem
             Price = price;
         }
 
-        protected LineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price)
+        protected LineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price) 
+            : this(tradeItemDescriptionInformation, (decimal)quantity, price)
+        {
+        }
+
+        protected LineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, decimal quantity, decimal price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
             TransactionalTradeItem = new TransactionalTradeItem();
@@ -62,8 +72,12 @@ namespace Net.Dreceiptx.Receipt.LineItem
             Price = price;
         }
 
-        protected LineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode,
-            int quantity, decimal price)
+        protected LineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode, int quantity, decimal price)
+            : this(transactionalTradeItemType, transactionalTradeItemCode, (decimal)quantity, price)
+        {
+        }
+
+        protected LineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode, decimal quantity, decimal price)
         {
             _transactionalTradeItemType = transactionalTradeItemType;
             _transactionalTradeItemCode = transactionalTradeItemCode;
@@ -386,7 +400,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         }
 
         [DataMember(Name = "InvoicedQuantity")]
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         [DataMember(Name = "ItemPriceExclusiveAllowancesCharges")]
         public decimal Price { get; set; }
 
