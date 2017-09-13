@@ -166,7 +166,7 @@ namespace Net.Dreceiptx.UnitTests
 
 
 //            DrxService service = new DrxService();
-//            DrxCredentials credentials = new DrxCredentials();
+//            DRXCredentials credentials = new DRXCredentials();
 //            credentials.ApiKey = "7FRLDrWCQH49AeG60iPZ";
 //            credentials.RequesterId = "ALPHA_ANZ_TEST_REQUESTER";
 //            credentials.Secret = "UVk3LJINT1DyDHgdWU1LJGfl9ASyEflU20BXl26trR";

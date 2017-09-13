@@ -16,7 +16,6 @@
 #endregion
 
 using System.Runtime.Serialization;
-using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.Common

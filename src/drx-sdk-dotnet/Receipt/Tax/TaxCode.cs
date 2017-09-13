@@ -31,6 +31,10 @@ namespace Net.Dreceiptx.Receipt.Tax
         [EnumMember(Value = "AAF")]
         CoffeeTax,
 
+        [DrxEnumExtendedInformation("EXC", "Excise duty")]
+        [EnumMember(Value = "EXC")]
+        ExciseDuty,
+
         [DrxEnumExtendedInformation("AAJ", "Tax on replacement part")]
         [EnumMember(Value = "AAJ")]
         ReplacementPartTax,
@@ -42,6 +46,13 @@ namespace Net.Dreceiptx.Receipt.Tax
         [DrxEnumExtendedInformation("ENV", "Environmental tax")]
         [EnumMember(Value = "ENV")]
         EnvironmentalTax,
+
+        [DrxEnumExtendedInformation("VAT", "value added tax")]
+        [EnumMember(Value = "VAT")]
+        ValueAddedTax,
+        [DrxEnumExtendedInformation("IMP", "Import tax")]
+        [EnumMember(Value = "IMP")]
+        ImportTax,
 
         [DrxEnumExtendedInformation("OTH", "Other taxes")]
         [EnumMember(Value = "OTH")]

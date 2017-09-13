@@ -1,4 +1,4 @@
-#region copyright
+﻿#region copyright
 // Copyright 2016 Digital Receipt Exchange Limited
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,22 +16,10 @@
 #endregion
 namespace Net.Dreceiptx.Client
 {
-    public class DRXCredentials : IExchangeCredentials
+    public interface IExchangeCredentials
     {
-        public DRXCredentials(string requesterId, string apiKey, string apiSecret)
-        {
-            RequesterId = requesterId;
-            APIKey = apiKey;
-            APISecret = apiSecret;
-        }
-
-        /// <inheritdoc />
-        public string RequesterId { get; set; }
-
-        /// <inheritdoc />
-        public string APIKey { get; }
-
-        /// <inheritdoc />
-        public string APISecret { get; }
+        string RequesterId { get; }
+        string APIKey { get; }
+        string APISecret { get;  }
     }
 }

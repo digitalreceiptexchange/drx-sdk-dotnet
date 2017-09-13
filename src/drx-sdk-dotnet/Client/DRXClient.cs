@@ -20,6 +20,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Text;
 using System.Web;
 using log4net;
@@ -51,7 +52,52 @@ namespace Net.Dreceiptx.Client
         
         private readonly string _directoryHostname;
         private readonly string _userVersion;
+        private IExchangeCredentials _exchangeCredentials;
+        private Region _region;
+        private string _exchangeAPIHost;
 
+
+        public DRXClient() : this(new EnvVarExchangeCredentials())
+        {
+
+        }
+
+        /// <summary>
+        /// Creates instance of ExchangeClient using the given Region. The region will
+        /// be used as a template for the endpoint locations for the DRXClient instance, this can
+        /// be overridden on a per receipt basis by setting the region on the Location object
+        /// on the receipt.
+        /// </summary>
+        /// <param name="region">region the Region settings to be used by the ExchangeClient</param>
+        public DRXClient(Region region) :this(region, new EnvVarExchangeCredentials())
+        {
+        }
+
+        /// <summary>
+        /// Creates instance of DRXClient using the given ExchangeCredentials. These credentials will be
+        /// used when sending a receipt to the exchange. If the credentials are null or the properties
+        /// on the credentials are null then ExchangeClientException will be thrown.
+        /// </summary>
+        /// <param name="credentials">credentials The credentials to be used when sending a receipt to the exchange</param>
+        public DRXClient(IExchangeCredentials credentials) : this(null, credentials)
+        {
+        }
+
+        /// <summary>
+        /// Creates instance of ExchangeClient using the given Region and with provided ExchangeCredentials
+        /// </summary>
+        /// <param name="region">the Region settings to be used by the ExchangeClient</param>
+        /// <param name="credentials">credentials the ExchangeCredentials settings to be used by the ExchangeClient</param>
+        public DRXClient(Region region, IExchangeCredentials credentials) 
+        {
+            _exchangeCredentials = ValidateCredentials(credentials);
+            _region = region;
+            if (_region != null)
+            {
+                _exchangeAPIHost = _region.APIEndpoint;
+            }
+
+        }
         /// <summary>
         /// Creates instance of ExchangeClient using the given ConfigManager
         /// </summary>
@@ -74,6 +120,31 @@ namespace Net.Dreceiptx.Client
                 _directoryProtocol = _configManager.GetConfigValue("directory.protocol");
             }
         }
+
+        public IExchangeCredentials ExchangeCredentials => _exchangeCredentials;
+        public string ExchangeAPIHost => _exchangeAPIHost;
+        public string ReceiptVersion => _receiptVersion;
+        public string DirectoryHost => _directoryHostname;
+        public string UserVersion => _userVersion;
+
+
+        private T ValidateNotNull<T>(T value, String error) 
+        {
+            if(value == null)
+            {
+                throw new ExchangeClientException(error);
+            }
+            return value;
+        }
+
+        private IExchangeCredentials ValidateCredentials(IExchangeCredentials credentials) 
+        {
+            ValidateNotNull(credentials, "Credentials can not be null");
+            ValidateNotNull(credentials.APIKey, "Credentials APIKey can not be null");
+            ValidateNotNull(credentials.APISecret, "Credentials APISecret can not be null");
+            ValidateNotNull(credentials.RequesterId, "Credentials RequesterId can not be null");
+            return credentials;
+    }
 
         public User SearchUser(UserIdentifierType identifierType, string identifier)
         {

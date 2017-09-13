@@ -68,6 +68,12 @@ namespace Net.Dreceiptx.IntegrationTests.Client
         }
 
         [Test]
+        public void TestSearchUser2()
+        {
+            DRXClient client = new DRXClient(Region.Australasia);
+        }
+
+        [Test]
         public void TestSearchUser()
         {
             DRXClient client = new DRXClient(_configManager);

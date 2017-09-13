@@ -61,7 +61,9 @@
   <ItemGroup>
     <Compile Include="Client\DRXClient.cs" />
     <Compile Include="Client\DrxCredentials.cs" />
+    <Compile Include="Client\EnvVarExchangeCredentials.cs" />
     <Compile Include="Client\Exceptions\ExchangeClientException.cs" />
+    <Compile Include="Client\ExchangeCredentials.cs" />
     <Compile Include="Client\ExchangeResponse.cs" />
     <Compile Include="Client\ExchangeResponseResult.cs" />
     <Compile Include="Client\IExchangeClient.cs" />
@@ -76,7 +78,11 @@
     <Compile Include="Client\UsersResponse.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\MiscExtensions.cs" />
+    <Compile Include="Receipt\Common\Country.cs" />
     <Compile Include="Receipt\Common\CurrencyManager.cs" />
+    <Compile Include="Receipt\Common\Language.cs" />
+    <Compile Include="Receipt\Config\Location.cs" />
+    <Compile Include="Receipt\Config\Region.cs" />
     <Compile Include="Receipt\Serialization\Json\LineItemObject.cs" />
     <Compile Include="Receipt\Serialization\Json\LineItemConverter.cs" />
     <Compile Include="Receipt\Serialization\Json\JsonSerializer.cs" />
