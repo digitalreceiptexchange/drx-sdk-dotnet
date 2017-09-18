@@ -14,11 +14,28 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Runtime.Serialization;
+using Net.Dreceiptx.Users;
+
 namespace Net.Dreceiptx.Receipt.Common
 {
     public enum Language
     {
+        [DrxEnumExtendedInformation("zh", "Chinese")]
+        [EnumMember(Value = "zh")]
+        Chinese,
+        [DrxEnumExtendedInformation("en", "English")]
+        [EnumMember(Value = "en")]
         English,
-        French
+        [DrxEnumExtendedInformation("fr", "French")]
+        [EnumMember(Value = "fr")]
+        French,
+        [DrxEnumExtendedInformation("de", "German")]
+        [EnumMember(Value = "de")]
+        German,
+        [DrxEnumExtendedInformation("is", "Italian")]
+        [EnumMember(Value = "is")]
+        Italian
     }
 }

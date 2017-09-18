@@ -15,6 +15,7 @@
 // 
 #endregion
 using System;
+using System.Collections.Generic;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Tax;
 
@@ -22,46 +23,60 @@ namespace Net.Dreceiptx.Receipt.Config
 {
     public sealed class Location
     {
-        public static Location Australia = new Location(
+        public static Location Australia = Add(
             "AUS", Country.Australia, Currency.AustralianDollar, Region.Australasia, TaxCode.GoodsAndServicesTax,
             Language.English, TimeZoneInfo.FindSystemTimeZoneById("Australia/Sydney"));
 
 
-        public static Location Canada = new Location(
+        public static Location Canada = Add(
             "CAN", Country.Canada, Currency.CanadianDollar, Region.Canada, TaxCode.GoodsAndServicesTax,
             Language.English, TimeZoneInfo.FindSystemTimeZoneById("Canada/Eastern"));
 
 
-        public static Location France = new Location(
+        public static Location France = Add(
             "FRA", Country.France, Currency.Euro, Region.EuroWest, TaxCode.ValueAddedTax, 
             Language.French, TimeZoneInfo.FindSystemTimeZoneById("Europe/Paris"));
 
 
-        public static Location Ireland = new Location(
+        public static Location Ireland = Add(
             "IRE", Country.Ireland, Currency.Euro, Region.EuroWest, TaxCode.ValueAddedTax,
             Language.English, TimeZoneInfo.FindSystemTimeZoneById("Europe/Dublin"));
 
 
-        public static Location NewZealand = new Location(
+        public static Location NewZealand = Add(
             "NZL", Country.NewZealand, Currency.NewZealandDollar, Region.Australasia, TaxCode.GoodsAndServicesTax,
             Language.English, TimeZoneInfo.FindSystemTimeZoneById("NZ"));
 
 
-        public static Location UnitedKingdom = new Location(
+        public static Location UnitedKingdom = Add(
             "GBR", Country.UnitedKingdom, Currency.BritishSterling, Region.EuroWest, TaxCode.ValueAddedTax,
             Language.English, TimeZoneInfo.FindSystemTimeZoneById("Europe/London"));
 
 
-        public static Location USEastCoast = new Location(
+        public static Location USEastCoast = Add(
             "USEastCoast", Country.UnitedStatesOfAmerica, Currency.UsDollar, Region.USEast, TaxCode.ValueAddedTax,
             Language.English, TimeZoneInfo.FindSystemTimeZoneById("America/New_York"));
 
 
-        public static Location USWestCoast = new Location(
+        public static Location USWestCoast = Add(
                 "USWestCoast", Country.UnitedStatesOfAmerica, Currency.UsDollar, Region.USWest, TaxCode.ValueAddedTax,
                 Language.English, TimeZoneInfo.FindSystemTimeZoneById("America/Los_Angeles"));
 
 
+        private static Dictionary<string, Location> _locations = new Dictionary<string, Location>();
+
+        private static Location Add(string code, Country country, Currency currency,
+            Region region, TaxCode salesTaxCode, Language language, TimeZoneInfo timeZone)
+        {
+            var location = new Location(code, country, currency, region, salesTaxCode, language, timeZone);
+            _locations.Add(code, location);
+            return location;
+        }
+
+        public static Location CodeOf(string code)
+        {
+            return _locations[code];
+        }
 
         private Location(string code, Country country, Currency currency,
             Region region, TaxCode salesTaxCode, Language language, TimeZoneInfo timeZone)

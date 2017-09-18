@@ -15,44 +15,63 @@
 // 
 #endregion
 
+using System;
+using System.Collections.Generic;
+using Net.Dreceiptx.Receipt.Common;
+using Net.Dreceiptx.Receipt.Tax;
+
 namespace Net.Dreceiptx.Receipt.Config
 {
     public sealed class Region
     {
-        public static Region Australasia = new Region("AUS",
+        public static Region Australasia = Add("AUS",
             "9377778071234",
             "https://aus-api.dreceiptx.net",
             "https://directory.dreceiptx.net");
 
-        public static Region AsiaPacificCentral = new Region("APC",
+        public static Region AsiaPacificCentral = Add("APC",
             "9377778071234",
             "https://apc-api.dreceiptx.net",
             "https://directory.dreceiptx.net");
 
-        public static Region Canada = new Region("CAN",
+        public static Region Canada = Add("CAN",
             "9377778071234",
             "https://can-api.dreceiptx.net",
             "https://directory.dreceiptx.net");
 
-        public static Region EuroEast = new Region("EUE",
+        public static Region EuroEast = Add("EUE",
             "9377778071234",
             "https://eue-api.dreceiptx.net",
             "https://directory.dreceiptx.net");
 
-        public static Region EuroWest = new Region("EUW",
+        public static Region EuroWest = Add("EUW",
             "9377778071234",
             "https://euw-api.dreceiptx.net",
             "https://directory.dreceiptx.net");
 
-        public static Region USEast = new Region("USE",
+        public static Region USEast = Add("USE",
             "9377778071234",
             "https://use-api.dreceiptx.net",
             "https://directory.dreceiptx.net");
 
-        public static Region USWest = new Region("USW",
+        public static Region USWest = Add("USW",
             "9377778071234",
             "https://usw-api.dreceiptx.net",
             "https://directory.dreceiptx.net");
+
+        private static Dictionary<string, Region> _regions = new Dictionary<string, Region>();
+
+        private static Region Add(string code, string gln, string apiEndpoint, string directoryEndpoint)
+        {
+            var region = new Region(code, gln, apiEndpoint, directoryEndpoint);
+            _regions.Add(code, region);
+            return region;
+        }
+
+        public static Region CodeOf(string code)
+        {
+            return _regions[code];
+        }
 
         private  Region(string code, string gln, string apiEndpoint, string directoryEndpoint)
         {

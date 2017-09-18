@@ -21,7 +21,14 @@ namespace Net.Dreceiptx.Receipt.LineItem.General
         public static readonly string LineItemTypeValue = "GENERAL0001";
         private readonly string _tradeItemIdentificationISBN = "ISBN";
 
+        
         public Book(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price) 
+            : this(tradeItemDescriptionInformation, (double)quantity, price)
+        {
+
+        }
+
+        public Book(TradeItemDescriptionInformation tradeItemDescriptionInformation, double quantity, decimal price)
             : base(tradeItemDescriptionInformation, quantity, price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;

@@ -18,14 +18,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Management.Instrumentation;
 using Net.Dreceiptx.Receipt.AllowanceCharge;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Document;
 using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.Serialization;
 using Net.Dreceiptx.Receipt.Serialization.Json;
-using Net.Dreceiptx.Receipt.Settlement;
 using Net.Dreceiptx.Receipt.Tax;
 
 namespace Net.Dreceiptx.Receipt
@@ -34,6 +32,7 @@ namespace Net.Dreceiptx.Receipt
     public class DigitalReceipt
     {
         private DRxDigitalReceipt _digitalReceipt;
+        private string _sourceData;
 
         public DigitalReceipt()
         {
@@ -42,6 +41,7 @@ namespace Net.Dreceiptx.Receipt
 
         public DigitalReceipt(string digitalReceiptJson)
         {
+            _sourceData = digitalReceiptJson;
             DigitalReceiptMessage _digitalReceiptMessage = JsonSerializer.Deserialize<DigitalReceiptMessage>(digitalReceiptJson);
             _digitalReceipt = _digitalReceiptMessage.DRxDigitalReceipt;
         }
@@ -139,12 +139,20 @@ namespace Net.Dreceiptx.Receipt
         public Currency Currency => CurrencyManager.GetCurrency(_digitalReceipt.Invoice.InvoiceCurrencyCode);
 
         public decimal Total => _digitalReceipt.Invoice.Total;
-    
+
+        public decimal NetTotal => _digitalReceipt.Invoice.NetTotal;
+
         public decimal SubTotal => _digitalReceipt.Invoice.SubTotal;
-    
+
+        public decimal TotalTax => _digitalReceipt.Invoice.TaxesTotal;
+
         public decimal GetTaxTotal(TaxCode taxCode) {
             return _digitalReceipt.Invoice.TaxesTotalByTaxCode(taxCode);
         }
+
+        public decimal AllowancesTotal => _digitalReceipt.Invoice.SubTotalAllowances;
+
+        public decimal ChargesTotal => _digitalReceipt.Invoice.SubTotalCharges;
 
         public string SalesOrderReference
         {
@@ -158,6 +166,8 @@ namespace Net.Dreceiptx.Receipt
                 _digitalReceipt.Invoice.SalesOrderReference.EntityIdentification = value;
             }
         }
+
+        public string SourceData => _sourceData;
 
         public string ToJson()
         {

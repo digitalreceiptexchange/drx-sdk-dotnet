@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Runtime.Serialization;
 using System.Threading;
 using Net.Dreceiptx.Extensions;
@@ -40,14 +41,20 @@ namespace Net.Dreceiptx.Receipt.Invoice
 
         public Invoice()
         {
+            CreationDateTime = new DateTime();
         }
 
-        public Invoice(IConfigManager configManager)
+        public Invoice(Location location)  : this()
         {
-            InvoiceCurrencyCode = configManager.GetConfigValue("default.currency");
-            CountryOfSupplyOfGoods = configManager.GetConfigValue("default.country");
-            _defaultTimeZone = configManager.GetConfigValue("default.timezone");
-            CreationDateTime = new DateTime();
+            InvoiceCurrencyCode = location.Currency.Value();
+            CountryOfSupplyOfGoods = location.Country.Value();
+            
+        }
+        public Invoice(IConfigManager configManager) :this()
+        {
+            InvoiceCurrencyCode = configManager.GetConfigValue(ConfigKeys.DefaultCurrency);
+            CountryOfSupplyOfGoods = configManager.GetConfigValue(ConfigKeys.DefaultCountry);
+            _defaultTimeZone = configManager.GetConfigValue(ConfigKeys.DefaultTimeZone);
         }
 
         [DataMember]
@@ -164,6 +171,17 @@ namespace Net.Dreceiptx.Receipt.Invoice
         public Identification SalesOrderReference { get; set; }
 
         public decimal Total => SubTotal + TaxesTotal + SubTotalAllowances - SubTotalCharges;
+
+        public decimal NetTotal
+        {
+            get
+            {
+                decimal total = SubTotal;
+                total += SubTotalCharges;
+                total -= SubTotalAllowances;
+                return total;
+            }
+        }
 
         public decimal TaxPercentage
         {

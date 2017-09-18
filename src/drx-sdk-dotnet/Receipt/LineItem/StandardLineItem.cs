@@ -27,7 +27,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         public static readonly string LineItemTypeValue = "STANDARD";
 
         public StandardLineItem(string brand, string name, string description, int quantity, decimal price) 
-            : base(brand, name, description, quantity, price)
+            : base(brand, name, description, (double)quantity, price)
         {
             AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, StandardLineItem.LineItemTypeValue);
         }
@@ -39,7 +39,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         }
 
         public StandardLineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode,
-            int quantity, decimal price) : base(transactionalTradeItemType, transactionalTradeItemCode, quantity, price)
+            int quantity, decimal price) : base(transactionalTradeItemType, transactionalTradeItemCode, (double)quantity, price)
         {
             AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
         }

@@ -21,7 +21,7 @@ namespace Net.Dreceiptx.Receipt.Validation
         public static readonly string ReceiptMustHaveALeastLineItem = "Digital Receipt must have a least 1 line item.";
         public static readonly string ReceiptTypeMustBeSet = "Receipt Type must be set.";
         public static readonly string CurrencyCodeMustBeSet = "Currency Code must be set.";
-        public static readonly string CountryCodeMustBeSet = "Country Code must be set.";
+        public static readonly string CountryCodeMustBeSet = "Location Code must be set.";
         public static readonly string MerchantGLNMustBeSet = "Merchant GLN must be set.";
         public static readonly string UserGUIDMustBeSet = "User GUID must be set.";
         public static readonly string MerchantReferencenumberMustBeSet = "Merchant referenceNumber must be set.";

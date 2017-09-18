@@ -52,8 +52,17 @@ namespace Net.Dreceiptx.Client
             return value;
         }
 
+        /// <summary>
+        /// Gets the RequesterId as defined in the DRX_REQUESTER_ID envirnment variable
+        /// </summary>
         public string RequesterId { get; }
+        /// <summary>
+        /// Gets the APIKey as defind in the DRX_API_KEY environment variable
+        /// </summary>
         public string APIKey { get; }
+        /// <summary>
+        /// Gets the APISecret as defined in the DRX_API_SECRET environment varible
+        /// </summary>
         public string APISecret { get; }
     }
 }

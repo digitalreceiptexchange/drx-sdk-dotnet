@@ -81,6 +81,7 @@
     <Compile Include="Receipt\Common\Country.cs" />
     <Compile Include="Receipt\Common\CurrencyManager.cs" />
     <Compile Include="Receipt\Common\Language.cs" />
+    <Compile Include="Receipt\Config\ConfigKeys.cs" />
     <Compile Include="Receipt\Config\Location.cs" />
     <Compile Include="Receipt\Config\Region.cs" />
     <Compile Include="Receipt\Serialization\Json\LineItemObject.cs" />
@@ -179,10 +180,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="drx-sdk-dotnet.licenseheader" />
     <None Include="drx-sdk-dotnet.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

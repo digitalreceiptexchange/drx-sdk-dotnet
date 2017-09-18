@@ -44,7 +44,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
         {
         }
 
-        protected LineItem(string brand, string name, string description, int quantity, decimal price) 
+        protected LineItem(string brand, string name, string description, double quantity, decimal price) 
             : this(brand, name, description, (decimal)quantity, price)
         {
         }
@@ -58,7 +58,12 @@ namespace Net.Dreceiptx.Receipt.LineItem
             Price = price;
         }
 
-        protected LineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price) 
+        protected LineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity, decimal price)
+            : this(tradeItemDescriptionInformation, (decimal)quantity, price)
+        {
+        }
+
+        protected LineItem(TradeItemDescriptionInformation tradeItemDescriptionInformation, double quantity, decimal price) 
             : this(tradeItemDescriptionInformation, (decimal)quantity, price)
         {
         }
@@ -72,7 +77,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             Price = price;
         }
 
-        protected LineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode, int quantity, decimal price)
+        protected LineItem(TransactionalTradeItemType transactionalTradeItemType, string transactionalTradeItemCode, double quantity, decimal price)
             : this(transactionalTradeItemType, transactionalTradeItemCode, (decimal)quantity, price)
         {
         }
@@ -348,9 +353,10 @@ namespace Net.Dreceiptx.Receipt.LineItem
         {
             get
             {
-                decimal total = Price*Quantity;
+                decimal total = SubTotal;
                 total += _taxes.Sum(x => x.TaxTotal);
-                total += ReceiptAllowanceCharges.Sum(x => x.SubTotal);
+                total += ChargesTotal;
+                total -= AllowancesTotal;
                 return total;
             }
         }
@@ -366,6 +372,11 @@ namespace Net.Dreceiptx.Receipt.LineItem
             }
         }
 
+        public decimal ChargesTotal
+        {
+            get { return ReceiptAllowanceCharges.Where(x => x.IsCharge).Sum(x => x.NetTotal); }
+        }
+
         public decimal TaxesTotalByTaxCode(TaxCode taxCode)
         {
             decimal total = 0;
@@ -374,15 +385,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             return total;
         }
 
-        public decimal AllowancesTotal
-        {
-            get
-            {
-                decimal total = 0;
-                total += ReceiptAllowanceCharges.Sum(x => x.NetTotal);
-                return total;
-            }
-        }
+        public decimal AllowancesTotal => ReceiptAllowanceCharges.Where(x => x.IsAllowance).Sum(x => x.NetTotal);
 
         [DataMember(Name = "InvoiceAllowanceCharge")]
         public List<ReceiptAllowanceCharge> ReceiptAllowanceCharges { get; set; } = new List<ReceiptAllowanceCharge>();
@@ -395,8 +398,8 @@ namespace Net.Dreceiptx.Receipt.LineItem
         [DataMember(Name = "InvoiceLineTaxInformation")]
         public List<Tax.Tax> Taxes
         {
-            get { return _taxes; }
-            set { _taxes = value; }
+            get => _taxes;
+            set => _taxes = value;
         }
 
         [DataMember(Name = "InvoicedQuantity")]

@@ -21,8 +21,11 @@ namespace Net.Dreceiptx.Users
 {
     public enum UserConfigOptionType
     {
-        [DrxEnumExtendedInformation("ENDPOINTID", "Assign a users to a specific endpoint")]
+        [DrxEnumExtendedInformation("ENDPOINTID", "Assign a users to a specific production endpoint")]
         [EnumMember(Value = "ENDPOINTID")]
-        EndPointId
+        EndPointId,
+        [DrxEnumExtendedInformation("DryRunEndPointId", "Assign a users to a specific endpoint for DryRun receipts")]
+        [EnumMember(Value = "DryRunEndPointId")]
+        DryRunEndPointId
     }
 }

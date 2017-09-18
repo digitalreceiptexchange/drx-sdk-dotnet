@@ -1,5 +1,4 @@
 using System.Runtime.Serialization;
-using Net.Dreceiptx.Receipt.Invoice;
 
 namespace Net.Dreceiptx.Receipt.Common
 {

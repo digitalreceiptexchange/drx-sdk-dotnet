@@ -16,36 +16,52 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Net.Dreceiptx.Receipt.Merchant
 {
+    [DataContract]
     public class Merchant
     {
         //transient
-        private string _merchantLocationHostname = "https://cdn.dreceiptx.net/merchant/location/";
-        //@SerializedName("industry")
-        public string Industry { get; }
-        //@SerializedName("sector")
-        public string Sector { get; }
+        private string _merchantLocationHostname = "https://merchants.dreceiptx.net/location/";
 
-        public string LocationId { get; }
+        [DataMember]
+        public string Industry { get; set; }
 
-        //@SerializedName("fullName")
-        public string FullName { get; }
-        //@SerializedName("commonName")
-        public string CommonName { get; }
-        //@SerializedName("businessTaxNumber")
-        public string BusinessTaxNumber { get; }
-        //@SerializedName("businessRegistrationNumber")
-        public string BusinessRegistrationNumber { get; }
-        //@SerializedName("primaryPhone")
-        public string PrimaryPhone { get; }
-        //@SerializedName("primaryAddress")
-        public MerchantAddress PrimaryAddress { get; }
-        //@SerializedName("contacts")
-        public List<MerchantContact> Contacts { get; }
+        [DataMember]
+        public string Sector { get; set; }
 
-        public string MerchantLogoUrl => _merchantLocationHostname + LocationId + "/logo.jpg";
+        public string Id { get; set; }
+
+        [DataMember]
+        public string FullName { get; set; }
+
+        [DataMember]
+        public string CommonName { get; set; }
+
+        [DataMember]
+        public string BusinessTaxNumber { get; set; }
+
+        [DataMember]
+        public string BusinessTaxNumberType { get; set; }
+
+        [DataMember]
+        public string BusinessRegistrationNumber { get; set; }
+
+        [DataMember]
+        public string PrimaryPhone { get; set; }
+
+        [DataMember]
+        public MerchantAddress PrimaryAddress { get; set; }
+
+        [DataMember]
+        public List<MerchantContact> Contacts { get; set; }
+
+        [DataMember]
+        public MerchantStatus Status { get; set; }
+
+        public string MerchantLogoUrl => $"{_merchantLocationHostname}{Id}/logo.jpg";
 
         //TODO: No getter?
         public void setMerchantLocationHostname(string merchantLocationHostname)
@@ -53,5 +69,11 @@ namespace Net.Dreceiptx.Receipt.Merchant
             _merchantLocationHostname = merchantLocationHostname;
         }
 
+    }
+
+    public enum MerchantStatus
+    {
+        InActive,
+        Active
     }
 }

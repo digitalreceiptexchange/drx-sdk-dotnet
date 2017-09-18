@@ -25,16 +25,29 @@ namespace Net.Dreceiptx.Receipt.LineItem.Construction
         public static readonly string LineItemTypeValue = "CON0001";
 
         public MaterialGeneric(string brandName, string productName, string productDescription,
-            int quantity, decimal price) 
+            int quantity, decimal price)
+            : this(brandName, productName, productDescription, (double)quantity, price)
+        {
+            AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, LineItemTypeValue);
+        }
+
+        public MaterialGeneric(string brandName, string productName, string productDescription,
+            double quantity, decimal price) 
             : base(brandName, productName, productDescription, quantity, price)
         {
             AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, LineItemTypeValue);
         }
 
         public MaterialGeneric(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity,
+            decimal price) : this(tradeItemDescriptionInformation, (double)quantity, price)
+        {
+        }
+
+        public MaterialGeneric(TradeItemDescriptionInformation tradeItemDescriptionInformation, double quantity,
             decimal price) : base(tradeItemDescriptionInformation, quantity, price)
         {
             AddTradeItemIdentification(LineItem.LineItemTypeIdentifier, LineItemTypeValue);
         }
+
     }
 }

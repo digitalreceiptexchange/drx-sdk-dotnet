@@ -26,14 +26,26 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
         public static readonly string LineItemTypeValue = "TRAVEL0003";
 
         public GroundTransport(GroundTransportType groundTransportType, string provider, string shortDescription,
-            string longDescription, decimal price) 
+            double price)
+            : this(groundTransportType, provider, shortDescription, shortDescription, 1, (decimal)price)
+        {
+        }
+
+        public GroundTransport(GroundTransportType groundTransportType, string provider, string shortDescription,
+            string longDescription, double price) 
+            : this(groundTransportType, provider, shortDescription, longDescription, 1, (decimal)price)
+        {
+        }
+
+        public GroundTransport(GroundTransportType groundTransportType, string provider, string shortDescription,
+            string longDescription, decimal price)
             : this(groundTransportType, provider, shortDescription, longDescription, 1, price)
         {
         }
 
         public GroundTransport(GroundTransportType groundTransportType, string provider, string shortDescription,
             string longDescription, int quantity, decimal price) 
-            : base(provider, shortDescription, longDescription, quantity, price)
+            : base(provider, shortDescription, longDescription, (double)quantity, price)
         {
             TradeItemGroupIdentificationCode = groundTransportType.Value();
             AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
