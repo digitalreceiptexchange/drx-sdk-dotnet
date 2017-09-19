@@ -14,7 +14,10 @@
 // limitations under the License.
 // 
 #endregion
+
+using System;
 using System.Collections.Generic;
+using Net.Dreceiptx.Receipt.Merchant;
 using Net.Dreceiptx.Receipt.Serialization;
 using Net.Dreceiptx.Users;
 using DigitalReceipt = Net.Dreceiptx.Receipt.DigitalReceipt;
@@ -47,6 +50,10 @@ namespace Net.Dreceiptx.Client
         /// <returns>The receipt identifier will be returned</returns>
         string SendReceipt(DigitalReceiptMessage receipt);
 
+        string SendProductionReceipt(DigitalReceiptMessage receipt);
+
+        string SendDryRunReceipt(DigitalReceiptMessage receipt);
+
 
         /// <summary>
         /// Registers the give NewUser instance in the exchange.
@@ -63,5 +70,7 @@ namespace Net.Dreceiptx.Client
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
         NewUserRegistrationExchangeResponse RegisterNewUser(List<NewUser> newUsers);
+
+        Merchant lookupMerchant(String Id);
     }
 }

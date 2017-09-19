@@ -27,6 +27,7 @@ using log4net;
 using Net.Dreceiptx.Client.Exceptions;
 using Net.Dreceiptx.Extensions;
 using Net.Dreceiptx.Receipt.Config;
+using Net.Dreceiptx.Receipt.Merchant;
 using Net.Dreceiptx.Receipt.Serialization;
 using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Users;
@@ -394,7 +395,17 @@ namespace Net.Dreceiptx.Client
             }
         }
 
-    
+        public string SendProductionReceipt(DigitalReceiptMessage receipt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string SendDryRunReceipt(DigitalReceiptMessage receipt)
+        {
+            throw new NotImplementedException();
+        }
+
+
         public NewUserRegistrationExchangeResponse RegisterNewUser(NewUser newUser)
         {
             List<NewUser> newUserCollection = new List<NewUser>();
@@ -440,6 +451,11 @@ namespace Net.Dreceiptx.Client
                 string errorMessage = response.Result.Content.ToString();
                 throw new ExchangeClientException((int)statusCode, errorMessage);
             }
+        }
+
+        public Merchant lookupMerchant(string Id)
+        {
+            throw new NotImplementedException();
         }
 
 
