@@ -27,7 +27,7 @@ namespace Net.Dreceiptx.Receipt.Settlement
         public PaymentMethodType MethodType { get; set; }
         public decimal PaymentAmount { get; set; }
         [DataMember]
-        public Currency SettlementCurrency { get; internal set; }
+        public Currency SettlementCurrency { get; set; }
         public PaymentAuthorisation PaymentAuthorisation { get; set; }
 
         public PaymentReceipt(PaymentMethodType paymentMethodCode, decimal paymentAmount)

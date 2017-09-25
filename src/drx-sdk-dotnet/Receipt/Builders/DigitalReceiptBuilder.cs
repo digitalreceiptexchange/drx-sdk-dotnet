@@ -32,7 +32,7 @@ using Net.Dreceiptx.Receipt.Tax;
 using Net.Dreceiptx.Receipt.Validation;
 using Net.Dreceiptx.Users;
 
-namespace Net.Dreceiptx.Receipt
+namespace Net.Dreceiptx.Receipt.Builders
 {
     public class DigitalReceiptBuilder
     {
@@ -55,6 +55,7 @@ namespace Net.Dreceiptx.Receipt
         {
             
         }
+
         public DigitalReceiptBuilder(IConfigManager configManager)
         {
             _configManager = configManager;
@@ -86,7 +87,9 @@ namespace Net.Dreceiptx.Receipt
                 throw new DRXRuntimeException("Failed to create DigitalReceiptBuilder due to configuration issue", e);
             }
         }
-    
+
+        public bool DryRunReceipt { get; set; }
+
         public void SetMerchantGLN(string merchantGLN)
         {
             _digitalReceiptMessage.DRxDigitalReceipt.StandardBusinessDocumentHeader.MerchantGLN.Value = merchantGLN;
@@ -262,13 +265,13 @@ namespace Net.Dreceiptx.Receipt
             {
                 decimal netPrice = price * (1 - taxRate);
                 decimal total = quantity * netPrice;
-                Tax.Tax tax = new Tax.Tax(total, taxRate, _defaultTaxCategory, _defaultTaxCode);
+                Tax.Tax tax = new Tax.Tax(_defaultTaxCategory, _defaultTaxCode, total, taxRate);
                 lineItem = new StandardLineItem(brand, name, description, quantity, price);
                 lineItem.AddTax(tax);
             } else {
                 decimal netPrice = price;
                 decimal total = quantity * netPrice;
-                Tax.Tax tax = new Tax.Tax(total, taxRate, _defaultTaxCategory, _defaultTaxCode);
+                Tax.Tax tax = new Tax.Tax(_defaultTaxCategory, _defaultTaxCode, total, taxRate);
                 lineItem = new StandardLineItem(brand, name, description, quantity, price);
                 lineItem.AddTax(tax);
             }
@@ -438,6 +441,18 @@ namespace Net.Dreceiptx.Receipt
             {
                 return defaultValue;
             }
+        }
+
+        public void AddAdminFee(decimal amount, string description)
+        {
+            _digitalReceiptMessage.DRxDigitalReceipt.Invoice.AddAllowanceOrCharge(
+                ReceiptAllowanceCharge.AdminFee(amount, description));
+        }
+
+        public DigitalReceiptMessage BuildReceiptPostRequest()
+        {
+            //TODO:
+            return null;
         }
     }
 }

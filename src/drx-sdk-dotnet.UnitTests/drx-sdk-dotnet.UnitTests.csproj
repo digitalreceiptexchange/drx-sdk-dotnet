@@ -65,6 +65,7 @@
     <Compile Include="Client\DRXClientTest.cs" />
     <Compile Include="Client\NewUserRegistrationExchangeResponseTest.cs" />
     <Compile Include="DigitalReceiptTest.cs" />
+    <Compile Include="DocumentationTest.cs" />
     <Compile Include="DrxDigitalReceiptTest.cs" />
     <Compile Include="JsonSerializerTest.cs" />
     <Compile Include="LineItemTest.cs" />

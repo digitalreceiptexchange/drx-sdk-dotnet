@@ -105,9 +105,9 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
             invoice.AddLineItem(new StandardLineItem("Samsung", "Samsung Note 7", "Flame Thrower", 1, 1349.00m)
             { BatchNumber = "Batch1234", SerialNumber = "SerialNumber1234"});
             //invoice.InvoiceLineItems[0]..AddEcomAVP(new AVP("AVP_Name", "AVP_Value"));
-            invoice.InvoiceLineItems[0].AddReceiptAllowanceCharges(ReceiptAllowanceCharge.Tip(1, "Good Service Tip", new Tax(10, 1, TaxCategory.APPLICABLE, TaxCode.GoodsAndServicesTax)));
-            invoice.InvoiceLineItems[0].AddReceiptAllowanceCharges(ReceiptAllowanceCharge.FreightFee(10, "Freight Fee", new Tax(10, 1, TaxCategory.APPLICABLE, TaxCode.GoodsAndServicesTax)));
-            invoice.InvoiceLineItems[0].AddTax(new Tax(1000, 3, TaxCategory.APPLICABLE, TaxCode.EnvironmentalTax));
+            invoice.InvoiceLineItems[0].AddReceiptAllowanceCharges(ReceiptAllowanceCharge.Tip(1, "Good Service Tip", new Tax(TaxCategory.APPLICABLE, TaxCode.GoodsAndServicesTax, 10, 1)));
+            invoice.InvoiceLineItems[0].AddReceiptAllowanceCharges(ReceiptAllowanceCharge.FreightFee(10, "Freight Fee", new Tax(TaxCategory.APPLICABLE, TaxCode.GoodsAndServicesTax, 10, 1)));
+            invoice.InvoiceLineItems[0].AddTax(new Tax(TaxCategory.APPLICABLE, TaxCode.EnvironmentalTax, 1000, 3));
 
 
 

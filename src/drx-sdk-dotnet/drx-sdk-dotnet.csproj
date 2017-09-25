@@ -114,7 +114,7 @@
     <Compile Include="Receipt\Config\PropertiesConfigManager.cs" />
     <Compile Include="Receipt\Config\StronlyTypedConfigManager.cs" />
     <Compile Include="Receipt\DigitalReceipt.cs" />
-    <Compile Include="Receipt\DigitalReceiptGenerator.cs" />
+    <Compile Include="Receipt\Builders\DigitalReceiptBuilder.cs" />
     <Compile Include="Receipt\Document\DocumentIdentification.cs" />
     <Compile Include="Receipt\Document\DocumentOwner.cs" />
     <Compile Include="Receipt\Document\DocumentOwnerIdentification.cs" />

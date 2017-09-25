@@ -235,5 +235,16 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
             receiptAllowanceCharge._taxes.Add(tax);
             return receiptAllowanceCharge;
         }
+
+        public static ReceiptAllowanceCharge AdminFee(decimal amount, string description)
+        {
+            ReceiptAllowanceCharge charge = new ReceiptAllowanceCharge();
+            charge.BaseAmount = amount;
+            charge.Description = description;
+            charge.AllowanceOrChargeType = AllowanceOrChargeType.CHARGE;
+            charge.AllowanceChargeType = AllowanceChargeType.CHARGE_TO_BE_PAID_BY_CUSTOMER;
+            charge.SettlementType = SettlementType.AdminFee;
+            return charge;
+        }
     }
 }

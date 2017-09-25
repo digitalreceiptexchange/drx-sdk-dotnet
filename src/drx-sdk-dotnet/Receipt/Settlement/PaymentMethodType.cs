@@ -22,24 +22,24 @@ namespace Net.Dreceiptx.Receipt.Settlement
 {
     public enum PaymentMethodType
     {
-        [EnumMember(Value = "CASH")]
-        [DrxEnumExtendedInformation("CASH", "Cash Payment")]
-        CASH,
+        [EnumMember(Value = "Cash")]
+        [DrxEnumExtendedInformation("Cash", "Cash Payment")]
+        Cash,
 
-        [EnumMember(Value = "CREDIT_CARD")]
-        [DrxEnumExtendedInformation("CREDIT_CARD", "Credit Card Payment")]
-        CREDIT_CARD,
+        [EnumMember(Value = "CreditCard")]
+        [DrxEnumExtendedInformation("CreditCard", "Credit Card Payment")]
+        CreditCard,
 
         [EnumMember(Value = "DEBIT CARD")]
-        [DrxEnumExtendedInformation("DEBIT_CARD", "Debit Card Payment")]
-        DEBIT_CARD,
+        [DrxEnumExtendedInformation("DebitCard", "Debit Card Payment")]
+        DebitCard,
 
         [EnumMember(Value = "CHEQUE")]
         [DrxEnumExtendedInformation("CHEQUE", "Cheque payment")]
-        CHEQUE,
+        Cheque,
 
         [EnumMember(Value = "OTHER")]
         [DrxEnumExtendedInformation("OTHER", "Other")]
-        OTHER
+        Other
     }
 }

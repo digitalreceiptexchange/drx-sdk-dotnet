@@ -35,7 +35,7 @@ namespace Net.Dreceiptx.Receipt.Tax
             }
         }
 
-        public Tax(decimal taxableAmount, decimal totalTax, TaxCategory category, TaxCode code) 
+        public Tax(TaxCategory category, TaxCode code, decimal taxableAmount, decimal totalTax) 
             : this(taxableAmount, totalTax)
         {
             TaxCategory = category;
