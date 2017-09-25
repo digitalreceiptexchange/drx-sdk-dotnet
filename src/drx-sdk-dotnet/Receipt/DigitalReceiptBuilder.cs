@@ -34,7 +34,7 @@ using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt
 {
-    public class DigitalReceiptGenerator
+    public class DigitalReceiptBuilder
     {
         private DigitalReceiptMessage _digitalReceiptMessage;
 
@@ -51,7 +51,11 @@ namespace Net.Dreceiptx.Receipt
         private string _defaultTimeZone;
         private string _defaultCountry;
 
-        public DigitalReceiptGenerator(IConfigManager configManager)
+        public DigitalReceiptBuilder(Location location)
+        {
+            
+        }
+        public DigitalReceiptBuilder(IConfigManager configManager)
         {
             _configManager = configManager;
             //Create data elements
@@ -79,7 +83,7 @@ namespace Net.Dreceiptx.Receipt
             }
             catch (Exception e)
             {
-                throw new DRXRuntimeException("Failed to create DigitalReceiptGenerator due to configuration issue", e);
+                throw new DRXRuntimeException("Failed to create DigitalReceiptBuilder due to configuration issue", e);
             }
         }
     

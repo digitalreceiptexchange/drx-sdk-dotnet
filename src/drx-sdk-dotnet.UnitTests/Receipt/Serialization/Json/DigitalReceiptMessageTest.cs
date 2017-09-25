@@ -52,7 +52,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
             _configManager.SetConfigValue("default.taxCategory", "APPLICABLE");
             _configManager.SetConfigValue("default.taxCode", "GST");
             _configManager.SetConfigValue("receipt.version", "1.3.0");
-            DigitalReceiptGenerator _newDigitalReceipt = new DigitalReceiptGenerator(_configManager);
+            DigitalReceiptBuilder _newDigitalReceipt = new DigitalReceiptBuilder(_configManager);
             _newDigitalReceipt.SetUserGUID(UserIdentifierType.Guid, "GUID12345678910");
             _newDigitalReceipt.AddLineItem("Test Brand", "Test Name", "Test Description", 1, 2.30m);
             MaterialGeneric materialGeneric = new MaterialGeneric("Test MaterialGeneric", "Test MaterialGeneric",
