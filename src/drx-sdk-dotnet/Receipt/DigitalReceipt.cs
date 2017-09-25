@@ -39,11 +39,12 @@ namespace Net.Dreceiptx.Receipt
             _digitalReceipt = new DRxDigitalReceipt();
         }
 
-        public DigitalReceipt(string digitalReceiptJson)
+        public static DigitalReceipt FromJson(string digitalReceiptJson)
         {
-            _sourceData = digitalReceiptJson;
+            DigitalReceipt receipt = new DigitalReceipt();
             DigitalReceiptMessage _digitalReceiptMessage = JsonSerializer.Deserialize<DigitalReceiptMessage>(digitalReceiptJson);
-            _digitalReceipt = _digitalReceiptMessage.DRxDigitalReceipt;
+            receipt._digitalReceipt =  _digitalReceiptMessage.DRxDigitalReceipt;
+            return receipt;
         }
     
         public string UserGUID => _digitalReceipt.StandardBusinessDocumentHeader.UserIdentifier.Value;
@@ -168,6 +169,7 @@ namespace Net.Dreceiptx.Receipt
         }
 
         public string SourceData => _sourceData;
+        public string MerchantName => _digitalReceipt.Invoice.MerchantName;
 
         public string ToJson()
         {

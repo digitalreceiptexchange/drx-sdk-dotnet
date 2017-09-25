@@ -453,7 +453,7 @@ namespace Net.Dreceiptx.Client
             }
         }
 
-        public Merchant lookupMerchant(string Id)
+        public Merchant LookupMerchant(string Id)
         {
             throw new NotImplementedException();
         }

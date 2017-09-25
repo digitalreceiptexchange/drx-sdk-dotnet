@@ -1,8 +1,10 @@
 ﻿using Net.Dreceiptx.Client;
+using Net.Dreceiptx.Receipt;
 using Net.Dreceiptx.Receipt.Builders;
 using Net.Dreceiptx.Receipt.Common;
 using Net.Dreceiptx.Receipt.Config;
 using Net.Dreceiptx.Receipt.LineItem;
+using Net.Dreceiptx.Receipt.Merchant;
 using Net.Dreceiptx.Receipt.Settlement;
 using Net.Dreceiptx.Receipt.Tax;
 using Net.Dreceiptx.Users;
@@ -54,6 +56,12 @@ namespace Net.Dreceiptx.UnitTests
 
             builder.DryRunReceipt = false;
             dRxClient.SendProductionReceipt(builder.BuildReceiptPostRequest());
+
+            DigitalReceipt digitalReceipt = DigitalReceipt.FromJson(digitalReceiptAPIJson);
+            string merchantName = digitalReceipt.MerchantName;
+            string merchantGSTNumber = digitalReceipt.GetCompanyTaxNumber(TaxCode.GoodsAndServicesTax);
+
+            Merchant merchant = dRxClient.LookupMerchant(digitalReceipt.MerchantLocationReference);
 
 
 

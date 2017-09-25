@@ -71,6 +71,6 @@ namespace Net.Dreceiptx.Client
          */
         NewUserRegistrationExchangeResponse RegisterNewUser(List<NewUser> newUsers);
 
-        Merchant lookupMerchant(String Id);
+        Merchant LookupMerchant(String Id);
     }
 }

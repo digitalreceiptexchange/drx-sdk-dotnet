@@ -140,7 +140,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
         {
             string json = File.ReadAllText(".\\SampleFiles\\Sample3.json");
             //DigitalReceiptMessage message = DigitalReceiptMessage.DeserializeFromJson(json);
-            DigitalReceipt dr = new DigitalReceipt(json);
+            DigitalReceipt dr = DigitalReceipt.FromJson(json);
             //string jsonOutput = dr.toJson();
             //Debug.WriteLine(jsonOutput);
             Currency drCurrency = dr.Currency;
