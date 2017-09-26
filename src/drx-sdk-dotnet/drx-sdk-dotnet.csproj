@@ -171,8 +171,7 @@
     <Compile Include="Users\Identifier.cs" />
     <Compile Include="Users\NewUser.cs" />
     <Compile Include="Users\NewUserBuilder.cs" />
-    <Compile Include="Users\NewUserRegistrationRequestTest.cs" />
-    <Compile Include="Users\NewUserRegistrationResultTest.cs" />
+    <Compile Include="Users\NewUserRegistrationRequest.cs" />
     <Compile Include="Users\User.cs" />
     <Compile Include="Users\UserConfigOptionType.cs" />
     <Compile Include="Users\UserConfigurationOption.cs" />

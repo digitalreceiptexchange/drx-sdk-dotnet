@@ -10,7 +10,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.LineItem.Travel
         [Test]
         public void TestFlight()
         {
-            Flight flight = new Flight(FlightType.COMMERCIAL, "QANTAS", "SYDLON_SHORT", "SYDLON_LONG",1, 1800);
+            Flight flight = new Flight(FlightType.Commercial, "QANTAS", "SYDLON_SHORT", "SYDLON_LONG",1, 1800);
             Assert.AreEqual("QANTAS", flight.Airline);
             Assert.AreEqual("SYDLON_SHORT", flight.Itinerary);
             Assert.AreEqual("SYDLON_LONG", flight.ItineraryDescription);
@@ -21,7 +21,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.LineItem.Travel
         [Test]
         public void TestFlightDestinationType()
         {
-            Flight flight = new Flight(FlightType.COMMERCIAL, "QANTAS", "SYDLON_SHORT", "SYDLON_LONG", 1, 1800);
+            Flight flight = new Flight(FlightType.Commercial, "QANTAS", "SYDLON_SHORT", "SYDLON_LONG", 1, 1800);
             flight.FlightDestinationType = FlightDestinationType.DOMESTIC;
             Assert.AreEqual(FlightDestinationType.DOMESTIC, flight.FlightDestinationType);
 
@@ -32,7 +32,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.LineItem.Travel
         [Test]
         public void TestFlightDestinationTypeNull()
         {
-            Flight flight = new Flight(FlightType.COMMERCIAL, "QANTAS", "SYDLON_SHORT", "SYDLON_LONG", 1, 1800);
+            Flight flight = new Flight(FlightType.Commercial, "QANTAS", "SYDLON_SHORT", "SYDLON_LONG", 1, 1800);
             flight.FlightDestinationType = FlightDestinationType.DOMESTIC;
             Assert.AreEqual(FlightDestinationType.DOMESTIC, flight.FlightDestinationType);
 

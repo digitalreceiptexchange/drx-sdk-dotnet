@@ -418,7 +418,7 @@ namespace Net.Dreceiptx.Client
             Log.DebugFormat("RegisterNewUser Entering...");
             using (HttpClient client = CreateExchangeConnection("/user", _userVersion, null))
             {
-                string request = new NewUserRegistrationRequestTest() {Users = newUsers}.SerializeToJsonString();
+                string request = new NewUserRegistrationRequest() {Users = newUsers}.SerializeToJsonString();
                     
                 StringContent content = new StringContent(request, Encoding.UTF8, CONTENT_TYPE_JSON);
                 Log.DebugFormat("RegisterNewUser Request: {0}", request);
