@@ -106,4 +106,24 @@ public static class EnumExtensions
         }
         return result;
     }
+
+    private static Dictionary<string, GroundTransportType> _groundTransportTypes;
+
+    public static GroundTransportType GroupGroundTransportType(string groundTransportType)
+    {
+        if (_groundTransportTypes == null)
+        {
+            _groundTransportTypes = new Dictionary<string, GroundTransportType>();
+            foreach (GroundTransportType groundTransport in Enum.GetValues(typeof(GroundTransportType)))
+            {
+                _groundTransportTypes.Add(groundTransport.Value(), groundTransport);
+            }
+        }
+        GroundTransportType result;
+        if (groundTransportType == null || !_groundTransportTypes.TryGetValue(groundTransportType, out result))
+        {
+            throw new InvalidOperationException($"GrounTransportType {groundTransportType} is invalid");
+        }
+        return result;
+    }
 }

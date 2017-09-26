@@ -62,7 +62,12 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 
         public GroundTransportType GetGroundTransportType()
         {
-            return (GroundTransportType) this.GetLineItemType(typeof(GroundTransportType), GroundTransportType.Standard);
+            string code = TransactionalTradeItem?.TradeItemDescriptionInformation?.TradeItemGroupIdentificationCode;
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return GroundTransportType.Standard;
+            }
+            return EnumExtensions.GroupGroundTransportType(code);
         }
 
         public string TripDescription => Description;

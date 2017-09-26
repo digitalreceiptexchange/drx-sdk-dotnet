@@ -30,7 +30,7 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
         [EnumMember(Value = "GTP0001")]
         Taxi,
 
-        [DrxEnumExtendedInformation("GTP0001", "WaterTaxi")]
+        [DrxEnumExtendedInformation("GTP0002", "WaterTaxi")]
         [EnumMember(Value = "GTP0002")]
         WaterTaxi,
 
