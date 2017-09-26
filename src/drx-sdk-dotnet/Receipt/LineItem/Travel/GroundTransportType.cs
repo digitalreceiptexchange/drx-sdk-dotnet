@@ -22,36 +22,76 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 {
     public enum GroundTransportType
     {
-        [DrxEnumExtendedInformation("GTP0000", "Transportation")]
+        [DrxEnumExtendedInformation("GTP0000", "Standard")]
         [EnumMember(Value = "GTP0000")]
-        DEFAULT,
+        Standard,
 
         [DrxEnumExtendedInformation("GTP0001", "Taxi")]
         [EnumMember(Value = "GTP0001")]
-        TAXI,
-        [DrxEnumExtendedInformation("GTP0002", "Train")]
+        Taxi,
 
+        [DrxEnumExtendedInformation("GTP0001", "WaterTaxi")]
         [EnumMember(Value = "GTP0002")]
-        TRAIN,
+        WaterTaxi,
 
-        [DrxEnumExtendedInformation("GTP0003", "Bus")]
-        [EnumMember(Value = "GTP0003")]
-        BUS,
+        [DrxEnumExtendedInformation("GTP0010", "Ride Sharing")]
+        [EnumMember(Value = "GTP0010")]
+        RideSharing,
 
-        [DrxEnumExtendedInformation("GTP0004", "Ride Sharing")]
-        [EnumMember(Value = "GTP0004")]
-        RIDE_SHARING,
+        [DrxEnumExtendedInformation("GTP0011", "Car Pooling")]
+        [EnumMember(Value = "GTP0011")]
+        CarPooling,
 
-        [DrxEnumExtendedInformation("GTP0005", "Car Sharing")]
-        [EnumMember(Value = "GTP0005")]
-        CAR_POOLING,
+        [DrxEnumExtendedInformation("GTP0012", "Car Rental")]
+        [EnumMember(Value = "GTP0012")]
+        CarRental,
 
-        [DrxEnumExtendedInformation("GTP0006", "Car Rental")]
-        [EnumMember(Value = "GTP0006")]
-        CAR_RENTAL,
+        [DrxEnumExtendedInformation("GTP0013", "Private Car Rental")]
+        [EnumMember(Value = "GTP0013")]
+        PrivateCarRental,
 
-        [DrxEnumExtendedInformation("GTP0007", "Private Car Rental")]
-        [EnumMember(Value = "GTP0007")]
-        PRIVATE_CAR_RENTAL
+        [DrxEnumExtendedInformation("GTP0020", "Train")]
+        [EnumMember(Value = "GTP0020")]
+        Train,
+
+        [DrxEnumExtendedInformation("GTP0021", "Local and metropolitan train")]
+        [EnumMember(Value = "GTP0021")]
+        MetroTrain,
+
+        [DrxEnumExtendedInformation("GTP0022", "National and regional train")]
+        [EnumMember(Value = "GTP0022")]
+        NationalTrain,
+
+        [DrxEnumExtendedInformation("GTP0023", "International and intercontinental train")]
+        [EnumMember(Value = "GTP0023")]
+        InternationalTrain,
+
+        [DrxEnumExtendedInformation("GTP0024", "Light rail, light rail transit or tram")]
+        [EnumMember(Value = "GTP0024")]
+        TramOrLightRail,
+
+        [DrxEnumExtendedInformation("GTP0030", "Bus")]
+        [EnumMember(Value = "GTP0030")]
+        Bus,
+
+        [DrxEnumExtendedInformation("GTP0031", "Shuttle Bus")]
+        [EnumMember(Value = "GTP0031")]
+        ShuttleBus,
+
+        [DrxEnumExtendedInformation("GTP0032", "Local and metropolitan bus")]
+        [EnumMember(Value = "GTP0032")]
+        MetroBus,
+
+        [DrxEnumExtendedInformation("GTP0033", "National and regional bus")]
+        [EnumMember(Value = "GTP0033")]
+        NationalBus,
+
+        [DrxEnumExtendedInformation("GTP0034", "International and intercontinental bus")]
+        [EnumMember(Value = "GTP0034")]
+        InternationalBus,
+
+        [DrxEnumExtendedInformation("GTP0040", "Ferry")]
+        [EnumMember(Value = "GTP0040")]
+        Ferry
     }
 }

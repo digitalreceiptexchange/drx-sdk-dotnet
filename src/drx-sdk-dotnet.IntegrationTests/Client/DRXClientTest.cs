@@ -113,12 +113,7 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             newUser.AddConfigOption(UserConfigOptionType.EndPointId, "ENDPOINTID1");
             DRXClient client = new DRXClient(_configManager);
             var result = client.RegisterNewUser(newUser);
-            Assert.IsTrue(result.ExchangeResponse.Success);
-            var users = result.ExchangeResponse.ResponseData.Users;
-            foreach (var user in users)
-            {
-                Console.WriteLine($"{user.Key}:{user.Value.Email},{user.Value.Guid}");
-            }
+            Console.WriteLine($"{result.Email}:{result.Email},{result.Guid}");
         }
 
         [Test]
@@ -135,11 +130,9 @@ namespace Net.Dreceiptx.IntegrationTests.Client
 
             DRXClient client = new DRXClient(_configManager);
             var result = client.RegisterNewUser(new List<NewUser> {newUser, newUser2});
-
-
-            Assert.IsTrue(result.ExchangeResponse.Success);
-            Assert.AreEqual(2, result.ExchangeResponse.ResponseData.UsersRegistered);
-            Assert.AreEqual(2, result.ExchangeResponse.ResponseData.Users.Values.Count(x => x.Success));
+            
+            Assert.AreEqual(2, result.UsersRegistered);
+            Assert.AreEqual(2, result.Users.Values.Count(x => x.Success));
         }
 
         [Test]
@@ -157,10 +150,8 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             DRXClient client = new DRXClient(_configManager);
             var result = client.RegisterNewUser(new List<NewUser> { newUser, newUser2 });
 
-
-            Assert.IsTrue(result.ExchangeResponse.Success);
-            Assert.AreEqual(1, result.ExchangeResponse.ResponseData.UsersRegistered);
-            Assert.AreEqual(1, result.ExchangeResponse.ResponseData.Users.Values.Count(x => x.Success));
+            Assert.AreEqual(1, result.UsersRegistered);
+            Assert.AreEqual(1, result.Users.Values.Count(x => x.Success));
         }
 
         [Test]
@@ -188,8 +179,9 @@ namespace Net.Dreceiptx.IntegrationTests.Client
             NewUser newUser = new NewUser(email, true);
             DRXClient client = new DRXClient(_configManager);
             var result = client.RegisterNewUser(newUser);
-            Assert.IsFalse(result.ExchangeResponse.ResponseData.Users[email].Success);
-            Assert.IsNotEmpty(result.ExchangeResponse.ResponseData.Users[email].Exception);
+            //While through an exception now and not return a Reponse where you have to interogate it to find out if it has an error
+            //Assert.IsFalse(result.ExchangeResponse.ResponseData.Users[email].Success);
+            //Assert.IsNotEmpty(result.ExchangeResponse.ResponseData.Users[email].Exception);
         }
 
         [Test]

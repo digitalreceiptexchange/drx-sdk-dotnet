@@ -213,8 +213,8 @@ namespace Net.Dreceiptx.Receipt.Invoice
         public decimal TaxesTotalByTaxCode(TaxCode taxCode)
         {
             decimal total = 0;
-            total += InvoiceLineItems.Sum(x => x.TaxesTotalByTaxCode(taxCode));
-            total += _allowanceOrCharges.Sum(x => x.TaxesTotalByTaxCode(taxCode));
+            total += InvoiceLineItems.Sum(x => x.GetTaxTotal(taxCode));
+            total += _allowanceOrCharges.Sum(x => x.GetTaxTotal(taxCode));
             return total;
         }
 

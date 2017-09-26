@@ -73,7 +73,7 @@ namespace Net.Dreceiptx.Receipt.AllowanceCharge
         /// </summary>
         /// <param name="taxCode">to filter the taxes</param>
         /// <returns>TotalTaxes for the given TaxCode if they exist otherwise 0</returns>
-        public decimal TaxesTotalByTaxCode(TaxCode taxCode)
+        public decimal GetTaxTotal(TaxCode taxCode)
         {
             decimal totalTaxes = 0.0m;
             foreach (Tax.Tax tax in _taxes)

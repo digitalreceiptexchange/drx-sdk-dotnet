@@ -22,16 +22,16 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 {
     public enum FlightType
     {
-        [DrxEnumExtendedInformation("FLT0000", "Flight")]
+        [DrxEnumExtendedInformation("FLT0000", "Standard")]
         [EnumMember(Value = "FLT0000")]
-        DEFAULT,
+        Standard,
 
         [DrxEnumExtendedInformation("FLT0001", "Commercial")]
         [EnumMember(Value = "FLT0001")]
-        COMMERCIAL,
+        Commercial,
 
         [DrxEnumExtendedInformation("FLT0002", "Private")]
         [EnumMember(Value = "FLT0002")]
-        PRIVATE
+        Private
     }
 }

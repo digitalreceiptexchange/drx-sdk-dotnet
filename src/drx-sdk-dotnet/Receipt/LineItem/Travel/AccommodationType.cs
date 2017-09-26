@@ -22,32 +22,40 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 {
     public enum AccommodationType
     {
-        [DrxEnumExtendedInformation("ACC0000", "Accommodation")]
+        [DrxEnumExtendedInformation("ACC0000", "Standard")]
         [EnumMember(Value = "ACC0000")]
-        DEFAULT,
+        Standard,
 
         [DrxEnumExtendedInformation("ACC0001", "Hotel")]
         [EnumMember(Value = "ACC0001")]
-        HOTEL,
+        Hotel,
 
         [DrxEnumExtendedInformation("ACC0002", "Hostel")]
         [EnumMember(Value = "ACC0002")]
-        HOSTEL,
+        Hostel,
 
         [DrxEnumExtendedInformation("ACC0003", "Motel")]
         [EnumMember(Value = "ACC0003")]
-        MOTEL,
+        Motel,
 
         [DrxEnumExtendedInformation("ACC0004", "Bed and Breakfast")]
         [EnumMember(Value = "ACC0004")]
-        BED_AND_BREAKFAST,
+        BedAndBreakfast,
 
-        [DrxEnumExtendedInformation("ACC0005", "Rental")]
+        [DrxEnumExtendedInformation("ACC0005", "Guesthouse")]
         [EnumMember(Value = "ACC0005")]
-        RENTAL,
+        Guesthouse,
 
-        [DrxEnumExtendedInformation("ACC0006", "Private Rental")]
+        [DrxEnumExtendedInformation("ACC0006", "Apartment")]
         [EnumMember(Value = "ACC0006")]
-        PRIVATE_RENTAL
+        Apartment,
+
+        [DrxEnumExtendedInformation("ACC0010", "Commercial Rental")]
+        [EnumMember(Value = "ACC0010")]
+        CommercialRental,
+
+        [DrxEnumExtendedInformation("ACC0011", "Private Rental")]
+        [EnumMember(Value = "ACC0011")]
+        PrivateRental
     }
 }

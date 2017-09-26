@@ -60,12 +60,10 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 
         public string Provider => BrandName;
 
-        //public GroundTransportType getGroundTransportType()
-        //{
-        //    return (GroundTransportType) this.getLineItemType(GroundTransportType.class,
-        //    GroundTransportType.DEFAULT)
-        //    ;
-        //}
+        public GroundTransportType GetGroundTransportType()
+        {
+            return (GroundTransportType) this.GetLineItemType(typeof(GroundTransportType), GroundTransportType.Standard);
+        }
 
         public string TripDescription => Description;
 
@@ -118,6 +116,18 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
         {
             get { return SerialNumber; }
             set { SerialNumber = value; }
+        }
+
+        public string TripCode
+        {
+            get { return BillingCostCentre.EntityIdentification; }
+            set { BillingCostCentre.EntityIdentification = value; }
+        }
+
+        public string TripReason
+        {
+            get { return Note; }
+            set { Note = value; }
         }
 
         public GeographicalCoordinates DepartureGeoLocation

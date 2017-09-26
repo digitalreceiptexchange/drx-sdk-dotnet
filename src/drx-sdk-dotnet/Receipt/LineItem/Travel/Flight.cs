@@ -48,14 +48,12 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 
         public string ItineraryDescription => Description;
 
-    //    public FlightType getFlightType()
-    //    {
-    //        return (FlightType)this.getLineItemType(FlightType.class,
-    //    FlightType.DEFAULT)
-    //    ;
-    //}
+        public FlightType GetFlightType()
+        {
+            return (FlightType)this.GetLineItemType(typeof(FlightType), FlightType.Standard);
+        }
 
-    public string PassengerName
+        public string PassengerName
         {
             get { return _AVPList.GetValue(AVPType.PASSENGER_NAME.Value()); }
             set { _AVPList.Add(AVPType.PASSENGER_NAME.Value(), value); }

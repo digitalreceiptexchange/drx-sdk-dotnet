@@ -20,11 +20,11 @@ using Net.Dreceiptx.Receipt.Ecom;
 
 namespace Net.Dreceiptx.Receipt.LineItem.Travel
 {
-    public class Accommodation : LineItem
+    public class Entertainment : LineItem
     {
         public static readonly string LineItemTypeValue = "TRAVEL0001";
 
-        public Accommodation(AccommodationType accommodationType, string provider, string shortDescription,
+        public Entertainment(AccommodationType accommodationType, string provider, string shortDescription,
             string longDescription, int nights, decimal rate) 
             : base(provider, shortDescription, longDescription, (double)nights, rate)
         {
@@ -32,12 +32,12 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
             AddTradeItemIdentification(LineItemTypeIdentifier, LineItemTypeValue);
         }
 
-        public Accommodation(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity,
+        public Entertainment(TradeItemDescriptionInformation tradeItemDescriptionInformation, int quantity,
             decimal price) : this(tradeItemDescriptionInformation, (double)quantity, price)
         {
             
         }
-        public Accommodation(TradeItemDescriptionInformation tradeItemDescriptionInformation, double quantity, decimal price) 
+        public Entertainment(TradeItemDescriptionInformation tradeItemDescriptionInformation, double quantity, decimal price) 
             : base(tradeItemDescriptionInformation, quantity, price)
         {
             _transactionalTradeItemType = TransactionalTradeItemType.MANUAL;
@@ -50,15 +50,31 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
 
         public string DetailedDescription => Description;
 
-        public AccommodationType GetAccommodationType()
+        public EntertainmentType GetEntertainmentType()
         {
-            return (AccommodationType)this.GetLineItemType(typeof(AccommodationType), AccommodationType.Standard);
+            return (EntertainmentType)this.GetLineItemType(typeof(EntertainmentType), EntertainmentType.Standard);
         }
 
         public string PassengerName
         {
             get { return _AVPList.GetValue(AVPType.PASSENGER_NAME.Value()); }
             set { _AVPList.Add(AVPType.PASSENGER_NAME.Value(), value); }
+        }
+
+        public Boolean? IncludesAlcohol
+        {
+            get {
+                if (_AVPList.Contains(AVPType.INCLUDES_ALCOHOL.Value()))
+                {
+                    return Boolean.Parse(_AVPList.GetValue(AVPType.INCLUDES_ALCOHOL.Value()));
+                }
+                else
+                {
+                    return null;
+                }
+                
+            }
+            set { _AVPList.Add(AVPType.INCLUDES_ALCOHOL.Value(), value.ToString()); }
         }
 
         public DateTime? DepartureDate

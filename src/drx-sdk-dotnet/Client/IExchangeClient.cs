@@ -62,14 +62,14 @@ namespace Net.Dreceiptx.Client
         /// <returns>The returned NewUserRegistrationExchangeResponse message indicates success or failure.
         /// You must inspect the object to determine if your request was successful or not.
         /// </returns>
-        NewUserRegistrationExchangeResponse RegisterNewUser(NewUser newUser);
+        NewUserRegistrationResult RegisterNewUser(NewUser newUser);
 
         /**
          * @param List<NewUser>
          * @return Dictionary<string, NewUserRegistrationResult>
          * @throws ExchangeClientException will be thrown if problem calling the service.
          */
-        NewUserRegistrationExchangeResponse RegisterNewUser(List<NewUser> newUsers);
+        NewUserRegistrationResults RegisterNewUser(List<NewUser> newUsers);
 
         Merchant LookupMerchant(String Id);
     }

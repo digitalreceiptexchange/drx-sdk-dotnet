@@ -25,6 +25,7 @@ using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.Serialization;
 using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Receipt.Tax;
+using Net.Dreceiptx.Receipt.Settlement;
 
 namespace Net.Dreceiptx.Receipt
 {
@@ -167,6 +168,8 @@ namespace Net.Dreceiptx.Receipt
                 _digitalReceipt.Invoice.SalesOrderReference.EntityIdentification = value;
             }
         }
+
+        public List<PaymentReceipt> PaymentReceipts => _digitalReceipt.PaymentReceipts;
 
         public string SourceData => _sourceData;
         public string MerchantName => _digitalReceipt.Invoice.MerchantName;

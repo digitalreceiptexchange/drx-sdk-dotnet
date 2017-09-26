@@ -20,7 +20,7 @@ using System.Runtime.Serialization;
 namespace Net.Dreceiptx.Client
 {
     [DataContract]
-    public class UserResponsData
+    public class NewUserRegistrationResult
     {
         /// <summary>
         /// Gets and sets Success. When true the user was successfully created

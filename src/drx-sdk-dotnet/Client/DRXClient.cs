@@ -406,19 +406,19 @@ namespace Net.Dreceiptx.Client
         }
 
 
-        public NewUserRegistrationExchangeResponse RegisterNewUser(NewUser newUser)
+        public NewUserRegistrationResult RegisterNewUser(NewUser newUser)
         {
             List<NewUser> newUserCollection = new List<NewUser>();
             newUserCollection.Add(newUser);
-            return RegisterNewUser(newUserCollection);
+            return RegisterNewUser(newUserCollection).Users.GetOrNull(newUser.Email);
         }
     
-        public NewUserRegistrationExchangeResponse RegisterNewUser(List<NewUser> newUsers)
+        public NewUserRegistrationResults RegisterNewUser(List<NewUser> newUsers)
         {
             Log.DebugFormat("RegisterNewUser Entering...");
             using (HttpClient client = CreateExchangeConnection("/user", _userVersion, null))
             {
-                string request = new NewUserRegistrationRequest() {Users = newUsers}.SerializeToJsonString();
+                string request = new NewUserRegistrationRequestTest() {Users = newUsers}.SerializeToJsonString();
                     
                 StringContent content = new StringContent(request, Encoding.UTF8, CONTENT_TYPE_JSON);
                 Log.DebugFormat("RegisterNewUser Request: {0}", request);
@@ -431,8 +431,15 @@ namespace Net.Dreceiptx.Client
                     string contentResult = response.Result.Content.ReadAsStringAsync().Result;
                     Log.DebugFormat("RegisterNewUser Response: {0}", contentResult);
                     NewUserRegistrationExchangeResponse exchangeResponse = NewUserRegistrationExchangeResponse.DeserializeFromJson(contentResult);
-                    return exchangeResponse;
-                        
+                    if (exchangeResponse.ExchangeResponse.Success)
+                    {
+                        return exchangeResponse.ExchangeResponse.ResponseData;
+                    }
+                    else
+                    {
+                        throw new ExchangeClientException(exchangeResponse.ExchangeResponse.Code.Value,
+                        exchangeResponse.ExchangeResponse.ExceptionMessage);
+                    }   
                 }
                 if (response.Result.StatusCode == HttpStatusCode.NotFound)
                 {

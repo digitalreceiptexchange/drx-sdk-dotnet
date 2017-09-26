@@ -10,7 +10,7 @@ namespace Net.Dreceiptx.UnitTests.Users
         [Test]
         public void TestSerialization()
         {
-            NewUserRegistrationRequest request = new NewUserRegistrationRequest();
+            Dreceiptx.Users.NewUserRegistrationRequestTest request = new Dreceiptx.Users.NewUserRegistrationRequestTest();
             request.Users = new List<NewUser>();
             var user1 = new NewUser("test@gmail.com");
             user1.Identifiers.Add(new Identifier{Type = UserIdentifierType.Email});

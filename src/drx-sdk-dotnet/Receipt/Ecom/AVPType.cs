@@ -44,7 +44,11 @@ namespace Net.Dreceiptx.Receipt.Ecom
 
         [DrxEnumExtendedInformation("FLIGHT_DESTINATION_TYPE", null)]
         [EnumMember(Value = "FLIGHT_DESTINATION_TYPE")]
-        FLIGHT_DESTINATION_TYPE
+        FLIGHT_DESTINATION_TYPE,
+
+        [DrxEnumExtendedInformation("INCLUDES_ALCOHOL", null)]
+        [EnumMember(Value = "INCLUDES_ALCOHOL")]
+        INCLUDES_ALCOHOL
 
     }
 }

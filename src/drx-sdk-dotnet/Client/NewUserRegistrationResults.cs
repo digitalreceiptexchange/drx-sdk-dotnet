@@ -21,7 +21,7 @@ using System.Runtime.Serialization;
 namespace Net.Dreceiptx.Client
 {
     [DataContract]
-    public class NewUserRegistrationResponseData
+    public class NewUserRegistrationResults
     {
         /// <summary>
         /// Gets and sets the number of UsersRegistered
@@ -33,6 +33,6 @@ namespace Net.Dreceiptx.Client
         /// Gets the users registered. You shoul check it user has been successfully registered
         /// </summary>
         [DataMember]
-        public Dictionary<string, UserResponsData> Users { get; set; }
+        public Dictionary<string, NewUserRegistrationResult> Users { get; set; }
     }
 }

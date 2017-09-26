@@ -17,7 +17,7 @@
 
 namespace Net.Dreceiptx.Users
 {
-    public class NewUserRegistrationResult
+    public class NewUserRegistrationResultTest
     {
         private bool _success;
         private int _code;

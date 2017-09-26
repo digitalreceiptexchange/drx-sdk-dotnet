@@ -25,16 +25,16 @@ namespace Net.Dreceiptx.Users
         [EnumMember(Value = "GUID")]
         Guid,
 
-        [DrxEnumExtendedInformation("EMAIL", "Users primary email")]
-        [EnumMember(Value = "EMAIL")]
+        [DrxEnumExtendedInformation("Email", "Users email")]
+        [EnumMember(Value = "Email")]
         Email,
 
         //TODO: Mobile number is not part of the User object
-        [DrxEnumExtendedInformation("MOBILE", "Users mobile number with country code without the +")]
-        [EnumMember(Value = "MOBILE")]
+        [DrxEnumExtendedInformation("Mobile", "Users mobile number with country code without the +")]
+        [EnumMember(Value = "Mobile")]
         Mobile,
-        [DrxEnumExtendedInformation("ACCOR_LECLUB", "Accor Hotels Le Club Membership Number")]
-        [EnumMember(Value = "ACCOR_LECLUB")]
-        AccorLeclub
+        [DrxEnumExtendedInformation("AccorLeClub", "Accor Hotels Le Club Membership Number")]
+        [EnumMember(Value = "AccorLeClub")]
+        AccorLeClub
     }
 }

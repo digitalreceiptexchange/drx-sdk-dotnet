@@ -44,7 +44,7 @@ namespace Net.Dreceiptx.Client
         public string ExceptionMessage { get; set; }
 
         [DataMember]
-        public NewUserRegistrationResponseData ResponseData { get; set; }
+        public NewUserRegistrationResults ResponseData { get; set; }
 
         /// <summary>
         /// Serializes the message to a JSON format

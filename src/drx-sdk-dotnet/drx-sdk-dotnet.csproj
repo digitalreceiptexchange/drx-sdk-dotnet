@@ -69,12 +69,12 @@
     <Compile Include="Client\IExchangeClient.cs" />
     <Compile Include="Client\NewUserRegistrationExchangeResponse.cs" />
     <Compile Include="Client\NewUserRegistrationResponse.cs" />
-    <Compile Include="Client\NewUserRegistrationResponseData.cs" />
+    <Compile Include="Client\NewUserRegistrationResults.cs" />
     <Compile Include="Client\ResponseData.cs" />
     <Compile Include="Client\UriParameters.cs" />
     <Compile Include="Client\UserReponseResponseData.cs" />
     <Compile Include="Client\UserReponseExchangeResponse.cs" />
-    <Compile Include="Client\UserResponsData.cs" />
+    <Compile Include="Client\NewUserRegistrationResult.cs" />
     <Compile Include="Client\UsersResponse.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\MiscExtensions.cs" />
@@ -84,6 +84,8 @@
     <Compile Include="Receipt\Config\ConfigKeys.cs" />
     <Compile Include="Receipt\Config\Location.cs" />
     <Compile Include="Receipt\Config\Region.cs" />
+    <Compile Include="Receipt\LineItem\Entertainment\Entertainment.cs" />
+    <Compile Include="Receipt\LineItem\Entertainment\EntertainmentType.cs" />
     <Compile Include="Receipt\Serialization\Json\LineItemObject.cs" />
     <Compile Include="Receipt\Serialization\Json\LineItemConverter.cs" />
     <Compile Include="Receipt\Serialization\Json\JsonSerializer.cs" />
@@ -169,8 +171,8 @@
     <Compile Include="Users\Identifier.cs" />
     <Compile Include="Users\NewUser.cs" />
     <Compile Include="Users\NewUserBuilder.cs" />
-    <Compile Include="Users\NewUserRegistrationRequest.cs" />
-    <Compile Include="Users\NewUserRegistrationResult.cs" />
+    <Compile Include="Users\NewUserRegistrationRequestTest.cs" />
+    <Compile Include="Users\NewUserRegistrationResultTest.cs" />
     <Compile Include="Users\User.cs" />
     <Compile Include="Users\UserConfigOptionType.cs" />
     <Compile Include="Users\UserConfigurationOption.cs" />

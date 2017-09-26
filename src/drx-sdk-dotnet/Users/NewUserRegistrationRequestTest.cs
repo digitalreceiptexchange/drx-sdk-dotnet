@@ -21,7 +21,7 @@ using Net.Dreceiptx.Receipt.Serialization.Json;
 namespace Net.Dreceiptx.Users
 {
     [DataContract]
-    public class NewUserRegistrationRequest
+    public class NewUserRegistrationRequestTest
     {
         [DataMember]
         public List<NewUser> Users { get; set; }
@@ -38,9 +38,9 @@ namespace Net.Dreceiptx.Users
             return JsonSerializer.SerializeToString(this);
         }
 
-        public static NewUserRegistrationRequest Deserialize(string json)
+        public static NewUserRegistrationRequestTest Deserialize(string json)
         {
-            return JsonSerializer.Deserialize<NewUserRegistrationRequest>(json);
+            return JsonSerializer.Deserialize<NewUserRegistrationRequestTest>(json);
         }
 
         public string SerializeToJsonString()

@@ -27,6 +27,7 @@ using Net.Dreceiptx.Receipt.Invoice;
 using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Receipt.Tax;
 using Newtonsoft.Json;
+using Net.Dreceiptx.Users;
 
 namespace Net.Dreceiptx.Receipt.LineItem
 {
@@ -217,6 +218,24 @@ namespace Net.Dreceiptx.Receipt.LineItem
             return null;
         }
 
+        protected Enum GetLineItemType(Type RequestedlineItemType, Enum defaultValue)
+        {
+            if (!RequestedlineItemType.IsEnum)
+                throw new InvalidOperationException();
+            if (TransactionalTradeItem.TradeItemDescriptionInformation != null)
+            {
+                foreach (Enum lineItemType in Enum.GetValues(RequestedlineItemType))
+                {
+                    if (lineItemType.Value().Equals(TransactionalTradeItem.TradeItemDescriptionInformation.TradeItemGroupIdentificationCode))
+                    {
+                        return lineItemType;
+                    }
+                }
+            }
+
+            return defaultValue;
+        }
+
         [DataMember(Name = "AvpList")]
         protected AVPList EcomAVPList
         {
@@ -319,6 +338,9 @@ namespace Net.Dreceiptx.Receipt.LineItem
         [DataMember]
         public DespatchInformation DespatchInformation { get; set; }
 
+        [DataMember(Name = "Note")]
+        public string Note { get; set; }
+
         [DataMember(Name = "AmountExclusiveAllowancesCharges")]
         public decimal SubTotal
         {
@@ -377,7 +399,7 @@ namespace Net.Dreceiptx.Receipt.LineItem
             get { return ReceiptAllowanceCharges.Where(x => x.IsCharge).Sum(x => x.NetTotal); }
         }
 
-        public decimal TaxesTotalByTaxCode(TaxCode taxCode)
+        public decimal GetTaxTotal(TaxCode taxCode)
         {
             decimal total = 0;
             total += _taxes.Where(x => x.TaxCode == taxCode).Sum(x => x.TaxTotal);

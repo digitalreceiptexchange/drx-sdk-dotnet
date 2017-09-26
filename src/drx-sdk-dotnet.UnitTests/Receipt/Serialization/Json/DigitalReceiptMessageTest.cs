@@ -60,7 +60,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
             materialGeneric.SetMeasurements(1200, 1100, 1000, MeasurementType.MILLIMETRE);
             _newDigitalReceipt.AddLineItem(materialGeneric);
             _newDigitalReceipt.AddLineItem(new StandardLineItem("Test StandardLineItem", "Test StandardLineItem", "Test StandardLineItem Description", 1, 30.00m));
-            GroundTransport groundTransport = new GroundTransport(GroundTransportType.TAXI, "GroundTransport Provider",
+            GroundTransport groundTransport = new GroundTransport(GroundTransportType.Taxi, "GroundTransport Provider",
                 "Test GroundTransport", "Test GroundTransport Description", 14.30m);
             groundTransport.AddTax(new Tax(30.00m, 3.00m));
             _newDigitalReceipt.AddLineItem(groundTransport);
