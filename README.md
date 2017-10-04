@@ -2,6 +2,8 @@
 
 C# .NET SDK for generating and consuming digital receipts to and from the Digital Receipt Exchange (dRx).
 
+.NET Core support is coming...
+
 # Logging SDK Requests
 The dRx .NET SDK uses log4net internally for logging. You can enable this by adding the XML below to your app.config file:
 ```xml
