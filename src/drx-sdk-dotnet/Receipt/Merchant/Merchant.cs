@@ -32,6 +32,7 @@ namespace Net.Dreceiptx.Receipt.Merchant
         [DataMember]
         public string Sector { get; set; }
 
+        [DataMember]
         public string Id { get; set; }
 
         [DataMember]
@@ -54,6 +55,12 @@ namespace Net.Dreceiptx.Receipt.Merchant
 
         [DataMember]
         public MerchantAddress PrimaryAddress { get; set; }
+
+        [DataMember]
+        public string PrimaryEmail { get; set; }
+
+        [DataMember]
+        public string Website { get; set; }
 
         [DataMember]
         public List<MerchantContact> Contacts { get; set; }

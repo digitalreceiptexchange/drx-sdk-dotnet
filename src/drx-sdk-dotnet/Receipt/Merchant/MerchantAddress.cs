@@ -14,39 +14,60 @@
 // limitations under the License.
 // 
 #endregion
+
+using System.Runtime.Serialization;
+using System.Text;
+
 namespace Net.Dreceiptx.Receipt.Merchant
 {
     public class MerchantAddress
     {
-        //@SerializedName("buildingnumber")
-        //@SerializedName("streetnumber")
-        //@SerializedName("street")
-        //@SerializedName("street1")
-        //@SerializedName("street2")
-        //@SerializedName("street3")
-        //@SerializedName("city")
-        //@SerializedName("state")
-        //@SerializedName("postcode")
-        //@SerializedName("country")
-
+        [DataMember]
         public string Buildingnumber { get; set; }
 
+        [DataMember]
         public string Streetnumber { get; set; }
 
+        [DataMember]
         public string Street { get; set; }
 
+        [DataMember]
         public string Street1 { get; set; }
 
+        [DataMember]
         public string Street2 { get; set; }
 
+        [DataMember]
         public string Street3 { get; set; }
 
+        [DataMember]
         public string City { get; set; }
 
+        [DataMember]
         public string State { get; set; }
 
+        [DataMember]
         public string Postcode { get; set; }
 
+        [DataMember]
         public string Country { get; set; }
+
+        public string ToFriendlyAddressLine()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (!string.IsNullOrWhiteSpace(Buildingnumber))
+            {
+                sb.Append(Buildingnumber).Append(" ");
+            }
+            if (!string.IsNullOrWhiteSpace(Streetnumber))
+            {
+                sb.Append(Streetnumber).Append(" ");
+            }
+            if (!string.IsNullOrWhiteSpace(Street))
+            {
+                sb.Append(Street).Append(" ");
+            }
+            return sb.ToString();
+        }
     }
 }
