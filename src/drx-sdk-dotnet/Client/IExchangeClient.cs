@@ -48,11 +48,10 @@ namespace Net.Dreceiptx.Client
         /// </summary>
         /// <param name="receipt">The receipt to be sent to the exchange</param>
         /// <returns>The receipt identifier will be returned</returns>
-        string SendReceipt(DigitalReceiptMessage receipt);
 
-        string SendProductionReceipt(DigitalReceiptMessage receipt);
+        string SendProductionReceipt(ReceiptPostRequest receiptPostRequest);
 
-        string SendDryRunReceipt(DigitalReceiptMessage receipt);
+        string SendDryRunReceipt(ReceiptPostRequest receiptPostRequest);
 
 
         /// <summary>

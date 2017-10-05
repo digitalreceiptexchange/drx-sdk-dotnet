@@ -67,6 +67,7 @@ namespace Net.Dreceiptx.Receipt.LineItem.Travel
             {
                 return GroundTransportType.Standard;
             }
+
             return EnumExtensions.GroupGroundTransportType(code);
         }
 

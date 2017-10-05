@@ -62,6 +62,7 @@
     <Compile Include="Client\DRXClient.cs" />
     <Compile Include="Client\DrxCredentials.cs" />
     <Compile Include="Client\EnvVarExchangeCredentials.cs" />
+    <Compile Include="Client\Errors.cs" />
     <Compile Include="Client\Exceptions\ExchangeClientException.cs" />
     <Compile Include="Client\ExchangeCredentials.cs" />
     <Compile Include="Client\ExchangeResponse.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Client\NewUserRegistrationExchangeResponse.cs" />
     <Compile Include="Client\NewUserRegistrationResponse.cs" />
     <Compile Include="Client\NewUserRegistrationResults.cs" />
+    <Compile Include="Client\ReceiptPostRequest.cs" />
     <Compile Include="Client\ResponseData.cs" />
     <Compile Include="Client\UriParameters.cs" />
     <Compile Include="Client\UserReponseResponseData.cs" />

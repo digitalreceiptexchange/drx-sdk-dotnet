@@ -20,7 +20,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
-using System.Security.Policy;
 using System.Text;
 using System.Web;
 using log4net;
@@ -28,12 +27,9 @@ using Net.Dreceiptx.Client.Exceptions;
 using Net.Dreceiptx.Extensions;
 using Net.Dreceiptx.Receipt.Config;
 using Net.Dreceiptx.Receipt.Merchant;
-using Net.Dreceiptx.Receipt.Serialization;
-using Net.Dreceiptx.Receipt.Serialization.Json;
 using Net.Dreceiptx.Users;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using DigitalReceipt = Net.Dreceiptx.Receipt.DigitalReceipt;
 
 namespace Net.Dreceiptx.Client
 {
@@ -47,7 +43,6 @@ namespace Net.Dreceiptx.Client
         private readonly string USER_AGENT;
         private readonly string _exchangeProtocol = "https";
         private readonly string _directoryProtocol = "https";
-        private readonly string _exchangeHostname;
         private readonly string _requesterId;
         private readonly string _receiptVersion;
         
@@ -107,7 +102,7 @@ namespace Net.Dreceiptx.Client
         {
             USER_AGENT = "dRx .NET SDK/"+ SDK.VERSION +" Receipt/" + SDK.RECEIPT_VERSION_COMPATIBILITY;
             _configManager = configManager;
-            _exchangeHostname = ValidateConfigOption("exchange.hostname");
+            _exchangeAPIHost = ValidateConfigOption("exchange.hostname");
             _directoryHostname = ValidateConfigOption("directory.hostname");
             _requesterId = ValidateConfigOption("api.requesterId");
             _receiptVersion = ValidateConfigOption("receipt.version");
@@ -228,7 +223,20 @@ namespace Net.Dreceiptx.Client
 
         private HttpClient CreateExchangeConnection(string uri, string requestVersion, UriParameters uriParameters)
         {
-            return CreateConnection(_exchangeProtocol, _exchangeHostname, uri, requestVersion, uriParameters);
+            return CreateConnection(_exchangeProtocol, _exchangeAPIHost, uri, requestVersion, uriParameters);
+        }
+
+        private HttpClient CreateExchangeConnection(Region region, string url, string receiptVersion, UriParameters uriParameters)
+        {
+            if (region != null)
+            {
+                return CreateConnection(_exchangeProtocol, region.APIEndpoint, url, receiptVersion, uriParameters);
+            }
+            if (_exchangeAPIHost != null)
+            {
+                return CreateConnection(_exchangeProtocol, _exchangeAPIHost, url, receiptVersion, uriParameters);
+            }
+            throw new ExchangeClientException("Exchange API Host is not configured and no Region or Receipt Location has been set, please set Config Overrides or DRXClient Region or Receipt Location before processing");
         }
 
         private HttpClient CreateConnection(string protocol, string hostname, string uri, 
@@ -334,14 +342,26 @@ namespace Net.Dreceiptx.Client
 
         }
 
-        public string SendReceipt(DigitalReceiptMessage receipt)
+        private string SendReceipt(ReceiptPostRequest receiptPostRequest, string url, string receiptTypeHeader)
         {
             Log.DebugFormat("SendReceipt Entering...");
             try
             {
-                using (HttpClient client = CreateExchangeConnection("/receipt", _receiptVersion, null))
+                Location location = receiptPostRequest.Location;
+                HttpClient client;
+                if (location != null && location.Region != null)
                 {
-                    string request = receipt.SerializeToJson();
+                    client = CreateExchangeConnection(location.Region, url, _receiptVersion, null);
+                }
+                else
+                {
+                    client = CreateExchangeConnection(_region, url, _receiptVersion, null);
+                }
+                
+                client.DefaultRequestHeaders.Add("x-drx-receipt-type", receiptTypeHeader);
+                using (client = CreateExchangeConnection("/receipt", _receiptVersion, null))
+                {
+                    string request = receiptPostRequest.JsonPayloadContent();
 
                     StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
                     Log.DebugFormat("SendReceipt Request {0}", request);
@@ -395,14 +415,24 @@ namespace Net.Dreceiptx.Client
             }
         }
 
-        public string SendProductionReceipt(DigitalReceiptMessage receipt)
+
+
+        public string SendProductionReceipt(ReceiptPostRequest receiptPostRequest)
         {
-            throw new NotImplementedException();
+            if (receiptPostRequest.IsDryRun)
+            {
+                throw new ExchangeClientException(Errors.DRY_RUN_TO_PROD_ENVIRONMENT_ERROR);
+            }
+            return SendReceipt(receiptPostRequest, "/labs/dryrun/receipt", "dry-run");
         }
 
-        public string SendDryRunReceipt(DigitalReceiptMessage receipt)
+        public string SendDryRunReceipt(ReceiptPostRequest receiptPostRequest)
         {
-            throw new NotImplementedException();
+            if (!receiptPostRequest.IsDryRun)
+            {
+                throw new ExchangeClientException(Errors.NON_DRY_RUN_TO_DRY_RUN_ENVIRONMENT_ERROR);
+            }
+            return SendReceipt(receiptPostRequest, "/receipt", "production");
         }
 
 

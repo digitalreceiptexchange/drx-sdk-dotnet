@@ -16,8 +16,6 @@ namespace Net.Dreceiptx.UnitTests.Receipt.LineItem.Travel
         {
             GroundTransport g = new GroundTransport(GroundTransportType.Bus, "Provider", "sdf", 12.0);
             Assert.AreEqual(GroundTransportType.Bus, g.GetGroundTransportType());
-
-
         }
     }
 }

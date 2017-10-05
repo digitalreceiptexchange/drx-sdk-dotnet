@@ -35,6 +35,15 @@ namespace Net.Dreceiptx.Client.Exceptions
             ErrorCode = errorCode;
         }
 
+        public ExchangeClientException(Error error) : this(error.ErrorCode, error.Message)
+        {
+            ErrorCode = error.ErrorCode;
+        }
+
+        public ExchangeClientException(Error error, Exception innerException) :this(error.ErrorCode, error.Message, innerException)
+        {
+        }
+
         public ExchangeClientException(string message) : base(message)
         {
         }

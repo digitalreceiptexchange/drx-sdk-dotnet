@@ -449,7 +449,7 @@ namespace Net.Dreceiptx.Receipt.Builders
                 ReceiptAllowanceCharge.AdminFee(amount, description));
         }
 
-        public DigitalReceiptMessage BuildReceiptPostRequest()
+        public ReceiptPostRequest BuildReceiptPostRequest()
         {
             //TODO:
             return null;
