@@ -157,7 +157,7 @@ namespace Net.Dreceiptx.Receipt.Invoice
             {
                 return new InvoiceSummary
                 {
-                    TotalInvoiceAmount = new Amount(EnumExtensions.Currency(InvoiceCurrencyCode), SubTotal),
+                    TotalInvoiceAmount = new Amount(EnumExtensions.Currency(InvoiceCurrencyCode), GetSubTotal()),
                     TotalLineAmountInclusiveAllowanceesCharges =
                         new Amount(EnumExtensions.Currency(InvoiceCurrencyCode), Total),
                     TotalTaxAmount = new Amount(EnumExtensions.Currency(InvoiceCurrencyCode), TaxesTotal),
@@ -170,13 +170,13 @@ namespace Net.Dreceiptx.Receipt.Invoice
         [DataMember(Name = "SalesOrder")]
         public Identification SalesOrderReference { get; set; }
 
-        public decimal Total => SubTotal + TaxesTotal + SubTotalAllowances - SubTotalCharges;
+        public decimal Total => GetSubTotal() + TaxesTotal + SubTotalAllowances - SubTotalCharges;
 
         public decimal NetTotal
         {
             get
             {
-                decimal total = SubTotal;
+                decimal total = GetSubTotal();
                 total += SubTotalCharges;
                 total -= SubTotalAllowances;
                 return total;
@@ -187,7 +187,7 @@ namespace Net.Dreceiptx.Receipt.Invoice
         {
             get
             {
-                decimal subTotal = SubTotal + SubTotalAllowances - SubTotalCharges;
+                decimal subTotal = GetSubTotal() + SubTotalAllowances - SubTotalCharges;
                 decimal taxPercentage = 0;
                 if (subTotal != 0)
                 {
@@ -197,15 +197,30 @@ namespace Net.Dreceiptx.Receipt.Invoice
             }
         }
 
-        public decimal SubTotal => InvoiceLineItems.Sum(x => x.Total);
+        public decimal GetSubTotal()
+        {
+            decimal subTotal = 0;
+            foreach (var lineItem in InvoiceLineItems)
+            {
+                if(lineItem.ReturnOrExchange)
+                {
+                    subTotal -= lineItem.SubTotal;
+                }
+                else
+                {
+                    subTotal += lineItem.SubTotal;
+                }
+            }
+            return subTotal;
+        }
 
         public decimal TaxesTotal
         {
             get
             {
                 decimal total = 0;
-                total += InvoiceLineItems.Sum(x => x.TaxesTotal);
-                total += _allowanceOrCharges.Sum(x => x.TaxesTotal);
+                total += InvoiceLineItems.Sum(x => x.ReturnOrExchange? -1 * x.TaxesTotal : x.TaxesTotal);
+                total += _allowanceOrCharges.Sum(x => x.IsCharge? x.TaxesTotal : -1 * x.TaxesTotal);
                 return total;
             }
         }

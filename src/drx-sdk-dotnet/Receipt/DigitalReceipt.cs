@@ -144,7 +144,7 @@ namespace Net.Dreceiptx.Receipt
 
         public decimal NetTotal => _digitalReceipt.Invoice.NetTotal;
 
-        public decimal SubTotal => _digitalReceipt.Invoice.SubTotal;
+        public decimal SubTotal => _digitalReceipt.Invoice.GetSubTotal();
 
         public decimal TotalTax => _digitalReceipt.Invoice.TaxesTotal;
 

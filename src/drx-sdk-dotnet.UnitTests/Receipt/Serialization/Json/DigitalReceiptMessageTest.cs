@@ -88,7 +88,7 @@ namespace Net.Dreceiptx.UnitTests.Receipt.Serialization.Json
             DRxDigitalReceipt digitalReceiptMessage = new DRxDigitalReceipt();
             wrapper.DRxDigitalReceipt = digitalReceiptMessage;
             digitalReceiptMessage.StandardBusinessDocumentHeader = header;
-            Invoice invoice = new Invoice();
+            Net.Dreceiptx.Receipt.Invoice.Invoice invoice = new Net.Dreceiptx.Receipt.Invoice.Invoice();
             digitalReceiptMessage.Invoice = invoice;
             invoice.InvoiceCurrencyCode = Currency.AustralianDollar.Value();
             invoice.CountryOfSupplyOfGoods = "AUS";

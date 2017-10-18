@@ -73,6 +73,7 @@
     <Compile Include="Receipt\Common\CurrencyManagerTest.cs" />
     <Compile Include="Receipt\Common\CurrencyTest.cs" />
     <Compile Include="Receipt\Document\StandardBusinessDocumentHeaderTest.cs" />
+    <Compile Include="Receipt\Invoice\InvoiceTest.cs" />
     <Compile Include="Receipt\LineItem\Travel\ClientTest.cs" />
     <Compile Include="Receipt\LineItem\Travel\GroundTransportTest.cs" />
     <Compile Include="Receipt\Serialization\Json\DigitalReceiptMessageTest.cs" />
